@@ -209,6 +209,14 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
         return logPhase(entry);
       });
 
+  /// Borra las fases de la sesión cuyo orden no está en [keep] (fases a las
+  /// que se volvió y que no se terminaron de nuevo).
+  Future<int> deletePhasesExcept(String sessionId, Set<int> keep) =>
+      (delete(intervalPhaseLogs)..where(
+            (t) => t.sessionId.equals(sessionId) & t.sortOrder.isNotIn(keep),
+          ))
+          .go();
+
   Future<List<IntervalPhaseLog>> phasesOf(String sessionId) =>
       (select(intervalPhaseLogs)
             ..where((t) => t.sessionId.equals(sessionId))

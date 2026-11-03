@@ -3,6 +3,7 @@ package com.trainloop.app.timer
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -25,6 +26,8 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
         const val METHODS = "trainloop/timer"
         const val EVENTS = "trainloop/timer/events"
         const val REQUEST_NOTIFICATIONS = 4201
+        private const val PREFS = "trainloop_timer"
+        private const val PROMPT_SHOWN = "notificationPromptShown"
     }
 
     private var permissionResult: MethodChannel.Result? = null
@@ -88,6 +91,11 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
                     )
                 }
             }
+            "notificationPromptShown" -> result.success(prefs().getBoolean(PROMPT_SHOWN, false))
+            "markNotificationPromptShown" -> {
+                prefs().edit().putBoolean(PROMPT_SHOWN, true).apply()
+                result.success(null)
+            }
             "mediaVolumeZero" -> result.success(CuePlayer.mediaVolumeIsZero(activity))
             "manufacturer" -> result.success(Build.MANUFACTURER.replaceFirstChar { it.uppercase() })
             else -> result.notImplemented()
@@ -137,6 +145,8 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
             "savedAtWallMs" to cp.savedAtWallMs,
         )
     }
+
+    private fun prefs() = activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     private fun notificationsGranted() = Build.VERSION.SDK_INT < 33 ||
         activity.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==

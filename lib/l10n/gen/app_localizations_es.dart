@@ -64,11 +64,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainRoutines => 'Rutinas';
 
   @override
-  String get trainIntervalsEmptyTitle => 'Tus temporizadores de intervalos';
+  String get trainIntervalsEmptyTitle =>
+      'Aún no tienes entrenamientos de intervalos';
 
   @override
   String get trainIntervalsEmptyBody =>
-      'Aquí vivirán Tabata, HIIT, EMOM y tus propios temporizadores.';
+      'Crea uno con NUEVO o empieza desde una plantilla.';
 
   @override
   String get trainRoutinesEmptyTitle => 'Tus rutinas de fuerza';
@@ -559,6 +560,519 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get exerciseArchived =>
       'Ejercicio archivado. Tu historial lo conserva.';
+
+  @override
+  String get phaseNamePrepare => 'Preparación';
+
+  @override
+  String get phaseNameWarmup => 'Calentamiento';
+
+  @override
+  String get phaseNameWork => 'Trabajo';
+
+  @override
+  String get phaseNameRest => 'Descanso';
+
+  @override
+  String get phaseNameCooldown => 'Vuelta a la calma';
+
+  @override
+  String get timerPhasePrepare => 'PREPÁRATE';
+
+  @override
+  String get timerPhaseWarmup => 'CALENTAMIENTO';
+
+  @override
+  String get timerPhaseCooldown => 'VUELTA A LA CALMA';
+
+  @override
+  String get templateTabata => 'Tabata 20/10';
+
+  @override
+  String get templateHiit4020 => 'HIIT 40/20';
+
+  @override
+  String get templateHiit3030 => 'HIIT 30/30';
+
+  @override
+  String get templateEmom10 => 'EMOM 10 min';
+
+  @override
+  String get templateAmrap12 => 'AMRAP 12 min';
+
+  @override
+  String get templateWalkRun => 'Caminar/correr';
+
+  @override
+  String get templateRun => 'Correr';
+
+  @override
+  String get templateWalk => 'Caminar';
+
+  @override
+  String get templateTag => 'Plantilla';
+
+  @override
+  String intervalMeta(int rounds, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds rondas',
+      one: '1 ronda',
+    );
+    return '$_temp0 · $total';
+  }
+
+  @override
+  String get homeQuickTemplates => 'PLANTILLAS RÁPIDAS';
+
+  @override
+  String get trainTemplates => 'PLANTILLAS';
+
+  @override
+  String get trainMyIntervals => 'MIS ENTRENAMIENTOS';
+
+  @override
+  String get trainNewInterval => 'NUEVO';
+
+  @override
+  String get intervalNewTooltip => 'Nuevo entrenamiento de intervalos';
+
+  @override
+  String intervalStart(String name) {
+    return 'Empezar $name';
+  }
+
+  @override
+  String intervalActions(String name) {
+    return 'Acciones de $name';
+  }
+
+  @override
+  String intervalArchived(String name) {
+    return '«$name» archivado';
+  }
+
+  @override
+  String get detailCloseTooltip => 'Cerrar';
+
+  @override
+  String detailMeta(String total, int rounds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds rondas',
+      one: '1 ronda',
+    );
+    return '$total en total · $_temp0';
+  }
+
+  @override
+  String get repeatCaps => 'REPETICIÓN';
+
+  @override
+  String repeatRounds(int rounds) {
+    return '× $rounds RONDAS';
+  }
+
+  @override
+  String get detailSkipLast => 'Se omite el último descanso';
+
+  @override
+  String get alertVoice => 'Voz';
+
+  @override
+  String get alertBeeps => 'pitidos';
+
+  @override
+  String get alertVibration => 'vibración';
+
+  @override
+  String alertsOn(String items) {
+    return '$items: activados';
+  }
+
+  @override
+  String get alertsOff => 'Avisos desactivados';
+
+  @override
+  String get detailNoVoice => 'Sin voz para este idioma: solo pitidos';
+
+  @override
+  String get detailStart => 'EMPEZAR';
+
+  @override
+  String get detailEdit => 'EDITAR';
+
+  @override
+  String get detailDuplicate => 'DUPLICAR';
+
+  @override
+  String get detailCustomize => 'PERSONALIZAR';
+
+  @override
+  String get editorNewTitle => 'NUEVO ENTRENAMIENTO';
+
+  @override
+  String get editorEditTitle => 'EDITAR ENTRENAMIENTO';
+
+  @override
+  String editorDefaultName(String date) {
+    return 'Intervalos $date';
+  }
+
+  @override
+  String editorLess(String phase) {
+    return 'Restar 5 segundos a $phase';
+  }
+
+  @override
+  String editorMore(String phase) {
+    return 'Sumar 5 segundos a $phase';
+  }
+
+  @override
+  String get editorLessRounds => 'Menos rondas';
+
+  @override
+  String get editorMoreRounds => 'Más rondas';
+
+  @override
+  String get editorSkipLast => 'Omitir el último descanso';
+
+  @override
+  String get editorAddBlock => 'AGREGAR BLOQUE';
+
+  @override
+  String get editorAddToRepeat => 'AGREGAR A LA REPETICIÓN';
+
+  @override
+  String get editorRepeat => 'Repetición';
+
+  @override
+  String get editorAddTitle => 'Agregar';
+
+  @override
+  String get editorErrorNoWork =>
+      'Agrega al menos un intervalo de trabajo de 1 segundo o más.';
+
+  @override
+  String get editorErrorEmptyRepeat =>
+      'Cada repetición necesita al menos un intervalo.';
+
+  @override
+  String get editorErrorTooLong => 'El total no puede superar 4 horas.';
+
+  @override
+  String get editorTotal => 'DURACIÓN TOTAL';
+
+  @override
+  String get editorSave => 'GUARDAR';
+
+  @override
+  String get editorBlockActions => 'Acciones del bloque';
+
+  @override
+  String get editorRename => 'Etiqueta';
+
+  @override
+  String get editorLabelHint => 'Ej.: Sentadillas';
+
+  @override
+  String get editorMoveUp => 'Subir';
+
+  @override
+  String get editorMoveDown => 'Bajar';
+
+  @override
+  String get editorRemove => 'Quitar';
+
+  @override
+  String editorDurationTitle(String phase) {
+    return 'Duración de $phase';
+  }
+
+  @override
+  String get editorMinutes => 'Minutos';
+
+  @override
+  String get editorSeconds => 'Segundos';
+
+  @override
+  String get dialogCancel => 'Cancelar';
+
+  @override
+  String get dialogOk => 'Aceptar';
+
+  @override
+  String timerRound(int round, int rounds) {
+    return 'RONDA $round/$rounds';
+  }
+
+  @override
+  String timerSet(int set, int sets) {
+    return 'SERIE $set/$sets';
+  }
+
+  @override
+  String timerNext(String phase, String duration) {
+    return 'Siguiente: $phase $duration';
+  }
+
+  @override
+  String get timerLast => 'Última fase';
+
+  @override
+  String get timerPaused => 'EN PAUSA';
+
+  @override
+  String get timerTapToResume => 'TOCA PARA REANUDAR';
+
+  @override
+  String get timerPause => 'Pausar';
+
+  @override
+  String get timerResume => 'Reanudar';
+
+  @override
+  String get timerSkip => 'Saltar a la siguiente fase';
+
+  @override
+  String get timerSkipShort => 'Saltar';
+
+  @override
+  String get timerPrevious => 'Volver al inicio de la fase';
+
+  @override
+  String get timerHoldToStop => 'MANTÉN PARA DETENER';
+
+  @override
+  String get timerHoldHint => 'Mantén presionado para detener la sesión';
+
+  @override
+  String get timerLock => 'Bloquear controles';
+
+  @override
+  String get timerLocked =>
+      'Controles bloqueados · toca el candado para desbloquear';
+
+  @override
+  String timerProgress(int current, int total) {
+    return 'Fase $current de $total';
+  }
+
+  @override
+  String get timerChannel => 'Sesión en curso';
+
+  @override
+  String timerNotificationRound(String phase, int round, int rounds) {
+    return '$phase · Ronda $round/$rounds';
+  }
+
+  @override
+  String cueRound(String phase, int round, int rounds) {
+    return '$phase, ronda $round de $rounds';
+  }
+
+  @override
+  String cueThenNext(String phase, String next) {
+    return '$phase. Sigue: $next';
+  }
+
+  @override
+  String get cueFinish => 'Sesión completa';
+
+  @override
+  String get summaryDoneTitle => '¡Sesión completa!';
+
+  @override
+  String get summaryStoppedTitle => 'Sesión detenida';
+
+  @override
+  String summarySubtitle(String name, String date) {
+    return '$name · $date';
+  }
+
+  @override
+  String get summaryTotal => 'TOTAL';
+
+  @override
+  String get summaryRounds => 'RONDAS';
+
+  @override
+  String get summaryWork => 'TRABAJO';
+
+  @override
+  String summaryRoundsValue(int done, int total) {
+    return '$done/$total';
+  }
+
+  @override
+  String summarySkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fases omitidas',
+      one: '1 fase omitida',
+      zero: '0 fases omitidas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String summaryPaused(String time) {
+    return '$time en pausa';
+  }
+
+  @override
+  String get summaryNoPauses => 'sin pausas';
+
+  @override
+  String get summaryShort => 'Duró menos de 30 segundos. ¿Quieres descartarla?';
+
+  @override
+  String get summaryRpeQuestion => '¿QUÉ TAN DURO FUE? (OPCIONAL)';
+
+  @override
+  String summaryRpeValue(int value) {
+    return 'Esfuerzo $value de 10';
+  }
+
+  @override
+  String get summaryRpeEasy => 'Muy suave';
+
+  @override
+  String get summaryRpeMax => 'Máximo';
+
+  @override
+  String get summaryNote => 'NOTA';
+
+  @override
+  String get summaryNoteHint => 'Ej.: «Rodilla molesta en la última ronda»';
+
+  @override
+  String get summaryDone => 'LISTO';
+
+  @override
+  String get summaryDiscard => 'Descartar sesión';
+
+  @override
+  String get summaryDiscardTitle => '¿Descartar esta sesión?';
+
+  @override
+  String get summaryDiscardBody =>
+      'No se guardará en tu historial ni contará para tu semana.';
+
+  @override
+  String get summaryDiscardConfirm => 'Descartar';
+
+  @override
+  String get notifyTitle => 'SIGUE TU ENTRENAMIENTO CON LA PANTALLA APAGADA';
+
+  @override
+  String get notifyBody =>
+      'Trainloop muestra una notificación mientras entrenas para que veas la fase y el tiempo sin desbloquear el teléfono.';
+
+  @override
+  String get notifyContinue => 'CONTINUAR';
+
+  @override
+  String get notifyNotNow => 'Ahora no · empezar igual';
+
+  @override
+  String get recoveryTitle => 'TIENES UN ENTRENAMIENTO SIN TERMINAR';
+
+  @override
+  String recoveryRound(int round, int rounds) {
+    return 'Ronda $round/$rounds';
+  }
+
+  @override
+  String recoveryAgo(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'interrumpido hace $minutes min',
+      one: 'interrumpido hace 1 min',
+      zero: 'interrumpido hace instantes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recoveryBody =>
+      'Android cerró la app. Guardamos tu avance hasta el último punto.';
+
+  @override
+  String get recoveryResume => 'REANUDAR (EN PAUSA)';
+
+  @override
+  String get recoverySaveIncomplete => 'GUARDAR COMO INCOMPLETA';
+
+  @override
+  String get recoveryDiscard => 'DESCARTAR';
+
+  @override
+  String batteryTitle(String brand) {
+    return 'EVITA QUE $brand PAUSE EL TEMPORIZADOR';
+  }
+
+  @override
+  String get batteryBody =>
+      'La batería de Trainloop está restringida y el temporizador se detendría con la pantalla apagada. Se configura una sola vez:';
+
+  @override
+  String get batteryStep1 => 'Ajustes › Aplicaciones › Trainloop';
+
+  @override
+  String get batteryStep2 => 'Batería';
+
+  @override
+  String get batteryStep3 => 'Elige «Sin restricciones»';
+
+  @override
+  String get batteryOpenSettings => 'ABRIR AJUSTES';
+
+  @override
+  String get batteryDone => 'YA LO HICE';
+
+  @override
+  String get batteryLater => 'MÁS TARDE';
+
+  @override
+  String get activeSessionTitle => 'Ya tienes una sesión en curso';
+
+  @override
+  String get activeSessionBody => 'Termínala antes de empezar otra.';
+
+  @override
+  String get activeSessionGo => 'VOLVER A LA SESIÓN';
+
+  @override
+  String get volumeZero =>
+      'El volumen multimedia está en 0: no oirás los avisos.';
+
+  @override
+  String get settingsAlerts => 'ALERTAS';
+
+  @override
+  String get settingsVoice => 'Voz';
+
+  @override
+  String get settingsVoiceHelp => 'Dice el nombre de cada fase';
+
+  @override
+  String get settingsBeeps => 'Pitidos 3-2-1';
+
+  @override
+  String get settingsBeepsHelp =>
+      'Tono en cada fase y en los últimos 3 segundos';
+
+  @override
+  String get settingsVibration => 'Vibración';
+
+  @override
+  String get settingsVibrationHelp => 'Larga en trabajo, doble en descanso';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

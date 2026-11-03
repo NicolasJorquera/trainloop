@@ -64,11 +64,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainRoutines => 'Routines';
 
   @override
-  String get trainIntervalsEmptyTitle => 'Your interval timers';
+  String get trainIntervalsEmptyTitle => 'No interval workouts yet';
 
   @override
   String get trainIntervalsEmptyBody =>
-      'Tabata, HIIT, EMOM and your own timers will live here.';
+      'Create one with NEW or start from a template.';
 
   @override
   String get trainRoutinesEmptyTitle => 'Your strength routines';
@@ -558,6 +558,517 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exerciseArchived => 'Exercise archived. Your history keeps it.';
+
+  @override
+  String get phaseNamePrepare => 'Get ready';
+
+  @override
+  String get phaseNameWarmup => 'Warm-up';
+
+  @override
+  String get phaseNameWork => 'Work';
+
+  @override
+  String get phaseNameRest => 'Rest';
+
+  @override
+  String get phaseNameCooldown => 'Cool-down';
+
+  @override
+  String get timerPhasePrepare => 'GET READY';
+
+  @override
+  String get timerPhaseWarmup => 'WARM-UP';
+
+  @override
+  String get timerPhaseCooldown => 'COOL-DOWN';
+
+  @override
+  String get templateTabata => 'Tabata 20/10';
+
+  @override
+  String get templateHiit4020 => 'HIIT 40/20';
+
+  @override
+  String get templateHiit3030 => 'HIIT 30/30';
+
+  @override
+  String get templateEmom10 => 'EMOM 10 min';
+
+  @override
+  String get templateAmrap12 => 'AMRAP 12 min';
+
+  @override
+  String get templateWalkRun => 'Walk/run';
+
+  @override
+  String get templateRun => 'Run';
+
+  @override
+  String get templateWalk => 'Walk';
+
+  @override
+  String get templateTag => 'Template';
+
+  @override
+  String intervalMeta(int rounds, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds rounds',
+      one: '1 round',
+    );
+    return '$_temp0 · $total';
+  }
+
+  @override
+  String get homeQuickTemplates => 'QUICK TEMPLATES';
+
+  @override
+  String get trainTemplates => 'TEMPLATES';
+
+  @override
+  String get trainMyIntervals => 'MY WORKOUTS';
+
+  @override
+  String get trainNewInterval => 'NEW';
+
+  @override
+  String get intervalNewTooltip => 'New interval workout';
+
+  @override
+  String intervalStart(String name) {
+    return 'Start $name';
+  }
+
+  @override
+  String intervalActions(String name) {
+    return 'Actions for $name';
+  }
+
+  @override
+  String intervalArchived(String name) {
+    return '“$name” archived';
+  }
+
+  @override
+  String get detailCloseTooltip => 'Close';
+
+  @override
+  String detailMeta(String total, int rounds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds rounds',
+      one: '1 round',
+    );
+    return '$total total · $_temp0';
+  }
+
+  @override
+  String get repeatCaps => 'REPEAT';
+
+  @override
+  String repeatRounds(int rounds) {
+    return '× $rounds ROUNDS';
+  }
+
+  @override
+  String get detailSkipLast => 'The last rest is skipped';
+
+  @override
+  String get alertVoice => 'Voice';
+
+  @override
+  String get alertBeeps => 'beeps';
+
+  @override
+  String get alertVibration => 'vibration';
+
+  @override
+  String alertsOn(String items) {
+    return '$items on';
+  }
+
+  @override
+  String get alertsOff => 'Alerts off';
+
+  @override
+  String get detailNoVoice => 'No offline voice for this language: beeps only';
+
+  @override
+  String get detailStart => 'START';
+
+  @override
+  String get detailEdit => 'EDIT';
+
+  @override
+  String get detailDuplicate => 'DUPLICATE';
+
+  @override
+  String get detailCustomize => 'CUSTOMIZE';
+
+  @override
+  String get editorNewTitle => 'NEW WORKOUT';
+
+  @override
+  String get editorEditTitle => 'EDIT WORKOUT';
+
+  @override
+  String editorDefaultName(String date) {
+    return 'Intervals $date';
+  }
+
+  @override
+  String editorLess(String phase) {
+    return 'Remove 5 seconds from $phase';
+  }
+
+  @override
+  String editorMore(String phase) {
+    return 'Add 5 seconds to $phase';
+  }
+
+  @override
+  String get editorLessRounds => 'Fewer rounds';
+
+  @override
+  String get editorMoreRounds => 'More rounds';
+
+  @override
+  String get editorSkipLast => 'Skip the last rest';
+
+  @override
+  String get editorAddBlock => 'ADD BLOCK';
+
+  @override
+  String get editorAddToRepeat => 'ADD TO REPEAT';
+
+  @override
+  String get editorRepeat => 'Repeat';
+
+  @override
+  String get editorAddTitle => 'Add';
+
+  @override
+  String get editorErrorNoWork =>
+      'Add at least one work interval of 1 second or more.';
+
+  @override
+  String get editorErrorEmptyRepeat =>
+      'Each repeat needs at least one interval.';
+
+  @override
+  String get editorErrorTooLong => 'The total can’t be longer than 4 hours.';
+
+  @override
+  String get editorTotal => 'TOTAL TIME';
+
+  @override
+  String get editorSave => 'SAVE';
+
+  @override
+  String get editorBlockActions => 'Block actions';
+
+  @override
+  String get editorRename => 'Label';
+
+  @override
+  String get editorLabelHint => 'E.g. Squats';
+
+  @override
+  String get editorMoveUp => 'Move up';
+
+  @override
+  String get editorMoveDown => 'Move down';
+
+  @override
+  String get editorRemove => 'Remove';
+
+  @override
+  String editorDurationTitle(String phase) {
+    return 'Duration of $phase';
+  }
+
+  @override
+  String get editorMinutes => 'Minutes';
+
+  @override
+  String get editorSeconds => 'Seconds';
+
+  @override
+  String get dialogCancel => 'Cancel';
+
+  @override
+  String get dialogOk => 'OK';
+
+  @override
+  String timerRound(int round, int rounds) {
+    return 'ROUND $round/$rounds';
+  }
+
+  @override
+  String timerSet(int set, int sets) {
+    return 'SET $set/$sets';
+  }
+
+  @override
+  String timerNext(String phase, String duration) {
+    return 'Next: $phase $duration';
+  }
+
+  @override
+  String get timerLast => 'Last phase';
+
+  @override
+  String get timerPaused => 'PAUSED';
+
+  @override
+  String get timerTapToResume => 'TAP TO RESUME';
+
+  @override
+  String get timerPause => 'Pause';
+
+  @override
+  String get timerResume => 'Resume';
+
+  @override
+  String get timerSkip => 'Skip to next phase';
+
+  @override
+  String get timerSkipShort => 'Skip';
+
+  @override
+  String get timerPrevious => 'Back to phase start';
+
+  @override
+  String get timerHoldToStop => 'HOLD TO STOP';
+
+  @override
+  String get timerHoldHint => 'Press and hold to stop the session';
+
+  @override
+  String get timerLock => 'Lock controls';
+
+  @override
+  String get timerLocked => 'Controls locked · tap the lock to unlock';
+
+  @override
+  String timerProgress(int current, int total) {
+    return 'Phase $current of $total';
+  }
+
+  @override
+  String get timerChannel => 'Session in progress';
+
+  @override
+  String timerNotificationRound(String phase, int round, int rounds) {
+    return '$phase · Round $round/$rounds';
+  }
+
+  @override
+  String cueRound(String phase, int round, int rounds) {
+    return '$phase, round $round of $rounds';
+  }
+
+  @override
+  String cueThenNext(String phase, String next) {
+    return '$phase. Next: $next';
+  }
+
+  @override
+  String get cueFinish => 'Session complete';
+
+  @override
+  String get summaryDoneTitle => 'Session complete!';
+
+  @override
+  String get summaryStoppedTitle => 'Session stopped';
+
+  @override
+  String summarySubtitle(String name, String date) {
+    return '$name · $date';
+  }
+
+  @override
+  String get summaryTotal => 'TOTAL';
+
+  @override
+  String get summaryRounds => 'ROUNDS';
+
+  @override
+  String get summaryWork => 'WORK';
+
+  @override
+  String summaryRoundsValue(int done, int total) {
+    return '$done/$total';
+  }
+
+  @override
+  String summarySkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count phases skipped',
+      one: '1 phase skipped',
+      zero: '0 phases skipped',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String summaryPaused(String time) {
+    return '$time paused';
+  }
+
+  @override
+  String get summaryNoPauses => 'no pauses';
+
+  @override
+  String get summaryShort => 'It lasted under 30 seconds. Discard it?';
+
+  @override
+  String get summaryRpeQuestion => 'HOW HARD WAS IT? (OPTIONAL)';
+
+  @override
+  String summaryRpeValue(int value) {
+    return 'Effort $value of 10';
+  }
+
+  @override
+  String get summaryRpeEasy => 'Very easy';
+
+  @override
+  String get summaryRpeMax => 'Max';
+
+  @override
+  String get summaryNote => 'NOTE';
+
+  @override
+  String get summaryNoteHint => 'E.g. “Sore knee in the last round”';
+
+  @override
+  String get summaryDone => 'DONE';
+
+  @override
+  String get summaryDiscard => 'Discard session';
+
+  @override
+  String get summaryDiscardTitle => 'Discard this session?';
+
+  @override
+  String get summaryDiscardBody =>
+      'It won’t be saved to your history or count toward your week.';
+
+  @override
+  String get summaryDiscardConfirm => 'Discard';
+
+  @override
+  String get notifyTitle => 'FOLLOW YOUR WORKOUT WITH THE SCREEN OFF';
+
+  @override
+  String get notifyBody =>
+      'Trainloop shows a notification while you train so you can see the phase and time without unlocking the phone.';
+
+  @override
+  String get notifyContinue => 'CONTINUE';
+
+  @override
+  String get notifyNotNow => 'Not now · start anyway';
+
+  @override
+  String get recoveryTitle => 'YOU HAVE AN UNFINISHED WORKOUT';
+
+  @override
+  String recoveryRound(int round, int rounds) {
+    return 'Round $round/$rounds';
+  }
+
+  @override
+  String recoveryAgo(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'interrupted $minutes min ago',
+      one: 'interrupted 1 min ago',
+      zero: 'interrupted moments ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recoveryBody =>
+      'Android closed the app. We saved your progress up to the last checkpoint.';
+
+  @override
+  String get recoveryResume => 'RESUME (PAUSED)';
+
+  @override
+  String get recoverySaveIncomplete => 'SAVE AS INCOMPLETE';
+
+  @override
+  String get recoveryDiscard => 'DISCARD';
+
+  @override
+  String batteryTitle(String brand) {
+    return 'STOP $brand FROM PAUSING THE TIMER';
+  }
+
+  @override
+  String get batteryBody =>
+      'Battery use for Trainloop is restricted, so the timer would stop with the screen off. You only set this once:';
+
+  @override
+  String get batteryStep1 => 'Settings › Apps › Trainloop';
+
+  @override
+  String get batteryStep2 => 'Battery';
+
+  @override
+  String get batteryStep3 => 'Choose “Unrestricted”';
+
+  @override
+  String get batteryOpenSettings => 'OPEN SETTINGS';
+
+  @override
+  String get batteryDone => 'I DID IT';
+
+  @override
+  String get batteryLater => 'LATER';
+
+  @override
+  String get activeSessionTitle => 'A session is in progress';
+
+  @override
+  String get activeSessionBody => 'Finish it before starting another one.';
+
+  @override
+  String get activeSessionGo => 'BACK TO SESSION';
+
+  @override
+  String get volumeZero => 'Media volume is at 0: you won’t hear the alerts.';
+
+  @override
+  String get settingsAlerts => 'ALERTS';
+
+  @override
+  String get settingsVoice => 'Voice';
+
+  @override
+  String get settingsVoiceHelp => 'Says the name of each phase';
+
+  @override
+  String get settingsBeeps => '3-2-1 beeps';
+
+  @override
+  String get settingsBeepsHelp =>
+      'Tone at each phase and in the last 3 seconds';
+
+  @override
+  String get settingsVibration => 'Vibration';
+
+  @override
+  String get settingsVibrationHelp => 'Long on work, double on rest';
 }
 
 /// The translations for English (`en_XA`).
@@ -620,11 +1131,11 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get trainRoutines => '[Ŕöûţîñéš ····]';
 
   @override
-  String get trainIntervalsEmptyTitle => '[Ýöûŕ îñţéŕṽáļ ţîɱéŕš ········]';
+  String get trainIntervalsEmptyTitle => '[Ñö îñţéŕṽáļ ŵöŕķöûţš ýéţ ·········]';
 
   @override
   String get trainIntervalsEmptyBody =>
-      '[Ţáƀáţá, ĤÎÎŢ, ÉṀÖṀ áñð ýöûŕ öŵñ ţîɱéŕš ŵîļļ ļîṽé ĥéŕé. ·················]';
+      '[Çŕéáţé öñé ŵîţĥ ÑÉŴ öŕ šţáŕţ ƒŕöɱ á ţéɱþļáţé. ···············]';
 
   @override
   String get trainRoutinesEmptyTitle => '[Ýöûŕ šţŕéñĝţĥ ŕöûţîñéš ········]';
@@ -1115,4 +1626,525 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   @override
   String get exerciseArchived =>
       '[Éẋéŕçîšé áŕçĥîṽéð. Ýöûŕ ĥîšţöŕý ķééþš îţ. ··············]';
+
+  @override
+  String get phaseNamePrepare => '[Ĝéţ ŕéáðý ····]';
+
+  @override
+  String get phaseNameWarmup => '[Ŵáŕɱ-ûþ ···]';
+
+  @override
+  String get phaseNameWork => '[Ŵöŕķ ··]';
+
+  @override
+  String get phaseNameRest => '[Ŕéšţ ··]';
+
+  @override
+  String get phaseNameCooldown => '[Çööļ-ðöŵñ ····]';
+
+  @override
+  String get timerPhasePrepare => '[ĜÉŢ ŔÉÅÐÝ ····]';
+
+  @override
+  String get timerPhaseWarmup => '[ŴÅŔṀ-ÛÞ ···]';
+
+  @override
+  String get timerPhaseCooldown => '[ÇÖÖĻ-ÐÖŴÑ ····]';
+
+  @override
+  String get templateTabata => '[Ţáƀáţá 20/10 ···]';
+
+  @override
+  String get templateHiit4020 => '[ĤÎÎŢ 40/20 ··]';
+
+  @override
+  String get templateHiit3030 => '[ĤÎÎŢ 30/30 ··]';
+
+  @override
+  String get templateEmom10 => '[ÉṀÖṀ 10 ɱîñ ···]';
+
+  @override
+  String get templateAmrap12 => '[ÅṀŔÅÞ 12 ɱîñ ····]';
+
+  @override
+  String get templateWalkRun => '[Ŵáļķ/ŕûñ ···]';
+
+  @override
+  String get templateRun => '[Ŕûñ ··]';
+
+  @override
+  String get templateWalk => '[Ŵáļķ ··]';
+
+  @override
+  String get templateTag => '[Ţéɱþļáţé ····]';
+
+  @override
+  String intervalMeta(int rounds, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds ŕöûñðš',
+      one: '1 ŕöûñð',
+    );
+    return '[$_temp0 · $total ·····]';
+  }
+
+  @override
+  String get homeQuickTemplates => '[ǪÛÎÇĶ ŢÉṀÞĻÅŢÉŠ ······]';
+
+  @override
+  String get trainTemplates => '[ŢÉṀÞĻÅŢÉŠ ····]';
+
+  @override
+  String get trainMyIntervals => '[ṀÝ ŴÖŔĶÖÛŢŠ ····]';
+
+  @override
+  String get trainNewInterval => '[ÑÉŴ ··]';
+
+  @override
+  String get intervalNewTooltip => '[Ñéŵ îñţéŕṽáļ ŵöŕķöûţ ········]';
+
+  @override
+  String intervalStart(String name) {
+    return '[Šţáŕţ $name ··]';
+  }
+
+  @override
+  String intervalActions(String name) {
+    return '[Åçţîöñš ƒöŕ $name ····]';
+  }
+
+  @override
+  String intervalArchived(String name) {
+    return '[“$name” áŕçĥîṽéð ····]';
+  }
+
+  @override
+  String get detailCloseTooltip => '[Çļöšé ··]';
+
+  @override
+  String detailMeta(String total, int rounds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rounds,
+      locale: localeName,
+      other: '$rounds ŕöûñðš',
+      one: '1 ŕöûñð',
+    );
+    return '[$total ţöţáļ · $_temp0 ·······]';
+  }
+
+  @override
+  String get repeatCaps => '[ŔÉÞÉÅŢ ···]';
+
+  @override
+  String repeatRounds(int rounds) {
+    return '[× $rounds ŔÖÛÑÐŠ ···]';
+  }
+
+  @override
+  String get detailSkipLast => '[Ţĥé ļášţ ŕéšţ îš šķîþþéð ········]';
+
+  @override
+  String get alertVoice => '[Ṽöîçé ··]';
+
+  @override
+  String get alertBeeps => '[ƀééþš ··]';
+
+  @override
+  String get alertVibration => '[ṽîƀŕáţîöñ ····]';
+
+  @override
+  String alertsOn(String items) {
+    return '[$items öñ ·]';
+  }
+
+  @override
+  String get alertsOff => '[Åļéŕţš öƒƒ ····]';
+
+  @override
+  String get detailNoVoice =>
+      '[Ñö öƒƒļîñé ṽöîçé ƒöŕ ţĥîš ļáñĝûáĝé: ƀééþš öñļý ················]';
+
+  @override
+  String get detailStart => '[ŠŢÅŔŢ ··]';
+
+  @override
+  String get detailEdit => '[ÉÐÎŢ ··]';
+
+  @override
+  String get detailDuplicate => '[ÐÛÞĻÎÇÅŢÉ ····]';
+
+  @override
+  String get detailCustomize => '[ÇÛŠŢÖṀÎŽÉ ····]';
+
+  @override
+  String get editorNewTitle => '[ÑÉŴ ŴÖŔĶÖÛŢ ····]';
+
+  @override
+  String get editorEditTitle => '[ÉÐÎŢ ŴÖŔĶÖÛŢ ·····]';
+
+  @override
+  String editorDefaultName(String date) {
+    return '[Îñţéŕṽáļš $date ····]';
+  }
+
+  @override
+  String editorLess(String phase) {
+    return '[Ŕéɱöṽé 5 šéçöñðš ƒŕöɱ $phase ·······]';
+  }
+
+  @override
+  String editorMore(String phase) {
+    return '[Åðð 5 šéçöñðš ţö $phase ·····]';
+  }
+
+  @override
+  String get editorLessRounds => '[Ƒéŵéŕ ŕöûñðš ·····]';
+
+  @override
+  String get editorMoreRounds => '[Ṁöŕé ŕöûñðš ····]';
+
+  @override
+  String get editorSkipLast => '[Šķîþ ţĥé ļášţ ŕéšţ ······]';
+
+  @override
+  String get editorAddBlock => '[ÅÐÐ ƁĻÖÇĶ ····]';
+
+  @override
+  String get editorAddToRepeat => '[ÅÐÐ ŢÖ ŔÉÞÉÅŢ ·····]';
+
+  @override
+  String get editorRepeat => '[Ŕéþéáţ ···]';
+
+  @override
+  String get editorAddTitle => '[Åðð ··]';
+
+  @override
+  String get editorErrorNoWork =>
+      '[Åðð áţ ļéášţ öñé ŵöŕķ îñţéŕṽáļ öƒ 1 šéçöñð öŕ ɱöŕé. ················]';
+
+  @override
+  String get editorErrorEmptyRepeat =>
+      '[Éáçĥ ŕéþéáţ ñééðš áţ ļéášţ öñé îñţéŕṽáļ. ··············]';
+
+  @override
+  String get editorErrorTooLong =>
+      '[Ţĥé ţöţáļ çáñ’ţ ƀé ļöñĝéŕ ţĥáñ 4 ĥöûŕš. ············]';
+
+  @override
+  String get editorTotal => '[ŢÖŢÅĻ ŢÎṀÉ ····]';
+
+  @override
+  String get editorSave => '[ŠÅṼÉ ··]';
+
+  @override
+  String get editorBlockActions => '[Ɓļöçķ áçţîöñš ·····]';
+
+  @override
+  String get editorRename => '[Ļáƀéļ ··]';
+
+  @override
+  String get editorLabelHint => '[É.ĝ. Šǫûáţš ····]';
+
+  @override
+  String get editorMoveUp => '[Ṁöṽé ûþ ···]';
+
+  @override
+  String get editorMoveDown => '[Ṁöṽé ðöŵñ ····]';
+
+  @override
+  String get editorRemove => '[Ŕéɱöṽé ···]';
+
+  @override
+  String editorDurationTitle(String phase) {
+    return '[Ðûŕáţîöñ öƒ $phase ····]';
+  }
+
+  @override
+  String get editorMinutes => '[Ṁîñûţéš ···]';
+
+  @override
+  String get editorSeconds => '[Šéçöñðš ···]';
+
+  @override
+  String get dialogCancel => '[Çáñçéļ ···]';
+
+  @override
+  String get dialogOk => '[ÖĶ ·]';
+
+  @override
+  String timerRound(int round, int rounds) {
+    return '[ŔÖÛÑÐ $round/$rounds ··]';
+  }
+
+  @override
+  String timerSet(int set, int sets) {
+    return '[ŠÉŢ $set/$sets ··]';
+  }
+
+  @override
+  String timerNext(String phase, String duration) {
+    return '[Ñéẋţ: $phase $duration ··]';
+  }
+
+  @override
+  String get timerLast => '[Ļášţ þĥášé ····]';
+
+  @override
+  String get timerPaused => '[ÞÅÛŠÉÐ ···]';
+
+  @override
+  String get timerTapToResume => '[ŢÅÞ ŢÖ ŔÉŠÛṀÉ ·····]';
+
+  @override
+  String get timerPause => '[Þáûšé ··]';
+
+  @override
+  String get timerResume => '[Ŕéšûɱé ···]';
+
+  @override
+  String get timerSkip => '[Šķîþ ţö ñéẋţ þĥášé ······]';
+
+  @override
+  String get timerSkipShort => '[Šķîþ ··]';
+
+  @override
+  String get timerPrevious => '[Ɓáçķ ţö þĥášé šţáŕţ ·······]';
+
+  @override
+  String get timerHoldToStop => '[ĤÖĻÐ ŢÖ ŠŢÖÞ ····]';
+
+  @override
+  String get timerHoldHint =>
+      '[Þŕéšš áñð ĥöļð ţö šţöþ ţĥé šéššîöñ ············]';
+
+  @override
+  String get timerLock => '[Ļöçķ çöñţŕöļš ·····]';
+
+  @override
+  String get timerLocked =>
+      '[Çöñţŕöļš ļöçķéð · ţáþ ţĥé ļöçķ ţö ûñļöçķ ·············]';
+
+  @override
+  String timerProgress(int current, int total) {
+    return '[Þĥášé $current öƒ $total ···]';
+  }
+
+  @override
+  String get timerChannel => '[Šéššîöñ îñ þŕöĝŕéšš ·······]';
+
+  @override
+  String timerNotificationRound(String phase, int round, int rounds) {
+    return '[$phase · Ŕöûñð $round/$rounds ··]';
+  }
+
+  @override
+  String cueRound(String phase, int round, int rounds) {
+    return '[$phase, ŕöûñð $round öƒ $rounds ···]';
+  }
+
+  @override
+  String cueThenNext(String phase, String next) {
+    return '[$phase. Ñéẋţ: $next ··]';
+  }
+
+  @override
+  String get cueFinish => '[Šéššîöñ çöɱþļéţé ······]';
+
+  @override
+  String get summaryDoneTitle => '[Šéššîöñ çöɱþļéţé! ······]';
+
+  @override
+  String get summaryStoppedTitle => '[Šéššîöñ šţöþþéð ······]';
+
+  @override
+  String summarySubtitle(String name, String date) {
+    return '[$name · $date]';
+  }
+
+  @override
+  String get summaryTotal => '[ŢÖŢÅĻ ··]';
+
+  @override
+  String get summaryRounds => '[ŔÖÛÑÐŠ ···]';
+
+  @override
+  String get summaryWork => '[ŴÖŔĶ ··]';
+
+  @override
+  String summaryRoundsValue(int done, int total) {
+    return '[$done/$total]';
+  }
+
+  @override
+  String summarySkipped(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count þĥášéš šķîþþéð',
+      one: '1 þĥášé šķîþþéð',
+      zero: '0 þĥášéš šķîþþéð',
+    );
+    return '[$_temp0 ················]';
+  }
+
+  @override
+  String summaryPaused(String time) {
+    return '[$time þáûšéð ···]';
+  }
+
+  @override
+  String get summaryNoPauses => '[ñö þáûšéš ····]';
+
+  @override
+  String get summaryShort =>
+      '[Îţ ļášţéð ûñðéŕ 30 šéçöñðš. Ðîšçáŕð îţ? ············]';
+
+  @override
+  String get summaryRpeQuestion => '[ĤÖŴ ĤÅŔÐ ŴÅŠ ÎŢ? (ÖÞŢÎÖÑÅĻ) ········]';
+
+  @override
+  String summaryRpeValue(int value) {
+    return '[Éƒƒöŕţ $value öƒ 10 ····]';
+  }
+
+  @override
+  String get summaryRpeEasy => '[Ṽéŕý éášý ····]';
+
+  @override
+  String get summaryRpeMax => '[Ṁáẋ ··]';
+
+  @override
+  String get summaryNote => '[ÑÖŢÉ ··]';
+
+  @override
+  String get summaryNoteHint =>
+      '[É.ĝ. “Šöŕé ķñéé îñ ţĥé ļášţ ŕöûñð” ··········]';
+
+  @override
+  String get summaryDone => '[ÐÖÑÉ ··]';
+
+  @override
+  String get summaryDiscard => '[Ðîšçáŕð šéššîöñ ······]';
+
+  @override
+  String get summaryDiscardTitle => '[Ðîšçáŕð ţĥîš šéššîöñ? ········]';
+
+  @override
+  String get summaryDiscardBody =>
+      '[Îţ ŵöñ’ţ ƀé šáṽéð ţö ýöûŕ ĥîšţöŕý öŕ çöûñţ ţöŵáŕð ýöûŕ ŵééķ. ···················]';
+
+  @override
+  String get summaryDiscardConfirm => '[Ðîšçáŕð ···]';
+
+  @override
+  String get notifyTitle =>
+      '[ƑÖĻĻÖŴ ÝÖÛŔ ŴÖŔĶÖÛŢ ŴÎŢĤ ŢĤÉ ŠÇŔÉÉÑ ÖƑƑ ··············]';
+
+  @override
+  String get notifyBody =>
+      '[Ţŕáîñļööþ šĥöŵš á ñöţîƒîçáţîöñ ŵĥîļé ýöû ţŕáîñ šö ýöû çáñ šéé ţĥé þĥášé áñð ţîɱé ŵîţĥöûţ ûñļöçķîñĝ ţĥé þĥöñé. ····································]';
+
+  @override
+  String get notifyContinue => '[ÇÖÑŢÎÑÛÉ ····]';
+
+  @override
+  String get notifyNotNow => '[Ñöţ ñöŵ · šţáŕţ áñýŵáý ·······]';
+
+  @override
+  String get recoveryTitle => '[ÝÖÛ ĤÅṼÉ ÅÑ ÛÑƑÎÑÎŠĤÉÐ ŴÖŔĶÖÛŢ ···········]';
+
+  @override
+  String recoveryRound(int round, int rounds) {
+    return '[Ŕöûñð $round/$rounds ··]';
+  }
+
+  @override
+  String recoveryAgo(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'îñţéŕŕûþţéð $minutes ɱîñ áĝö',
+      one: 'îñţéŕŕûþţéð 1 ɱîñ áĝö',
+      zero: 'îñţéŕŕûþţéð ɱöɱéñţš áĝö',
+    );
+    return '[$_temp0 ······················]';
+  }
+
+  @override
+  String get recoveryBody =>
+      '[Åñðŕöîð çļöšéð ţĥé áþþ. Ŵé šáṽéð ýöûŕ þŕöĝŕéšš ûþ ţö ţĥé ļášţ çĥéçķþöîñţ. ························]';
+
+  @override
+  String get recoveryResume => '[ŔÉŠÛṀÉ (ÞÅÛŠÉÐ) ·····]';
+
+  @override
+  String get recoverySaveIncomplete => '[ŠÅṼÉ ÅŠ ÎÑÇÖṀÞĻÉŢÉ ·······]';
+
+  @override
+  String get recoveryDiscard => '[ÐÎŠÇÅŔÐ ···]';
+
+  @override
+  String batteryTitle(String brand) {
+    return '[ŠŢÖÞ $brand ƑŔÖṀ ÞÅÛŠÎÑĜ ŢĤÉ ŢÎṀÉŔ ··········]';
+  }
+
+  @override
+  String get batteryBody =>
+      '[Ɓáţţéŕý ûšé ƒöŕ Ţŕáîñļööþ îš ŕéšţŕîçţéð, šö ţĥé ţîɱéŕ ŵöûļð šţöþ ŵîţĥ ţĥé šçŕééñ öƒƒ. Ýöû öñļý šéţ ţĥîš öñçé: ···································]';
+
+  @override
+  String get batteryStep1 => '[Šéţţîñĝš › Åþþš › Ţŕáîñļööþ ·········]';
+
+  @override
+  String get batteryStep2 => '[Ɓáţţéŕý ···]';
+
+  @override
+  String get batteryStep3 => '[Çĥööšé “Ûñŕéšţŕîçţéð” ········]';
+
+  @override
+  String get batteryOpenSettings => '[ÖÞÉÑ ŠÉŢŢÎÑĜŠ ·····]';
+
+  @override
+  String get batteryDone => '[Î ÐÎÐ ÎŢ ···]';
+
+  @override
+  String get batteryLater => '[ĻÅŢÉŔ ··]';
+
+  @override
+  String get activeSessionTitle => '[Å šéššîöñ îš îñ þŕöĝŕéšš ········]';
+
+  @override
+  String get activeSessionBody =>
+      '[Ƒîñîšĥ îţ ƀéƒöŕé šţáŕţîñĝ áñöţĥéŕ öñé. ·············]';
+
+  @override
+  String get activeSessionGo => '[ƁÅÇĶ ŢÖ ŠÉŠŠÎÖÑ ······]';
+
+  @override
+  String get volumeZero =>
+      '[Ṁéðîá ṽöļûɱé îš áţ 0: ýöû ŵöñ’ţ ĥéáŕ ţĥé áļéŕţš. ··············]';
+
+  @override
+  String get settingsAlerts => '[ÅĻÉŔŢŠ ···]';
+
+  @override
+  String get settingsVoice => '[Ṽöîçé ··]';
+
+  @override
+  String get settingsVoiceHelp => '[Šáýš ţĥé ñáɱé öƒ éáçĥ þĥášé ·········]';
+
+  @override
+  String get settingsBeeps => '[3-2-1 ƀééþš ··]';
+
+  @override
+  String get settingsBeepsHelp =>
+      '[Ţöñé áţ éáçĥ þĥášé áñð îñ ţĥé ļášţ 3 šéçöñðš ··············]';
+
+  @override
+  String get settingsVibration => '[Ṽîƀŕáţîöñ ····]';
+
+  @override
+  String get settingsVibrationHelp =>
+      '[Ļöñĝ öñ ŵöŕķ, ðöûƀļé öñ ŕéšţ ·········]';
 }
