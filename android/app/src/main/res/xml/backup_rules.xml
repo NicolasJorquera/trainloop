@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copia automática de Android 11 o anterior (android:fullBackupContent).
+     Solo la base y las preferencias; la caché nunca se respalda.
+     Debe coincidir con data_extraction_rules.xml. -->
+<full-backup-content>
+    <!-- Base Drift: getApplicationSupportDirectory() = files/ -->
+    <include domain="file" path="trainloop.sqlite" />
+    <!-- shared_preferences (API heredada de SharedPreferences) -->
+    <include domain="sharedpref" path="FlutterSharedPreferences.xml" />
+</full-backup-content>

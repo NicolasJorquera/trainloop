@@ -173,6 +173,27 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get selectedLabel => 'Selecionado';
+
+  @override
+  String get debugDatabaseSection => 'DEPURAÇÃO · BANCO DE DADOS';
+
+  @override
+  String debugDatabaseCounts(
+    int exercises,
+    int routines,
+    int workouts,
+    int sessions,
+    int sets,
+  ) {
+    return '$exercises exercícios · $routines rotinas · $workouts timers · $sessions sessões · $sets séries';
+  }
+
+  @override
+  String get debugDatabaseHelp =>
+      'Só em depuração. Os dados ficam neste celular: force a parada do app e abra de novo para conferir que continuam lá.';
+
+  @override
+  String get debugSeedDemo => 'ADICIONAR DADOS DE TESTE';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

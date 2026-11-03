@@ -105,5 +105,13 @@
   "languageHelp": "Applies right away. On Android 13 or later you can also pick it in the system app settings.",
   "@languageHelp": {"description": "Help text under the language options."},
   "selectedLabel": "Selected",
-  "@selectedLabel": {"description": "Accessibility hint for the selected option."}
+  "@selectedLabel": {"description": "Accessibility hint for the selected option."},
+  "debugDatabaseSection": "DEBUG · DATABASE",
+  "@debugDatabaseSection": {"description": "Debug-only section label in Settings, uppercase."},
+  "debugDatabaseCounts": "{exercises} exercises · {routines} routines · {workouts} timers · {sessions} sessions · {sets} sets",
+  "@debugDatabaseCounts": {"description": "Debug-only row counts of the local database.", "placeholders": {"exercises": {"type": "int"}, "routines": {"type": "int"}, "workouts": {"type": "int"}, "sessions": {"type": "int"}, "sets": {"type": "int"}}},
+  "debugDatabaseHelp": "Debug builds only. Data stays on this phone: force-stop the app and reopen it to check it persists.",
+  "@debugDatabaseHelp": {"description": "Help text of the debug database section."},
+  "debugSeedDemo": "ADD DEMO DATA",
+  "@debugSeedDemo": {"description": "Debug-only button that inserts sample rows, uppercase."}
 }

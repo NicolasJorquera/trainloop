@@ -4,19 +4,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:trainloop/app/app.dart';
 import 'package:trainloop/core/theme/theme_context.dart';
 import 'package:trainloop/core/theme/tokens.dart';
+import 'package:trainloop/data/db/database_providers.dart';
 import 'package:trainloop/features/settings/application/settings_controller.dart';
 import 'package:trainloop/features/settings/data/settings_repository.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 
-/// Monta la app completa con preferencias en memoria.
+import 'test_database.dart';
+
+/// Monta la app completa con preferencias y base en memoria.
 Future<InMemorySettingsRepository> pumpTrainloop(
   WidgetTester tester, {
   AppSettings settings = const AppSettings(),
 }) async {
   final repo = InMemorySettingsRepository(settings);
+  final db = openTestDatabase();
+  addTearDown(db.close);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [settingsRepositoryProvider.overrideWithValue(repo)],
+      overrides: [
+        settingsRepositoryProvider.overrideWithValue(repo),
+        appDatabaseProvider.overrideWithValue(db),
+      ],
       child: const TrainloopApp(),
     ),
   );

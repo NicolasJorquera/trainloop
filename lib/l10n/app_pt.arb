@@ -52,5 +52,9 @@
   "languagePortuguese": "Português (Brasil)",
   "languagePseudo": "Pseudolocale (en-XA, depuração)",
   "languageHelp": "Aplica na hora. No Android 13 ou superior você também pode escolher nas configurações do app no sistema.",
-  "selectedLabel": "Selecionado"
+  "selectedLabel": "Selecionado",
+  "debugDatabaseSection": "DEPURAÇÃO · BANCO DE DADOS",
+  "debugDatabaseCounts": "{exercises} exercícios · {routines} rotinas · {workouts} timers · {sessions} sessões · {sets} séries",
+  "debugDatabaseHelp": "Só em depuração. Os dados ficam neste celular: force a parada do app e abra de novo para conferir que continuam lá.",
+  "debugSeedDemo": "ADICIONAR DADOS DE TESTE"
 }

@@ -173,6 +173,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectedLabel => 'Selected';
+
+  @override
+  String get debugDatabaseSection => 'DEBUG · DATABASE';
+
+  @override
+  String debugDatabaseCounts(
+    int exercises,
+    int routines,
+    int workouts,
+    int sessions,
+    int sets,
+  ) {
+    return '$exercises exercises · $routines routines · $workouts timers · $sessions sessions · $sets sets';
+  }
+
+  @override
+  String get debugDatabaseHelp =>
+      'Debug builds only. Data stays on this phone: force-stop the app and reopen it to check it persists.';
+
+  @override
+  String get debugSeedDemo => 'ADD DEMO DATA';
 }
 
 /// The translations for English (`en_XA`).
@@ -344,4 +365,25 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get selectedLabel => '[Šéļéçţéð ····]';
+
+  @override
+  String get debugDatabaseSection => '[ÐÉƁÛĜ · ÐÅŢÅƁÅŠÉ ······]';
+
+  @override
+  String debugDatabaseCounts(
+    int exercises,
+    int routines,
+    int workouts,
+    int sessions,
+    int sets,
+  ) {
+    return '[$exercises éẋéŕçîšéš · $routines ŕöûţîñéš · $workouts ţîɱéŕš · $sessions šéššîöñš · $sets šéţš ··············]';
+  }
+
+  @override
+  String get debugDatabaseHelp =>
+      '[Ðéƀûĝ ƀûîļðš öñļý. Ðáţá šţáýš öñ ţĥîš þĥöñé: ƒöŕçé-šţöþ ţĥé áþþ áñð ŕéöþéñ îţ ţö çĥéçķ îţ þéŕšîšţš. ································]';
+
+  @override
+  String get debugSeedDemo => '[ÅÐÐ ÐÉṀÖ ÐÅŢÅ ·····]';
 }
