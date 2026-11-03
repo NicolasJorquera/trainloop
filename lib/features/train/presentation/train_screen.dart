@@ -5,16 +5,16 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme_context.dart';
 import '../../../core/theme/tokens.dart';
-import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
+import '../../intervals/presentation/interval_list.dart';
 import '../../routines/presentation/routine_list.dart';
 
 enum _TrainKind { intervals, routines }
 
-/// S02 Entrenar: rutinas de fuerza (D3). Los intervalos llegan en D4; por
-/// ahora muestran su estado vacío.
+/// S02 Entrenar: entrenamientos de intervalos y plantillas (D4) y rutinas
+/// de fuerza (D3).
 class TrainScreen extends StatefulWidget {
   const TrainScreen({super.key});
 
@@ -34,7 +34,12 @@ class _TrainScreenState extends State<TrainScreen> {
         ScreenHeader(
           title: l10n.trainTitle,
           trailing: intervals
-              ? null
+              ? _HeaderButton(
+                  key: const Key('new-interval'),
+                  label: l10n.trainNewInterval,
+                  tooltip: l10n.intervalNewTooltip,
+                  onPressed: () => context.push(Routes.intervalNew),
+                )
               : _HeaderButton(
                   key: const Key('new-routine'),
                   label: l10n.trainNewRoutine,
@@ -53,14 +58,7 @@ class _TrainScreenState extends State<TrainScreen> {
           ],
         ),
         const SizedBox(height: TlSpace.s4),
-        if (intervals)
-          EmptyState(
-            icon: Icons.timer_outlined,
-            title: l10n.trainIntervalsEmptyTitle,
-            body: l10n.trainIntervalsEmptyBody,
-          )
-        else
-          const RoutineList(),
+        if (intervals) const IntervalList() else const RoutineList(),
       ],
     );
   }

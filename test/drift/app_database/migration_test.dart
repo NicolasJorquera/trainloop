@@ -7,6 +7,7 @@ import 'package:trainloop/data/db/app_database.dart';
 import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
+import 'generated/schema_v3.dart' as v3;
 
 // Pruebas de migración. Al subir `schemaVersion`: correr
 // `dart run drift_dev make-migrations` (guarda drift_schemas/…/vN.json y
@@ -23,19 +24,21 @@ void main() {
     await db.close();
   });
 
-  test('v2 se crea limpia y coincide con drift_schema_v2.json', () async {
-    final schema = await verifier.schemaAt(2);
+  test('v3 se crea limpia y coincide con drift_schema_v3.json', () async {
+    final schema = await verifier.schemaAt(3);
     final db = AppDatabase(schema.newConnection());
-    await verifier.migrateAndValidate(db, 2);
+    await verifier.migrateAndValidate(db, 3);
     await db.close();
   });
 
-  test('v1 migra a v2 y coincide con drift_schema_v2.json', () async {
-    final schema = await verifier.schemaAt(1);
-    final db = AppDatabase(schema.newConnection());
-    await verifier.migrateAndValidate(db, 2);
-    await db.close();
-  });
+  for (final from in [1, 2]) {
+    test('v$from migra a v3 y coincide con drift_schema_v3.json', () async {
+      final schema = await verifier.schemaAt(from);
+      final db = AppDatabase(schema.newConnection());
+      await verifier.migrateAndValidate(db, 3);
+      await db.close();
+    });
+  }
 
   test('v1 → v2 agrega catalog_key y conserva los ejercicios', () async {
     const row = v1.ExerciseData(
@@ -62,4 +65,46 @@ void main() {
       },
     );
   });
+  test(
+    'v2 → v3 agrega skip_last_rest (activado) y conserva los bloques',
+    () async {
+      await verifier.testWithDataIntegrity(
+        oldVersion: 2,
+        newVersion: 3,
+        createOld: v2.DatabaseAtV2.new,
+        createNew: v3.DatabaseAtV3.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, old) {
+          batch
+            ..insert(
+              old.intervalWorkout,
+              const v2.IntervalWorkoutData(
+                id: 'w1',
+                createdAt: 1,
+                updatedAt: 1,
+                name: 'Tabata',
+                prepareSeconds: 10,
+              ),
+            )
+            ..insert(
+              old.intervalBlock,
+              const v2.IntervalBlockData(
+                id: 'g1',
+                createdAt: 1,
+                updatedAt: 1,
+                workoutId: 'w1',
+                sortOrder: 0,
+                kind: 'group',
+                rounds: 8,
+              ),
+            );
+        },
+        validateItems: (db) async {
+          final rows = await db.select(db.intervalBlock).get();
+          expect(rows.single.rounds, 8);
+          expect(rows.single.skipLastRest, 1);
+        },
+      );
+    },
+  );
 }

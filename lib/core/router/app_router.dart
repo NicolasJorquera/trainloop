@@ -7,6 +7,10 @@ import '../../features/exercises/presentation/exercise_form_screen.dart';
 import '../../features/exercises/presentation/exercise_library_screen.dart';
 import '../../features/history/presentation/history_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/intervals/presentation/interval_detail_screen.dart';
+import '../../features/intervals/presentation/interval_editor_screen.dart';
+import '../../features/intervals/presentation/session_summary_screen.dart';
+import '../../features/intervals/presentation/timer_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/routines/presentation/routine_editor_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
@@ -77,6 +81,44 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootKey,
         builder: (context, state) =>
             RoutineEditorScreen(routineId: state.pathParameters['id']),
+      ),
+      GoRoute(
+        path: Routes.intervalNew,
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => IntervalEditorScreen(
+          templateKey: state.uri.queryParameters['template'],
+        ),
+      ),
+      GoRoute(
+        path: '/intervals/:id',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            IntervalDetailScreen(workoutId: state.pathParameters['id']),
+        routes: [
+          GoRoute(
+            path: 'edit',
+            parentNavigatorKey: rootKey,
+            builder: (context, state) =>
+                IntervalEditorScreen(workoutId: state.pathParameters['id']),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/templates/:key',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            IntervalDetailScreen(templateKey: state.pathParameters['key']),
+      ),
+      GoRoute(
+        path: Routes.timer,
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => const TimerScreen(),
+      ),
+      GoRoute(
+        path: '/sessions/:id/summary',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            SessionSummaryScreen(sessionId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.exercises,

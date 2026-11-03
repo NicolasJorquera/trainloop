@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trainloop/core/l10n/pseudo.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
+import 'package:trainloop/platform/timer_engine_client.dart';
 
+import '../helpers/fake_timer_engine.dart';
 import '../helpers/pump_app.dart';
 
 /// Textos visibles que no vienen de l10n: con en-XA activo, todo texto
@@ -96,5 +98,95 @@ void main() {
     for (final MapEntry(key: screen, value: texts) in screens.entries) {
       expect(texts, isEmpty, reason: 'Textos sin localizar en $screen');
     }
+  });
+
+  testWidgets('con en-XA no hay textos fijos en los intervalos (D4)', (
+    tester,
+  ) async {
+    useTallViewport(tester);
+    final engine = FakeTimerEngine()
+      ..granted = false
+      ..promptShown = false
+      ..restricted = true
+      ..voice = false;
+    await pumpTrainloop(
+      tester,
+      engine: engine,
+      settings: const AppSettings(language: AppLanguage.pseudo, voice: true),
+    );
+    final screens = <String, List<String>>{};
+    screens['home-templates'] = unlocalizedTexts(tester);
+
+    await tester.tap(find.byKey(const Key('nav-train')));
+    await tester.pumpAndSettle();
+    screens['train-intervals'] = unlocalizedTexts(tester);
+
+    await tester.tap(find.byKey(const Key('new-interval')));
+    await tester.pumpAndSettle();
+    screens['interval-editor'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('add-block')));
+    await tester.pumpAndSettle();
+    screens['interval-add-sheet'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('add-repeat')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('interval-save')));
+    await settleDb(tester);
+    screens['train-interval-list'] = unlocalizedTexts(tester);
+
+    await tester.tap(find.byKey(const Key('template-walk_run')));
+    await tester.pumpAndSettle();
+    screens['template-detail'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('detail-start')));
+    await tester.pumpAndSettle();
+    screens['notify-dialog'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('notify-not-now')));
+    await tester.pumpAndSettle();
+    screens['battery-dialog'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('battery-later')));
+    for (var i = 0; i < 6; i++) {
+      await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+    screens['timer'] = unlocalizedTexts(tester);
+
+    final id = engine.program!.sessionId;
+    engine.emit(
+      engineState(
+        id,
+        state: EngineRunState.paused,
+        index: 2,
+        count: engine.program!.phases.length,
+        remainingMs: 60000,
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 100));
+    await tester.tap(find.byKey(const Key('timer-lock')));
+    await tester.pump();
+    screens['timer-paused-locked'] = unlocalizedTexts(tester);
+
+    engine.emit(
+      engineState(
+        id,
+        state: EngineRunState.stopped,
+        index: 3,
+        count: engine.program!.phases.length,
+        remainingMs: 0,
+        results: [
+          phaseResult(0, 10000),
+          phaseResult(1, 300000, actualMs: 9000),
+        ],
+      ),
+    );
+    for (var i = 0; i < 6; i++) {
+      await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+    await tester.pumpAndSettle();
+    screens['summary'] = unlocalizedTexts(tester);
+
+    for (final MapEntry(key: screen, value: texts) in screens.entries) {
+      expect(texts, isEmpty, reason: 'Textos sin localizar en $screen');
+    }
+    expect(find.byKey(const Key('summary-short')), findsOneWidget);
   });
 }

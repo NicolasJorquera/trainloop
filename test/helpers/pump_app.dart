@@ -4,26 +4,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:trainloop/app/app.dart';
 import 'package:trainloop/core/theme/theme_context.dart';
 import 'package:trainloop/core/theme/tokens.dart';
+import 'package:trainloop/data/db/app_database.dart';
 import 'package:trainloop/data/db/database_providers.dart';
+import 'package:trainloop/features/intervals/application/interval_providers.dart';
 import 'package:trainloop/features/settings/application/settings_controller.dart';
 import 'package:trainloop/features/settings/data/settings_repository.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 
+import 'fake_timer_engine.dart';
 import 'test_database.dart';
 
-/// Monta la app completa con preferencias y base en memoria.
+/// Monta la app completa con preferencias, base en memoria y un motor del
+/// temporizador de prueba ([engine]).
 Future<InMemorySettingsRepository> pumpTrainloop(
   WidgetTester tester, {
   AppSettings settings = const AppSettings(),
+  FakeTimerEngine? engine,
+  AppDatabase? database,
 }) async {
   final repo = InMemorySettingsRepository(settings);
-  final db = openTestDatabase();
-  addTearDown(db.close);
+  final db = database ?? openTestDatabase();
+  if (database == null) addTearDown(db.close);
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         settingsRepositoryProvider.overrideWithValue(repo),
         appDatabaseProvider.overrideWithValue(db),
+        timerEngineClientProvider.overrideWithValue(
+          engine ?? FakeTimerEngine(),
+        ),
       ],
       child: const TrainloopApp(),
     ),

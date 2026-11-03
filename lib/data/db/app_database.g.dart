@@ -3259,6 +3259,21 @@ class $IntervalBlocksTable extends IntervalBlocks
     requiredDuringInsert: false,
     defaultValue: const Constant(1),
   );
+  static const VerificationMeta _skipLastRestMeta = const VerificationMeta(
+    'skipLastRest',
+  );
+  @override
+  late final GeneratedColumn<bool> skipLastRest = GeneratedColumn<bool>(
+    'skip_last_rest',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("skip_last_rest" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3272,6 +3287,7 @@ class $IntervalBlocksTable extends IntervalBlocks
     label,
     durationSeconds,
     rounds,
+    skipLastRest,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3329,6 +3345,15 @@ class $IntervalBlocksTable extends IntervalBlocks
       context.handle(
         _roundsMeta,
         rounds.isAcceptableOrUnknown(data['rounds']!, _roundsMeta),
+      );
+    }
+    if (data.containsKey('skip_last_rest')) {
+      context.handle(
+        _skipLastRestMeta,
+        skipLastRest.isAcceptableOrUnknown(
+          data['skip_last_rest']!,
+          _skipLastRestMeta,
+        ),
       );
     }
     return context;
@@ -3392,6 +3417,10 @@ class $IntervalBlocksTable extends IntervalBlocks
         DriftSqlType.int,
         data['${effectivePrefix}rounds'],
       )!,
+      skipLastRest: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}skip_last_rest'],
+      )!,
     );
   }
 
@@ -3430,6 +3459,10 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
 
   /// Repeticiones de un grupo; 1 en intervalos.
   final int rounds;
+
+  /// Solo en grupos: en la última ronda se omite el descanso final (R-I4).
+  /// v3.
+  final bool skipLastRest;
   const IntervalBlock({
     required this.id,
     required this.createdAt,
@@ -3442,6 +3475,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
     this.label,
     this.durationSeconds,
     required this.rounds,
+    required this.skipLastRest,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3479,6 +3513,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
       map['duration_seconds'] = Variable<int>(durationSeconds);
     }
     map['rounds'] = Variable<int>(rounds);
+    map['skip_last_rest'] = Variable<bool>(skipLastRest);
     return map;
   }
 
@@ -3503,6 +3538,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
           ? const Value.absent()
           : Value(durationSeconds),
       rounds: Value(rounds),
+      skipLastRest: Value(skipLastRest),
     );
   }
 
@@ -3527,6 +3563,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
       label: serializer.fromJson<String?>(json['label']),
       durationSeconds: serializer.fromJson<int?>(json['durationSeconds']),
       rounds: serializer.fromJson<int>(json['rounds']),
+      skipLastRest: serializer.fromJson<bool>(json['skipLastRest']),
     );
   }
   @override
@@ -3548,6 +3585,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
       'label': serializer.toJson<String?>(label),
       'durationSeconds': serializer.toJson<int?>(durationSeconds),
       'rounds': serializer.toJson<int>(rounds),
+      'skipLastRest': serializer.toJson<bool>(skipLastRest),
     };
   }
 
@@ -3563,6 +3601,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
     Value<String?> label = const Value.absent(),
     Value<int?> durationSeconds = const Value.absent(),
     int? rounds,
+    bool? skipLastRest,
   }) => IntervalBlock(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -3577,6 +3616,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
         ? durationSeconds.value
         : this.durationSeconds,
     rounds: rounds ?? this.rounds,
+    skipLastRest: skipLastRest ?? this.skipLastRest,
   );
   IntervalBlock copyWithCompanion(IntervalBlocksCompanion data) {
     return IntervalBlock(
@@ -3593,6 +3633,9 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
           ? data.durationSeconds.value
           : this.durationSeconds,
       rounds: data.rounds.present ? data.rounds.value : this.rounds,
+      skipLastRest: data.skipLastRest.present
+          ? data.skipLastRest.value
+          : this.skipLastRest,
     );
   }
 
@@ -3609,7 +3652,8 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
           ..write('phaseType: $phaseType, ')
           ..write('label: $label, ')
           ..write('durationSeconds: $durationSeconds, ')
-          ..write('rounds: $rounds')
+          ..write('rounds: $rounds, ')
+          ..write('skipLastRest: $skipLastRest')
           ..write(')'))
         .toString();
   }
@@ -3627,6 +3671,7 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
     label,
     durationSeconds,
     rounds,
+    skipLastRest,
   );
   @override
   bool operator ==(Object other) =>
@@ -3642,7 +3687,8 @@ class IntervalBlock extends DataClass implements Insertable<IntervalBlock> {
           other.phaseType == this.phaseType &&
           other.label == this.label &&
           other.durationSeconds == this.durationSeconds &&
-          other.rounds == this.rounds);
+          other.rounds == this.rounds &&
+          other.skipLastRest == this.skipLastRest);
 }
 
 class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
@@ -3657,6 +3703,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
   final Value<String?> label;
   final Value<int?> durationSeconds;
   final Value<int> rounds;
+  final Value<bool> skipLastRest;
   final Value<int> rowid;
   const IntervalBlocksCompanion({
     this.id = const Value.absent(),
@@ -3670,6 +3717,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
     this.label = const Value.absent(),
     this.durationSeconds = const Value.absent(),
     this.rounds = const Value.absent(),
+    this.skipLastRest = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   IntervalBlocksCompanion.insert({
@@ -3684,6 +3732,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
     this.label = const Value.absent(),
     this.durationSeconds = const Value.absent(),
     this.rounds = const Value.absent(),
+    this.skipLastRest = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : workoutId = Value(workoutId),
        sortOrder = Value(sortOrder),
@@ -3700,6 +3749,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
     Expression<String>? label,
     Expression<int>? durationSeconds,
     Expression<int>? rounds,
+    Expression<bool>? skipLastRest,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -3714,6 +3764,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
       if (label != null) 'label': label,
       if (durationSeconds != null) 'duration_seconds': durationSeconds,
       if (rounds != null) 'rounds': rounds,
+      if (skipLastRest != null) 'skip_last_rest': skipLastRest,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -3730,6 +3781,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
     Value<String?>? label,
     Value<int?>? durationSeconds,
     Value<int>? rounds,
+    Value<bool>? skipLastRest,
     Value<int>? rowid,
   }) {
     return IntervalBlocksCompanion(
@@ -3744,6 +3796,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
       label: label ?? this.label,
       durationSeconds: durationSeconds ?? this.durationSeconds,
       rounds: rounds ?? this.rounds,
+      skipLastRest: skipLastRest ?? this.skipLastRest,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -3792,6 +3845,9 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
     if (rounds.present) {
       map['rounds'] = Variable<int>(rounds.value);
     }
+    if (skipLastRest.present) {
+      map['skip_last_rest'] = Variable<bool>(skipLastRest.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -3812,6 +3868,7 @@ class IntervalBlocksCompanion extends UpdateCompanion<IntervalBlock> {
           ..write('label: $label, ')
           ..write('durationSeconds: $durationSeconds, ')
           ..write('rounds: $rounds, ')
+          ..write('skipLastRest: $skipLastRest, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -11760,6 +11817,7 @@ typedef $$IntervalBlocksTableCreateCompanionBuilder =
       Value<String?> label,
       Value<int?> durationSeconds,
       Value<int> rounds,
+      Value<bool> skipLastRest,
       Value<int> rowid,
     });
 typedef $$IntervalBlocksTableUpdateCompanionBuilder =
@@ -11775,6 +11833,7 @@ typedef $$IntervalBlocksTableUpdateCompanionBuilder =
       Value<String?> label,
       Value<int?> durationSeconds,
       Value<int> rounds,
+      Value<bool> skipLastRest,
       Value<int> rowid,
     });
 
@@ -11881,6 +11940,11 @@ class $$IntervalBlocksTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get skipLastRest => $composableBuilder(
+    column: $table.skipLastRest,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$IntervalWorkoutsTableFilterComposer get workoutId {
     final $$IntervalWorkoutsTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -11982,6 +12046,11 @@ class $$IntervalBlocksTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get skipLastRest => $composableBuilder(
+    column: $table.skipLastRest,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$IntervalWorkoutsTableOrderingComposer get workoutId {
     final $$IntervalWorkoutsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -12066,6 +12135,11 @@ class $$IntervalBlocksTableAnnotationComposer
 
   GeneratedColumn<int> get rounds =>
       $composableBuilder(column: $table.rounds, builder: (column) => column);
+
+  GeneratedColumn<bool> get skipLastRest => $composableBuilder(
+    column: $table.skipLastRest,
+    builder: (column) => column,
+  );
 
   $$IntervalWorkoutsTableAnnotationComposer get workoutId {
     final $$IntervalWorkoutsTableAnnotationComposer composer = $composerBuilder(
@@ -12155,6 +12229,7 @@ class $$IntervalBlocksTableTableManager
                 Value<String?> label = const Value.absent(),
                 Value<int?> durationSeconds = const Value.absent(),
                 Value<int> rounds = const Value.absent(),
+                Value<bool> skipLastRest = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => IntervalBlocksCompanion(
                 id: id,
@@ -12168,6 +12243,7 @@ class $$IntervalBlocksTableTableManager
                 label: label,
                 durationSeconds: durationSeconds,
                 rounds: rounds,
+                skipLastRest: skipLastRest,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -12183,6 +12259,7 @@ class $$IntervalBlocksTableTableManager
                 Value<String?> label = const Value.absent(),
                 Value<int?> durationSeconds = const Value.absent(),
                 Value<int> rounds = const Value.absent(),
+                Value<bool> skipLastRest = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => IntervalBlocksCompanion.insert(
                 id: id,
@@ -12196,6 +12273,7 @@ class $$IntervalBlocksTableTableManager
                 label: label,
                 durationSeconds: durationSeconds,
                 rounds: rounds,
+                skipLastRest: skipLastRest,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

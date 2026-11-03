@@ -1354,8 +1354,453 @@ i1.GeneratedColumn<int> _column_71(String aliasedName) =>
       $customConstraints: 'NOT NULL DEFAULT 0 CHECK (ads_removed IN (0, 1))',
       defaultValue: const i1.CustomExpression('0'),
     );
+
+final class Schema3 extends i0.VersionedSchema {
+  Schema3({required super.database}) : super(version: 3);
+  @override
+  late final List<i1.DatabaseSchemaEntity> entities = [
+    exercise,
+    strengthRoutine,
+    routineExercise,
+    routineSetTarget,
+    intervalWorkout,
+    intervalBlock,
+    session,
+    sessionExercise,
+    setLog,
+    intervalPhaseLog,
+    personalRecord,
+    planDay,
+    reminder,
+    adState,
+    idxExerciseNormalizedName,
+    idxExerciseMuscle,
+    idxExerciseCatalogKey,
+    idxRoutineExerciseRoutineOrder,
+    idxRoutineSetTargetParentOrder,
+    idxIntervalBlockWorkoutParentOrder,
+    idxSessionStartedAt,
+    idxSessionStatus,
+    idxSessionExerciseExercise,
+    idxSessionExerciseSession,
+    idxSetLogExercise,
+    idxSetLogSession,
+    idxSetLogSessionExerciseOrder,
+    idxIntervalPhaseLogSession,
+    idxPersonalRecordExerciseType,
+  ];
+  late final Shape0 exercise = Shape0(
+    source: i0.VersionedTable(
+      entityName: 'exercise',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_5,
+        _column_6,
+        _column_7,
+        _column_8,
+        _column_9,
+        _column_10,
+        _column_11,
+        _column_12,
+        _column_13,
+        _column_14,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape1 strengthRoutine = Shape1(
+    source: i0.VersionedTable(
+      entityName: 'strength_routine',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_15,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape2 routineExercise = Shape2(
+    source: i0.VersionedTable(
+      entityName: 'routine_exercise',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_17,
+        _column_18,
+        _column_19,
+        _column_20,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape3 routineSetTarget = Shape3(
+    source: i0.VersionedTable(
+      entityName: 'routine_set_target',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_21,
+        _column_19,
+        _column_22,
+        _column_23,
+        _column_24,
+        _column_25,
+        _column_26,
+        _column_27,
+        _column_28,
+        _column_29,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape4 intervalWorkout = Shape4(
+    source: i0.VersionedTable(
+      entityName: 'interval_workout',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_4,
+        _column_30,
+        _column_15,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape14 intervalBlock = Shape14(
+    source: i0.VersionedTable(
+      entityName: 'interval_block',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_31,
+        _column_32,
+        _column_19,
+        _column_33,
+        _column_34,
+        _column_35,
+        _column_28,
+        _column_36,
+        _column_72,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape6 session = Shape6(
+    source: i0.VersionedTable(
+      entityName: 'session',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_3,
+        _column_33,
+        _column_37,
+        _column_38,
+        _column_39,
+        _column_40,
+        _column_41,
+        _column_42,
+        _column_43,
+        _column_44,
+        _column_45,
+        _column_46,
+        _column_47,
+        _column_48,
+        _column_49,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape7 sessionExercise = Shape7(
+    source: i0.VersionedTable(
+      entityName: 'session_exercise',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_50,
+        _column_18,
+        _column_19,
+        _column_15,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape8 setLog = Shape8(
+    source: i0.VersionedTable(
+      entityName: 'set_log',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_51,
+        _column_50,
+        _column_18,
+        _column_19,
+        _column_22,
+        _column_24,
+        _column_25,
+        _column_26,
+        _column_23,
+        _column_27,
+        _column_28,
+        _column_29,
+        _column_52,
+        _column_53,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape9 intervalPhaseLog = Shape9(
+    source: i0.VersionedTable(
+      entityName: 'interval_phase_log',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_50,
+        _column_19,
+        _column_54,
+        _column_35,
+        _column_55,
+        _column_56,
+        _column_57,
+        _column_58,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape10 personalRecord = Shape10(
+    source: i0.VersionedTable(
+      entityName: 'personal_record',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_59,
+        _column_60,
+        _column_61,
+        _column_62,
+        _column_63,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape11 planDay = Shape11(
+    source: i0.VersionedTable(
+      entityName: 'plan_day',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_64,
+        _column_33,
+        _column_65,
+        _column_16,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape12 reminder = Shape12(
+    source: i0.VersionedTable(
+      entityName: 'reminder',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_64,
+        _column_66,
+        _column_67,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  late final Shape13 adState = Shape13(
+    source: i0.VersionedTable(
+      entityName: 'ad_state',
+      withoutRowId: false,
+      isStrict: false,
+      tableConstraints: ['PRIMARY KEY(id)'],
+      columns: [
+        _column_0,
+        _column_1,
+        _column_2,
+        _column_68,
+        _column_69,
+        _column_70,
+        _column_71,
+      ],
+      attachedDatabase: database,
+    ),
+    alias: null,
+  );
+  final i1.Index idxExerciseNormalizedName = i1.Index(
+    'idx_exercise_normalized_name',
+    'CREATE INDEX idx_exercise_normalized_name ON exercise (normalized_name)',
+  );
+  final i1.Index idxExerciseMuscle = i1.Index(
+    'idx_exercise_muscle',
+    'CREATE INDEX idx_exercise_muscle ON exercise (primary_muscle)',
+  );
+  final i1.Index idxExerciseCatalogKey = i1.Index(
+    'idx_exercise_catalog_key',
+    'CREATE UNIQUE INDEX idx_exercise_catalog_key ON exercise (catalog_key)',
+  );
+  final i1.Index idxRoutineExerciseRoutineOrder = i1.Index(
+    'idx_routine_exercise_routine_order',
+    'CREATE INDEX idx_routine_exercise_routine_order ON routine_exercise (routine_id, sort_order)',
+  );
+  final i1.Index idxRoutineSetTargetParentOrder = i1.Index(
+    'idx_routine_set_target_parent_order',
+    'CREATE INDEX idx_routine_set_target_parent_order ON routine_set_target (routine_exercise_id, sort_order)',
+  );
+  final i1.Index idxIntervalBlockWorkoutParentOrder = i1.Index(
+    'idx_interval_block_workout_parent_order',
+    'CREATE INDEX idx_interval_block_workout_parent_order ON interval_block (workout_id, parent_id, sort_order)',
+  );
+  final i1.Index idxSessionStartedAt = i1.Index(
+    'idx_session_started_at',
+    'CREATE INDEX idx_session_started_at ON session (started_at)',
+  );
+  final i1.Index idxSessionStatus = i1.Index(
+    'idx_session_status',
+    'CREATE INDEX idx_session_status ON session (status)',
+  );
+  final i1.Index idxSessionExerciseExercise = i1.Index(
+    'idx_session_exercise_exercise',
+    'CREATE INDEX idx_session_exercise_exercise ON session_exercise (exercise_id)',
+  );
+  final i1.Index idxSessionExerciseSession = i1.Index(
+    'idx_session_exercise_session',
+    'CREATE INDEX idx_session_exercise_session ON session_exercise (session_id, sort_order)',
+  );
+  final i1.Index idxSetLogExercise = i1.Index(
+    'idx_set_log_exercise',
+    'CREATE INDEX idx_set_log_exercise ON set_log (exercise_id)',
+  );
+  final i1.Index idxSetLogSession = i1.Index(
+    'idx_set_log_session',
+    'CREATE INDEX idx_set_log_session ON set_log (session_id)',
+  );
+  final i1.Index idxSetLogSessionExerciseOrder = i1.Index(
+    'idx_set_log_session_exercise_order',
+    'CREATE INDEX idx_set_log_session_exercise_order ON set_log (session_exercise_id, sort_order)',
+  );
+  final i1.Index idxIntervalPhaseLogSession = i1.Index(
+    'idx_interval_phase_log_session',
+    'CREATE INDEX idx_interval_phase_log_session ON interval_phase_log (session_id, sort_order)',
+  );
+  final i1.Index idxPersonalRecordExerciseType = i1.Index(
+    'idx_personal_record_exercise_type',
+    'CREATE UNIQUE INDEX idx_personal_record_exercise_type ON personal_record (exercise_id, type)',
+  );
+}
+
+class Shape14 extends i0.VersionedTable {
+  Shape14({required super.source, required super.alias}) : super.aliased();
+  i1.GeneratedColumn<String> get id =>
+      columnsByName['id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get createdAt =>
+      columnsByName['created_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get updatedAt =>
+      columnsByName['updated_at']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get workoutId =>
+      columnsByName['workout_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get parentId =>
+      columnsByName['parent_id']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get sortOrder =>
+      columnsByName['sort_order']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<String> get kind =>
+      columnsByName['kind']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get phaseType =>
+      columnsByName['phase_type']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<String> get label =>
+      columnsByName['label']! as i1.GeneratedColumn<String>;
+  i1.GeneratedColumn<int> get durationSeconds =>
+      columnsByName['duration_seconds']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get rounds =>
+      columnsByName['rounds']! as i1.GeneratedColumn<int>;
+  i1.GeneratedColumn<int> get skipLastRest =>
+      columnsByName['skip_last_rest']! as i1.GeneratedColumn<int>;
+}
+
+i1.GeneratedColumn<int> _column_72(String aliasedName) =>
+    i1.GeneratedColumn<int>(
+      'skip_last_rest',
+      aliasedName,
+      false,
+      type: i1.DriftSqlType.int,
+      $customConstraints: 'NOT NULL DEFAULT 1 CHECK (skip_last_rest IN (0, 1))',
+      defaultValue: const i1.CustomExpression('1'),
+    );
 i0.MigrationStepWithVersion migrationSteps({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) {
   return (currentVersion, database) async {
     switch (currentVersion) {
@@ -1364,6 +1809,11 @@ i0.MigrationStepWithVersion migrationSteps({
         final migrator = i1.Migrator(database, schema);
         await from1To2(migrator, schema);
         return 2;
+      case 2:
+        final schema = Schema3(database: database);
+        final migrator = i1.Migrator(database, schema);
+        await from2To3(migrator, schema);
+        return 3;
       default:
         throw ArgumentError.value('Unknown migration from $currentVersion');
     }
@@ -1372,6 +1822,7 @@ i0.MigrationStepWithVersion migrationSteps({
 
 i1.OnUpgrade stepByStep({
   required Future<void> Function(i1.Migrator m, Schema2 schema) from1To2,
+  required Future<void> Function(i1.Migrator m, Schema3 schema) from2To3,
 }) => i0.VersionedSchema.stepByStepHelper(
-  step: migrationSteps(from1To2: from1To2),
+  step: migrationSteps(from1To2: from1To2, from2To3: from2To3),
 );

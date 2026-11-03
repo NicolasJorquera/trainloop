@@ -150,6 +150,10 @@ class IntervalBlocks extends Table with Entity {
 
   /// Repeticiones de un grupo; 1 en intervalos.
   IntColumn get rounds => integer().withDefault(const Constant(1))();
+
+  /// Solo en grupos: en la última ronda se omite el descanso final (R-I4).
+  /// v3.
+  BoolColumn get skipLastRest => boolean().withDefault(const Constant(true))();
 }
 
 // ----------------------------------------------------------------- Historial

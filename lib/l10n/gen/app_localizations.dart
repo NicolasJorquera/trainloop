@@ -211,16 +211,16 @@ abstract class AppLocalizations {
   /// **'Routines'**
   String get trainRoutines;
 
-  /// Empty state title in Train > Intervals.
+  /// Empty state title of the intervals section in Train.
   ///
   /// In en, this message translates to:
-  /// **'Your interval timers'**
+  /// **'No interval workouts yet'**
   String get trainIntervalsEmptyTitle;
 
-  /// Empty state body in Train > Intervals.
+  /// Empty state body of the intervals section in Train.
   ///
   /// In en, this message translates to:
-  /// **'Tabata, HIIT, EMOM and your own timers will live here.'**
+  /// **'Create one with NEW or start from a template.'**
   String get trainIntervalsEmptyBody;
 
   /// Empty state title in Train > Routines.
@@ -1056,6 +1056,858 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exercise archived. Your history keeps it.'**
   String get exerciseArchived;
+
+  /// Phase type name, sentence case (lists, notification, voice).
+  ///
+  /// In en, this message translates to:
+  /// **'Get ready'**
+  String get phaseNamePrepare;
+
+  /// Phase type name, sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm-up'**
+  String get phaseNameWarmup;
+
+  /// Phase type name, sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get phaseNameWork;
+
+  /// Phase type name, sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get phaseNameRest;
+
+  /// Phase type name, sentence case.
+  ///
+  /// In en, this message translates to:
+  /// **'Cool-down'**
+  String get phaseNameCooldown;
+
+  /// Big phase label on the running timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'GET READY'**
+  String get timerPhasePrepare;
+
+  /// Big phase label on the running timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WARM-UP'**
+  String get timerPhaseWarmup;
+
+  /// Big phase label on the running timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'COOL-DOWN'**
+  String get timerPhaseCooldown;
+
+  /// Built-in interval template name.
+  ///
+  /// In en, this message translates to:
+  /// **'Tabata 20/10'**
+  String get templateTabata;
+
+  /// Built-in interval template name.
+  ///
+  /// In en, this message translates to:
+  /// **'HIIT 40/20'**
+  String get templateHiit4020;
+
+  /// Built-in interval template name.
+  ///
+  /// In en, this message translates to:
+  /// **'HIIT 30/30'**
+  String get templateHiit3030;
+
+  /// Built-in interval template name (every minute on the minute).
+  ///
+  /// In en, this message translates to:
+  /// **'EMOM 10 min'**
+  String get templateEmom10;
+
+  /// Built-in interval template name (as many rounds as possible).
+  ///
+  /// In en, this message translates to:
+  /// **'AMRAP 12 min'**
+  String get templateAmrap12;
+
+  /// Built-in interval template name: run intervals with walking breaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk/run'**
+  String get templateWalkRun;
+
+  /// Label of the run interval in the walk/run template.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get templateRun;
+
+  /// Label of the walk interval in the walk/run template.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk'**
+  String get templateWalk;
+
+  /// Tag that marks a built-in template.
+  ///
+  /// In en, this message translates to:
+  /// **'Template'**
+  String get templateTag;
+
+  /// Workout card subtitle: rounds (work intervals) and total time with prep.
+  ///
+  /// In en, this message translates to:
+  /// **'{rounds, plural, =1{1 round} other{{rounds} rounds}} · {total}'**
+  String intervalMeta(int rounds, String total);
+
+  /// Home section label with built-in interval templates.
+  ///
+  /// In en, this message translates to:
+  /// **'QUICK TEMPLATES'**
+  String get homeQuickTemplates;
+
+  /// Train section label with built-in interval templates.
+  ///
+  /// In en, this message translates to:
+  /// **'TEMPLATES'**
+  String get trainTemplates;
+
+  /// Train section label with the user interval workouts.
+  ///
+  /// In en, this message translates to:
+  /// **'MY WORKOUTS'**
+  String get trainMyIntervals;
+
+  /// Train header button that creates an interval workout, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get trainNewInterval;
+
+  /// Tooltip of the new interval workout button.
+  ///
+  /// In en, this message translates to:
+  /// **'New interval workout'**
+  String get intervalNewTooltip;
+
+  /// Accessibility label of the play button on a workout card.
+  ///
+  /// In en, this message translates to:
+  /// **'Start {name}'**
+  String intervalStart(String name);
+
+  /// Tooltip of the overflow menu of a workout card.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions for {name}'**
+  String intervalActions(String name);
+
+  /// Snackbar after archiving an interval workout.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” archived'**
+  String intervalArchived(String name);
+
+  /// Tooltip of the close button on the workout detail.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get detailCloseTooltip;
+
+  /// Workout detail subtitle. Total includes the get-ready time.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} total · {rounds, plural, =1{1 round} other{{rounds} rounds}}'**
+  String detailMeta(String total, int rounds);
+
+  /// Header of a repeat block, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REPEAT'**
+  String get repeatCaps;
+
+  /// Rounds of a repeat block, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'× {rounds} ROUNDS'**
+  String repeatRounds(int rounds);
+
+  /// Note under a repeat block that skips its final rest.
+  ///
+  /// In en, this message translates to:
+  /// **'The last rest is skipped'**
+  String get detailSkipLast;
+
+  /// Alert kind, used in a list.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get alertVoice;
+
+  /// Alert kind, used in a list (lowercase, after the first item).
+  ///
+  /// In en, this message translates to:
+  /// **'beeps'**
+  String get alertBeeps;
+
+  /// Alert kind, used in a list (lowercase, after the first item).
+  ///
+  /// In en, this message translates to:
+  /// **'vibration'**
+  String get alertVibration;
+
+  /// Which alerts will play, e.g. Voice, beeps, vibration on.
+  ///
+  /// In en, this message translates to:
+  /// **'{items} on'**
+  String alertsOn(String items);
+
+  /// All alerts are off in Settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts off'**
+  String get alertsOff;
+
+  /// Shown when voice is on but the phone has no voice for the app language.
+  ///
+  /// In en, this message translates to:
+  /// **'No offline voice for this language: beeps only'**
+  String get detailNoVoice;
+
+  /// Primary button that starts the timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'START'**
+  String get detailStart;
+
+  /// Button that opens the editor, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT'**
+  String get detailEdit;
+
+  /// Button that copies the workout, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DUPLICATE'**
+  String get detailDuplicate;
+
+  /// Button that copies a template into an editable workout, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'CUSTOMIZE'**
+  String get detailCustomize;
+
+  /// Interval editor title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW WORKOUT'**
+  String get editorNewTitle;
+
+  /// Interval editor title when editing, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'EDIT WORKOUT'**
+  String get editorEditTitle;
+
+  /// Default workout name; date is short (e.g. Nov 3).
+  ///
+  /// In en, this message translates to:
+  /// **'Intervals {date}'**
+  String editorDefaultName(String date);
+
+  /// Accessibility label of the minus button of an interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove 5 seconds from {phase}'**
+  String editorLess(String phase);
+
+  /// Accessibility label of the plus button of an interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 5 seconds to {phase}'**
+  String editorMore(String phase);
+
+  /// Accessibility label of the minus rounds button.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer rounds'**
+  String get editorLessRounds;
+
+  /// Accessibility label of the plus rounds button.
+  ///
+  /// In en, this message translates to:
+  /// **'More rounds'**
+  String get editorMoreRounds;
+
+  /// Switch of a repeat block.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the last rest'**
+  String get editorSkipLast;
+
+  /// Button that adds a block to the workout, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD BLOCK'**
+  String get editorAddBlock;
+
+  /// Button that adds a block inside a repeat, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD TO REPEAT'**
+  String get editorAddToRepeat;
+
+  /// Option of the add block sheet: a repeat with rounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get editorRepeat;
+
+  /// Title of the add block sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get editorAddTitle;
+
+  /// Editor error.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one work interval of 1 second or more.'**
+  String get editorErrorNoWork;
+
+  /// Editor error.
+  ///
+  /// In en, this message translates to:
+  /// **'Each repeat needs at least one interval.'**
+  String get editorErrorEmptyRepeat;
+
+  /// Editor error.
+  ///
+  /// In en, this message translates to:
+  /// **'The total can’t be longer than 4 hours.'**
+  String get editorErrorTooLong;
+
+  /// Label of the total time in the editor footer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL TIME'**
+  String get editorTotal;
+
+  /// Save button of the editor, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE'**
+  String get editorSave;
+
+  /// Tooltip of the overflow menu of a block.
+  ///
+  /// In en, this message translates to:
+  /// **'Block actions'**
+  String get editorBlockActions;
+
+  /// Menu item and dialog title to change an interval label.
+  ///
+  /// In en, this message translates to:
+  /// **'Label'**
+  String get editorRename;
+
+  /// Hint of the interval label field.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Squats'**
+  String get editorLabelHint;
+
+  /// Menu item that moves a block up.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get editorMoveUp;
+
+  /// Menu item that moves a block down.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get editorMoveDown;
+
+  /// Menu item that removes a block.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get editorRemove;
+
+  /// Title of the duration picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration of {phase}'**
+  String editorDurationTitle(String phase);
+
+  /// Label of the minutes wheel.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get editorMinutes;
+
+  /// Label of the seconds wheel.
+  ///
+  /// In en, this message translates to:
+  /// **'Seconds'**
+  String get editorSeconds;
+
+  /// Dialog button.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get dialogCancel;
+
+  /// Dialog button.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get dialogOk;
+
+  /// Round counter on the running timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUND {round}/{rounds}'**
+  String timerRound(int round, int rounds);
+
+  /// Outer repeat counter on the running timer, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SET {set}/{sets}'**
+  String timerSet(int set, int sets);
+
+  /// Next phase on the running timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {phase} {duration}'**
+  String timerNext(String phase, String duration);
+
+  /// Shown instead of the next phase on the last one.
+  ///
+  /// In en, this message translates to:
+  /// **'Last phase'**
+  String get timerLast;
+
+  /// Big label while paused, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'PAUSED'**
+  String get timerPaused;
+
+  /// Hint while paused, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TAP TO RESUME'**
+  String get timerTapToResume;
+
+  /// Pause button and notification action.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get timerPause;
+
+  /// Resume button and notification action.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get timerResume;
+
+  /// Accessibility label of the skip button.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip to next phase'**
+  String get timerSkip;
+
+  /// Notification action that skips the phase.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get timerSkipShort;
+
+  /// Accessibility label of the previous button.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to phase start'**
+  String get timerPrevious;
+
+  /// Stop button: must be held for 1 s, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'HOLD TO STOP'**
+  String get timerHoldToStop;
+
+  /// Accessibility label of the stop button.
+  ///
+  /// In en, this message translates to:
+  /// **'Press and hold to stop the session'**
+  String get timerHoldHint;
+
+  /// Accessibility label of the lock button.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock controls'**
+  String get timerLock;
+
+  /// Message while the controls are locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Controls locked · tap the lock to unlock'**
+  String get timerLocked;
+
+  /// Accessibility label of the progress bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Phase {current} of {total}'**
+  String timerProgress(int current, int total);
+
+  /// Android notification channel name.
+  ///
+  /// In en, this message translates to:
+  /// **'Session in progress'**
+  String get timerChannel;
+
+  /// Notification title with the round.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase} · Round {round}/{rounds}'**
+  String timerNotificationRound(String phase, int round, int rounds);
+
+  /// Spoken at the start of a phase inside a repeat.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase}, round {round} of {rounds}'**
+  String cueRound(String phase, int round, int rounds);
+
+  /// Spoken at the start of a get-ready or rest phase.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase}. Next: {next}'**
+  String cueThenNext(String phase, String next);
+
+  /// Spoken at the end of the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Session complete'**
+  String get cueFinish;
+
+  /// Summary title of a finished session.
+  ///
+  /// In en, this message translates to:
+  /// **'Session complete!'**
+  String get summaryDoneTitle;
+
+  /// Summary title of a session stopped before the end.
+  ///
+  /// In en, this message translates to:
+  /// **'Session stopped'**
+  String get summaryStoppedTitle;
+
+  /// Summary subtitle: workout and start date/time.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {date}'**
+  String summarySubtitle(String name, String date);
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL'**
+  String get summaryTotal;
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUNDS'**
+  String get summaryRounds;
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WORK'**
+  String get summaryWork;
+
+  /// Completed rounds of planned rounds.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total}'**
+  String summaryRoundsValue(int done, int total);
+
+  /// Summary line: skipped phases.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 phases skipped} =1{1 phase skipped} other{{count} phases skipped}}'**
+  String summarySkipped(int count);
+
+  /// Summary line: total paused time.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} paused'**
+  String summaryPaused(String time);
+
+  /// Summary line when there were no pauses.
+  ///
+  /// In en, this message translates to:
+  /// **'no pauses'**
+  String get summaryNoPauses;
+
+  /// Shown when the session had less than 30 s of activity.
+  ///
+  /// In en, this message translates to:
+  /// **'It lasted under 30 seconds. Discard it?'**
+  String get summaryShort;
+
+  /// Perceived effort question, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW HARD WAS IT? (OPTIONAL)'**
+  String get summaryRpeQuestion;
+
+  /// Accessibility label of an effort button.
+  ///
+  /// In en, this message translates to:
+  /// **'Effort {value} of 10'**
+  String summaryRpeValue(int value);
+
+  /// Label under effort 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Very easy'**
+  String get summaryRpeEasy;
+
+  /// Label under effort 10.
+  ///
+  /// In en, this message translates to:
+  /// **'Max'**
+  String get summaryRpeMax;
+
+  /// Note field label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTE'**
+  String get summaryNote;
+
+  /// Hint of the note field.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. “Sore knee in the last round”'**
+  String get summaryNoteHint;
+
+  /// Button that saves the summary, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DONE'**
+  String get summaryDone;
+
+  /// Button that discards the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard session'**
+  String get summaryDiscard;
+
+  /// Confirmation title.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard this session?'**
+  String get summaryDiscardTitle;
+
+  /// Confirmation body.
+  ///
+  /// In en, this message translates to:
+  /// **'It won’t be saved to your history or count toward your week.'**
+  String get summaryDiscardBody;
+
+  /// Confirmation button.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get summaryDiscardConfirm;
+
+  /// Notification permission rationale title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FOLLOW YOUR WORKOUT WITH THE SCREEN OFF'**
+  String get notifyTitle;
+
+  /// Notification permission rationale body.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainloop shows a notification while you train so you can see the phase and time without unlocking the phone.'**
+  String get notifyBody;
+
+  /// Button that opens the system permission dialog, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get notifyContinue;
+
+  /// Button that starts without the permission.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now · start anyway'**
+  String get notifyNotNow;
+
+  /// Recovery dialog title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'YOU HAVE AN UNFINISHED WORKOUT'**
+  String get recoveryTitle;
+
+  /// Where the session stopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Round {round}/{rounds}'**
+  String recoveryRound(int round, int rounds);
+
+  /// When the session was interrupted.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =0{interrupted moments ago} =1{interrupted 1 min ago} other{interrupted {minutes} min ago}}'**
+  String recoveryAgo(int minutes);
+
+  /// Recovery dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'Android closed the app. We saved your progress up to the last checkpoint.'**
+  String get recoveryBody;
+
+  /// Recovery button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RESUME (PAUSED)'**
+  String get recoveryResume;
+
+  /// Recovery button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE AS INCOMPLETE'**
+  String get recoverySaveIncomplete;
+
+  /// Recovery button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD'**
+  String get recoveryDiscard;
+
+  /// Battery restriction dialog title; brand is the phone maker, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'STOP {brand} FROM PAUSING THE TIMER'**
+  String batteryTitle(String brand);
+
+  /// Battery restriction dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery use for Trainloop is restricted, so the timer would stop with the screen off. You only set this once:'**
+  String get batteryBody;
+
+  /// Battery dialog step.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings › Apps › Trainloop'**
+  String get batteryStep1;
+
+  /// Battery dialog step.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get batteryStep2;
+
+  /// Battery dialog step.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose “Unrestricted”'**
+  String get batteryStep3;
+
+  /// Battery dialog button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN SETTINGS'**
+  String get batteryOpenSettings;
+
+  /// Battery dialog button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'I DID IT'**
+  String get batteryDone;
+
+  /// Battery dialog button that starts anyway, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'LATER'**
+  String get batteryLater;
+
+  /// Dialog when starting a second session.
+  ///
+  /// In en, this message translates to:
+  /// **'A session is in progress'**
+  String get activeSessionTitle;
+
+  /// Dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish it before starting another one.'**
+  String get activeSessionBody;
+
+  /// Dialog button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'BACK TO SESSION'**
+  String get activeSessionGo;
+
+  /// Snackbar when starting with media volume at 0.
+  ///
+  /// In en, this message translates to:
+  /// **'Media volume is at 0: you won’t hear the alerts.'**
+  String get volumeZero;
+
+  /// Settings section label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ALERTS'**
+  String get settingsAlerts;
+
+  /// Settings switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get settingsVoice;
+
+  /// Settings switch help.
+  ///
+  /// In en, this message translates to:
+  /// **'Says the name of each phase'**
+  String get settingsVoiceHelp;
+
+  /// Settings switch.
+  ///
+  /// In en, this message translates to:
+  /// **'3-2-1 beeps'**
+  String get settingsBeeps;
+
+  /// Settings switch help.
+  ///
+  /// In en, this message translates to:
+  /// **'Tone at each phase and in the last 3 seconds'**
+  String get settingsBeepsHelp;
+
+  /// Settings switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration'**
+  String get settingsVibration;
+
+  /// Settings switch help.
+  ///
+  /// In en, this message translates to:
+  /// **'Long on work, double on rest'**
+  String get settingsVibrationHelp;
 }
 
 class _AppLocalizationsDelegate

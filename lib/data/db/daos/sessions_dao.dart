@@ -89,6 +89,25 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
     ),
   );
 
+  /// Marca para recuperación una sesión que quedó en curso al cerrarse la
+  /// app, con el punto guardado por el motor.
+  Future<void> markRecoveryPending(
+    String id, {
+    required int phaseIndex,
+    required int elapsedMs,
+    required int pausedSeconds,
+    DateTime? checkpointAt,
+  }) => _edit(
+    id,
+    SessionsCompanion(
+      status: const Value(SessionStatus.recoveryPending),
+      checkpointPhaseIndex: Value(phaseIndex),
+      checkpointElapsedMs: Value(elapsedMs),
+      checkpointAt: Value((checkpointAt ?? DateTime.now()).toUtc()),
+      pausedSeconds: Value(pausedSeconds),
+    ),
+  );
+
   Future<void> setStatus(String id, SessionStatus status) =>
       _edit(id, SessionsCompanion(status: Value(status)));
 
@@ -98,11 +117,24 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
     DateTime? endedAt,
     int? perceivedEffort,
     String? note,
+    int? pausedSeconds,
   }) => _edit(
     id,
     SessionsCompanion(
       status: Value(status),
       endedAt: Value((endedAt ?? DateTime.now()).toUtc()),
+      perceivedEffort: Value(perceivedEffort),
+      note: Value(note),
+      pausedSeconds: pausedSeconds == null
+          ? const Value.absent()
+          : Value(pausedSeconds),
+    ),
+  );
+
+  /// Esfuerzo percibido y nota del resumen (S06).
+  Future<void> rate(String id, {int? perceivedEffort, String? note}) => _edit(
+    id,
+    SessionsCompanion(
       perceivedEffort: Value(perceivedEffort),
       note: Value(note),
     ),
@@ -162,6 +194,34 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
         await _touch(row.sessionId);
         return row.id;
       });
+
+  /// Guarda la fase [IntervalPhaseLogsCompanion.sortOrder] en su propia
+  /// transacción, reemplazando la que ya tuviera ese orden (volver a una fase
+  /// la registra de nuevo). Idempotente: el motor puede reenviarla.
+  Future<String> replacePhase(IntervalPhaseLogsCompanion entry) =>
+      transaction(() async {
+        await (delete(intervalPhaseLogs)..where(
+              (t) =>
+                  t.sessionId.equals(entry.sessionId.value) &
+                  t.sortOrder.equals(entry.sortOrder.value),
+            ))
+            .go();
+        return logPhase(entry);
+      });
+
+  /// Borra las fases de la sesión cuyo orden no está en [keep] (fases a las
+  /// que se volvió y que no se terminaron de nuevo).
+  Future<int> deletePhasesExcept(String sessionId, Set<int> keep) =>
+      (delete(intervalPhaseLogs)..where(
+            (t) => t.sessionId.equals(sessionId) & t.sortOrder.isNotIn(keep),
+          ))
+          .go();
+
+  Future<List<IntervalPhaseLog>> phasesOf(String sessionId) =>
+      (select(intervalPhaseLogs)
+            ..where((t) => t.sessionId.equals(sessionId))
+            ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
+          .get();
 
   Stream<List<SetLog>> watchSets(String sessionId) =>
       (select(setLogs)

@@ -78,6 +78,28 @@ class SettingsScreen extends ConsumerWidget {
               ),
           const SizedBox(height: TlSpace.s2),
           Text(l10n.languageHelp, style: help),
+          SectionLabel(l10n.settingsAlerts),
+          _AlertSwitch(
+            key: const Key('alert-voice'),
+            title: l10n.settingsVoice,
+            help: l10n.settingsVoiceHelp,
+            value: settings.voice,
+            onChanged: controller.setVoice,
+          ),
+          _AlertSwitch(
+            key: const Key('alert-beeps'),
+            title: l10n.settingsBeeps,
+            help: l10n.settingsBeepsHelp,
+            value: settings.sounds,
+            onChanged: controller.setSounds,
+          ),
+          _AlertSwitch(
+            key: const Key('alert-vibration'),
+            title: l10n.settingsVibration,
+            help: l10n.settingsVibrationHelp,
+            value: settings.vibration,
+            onChanged: controller.setVibration,
+          ),
           if (kDebugMode) const DebugDatabaseSection(),
         ],
       ),
@@ -152,4 +174,32 @@ class _OptionRow extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Interruptor de un aviso del temporizador (S16, ALERTAS).
+class _AlertSwitch extends StatelessWidget {
+  const _AlertSwitch({
+    required this.title,
+    required this.help,
+    required this.value,
+    required this.onChanged,
+    super.key,
+  });
+
+  final String title;
+  final String help;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) => SwitchListTile(
+    contentPadding: EdgeInsets.zero,
+    title: Text(title, style: context.text.body),
+    subtitle: Text(
+      help,
+      style: context.text.bodySm.copyWith(color: context.colors.inkMuted),
+    ),
+    value: value,
+    onChanged: onChanged,
+  );
 }

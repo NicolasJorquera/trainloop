@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 3, ejercicios y rutinas.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agrega la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza (crear, editar, duplicar, reordenar y archivar). Siguen: temporizador (D4), registro de fuerza (D5), historial y estadísticas (D6), y anuncios y consentimiento (D8).
+Estado: **entregable 4, temporizador de intervalos.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agrega el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. Siguen: registro de fuerza (D5), historial y estadísticas (D6), y anuncios y consentimiento (D8).
 
 ## Cómo correrla
 
@@ -41,13 +41,20 @@ lib/
     widgets/                    componentes del sistema: TlButton, TlBottomNav,
                                 TlSegmentedControl, AccentPicker, PhaseGlyph, EmptyState…
   features/<feature>/           por funcionalidad: domain / data / application / presentation
-    home, train, history, progress, settings, exercises (S08/S09), routines (S07)
+    home, train, history, progress, settings, exercises (S08/S09), routines (S07),
+    intervals (S02–S06, S18: editor, plantillas, temporizador, resumen, recuperación)
+  platform/                     puente con el motor nativo del temporizador (canales)
+android/app/src/main/kotlin/com/trainloop/app/timer/
+                                TimerService, TimerEngine, CuePlayer, SessionNotification,
+                                CheckpointStore y TimerBridge (MethodChannel/EventChannel)
+android/app/src/test/           pruebas JVM del motor y del punto de recuperación
   l10n/                         ARB (fuente) y gen/ (generado por flutter gen-l10n)
 assets/fonts/                   Barlow Condensed e Inter (OFL, empaquetadas: no se descargan)
 docs/design/                    copia del sistema de diseño (system/) y prototipos HTML (screens/)
 docs/modelo-datos.md            modelo de datos del PRD y decisiones de persistencia
 drift_schemas/                  esquema de cada versión de la base (JSON, para migraciones)
-tool/                           script del pseudo-locale
+tool/                           script del pseudo-locale y timer_adb.sh (pruebas del
+                                temporizador por adb)
 test/                           unitarias (tokens, fases, pseudo, repositorio, DAOs), de widgets
                                 y drift/ (migraciones; generated/ es generado)
 ```
@@ -60,13 +67,25 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **Siembra.** `seedExerciseCatalog` inserta solo las claves que faltan (índice único en `catalog_key`); corre al abrir la biblioteca. Para ampliar la biblioteca basta con agregar entradas con claves nuevas. Nunca cambies ni reutilices una clave.
 - **Búsqueda y duplicados.** La búsqueda compara el nombre visible sin mayúsculas ni tildes. Al crear un ejercicio propio, `findDuplicateExercise` lo compara con los propios y con los incluidos en los 3 idiomas («plank» choca con «Plancha»): avisa, no deja guardar y ofrece usar el existente.
 - **Rutinas.** El editor maneja series iguales por ejercicio (series, reps o tiempo, peso opcional y descanso); al agregar un ejercicio toma 3 × 10 (o 3 × 0:45 si es por tiempo) y su descanso por defecto. El peso se escribe y se muestra en la unidad de la persona. Guardar reemplaza los ejercicios de la plantilla; las sesiones pasadas no cambian porque guardan su copia en `template_snapshot` (lo prueba `test/features/routines/routine_repository_test.dart`). Archivar es borrado lógico con "Deshacer".
-- Empezar una sesión de fuerza y el entrenamiento libre llegan en D5; los intervalos de Entrenar, en D4.
+- Empezar una sesión de fuerza y el entrenamiento libre llegan en D5.
+
+## Temporizador de intervalos (D4)
+
+- **Estructura.** Un entrenamiento es una lista de bloques: intervalos (calentamiento, trabajo, descanso, vuelta a la calma, con etiqueta opcional, de 1 s a 99:59) y repeticiones de 1 a 99 rondas que pueden contener otra (2 niveles). Una repetición omite por defecto el descanso final de la última ronda (`interval_block.skip_last_rest`, esquema v3). `expandPhases` (dominio, sin Flutter) la convierte en la lista de fases; el total incluye la preparación (0–30 s): Tabata = 0:10 + 8 × 0:20 + 7 × 0:10 = **4:00**.
+- **Plantillas.** Tabata 20/10, HIIT 40/20 y 30/30, EMOM 10, AMRAP 12 y caminar/correr viven en `interval_templates.dart` con clave estable; su nombre sale de l10n. Inicio muestra 4: Tabata se empieza en 2 toques (plantilla → EMPEZAR). "Personalizar" copia una plantilla al editor.
+- **Motor nativo.** Flutter solo envía el programa (fases con textos ya localizados y colores de `phasePaletteFor`) y muestra el estado. `TimerService` (servicio en primer plano `specialUse`, hilo propio de prioridad alta) usa `TimerEngine`: objetivos absolutos sobre `SystemClock.elapsedRealtime`, nunca ticks; pausas, saltar y volver (en los primeros 2 s de una fase vuelve a la anterior). Wake lock parcial solo mientras corre. Sin alarmas exactas. La interfaz recibe un estado por cambio y calcula el tiempo restante localmente.
+- **Avisos.** Tono y voz al empezar cada fase (nombre, ronda y fase siguiente, en el idioma de la app), pitidos 3-2-1, vibración por tipo de fase y sonido final distinto; respetan los interruptores de Configuración → Alertas (voz activada por defecto, R-I7). La voz se precalienta al abrir la app y al entrar en S03; sin voz para el idioma quedan los pitidos. Pide foco de audio transitorio con atenuación sin depender de él; durante una llamada no suena, solo vibra.
+- **Notificación.** Fase y ronda, cuenta regresiva nativa, color de la fase y acciones Pausar/Reanudar y Saltar. El permiso de notificaciones se pide antes de la primera sesión con una explicación única; si se niega, la sesión corre igual.
+- **Batería restringida.** Antes de empezar se consulta `isBackgroundRestricted()`; si está restringida se muestra la guía (S18-c), porque Android detendría el servicio en ~1 min.
+- **Datos.** Al empezar, la sesión guarda la copia de la estructura y las fases (`template_snapshot`) y `template_id` (`template:<clave>` para las plantillas). Cada fase cerrada se guarda en su propia transacción (`replacePhase`, idempotente) con planificado, real y omitida. Al terminar queda completada (recorrió todas las fases) o incompleta (se detuvo); el resumen (S06) guarda esfuerzo 1–10 y nota y, con menos de 30 s, propone descartarla.
+- **Recuperación.** El motor guarda su punto en `files/timer_checkpoint.json` en cada cambio y cada 5 s, con escritura atómica (temporal + fsync + renombrar). Si Android cierra la app, el teléfono se reinicia o el sistema detiene el servicio, al abrir (o al instante, si la app está abierta) se ofrece Reanudar (en pausa), Guardar como incompleta o Descartar, y la sesión pasa por "recuperación pendiente". Nunca se reanuda sola.
+- **Pruebas.** Unitarias del dominio, textos de voz en 3 idiomas, repositorio y transiciones de recuperación; de widgets del editor, S05 con un motor de prueba, mantener para detener y recuperación; JVM del motor y del punto atómico (`cd android && ./gradlew testDebugUnitTest`). Resultados en emulador de T-01 a T-12 y deuda técnica en `docs/pruebas-temporizador.md`.
 
 ## Tema, acento e idioma
 
 - Los colores salen de `docs/design/system/tokens.json` y viven en `TlColors` (un `ThemeExtension`). En los widgets: `context.colors.accent`, `context.text.headline`.
 - Hay 8 acentos (`AccentPreset`). `phasePaletteFor(accent)` aplica la regla de distinción entre fases: Trabajo siempre es el acento; con Amarillo o Naranja, Calentamiento pasa a rosa; con Azul, Vuelta a la calma pasa a violeta; con Lima, Descanso pasa a azul y Vuelta a la calma a violeta.
-- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto), inicio de semana (lunes), sonidos (sí), voz (no), vibración (sí) y objetivo semanal (3 sesiones, entre 1 y 14). Esas últimas aún no tienen pantalla: las usan D4 a D6. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
+- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto), inicio de semana (lunes), sonidos (sí), voz (sí), vibración (sí) y objetivo semanal (3 sesiones, entre 1 y 14). Sonidos, voz y vibración se ajustan en Configuración → Alertas; el objetivo semanal aún no tiene pantalla. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
 
 ## Localización
 
@@ -111,7 +130,7 @@ SQLite con Drift, en `trainloop.sqlite` dentro del directorio de soporte de la a
 
 Acceso: un DAO por agregado (`ExercisesDao`, `RoutinesDao`, `IntervalWorkoutsDao`, `SessionsDao`, `RecordsDao`, `PlanDao`, `AdStateDao`), expuestos por providers de Riverpod en `lib/data/db/database_providers.dart`. `appDatabaseProvider` abre una sola instancia y la cierra al desechar el `ProviderScope`; las pruebas la sobrescriben con una base en memoria.
 
-Versión actual del esquema: **2** (D3 agregó `exercise.catalog_key` con índice único).
+Versión actual del esquema: **3** (D3 agregó `exercise.catalog_key` con índice único; D4, `interval_block.skip_last_rest`).
 
 El código generado (`*.g.dart`, `test/drift/*/generated/`) va en el repositorio. Tras cambiar tablas o DAOs:
 
@@ -139,7 +158,7 @@ La app no pide el permiso `INTERNET` en release; solo lo declaran los manifiesto
 
 ## CI
 
-`.github/workflows/ci.yml` corre en cada pull request y en cada push a `main`. Ejecuta `pub get` con el lockfile, revisa que las localizaciones y el código generado de Drift estén al día, revisa el formato y corre `analyze`, `test` y `build apk --debug`. El APK queda como artefacto del run. No usa secretos.
+`.github/workflows/ci.yml` corre en cada pull request y en cada push a `main`. Ejecuta `pub get` con el lockfile, revisa que las localizaciones y el código generado de Drift estén al día, revisa el formato y corre `analyze`, `test`, `build apk --debug` y las pruebas JVM del motor del temporizador (`./gradlew testDebugUnitTest`). El APK queda como artefacto del run. No usa secretos.
 
 ## Fuentes
 
