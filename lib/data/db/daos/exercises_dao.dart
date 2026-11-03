@@ -25,6 +25,7 @@ class ExercisesDao extends DatabaseAccessor<AppDatabase>
     WeightUnit? incrementUnit,
     int? defaultRestSeconds,
     bool isCustom = true,
+    String? catalogKey,
   }) async {
     final row = await into(exercises).insertReturning(
       _derive(
@@ -38,6 +39,7 @@ class ExercisesDao extends DatabaseAccessor<AppDatabase>
           incrementUnit: Value(incrementUnit),
           defaultRestSeconds: Value(defaultRestSeconds),
           isCustom: Value(isCustom),
+          catalogKey: Value(catalogKey),
         ),
       ),
     );
@@ -56,6 +58,29 @@ class ExercisesDao extends DatabaseAccessor<AppDatabase>
           updatedAt: Value(nowUtc()),
         ),
       );
+
+  /// Inserta varios de una vez; omite los que repiten una clave de catálogo.
+  Future<void> insertAllOrIgnore(List<ExercisesCompanion> rows) => batch(
+    (b) => b.insertAll(
+      exercises,
+      rows.map(_derive),
+      mode: InsertMode.insertOrIgnore,
+    ),
+  );
+
+  /// Claves de catálogo ya presentes, incluidas las archivadas.
+  Future<Set<String>> catalogKeys() async {
+    final query = selectOnly(exercises)
+      ..addColumns([exercises.catalogKey])
+      ..where(exercises.catalogKey.isNotNull());
+    return {
+      for (final row in await query.get()) row.read(exercises.catalogKey)!,
+    };
+  }
+
+  Future<Exercise?> findByCatalogKey(String key) => (select(
+    exercises,
+  )..where((t) => t.catalogKey.equals(key))).getSingleOrNull();
 
   Future<Exercise?> findById(String id) =>
       (select(exercises)..where((t) => t.id.equals(id))).getSingleOrNull();

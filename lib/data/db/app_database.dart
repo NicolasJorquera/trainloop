@@ -3,6 +3,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../core/units/weight_unit.dart';
+import 'app_database.steps.dart';
 import 'converters.dart';
 import 'daos/ad_state_dao.dart';
 import 'daos/exercises_dao.dart';
@@ -57,16 +58,18 @@ class AppDatabase extends _$AppDatabase {
   /// Cada cambio de esquema sube este número, guarda el esquema con
   /// `dart run drift_dev make-migrations` y agrega su paso y su prueba.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) => m.createAll(),
-    onUpgrade: (m, from, to) async {
-      // v2 en adelante: `m.runMigrationSteps` con los pasos generados en
-      // app_database.steps.dart (make-migrations).
-      throw UnsupportedError('Sin migración de v$from a v$to');
-    },
+    onUpgrade: stepByStep(
+      // v2 (D3): clave de catálogo para los ejercicios de la biblioteca.
+      from1To2: (m, schema) async {
+        await m.addColumn(schema.exercise, schema.exercise.catalogKey);
+        await m.create(schema.idxExerciseCatalogKey);
+      },
+    ),
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },

@@ -1,24 +1,20 @@
 import 'package:drift/drift.dart';
 
 import '../../core/units/weight_unit.dart';
+import '../catalog/exercise_catalog_seeder.dart';
 import 'app_database.dart';
 import 'daos/interval_workouts_dao.dart';
 import 'daos/routines_dao.dart';
 import 'enums.dart';
 
-/// Datos de prueba para depuración: un ejercicio, una rutina, un
+/// Datos de prueba para depuración: el catálogo, una rutina, un
 /// temporizador y una sesión completada con dos series. Cada llamada suma
 /// filas nuevas, así se ve si los conteos sobreviven a reiniciar la app.
 Future<void> seedDemoData(AppDatabase db) => db.transaction(() async {
-  final exerciseId = await db.exercisesDao.create(
-    name: 'Press de banca',
-    logType: ExerciseLogType.weightReps,
-    primaryMuscle: Muscle.chest,
-    equipment: Equipment.barbell,
-    incrementValue: 2.5,
-    incrementUnit: WeightUnit.kg,
-    isCustom: false,
-  );
+  await seedExerciseCatalog(db.exercisesDao);
+  final exerciseId = (await db.exercisesDao.findByCatalogKey(
+    'bench_press_barbell',
+  ))!.id;
 
   final routineId = await db.routinesDao.create(
     StrengthRoutinesCompanion.insert(name: 'Empuje'),

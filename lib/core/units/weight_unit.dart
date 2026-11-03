@@ -14,6 +14,10 @@ enum WeightUnit {
   /// Gramos convertidos a esta unidad.
   double fromGrams(int grams) => grams / gramsPerUnit;
 
+  /// [value] expresado en [from], convertido a esta unidad.
+  double convertFrom(double value, WeightUnit from) =>
+      from == this ? value : fromGrams(from.toGrams(value));
+
   static WeightUnit fromName(String? name) => WeightUnit.values.firstWhere(
     (v) => v.name == name,
     orElse: () => WeightUnit.kg,

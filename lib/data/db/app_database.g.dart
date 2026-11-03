@@ -155,6 +155,17 @@ class $ExercisesTable extends Exercises
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _catalogKeyMeta = const VerificationMeta(
+    'catalogKey',
+  );
+  @override
+  late final GeneratedColumn<String> catalogKey = GeneratedColumn<String>(
+    'catalog_key',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -171,6 +182,7 @@ class $ExercisesTable extends Exercises
     incrementGrams,
     defaultRestSeconds,
     isCustom,
+    catalogKey,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -237,6 +249,12 @@ class $ExercisesTable extends Exercises
       context.handle(
         _isCustomMeta,
         isCustom.isAcceptableOrUnknown(data['is_custom']!, _isCustomMeta),
+      );
+    }
+    if (data.containsKey('catalog_key')) {
+      context.handle(
+        _catalogKeyMeta,
+        catalogKey.isAcceptableOrUnknown(data['catalog_key']!, _catalogKeyMeta),
       );
     }
     return context;
@@ -318,6 +336,10 @@ class $ExercisesTable extends Exercises
         DriftSqlType.bool,
         data['${effectivePrefix}is_custom'],
       )!,
+      catalogKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}catalog_key'],
+      ),
     );
   }
 
@@ -370,6 +392,11 @@ class Exercise extends DataClass implements Insertable<Exercise> {
   final int? incrementGrams;
   final int? defaultRestSeconds;
   final bool isCustom;
+
+  /// Clave estable de los ejercicios de la biblioteca (v2), p. ej.
+  /// `bench_press_barbell`: el nombre visible sale del catálogo localizado y
+  /// la siembra no duplica. `null` en los ejercicios propios.
+  final String? catalogKey;
   const Exercise({
     required this.id,
     required this.createdAt,
@@ -385,6 +412,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     this.incrementGrams,
     this.defaultRestSeconds,
     required this.isCustom,
+    this.catalogKey,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -437,6 +465,9 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       map['default_rest_seconds'] = Variable<int>(defaultRestSeconds);
     }
     map['is_custom'] = Variable<bool>(isCustom);
+    if (!nullToAbsent || catalogKey != null) {
+      map['catalog_key'] = Variable<String>(catalogKey);
+    }
     return map;
   }
 
@@ -468,6 +499,9 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           ? const Value.absent()
           : Value(defaultRestSeconds),
       isCustom: Value(isCustom),
+      catalogKey: catalogKey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(catalogKey),
     );
   }
 
@@ -499,6 +533,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       incrementGrams: serializer.fromJson<int?>(json['incrementGrams']),
       defaultRestSeconds: serializer.fromJson<int?>(json['defaultRestSeconds']),
       isCustom: serializer.fromJson<bool>(json['isCustom']),
+      catalogKey: serializer.fromJson<String?>(json['catalogKey']),
     );
   }
   @override
@@ -527,6 +562,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
       'incrementGrams': serializer.toJson<int?>(incrementGrams),
       'defaultRestSeconds': serializer.toJson<int?>(defaultRestSeconds),
       'isCustom': serializer.toJson<bool>(isCustom),
+      'catalogKey': serializer.toJson<String?>(catalogKey),
     };
   }
 
@@ -545,6 +581,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     Value<int?> incrementGrams = const Value.absent(),
     Value<int?> defaultRestSeconds = const Value.absent(),
     bool? isCustom,
+    Value<String?> catalogKey = const Value.absent(),
   }) => Exercise(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -568,6 +605,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
         ? defaultRestSeconds.value
         : this.defaultRestSeconds,
     isCustom: isCustom ?? this.isCustom,
+    catalogKey: catalogKey.present ? catalogKey.value : this.catalogKey,
   );
   Exercise copyWithCompanion(ExercisesCompanion data) {
     return Exercise(
@@ -599,6 +637,9 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           ? data.defaultRestSeconds.value
           : this.defaultRestSeconds,
       isCustom: data.isCustom.present ? data.isCustom.value : this.isCustom,
+      catalogKey: data.catalogKey.present
+          ? data.catalogKey.value
+          : this.catalogKey,
     );
   }
 
@@ -618,7 +659,8 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           ..write('incrementUnit: $incrementUnit, ')
           ..write('incrementGrams: $incrementGrams, ')
           ..write('defaultRestSeconds: $defaultRestSeconds, ')
-          ..write('isCustom: $isCustom')
+          ..write('isCustom: $isCustom, ')
+          ..write('catalogKey: $catalogKey')
           ..write(')'))
         .toString();
   }
@@ -639,6 +681,7 @@ class Exercise extends DataClass implements Insertable<Exercise> {
     incrementGrams,
     defaultRestSeconds,
     isCustom,
+    catalogKey,
   );
   @override
   bool operator ==(Object other) =>
@@ -657,7 +700,8 @@ class Exercise extends DataClass implements Insertable<Exercise> {
           other.incrementUnit == this.incrementUnit &&
           other.incrementGrams == this.incrementGrams &&
           other.defaultRestSeconds == this.defaultRestSeconds &&
-          other.isCustom == this.isCustom);
+          other.isCustom == this.isCustom &&
+          other.catalogKey == this.catalogKey);
 }
 
 class ExercisesCompanion extends UpdateCompanion<Exercise> {
@@ -675,6 +719,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
   final Value<int?> incrementGrams;
   final Value<int?> defaultRestSeconds;
   final Value<bool> isCustom;
+  final Value<String?> catalogKey;
   final Value<int> rowid;
   const ExercisesCompanion({
     this.id = const Value.absent(),
@@ -691,6 +736,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     this.incrementGrams = const Value.absent(),
     this.defaultRestSeconds = const Value.absent(),
     this.isCustom = const Value.absent(),
+    this.catalogKey = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ExercisesCompanion.insert({
@@ -708,6 +754,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     this.incrementGrams = const Value.absent(),
     this.defaultRestSeconds = const Value.absent(),
     this.isCustom = const Value.absent(),
+    this.catalogKey = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : name = Value(name),
        normalizedName = Value(normalizedName),
@@ -728,6 +775,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     Expression<int>? incrementGrams,
     Expression<int>? defaultRestSeconds,
     Expression<bool>? isCustom,
+    Expression<String>? catalogKey,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -746,6 +794,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
       if (defaultRestSeconds != null)
         'default_rest_seconds': defaultRestSeconds,
       if (isCustom != null) 'is_custom': isCustom,
+      if (catalogKey != null) 'catalog_key': catalogKey,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -765,6 +814,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     Value<int?>? incrementGrams,
     Value<int?>? defaultRestSeconds,
     Value<bool>? isCustom,
+    Value<String?>? catalogKey,
     Value<int>? rowid,
   }) {
     return ExercisesCompanion(
@@ -782,6 +832,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
       incrementGrams: incrementGrams ?? this.incrementGrams,
       defaultRestSeconds: defaultRestSeconds ?? this.defaultRestSeconds,
       isCustom: isCustom ?? this.isCustom,
+      catalogKey: catalogKey ?? this.catalogKey,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -845,6 +896,9 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
     if (isCustom.present) {
       map['is_custom'] = Variable<bool>(isCustom.value);
     }
+    if (catalogKey.present) {
+      map['catalog_key'] = Variable<String>(catalogKey.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -868,6 +922,7 @@ class ExercisesCompanion extends UpdateCompanion<Exercise> {
           ..write('incrementGrams: $incrementGrams, ')
           ..write('defaultRestSeconds: $defaultRestSeconds, ')
           ..write('isCustom: $isCustom, ')
+          ..write('catalogKey: $catalogKey, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -8923,6 +8978,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_exercise_muscle',
     'CREATE INDEX idx_exercise_muscle ON exercise (primary_muscle)',
   );
+  late final Index idxExerciseCatalogKey = Index(
+    'idx_exercise_catalog_key',
+    'CREATE UNIQUE INDEX idx_exercise_catalog_key ON exercise (catalog_key)',
+  );
   late final Index idxRoutineExerciseRoutineOrder = Index(
     'idx_routine_exercise_routine_order',
     'CREATE INDEX idx_routine_exercise_routine_order ON routine_exercise (routine_id, sort_order)',
@@ -9001,6 +9060,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     adStates,
     idxExerciseNormalizedName,
     idxExerciseMuscle,
+    idxExerciseCatalogKey,
     idxRoutineExerciseRoutineOrder,
     idxRoutineSetTargetParentOrder,
     idxIntervalBlockWorkoutParentOrder,
@@ -9105,6 +9165,7 @@ typedef $$ExercisesTableCreateCompanionBuilder =
       Value<int?> incrementGrams,
       Value<int?> defaultRestSeconds,
       Value<bool> isCustom,
+      Value<String?> catalogKey,
       Value<int> rowid,
     });
 typedef $$ExercisesTableUpdateCompanionBuilder =
@@ -9123,6 +9184,7 @@ typedef $$ExercisesTableUpdateCompanionBuilder =
       Value<int?> incrementGrams,
       Value<int?> defaultRestSeconds,
       Value<bool> isCustom,
+      Value<String?> catalogKey,
       Value<int> rowid,
     });
 
@@ -9293,6 +9355,11 @@ class $$ExercisesTableFilterComposer
 
   ColumnFilters<bool> get isCustom => $composableBuilder(
     column: $table.isCustom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get catalogKey => $composableBuilder(
+    column: $table.catalogKey,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -9475,6 +9542,11 @@ class $$ExercisesTableOrderingComposer
     column: $table.isCustom,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get catalogKey => $composableBuilder(
+    column: $table.catalogKey,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ExercisesTableAnnotationComposer
@@ -9544,6 +9616,11 @@ class $$ExercisesTableAnnotationComposer
 
   GeneratedColumn<bool> get isCustom =>
       $composableBuilder(column: $table.isCustom, builder: (column) => column);
+
+  GeneratedColumn<String> get catalogKey => $composableBuilder(
+    column: $table.catalogKey,
+    builder: (column) => column,
+  );
 
   Expression<T> routineExercisesRefs<T extends Object>(
     Expression<T> Function($$RoutineExercisesTableAnnotationComposer a) f,
@@ -9693,6 +9770,7 @@ class $$ExercisesTableTableManager
                 Value<int?> incrementGrams = const Value.absent(),
                 Value<int?> defaultRestSeconds = const Value.absent(),
                 Value<bool> isCustom = const Value.absent(),
+                Value<String?> catalogKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ExercisesCompanion(
                 id: id,
@@ -9709,6 +9787,7 @@ class $$ExercisesTableTableManager
                 incrementGrams: incrementGrams,
                 defaultRestSeconds: defaultRestSeconds,
                 isCustom: isCustom,
+                catalogKey: catalogKey,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -9727,6 +9806,7 @@ class $$ExercisesTableTableManager
                 Value<int?> incrementGrams = const Value.absent(),
                 Value<int?> defaultRestSeconds = const Value.absent(),
                 Value<bool> isCustom = const Value.absent(),
+                Value<String?> catalogKey = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ExercisesCompanion.insert(
                 id: id,
@@ -9743,6 +9823,7 @@ class $$ExercisesTableTableManager
                 incrementGrams: incrementGrams,
                 defaultRestSeconds: defaultRestSeconds,
                 isCustom: isCustom,
+                catalogKey: catalogKey,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

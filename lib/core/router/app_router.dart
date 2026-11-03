@@ -3,9 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/app_shell.dart';
+import '../../features/exercises/presentation/exercise_form_screen.dart';
+import '../../features/exercises/presentation/exercise_library_screen.dart';
 import '../../features/history/presentation/history_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
+import '../../features/routines/presentation/routine_editor_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/train/presentation/train_screen.dart';
 import 'routes.dart';
@@ -63,6 +66,39 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.settings,
         parentNavigatorKey: rootKey,
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: Routes.routineNew,
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => const RoutineEditorScreen(),
+      ),
+      GoRoute(
+        path: '/routines/:id',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            RoutineEditorScreen(routineId: state.pathParameters['id']),
+      ),
+      GoRoute(
+        path: Routes.exercises,
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => ExerciseLibraryScreen(
+          pick: state.uri.queryParameters['pick'] == '1',
+        ),
+        routes: [
+          GoRoute(
+            path: 'new',
+            parentNavigatorKey: rootKey,
+            builder: (context, state) => ExerciseFormScreen(
+              initialName: state.uri.queryParameters['name'] ?? '',
+            ),
+          ),
+          GoRoute(
+            path: ':id',
+            parentNavigatorKey: rootKey,
+            builder: (context, state) =>
+                ExerciseFormScreen(exerciseId: state.pathParameters['id']),
+          ),
+        ],
       ),
     ],
   );

@@ -45,7 +45,7 @@ Tabla
  | Claves e índices
  | 
 exercise
- | índice por nombre normalizado (duplicados, búsqueda) y por músculo
+ | índice por nombre normalizado (duplicados, búsqueda) y por músculo; único por catalog_key (v2)
  | 
 strength_routine, routine_exercise, routine_set_target
  | índice por rutina + orden
@@ -98,3 +98,7 @@ Derivados y ajustes:
 - AdState: último intersticial, sesiones desde él, estado UMP y "sin anuncios".
 
 14 tablas físicas = exercise, strength_routine, routine_exercise, routine_set_target, interval_workout, interval_block, session, session_exercise, set_log, interval_phase_log, personal_record, plan_day, reminder, ad_state.
+
+# Cambios de esquema
+
+- v2 (D3): `exercise.catalog_key` (texto, nulo en los propios) con índice único `idx_exercise_catalog_key`. Identifica los ejercicios de la biblioteca incluida: el nombre visible sale del catálogo localizado (`lib/data/catalog/exercise_catalog.dart`) y la siembra inserta solo las claves que faltan. `name` guarda el nombre en inglés como respaldo. La copia de la sesión (`template_snapshot`) incluye la clave.

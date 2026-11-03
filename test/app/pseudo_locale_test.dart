@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:trainloop/core/l10n/pseudo.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 
-import '../../tool/src/pseudo.dart';
 import '../helpers/pump_app.dart';
 
 /// Textos visibles que no vienen de l10n: con en-XA activo, todo texto
@@ -52,6 +52,40 @@ void main() {
     await tester.tap(find.textContaining('Ŕöûţîñéš'));
     await tester.pumpAndSettle();
     screens['train-routines'] = unlocalizedTexts(tester);
+
+    // D3: biblioteca, ejercicio propio, editor de rutina y lista con datos.
+    await tester.tap(find.byKey(const Key('open-library')));
+    await tester.pumpAndSettle();
+    screens['library'] = unlocalizedTexts(tester);
+    await tester.enterText(find.byKey(const Key('library-search')), 'zzz');
+    await tester.pumpAndSettle();
+    screens['library-empty'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('library-create')));
+    await tester.pumpAndSettle();
+    screens['exercise-form'] = unlocalizedTexts(tester);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('new-routine')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('routine-add-exercises')));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byKey(const Key('chip-core')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('chip-core')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('exercise-plank')));
+    await tester.tap(find.byKey(const Key('exercise-cable_crunch')));
+    await tester.pumpAndSettle();
+    screens['library-pick'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('library-add')));
+    await tester.pumpAndSettle();
+    screens['routine-editor'] = unlocalizedTexts(tester);
+    await tester.tap(find.byKey(const Key('routine-save')));
+    await settleDb(tester);
+    screens['train-routine-list'] = unlocalizedTexts(tester);
 
     await tester.tap(find.byKey(const Key('nav-home')));
     await tester.pumpAndSettle();
