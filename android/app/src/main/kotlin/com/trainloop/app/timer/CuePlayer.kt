@@ -12,6 +12,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import java.util.Locale
 
@@ -49,6 +50,7 @@ object CuePlayer {
             onReady?.let { pending += it }
             tts = TextToSpeech(app) { status ->
                 ttsReady = status == TextToSpeech.SUCCESS && applyLanguage(languageTag)
+                tts?.setOnUtteranceProgressListener(progress(app))
                 Log.i(TAG, "tts init status=$status ready=$ttsReady lang=$languageTag")
                 val callbacks = pending
                 pending = mutableListOf()
@@ -68,6 +70,30 @@ object CuePlayer {
         onReady?.invoke(ttsReady)
     }
 
+    /** Si el motor de voz falla al hablar, se reinicia ya para que el próximo aviso hable. */
+    private fun progress(app: Context) = object : UtteranceProgressListener() {
+        override fun onStart(utteranceId: String?) = Unit
+
+        override fun onDone(utteranceId: String?) {
+            Log.i(TAG, "tts done $utteranceId")
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun onError(utteranceId: String?) = onError(utteranceId, TextToSpeech.ERROR)
+
+        override fun onError(utteranceId: String?, errorCode: Int) {
+            Log.w(TAG, "tts error $utteranceId code=$errorCode: restarting")
+            handler.post { restart(app) }
+        }
+    }
+
+    private fun restart(context: Context) {
+        tts?.shutdown()
+        tts = null
+        ttsReady = false
+        ttsLocale?.let { prewarm(context, it) }
+    }
+
     private fun applyLanguage(tag: String): Boolean {
         val engine = tts ?: return false
         val res = engine.setLanguage(Locale.forLanguageTag(tag))
@@ -75,21 +101,35 @@ object CuePlayer {
         return res != TextToSpeech.LANG_MISSING_DATA && res != TextToSpeech.LANG_NOT_SUPPORTED
     }
 
-    /** Inicio de fase: tono + voz con su etiqueta y vibración del tipo de fase. */
-    fun phaseStart(context: Context, program: TimerProgram, phase: PhaseSpec, id: String) {
+    /**
+     * Inicio de fase: tono + voz con su etiqueta y vibración del tipo de fase. Devuelve `true` si
+     * la voz habló (para el registro de depuración).
+     */
+    fun phaseStart(context: Context, program: TimerProgram, phase: PhaseSpec, id: String): Boolean {
+        var spoke = false
         val audible = audioAllowed(context)
         if (audible && (program.sounds || program.voice)) {
             withFocus(context) {
                 if (program.sounds) tone()?.startTone(ToneGenerator.TONE_PROP_ACK, 200)
-                if (program.voice && ttsReady) {
-                    tts?.speak(phase.speech, TextToSpeech.QUEUE_FLUSH, null, id)
-                } else if (program.voice && !program.sounds) {
+                if (program.voice && ttsReady) spoke = speak(context, phase.speech, id)
+                if (program.voice && !spoke && !program.sounds) {
                     // Respaldo sin voz para el idioma: un pitido marca la fase.
                     tone()?.startTone(ToneGenerator.TONE_PROP_ACK, 200)
                 }
             }
         }
         if (program.vibration) vibrate(context, patternFor(phase.type))
+        return spoke
+    }
+
+    /** Si el servicio de voz murió, se vuelve a iniciar para el próximo aviso. */
+    private fun speak(context: Context, text: String, id: String): Boolean {
+        val ok = tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id) == TextToSpeech.SUCCESS
+        if (!ok) {
+            Log.w(TAG, "tts speak failed: restarting")
+            restart(context)
+        }
+        return ok
     }
 
     /** Pitido 3-2-1 de los últimos segundos. */
@@ -124,7 +164,8 @@ object CuePlayer {
         else -> null
     }
 
-    private fun audioAllowed(context: Context): Boolean {
+    /** Sin llamada en curso ni sonando: los avisos pueden sonar. */
+    fun audioAllowed(context: Context): Boolean {
         val mode = context.getSystemService(AudioManager::class.java).mode
         return mode != AudioManager.MODE_IN_CALL && mode != AudioManager.MODE_IN_COMMUNICATION &&
             mode != AudioManager.MODE_RINGTONE

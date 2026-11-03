@@ -48,13 +48,16 @@ void main() {
     );
     expect(repo.load(), const AppSettings());
   });
-  test('preferencias nuevas: kg, lunes, sonido y vibración, 3 por semana', () {
-    const s = AppSettings();
-    expect(s.weightUnit, WeightUnit.kg);
-    expect(s.weekStart, WeekStart.monday);
-    expect([s.sounds, s.voice, s.vibration], [true, false, true]);
-    expect(s.weeklyGoal, 3);
-  });
+  test(
+    'preferencias nuevas: kg, lunes, voz, sonido y vibración (R-I7), 3 por semana',
+    () {
+      const s = AppSettings();
+      expect(s.weightUnit, WeightUnit.kg);
+      expect(s.weekStart, WeekStart.monday);
+      expect([s.sounds, s.voice, s.vibration], [true, true, true]);
+      expect(s.weeklyGoal, 3);
+    },
+  );
 
   test('el objetivo semanal fuera de rango se acota', () async {
     SharedPreferences.setMockInitialValues({

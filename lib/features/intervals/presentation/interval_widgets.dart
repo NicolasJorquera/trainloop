@@ -38,6 +38,7 @@ class PhaseStrip extends StatelessWidget {
                     color: p.type == PhaseType.prepare
                         ? context.colors.barOff
                         : palette.of(phaseOf(p.type)).background,
+                    child: const SizedBox.expand(),
                   ),
                 ),
             ],

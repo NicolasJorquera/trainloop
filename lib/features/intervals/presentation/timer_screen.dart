@@ -412,6 +412,7 @@ class _Progress extends StatelessWidget {
                         ? 0.7
                         : 0.25,
                   ),
+                  child: const SizedBox.expand(),
                 ),
               ),
             ],
@@ -561,7 +562,10 @@ class _HoldToStopButtonState extends State<HoldToStopButton>
                   builder: (context, _) => FractionallySizedBox(
                     alignment: Alignment.centerLeft,
                     widthFactor: _hold.value,
-                    child: ColoredBox(color: color.withValues(alpha: 0.3)),
+                    child: ColoredBox(
+                      color: color.withValues(alpha: 0.3),
+                      child: const SizedBox.expand(),
+                    ),
                   ),
                 ),
                 Center(

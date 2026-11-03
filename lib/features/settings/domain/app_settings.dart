@@ -63,7 +63,7 @@ class AppSettings {
     this.weightUnit = WeightUnit.kg,
     this.weekStart = WeekStart.monday,
     this.sounds = true,
-    this.voice = false,
+    this.voice = true,
     this.vibration = true,
     this.weeklyGoal = defaultWeeklyGoal,
   });

@@ -198,7 +198,10 @@ class TimerService : Service() {
     private fun enterPhase() {
         val e = engine ?: return
         val p = program ?: return
-        if (!e.paused) CuePlayer.phaseStart(this, p, p.phases[e.index], "phase${e.index}")
+        if (!e.paused) {
+            val spoke = CuePlayer.phaseStart(this, p, p.phases[e.index], "phase${e.index}")
+            log("cue_voice=$spoke;audio=${CuePlayer.audioAllowed(this)}", e.index, now(), now())
+        }
         changed()
     }
 
