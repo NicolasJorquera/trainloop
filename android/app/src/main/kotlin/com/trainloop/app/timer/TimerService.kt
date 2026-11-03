@@ -143,10 +143,11 @@ class TimerService : Service() {
         val e = TimerEngine(p.phases.map { it.durationMs }.toLongArray())
         engine = e
         CuePlayer.prewarm(this, p.locale)
-        e.start(now())
+        val t0 = now()
+        e.start(t0)
         if (!goForeground()) return
         acquireWake()
-        log("start", 0, now(), now())
+        log("start", 0, t0, t0)
         enterPhase()
         handler.postDelayed(checkpointLoop, CHECKPOINT_EVERY_MS)
     }

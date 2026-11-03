@@ -106,13 +106,13 @@ function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink
 function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
 var STR = {
   es: { title: 'ENTRENAR', newInt: 'NUEVO', newRut: 'NUEVA', tabsAria: 'Tipo de entrenamiento', int: 'Intervalos', rut: 'Rutinas', start: 'Empezar', free: 'ENTRENAMIENTO LIBRE', hint: 'Sin límite de rutinas. Mantén presionada una tarjeta para reordenar.', ad: 'Anuncio · banner', navAria: 'Navegación principal', nHome: 'INICIO', nTrain: 'ENTRENAR', nHist: 'HISTORIAL', nProg: 'PROGRESO',
-    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Intervalos martes', 'Calent. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · plantilla'], ['EMOM 10 min', '10 × 1:00 · plantilla']],
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:00'], ['Intervalos martes', 'Calent. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · plantilla'], ['EMOM 10 min', '10 × 1:00 · plantilla']],
     ruts: [['Piernas A', '5 ejercicios · hace 2 días'], ['Empuje', '6 ejercicios · hace 4 días'], ['Tirón', '5 ejercicios · hace 6 días']] },
   en: { title: 'TRAIN', newInt: 'NEW', newRut: 'NEW', tabsAria: 'Workout type', int: 'Intervals', rut: 'Routines', start: 'Start', free: 'FREE WORKOUT', hint: 'Unlimited routines. Press and hold a card to reorder.', ad: 'Ad · banner', navAria: 'Main navigation', nHome: 'HOME', nTrain: 'TRAIN', nHist: 'HISTORY', nProg: 'PROGRESS',
-    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Tuesday intervals', 'Warm-up 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · template'], ['EMOM 10 min', '10 × 1:00 · template']],
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:00'], ['Tuesday intervals', 'Warm-up 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · template'], ['EMOM 10 min', '10 × 1:00 · template']],
     ruts: [['Legs A', '5 exercises · 2 days ago'], ['Push', '6 exercises · 4 days ago'], ['Pull', '5 exercises · 6 days ago']] },
   pt: { title: 'TREINAR', newInt: 'NOVO', newRut: 'NOVA', tabsAria: 'Tipo de treino', int: 'Intervalos', rut: 'Rotinas', start: 'Iniciar', free: 'TREINO LIVRE', hint: 'Rotinas ilimitadas. Toque e segure um cartão para reordenar.', ad: 'Anúncio · banner', navAria: 'Navegação principal', nHome: 'INÍCIO', nTrain: 'TREINAR', nHist: 'HISTÓRICO', nProg: 'PROGRESSO',
-    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Intervalos de terça', 'Aquec. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · modelo'], ['EMOM 10 min', '10 × 1:00 · modelo']],
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:00'], ['Intervalos de terça', 'Aquec. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · modelo'], ['EMOM 10 min', '10 × 1:00 · modelo']],
     ruts: [['Pernas A', '5 exercícios · há 2 dias'], ['Empurrar', '6 exercícios · há 4 dias'], ['Puxar', '5 exercícios · há 6 dias']] }
 };
 var BARS = [

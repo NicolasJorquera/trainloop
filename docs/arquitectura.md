@@ -402,7 +402,7 @@ Emulador Android 16 (API 36), app mínima: Flutter solo como UI y el motor en un
 
 - Android 16 ignora la petición de foco de audio desde segundo plano, pero los pitidos y la voz suenan igual.
 
-- El Tabata real dura 4:00 más 10 s de preparación (no 4:10 de trabajo): hay que ajustar el total en el PRD y en S04.
+- El Tabata dura 4:00 en total con la preparación: 0:10 + 8 × 0:20 + 7 × 0:10 (sin el último descanso). No 4:10: en D4 se corrigieron S02, S03 y S06 y la app calcula los totales desde la estructura.
 Límites: un emulador no reproduce los cierres agresivos de Samsung, Xiaomi u OPPO, ni el comportamiento real de Doze con el teléfono en reposo. Esas pruebas se hacen en teléfonos reales en el entregable del temporizador.
 Qué cambia en la arquitectura
 
