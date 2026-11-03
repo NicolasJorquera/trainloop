@@ -61,6 +61,10 @@ jobs:
       - name: APK de depuración
         run: flutter build apk --debug
 
+      - name: Pruebas del motor nativo (JVM)
+        working-directory: android
+        run: ./gradlew testDebugUnitTest
+
       - uses: actions/upload-artifact@v4
         with:
           name: trainloop-debug-apk

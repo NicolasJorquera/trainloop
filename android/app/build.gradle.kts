@@ -41,3 +41,10 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // Pruebas JVM del motor y del punto de recuperación (android/app/src/test).
+    testImplementation("junit:junit:4.13.2")
+    // android.jar solo trae stubs de org.json: las pruebas usan la implementación real.
+    testImplementation("org.json:json:20240303")
+}
