@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/l10n/pseudo_locale.dart';
 import '../../../core/theme/accent.dart';
+import '../../../core/units/weight_unit.dart';
 import '../data/settings_repository.dart';
 import '../domain/app_settings.dart';
 
@@ -37,6 +38,27 @@ class SettingsController extends Notifier<AppSettings> {
 
   Future<void> setLanguage(AppLanguage language) =>
       _update(state.copyWith(language: language));
+
+  Future<void> setWeightUnit(WeightUnit unit) =>
+      _update(state.copyWith(weightUnit: unit));
+
+  Future<void> setWeekStart(WeekStart weekStart) =>
+      _update(state.copyWith(weekStart: weekStart));
+
+  Future<void> setSounds(bool on) => _update(state.copyWith(sounds: on));
+
+  Future<void> setVoice(bool on) => _update(state.copyWith(voice: on));
+
+  Future<void> setVibration(bool on) => _update(state.copyWith(vibration: on));
+
+  Future<void> setWeeklyGoal(int goal) => _update(
+    state.copyWith(
+      weeklyGoal: goal.clamp(
+        AppSettings.minWeeklyGoal,
+        AppSettings.maxWeeklyGoal,
+      ),
+    ),
+  );
 
   Future<void> _update(AppSettings next) async {
     if (next == state) return;

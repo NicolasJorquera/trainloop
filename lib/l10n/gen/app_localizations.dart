@@ -420,6 +420,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Selected'**
   String get selectedLabel;
+
+  /// Debug-only section label in Settings, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DEBUG · DATABASE'**
+  String get debugDatabaseSection;
+
+  /// Debug-only row counts of the local database.
+  ///
+  /// In en, this message translates to:
+  /// **'{exercises} exercises · {routines} routines · {workouts} timers · {sessions} sessions · {sets} sets'**
+  String debugDatabaseCounts(
+    int exercises,
+    int routines,
+    int workouts,
+    int sessions,
+    int sets,
+  );
+
+  /// Help text of the debug database section.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug builds only. Data stays on this phone: force-stop the app and reopen it to check it persists.'**
+  String get debugDatabaseHelp;
+
+  /// Debug-only button that inserts sample rows, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ADD DEMO DATA'**
+  String get debugSeedDemo;
 }
 
 class _AppLocalizationsDelegate

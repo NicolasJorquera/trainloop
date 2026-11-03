@@ -38,6 +38,17 @@ jobs:
           flutter gen-l10n
           git diff --exit-code -- lib/l10n
 
+      - name: Código de Drift al día
+        run: |
+          dart run build_runner build
+          dart run drift_dev schema generate drift_schemas/app_database/ test/drift/app_database/generated/
+          changes=$(git status --porcelain -- lib test drift_schemas)
+          if [ -n "$changes" ]; then
+            echo "$changes"
+            echo "Regenera con build_runner y commitea el resultado."
+            exit 1
+          fi
+
       - name: Formato
         run: dart format --output=none --set-exit-if-changed lib test tool
 

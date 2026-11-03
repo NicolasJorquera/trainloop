@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,7 @@ import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
 import '../application/settings_controller.dart';
 import '../domain/app_settings.dart';
+import 'debug_database_section.dart';
 
 /// S16 Configuración (mínima en D1): tema, acento e idioma.
 class SettingsScreen extends ConsumerWidget {
@@ -76,6 +78,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
           const SizedBox(height: TlSpace.s2),
           Text(l10n.languageHelp, style: help),
+          if (kDebugMode) const DebugDatabaseSection(),
         ],
       ),
     );

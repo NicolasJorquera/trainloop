@@ -173,6 +173,27 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get selectedLabel => 'Seleccionado';
+
+  @override
+  String get debugDatabaseSection => 'DEPURACIÓN · BASE DE DATOS';
+
+  @override
+  String debugDatabaseCounts(
+    int exercises,
+    int routines,
+    int workouts,
+    int sessions,
+    int sets,
+  ) {
+    return '$exercises ejercicios · $routines rutinas · $workouts temporizadores · $sessions sesiones · $sets series';
+  }
+
+  @override
+  String get debugDatabaseHelp =>
+      'Solo en depuración. Los datos quedan en este teléfono: fuerza la detención de la app y ábrela de nuevo para comprobar que siguen ahí.';
+
+  @override
+  String get debugSeedDemo => 'AGREGAR DATOS DE PRUEBA';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
