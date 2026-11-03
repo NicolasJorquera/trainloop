@@ -58,7 +58,7 @@ class AppDatabase extends _$AppDatabase {
   /// Cada cambio de esquema sube este número, guarda el esquema con
   /// `dart run drift_dev make-migrations` y agrega su paso y su prueba.
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -68,6 +68,13 @@ class AppDatabase extends _$AppDatabase {
       from1To2: (m, schema) async {
         await m.addColumn(schema.exercise, schema.exercise.catalogKey);
         await m.create(schema.idxExerciseCatalogKey);
+      },
+      // v3 (D4): omitir el último descanso de una repetición.
+      from2To3: (m, schema) async {
+        await m.addColumn(
+          schema.intervalBlock,
+          schema.intervalBlock.skipLastRest,
+        );
       },
     ),
     beforeOpen: (details) async {

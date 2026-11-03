@@ -15,11 +15,13 @@ class IntervalBlockDraft {
     this.label,
   }) : kind = IntervalBlockKind.interval,
        rounds = 1,
+       skipLastRest = false,
        children = const [];
 
   const IntervalBlockDraft.group({
     required this.rounds,
     required this.children,
+    this.skipLastRest = true,
     this.label,
   }) : kind = IntervalBlockKind.group,
        phaseType = null,
@@ -30,6 +32,7 @@ class IntervalBlockDraft {
   final int? durationSeconds;
   final String? label;
   final int rounds;
+  final bool skipLastRest;
   final List<IntervalBlockDraft> children;
 }
 
@@ -44,6 +47,24 @@ class IntervalWorkoutDetail {
   List<IntervalBlock> childrenOf(String? parentId) =>
       blocks.where((b) => b.parentId == parentId).toList()
         ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+  /// Árbol de bloques como borradores (para copiar o editar).
+  List<IntervalBlockDraft> toDrafts([String? parentId]) => [
+    for (final b in childrenOf(parentId))
+      if (b.kind == IntervalBlockKind.group)
+        IntervalBlockDraft.group(
+          rounds: b.rounds,
+          skipLastRest: b.skipLastRest,
+          label: b.label,
+          children: toDrafts(b.id),
+        )
+      else
+        IntervalBlockDraft.interval(
+          phaseType: b.phaseType ?? PhaseType.work,
+          durationSeconds: b.durationSeconds ?? 0,
+          label: b.label,
+        ),
+  ];
 
   /// Copia de la estructura para `session.templateSnapshot`.
   Map<String, Object?> toSnapshot() => {
@@ -68,6 +89,24 @@ class IntervalWorkoutsDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> archive(String id) =>
       edit(id, IntervalWorkoutsCompanion(archivedAt: Value(nowUtc())));
+
+  Future<void> unarchive(String id) =>
+      edit(id, const IntervalWorkoutsCompanion(archivedAt: Value(null)));
+
+  /// Copia el entrenamiento con sus bloques y devuelve el id de la copia.
+  Future<String> duplicate(String id, {required String name}) =>
+      transaction(() async {
+        final detail = (await getDetail(id))!;
+        final copyId = await create(
+          IntervalWorkoutsCompanion.insert(
+            name: name,
+            prepareSeconds: Value(detail.workout.prepareSeconds),
+            notes: Value(detail.workout.notes),
+          ),
+        );
+        await replaceBlocks(copyId, detail.toDrafts());
+        return copyId;
+      });
 
   Stream<List<IntervalWorkout>> watchActive() =>
       (select(intervalWorkouts)
@@ -103,6 +142,7 @@ class IntervalWorkoutsDao extends DatabaseAccessor<AppDatabase>
           label: Value(d.label),
           durationSeconds: Value(d.durationSeconds),
           rounds: Value(d.rounds),
+          skipLastRest: Value(d.skipLastRest),
         ),
       );
       await _insertLevel(workoutId, row.id, d.children);
