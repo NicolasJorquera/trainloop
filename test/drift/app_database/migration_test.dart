@@ -8,6 +8,7 @@ import 'generated/schema.dart';
 import 'generated/schema_v1.dart' as v1;
 import 'generated/schema_v2.dart' as v2;
 import 'generated/schema_v3.dart' as v3;
+import 'generated/schema_v4.dart' as v4;
 
 // Pruebas de migración. Al subir `schemaVersion`: correr
 // `dart run drift_dev make-migrations` (guarda drift_schemas/…/vN.json y
@@ -24,18 +25,18 @@ void main() {
     await db.close();
   });
 
-  test('v3 se crea limpia y coincide con drift_schema_v3.json', () async {
-    final schema = await verifier.schemaAt(3);
+  test('v4 se crea limpia y coincide con drift_schema_v4.json', () async {
+    final schema = await verifier.schemaAt(4);
     final db = AppDatabase(schema.newConnection());
-    await verifier.migrateAndValidate(db, 3);
+    await verifier.migrateAndValidate(db, 4);
     await db.close();
   });
 
-  for (final from in [1, 2]) {
-    test('v$from migra a v3 y coincide con drift_schema_v3.json', () async {
+  for (final from in [1, 2, 3]) {
+    test('v$from migra a v4 y coincide con drift_schema_v4.json', () async {
       final schema = await verifier.schemaAt(from);
       final db = AppDatabase(schema.newConnection());
-      await verifier.migrateAndValidate(db, 3);
+      await verifier.migrateAndValidate(db, 4);
       await db.close();
     });
   }
@@ -103,6 +104,84 @@ void main() {
           final rows = await db.select(db.intervalBlock).get();
           expect(rows.single.rounds, 8);
           expect(rows.single.skipLastRest, 1);
+        },
+      );
+    },
+  );
+
+  test(
+    'v3 → v4 agrega rest_seconds (vacío) y conserva sesiones y series',
+    () async {
+      await verifier.testWithDataIntegrity(
+        oldVersion: 3,
+        newVersion: 4,
+        createOld: v3.DatabaseAtV3.new,
+        createNew: v4.DatabaseAtV4.new,
+        openTestedDatabase: AppDatabase.new,
+        createItems: (batch, old) {
+          batch
+            ..insert(
+              old.exercise,
+              const v3.ExerciseData(
+                id: 'e1',
+                createdAt: 1,
+                updatedAt: 1,
+                name: 'Squat',
+                normalizedName: 'squat',
+                logType: 'weightReps',
+                primaryMuscle: 'quads',
+                isCustom: 0,
+              ),
+            )
+            ..insert(
+              old.session,
+              const v3.SessionData(
+                id: 's1',
+                createdAt: 1,
+                updatedAt: 1,
+                kind: 'strength',
+                status: 'completed',
+                startedAt: 1,
+                utcOffsetMinutes: -180,
+                pausedSeconds: 0,
+              ),
+            )
+            ..insert(
+              old.sessionExercise,
+              const v3.SessionExerciseData(
+                id: 'se1',
+                createdAt: 1,
+                updatedAt: 1,
+                sessionId: 's1',
+                exerciseId: 'e1',
+                sortOrder: 0,
+              ),
+            )
+            ..insert(
+              old.setLog,
+              const v3.SetLogData(
+                id: 'l1',
+                createdAt: 1,
+                updatedAt: 1,
+                sessionExerciseId: 'se1',
+                sessionId: 's1',
+                exerciseId: 'e1',
+                sortOrder: 0,
+                setType: 'normal',
+                weightValue: 80,
+                weightUnit: 'kg',
+                weightGrams: 80000,
+                reps: 8,
+                completed: 1,
+              ),
+            );
+        },
+        validateItems: (db) async {
+          final exercises = await db.select(db.sessionExercise).get();
+          expect(exercises.single.restSeconds, isNull);
+          final sets = await db.select(db.setLog).get();
+          expect(sets.single.weightGrams, 80000);
+          expect(sets.single.reps, 8);
         },
       );
     },
