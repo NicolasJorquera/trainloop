@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/l10n/formatters.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/router/routes.dart';
+import '../../../core/theme/theme_context.dart';
+import '../../settings/application/settings_controller.dart';
+import '../application/interval_providers.dart';
+import '../application/interval_session_controller.dart';
+import '../domain/interval_workout_draft.dart';
+import 'session_dialogs.dart';
+
+/// Empieza [workout] desde S03 o desde una tarjeta (botón ▶):
+///
+/// 1. Si ya hay una sesión activa, ofrece volver a ella (R-I13).
+/// 2. La primera vez sin permiso de notificaciones, lo explica y lo pide;
+///    si se niega, la sesión empieza igual (T-07).
+/// 3. Si la app está "Restringida" en batería, guía para quitarlo (T-08).
+/// 4. Si el volumen multimedia está en 0, avisa sin bloquear (R-I8).
+///
+/// Después abre S05. Nada de esto aparece durante la sesión.
+Future<void> startIntervalSession(
+  BuildContext context,
+  WidgetRef ref,
+  IntervalWorkoutDraft workout, {
+  String? sourceId,
+}) async {
+  final engine = ref.read(timerEngineClientProvider);
+  final controller = ref.read(intervalSessionProvider.notifier);
+  if (ref.read(intervalSessionProvider)?.active ?? false) {
+    if (await showActiveSessionDialog(context) && context.mounted) {
+      await context.push(Routes.timer);
+    }
+    return;
+  }
+
+  if (!await engine.notificationsGranted() &&
+      !await engine.notificationPromptShown()) {
+    if (!context.mounted) return;
+    final ask = await showNotificationRationale(context);
+    await engine.markNotificationPromptShown();
+    if (ask) await engine.requestNotifications();
+  }
+
+  while (await engine.backgroundRestricted()) {
+    final brand = await engine.manufacturer();
+    if (!context.mounted) return;
+    final choice = await showBatteryDialog(context, brand: brand);
+    if (choice == BatteryChoice.openSettings) {
+      await engine.openAppSettings();
+      return;
+    }
+    if (choice == BatteryChoice.later) break;
+  }
+
+  final settings = ref.read(settingsControllerProvider);
+  if ((settings.sounds || settings.voice) && await engine.mediaVolumeZero()) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(context.l10n.volumeZero)));
+    }
+  }
+
+  if (!context.mounted) return;
+  final l10n = context.l10n;
+  final palette = context.colors.phases;
+  final localeTag = context.locale.toLanguageTag();
+  await controller.start(
+    workout,
+    sourceId: sourceId,
+    l10n: l10n,
+    settings: settings,
+    palette: palette,
+    localeTag: localeTag,
+  );
+  if (context.mounted) await context.push(Routes.timer);
+}

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/l10n/l10n.dart';
 import '../core/router/app_router.dart';
 import '../core/theme/app_theme.dart';
+import '../features/intervals/presentation/session_gate.dart';
 import '../features/settings/application/settings_controller.dart';
 
 /// Raíz de la app: tema, acento e idioma salen de [settingsControllerProvider]
@@ -41,7 +42,7 @@ class TrainloopApp extends ConsumerWidget {
                 statusBarColor: Colors.transparent,
                 systemNavigationBarColor: Colors.transparent,
               ),
-          child: child!,
+          child: SessionGate(child: child!),
         );
       },
     );

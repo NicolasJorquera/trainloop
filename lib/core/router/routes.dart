@@ -19,4 +19,16 @@ abstract final class Routes {
       ? '/exercises/new'
       : '/exercises/new?name=${Uri.encodeQueryComponent(name)}';
   static String exerciseEdit(String id) => '/exercises/$id';
+
+  /// Intervalos (D4). Editor nuevo, opcionalmente a partir de una plantilla.
+  static const intervalNew = '/intervals/new';
+  static String intervalNewFromTemplate(String key) =>
+      '/intervals/new?template=$key';
+  static String intervalDetail(String id) => '/intervals/$id';
+  static String intervalEdit(String id) => '/intervals/$id/edit';
+  static String templateDetail(String key) => '/templates/$key';
+
+  /// Sesión en curso (S05) y su resumen (S06).
+  static const timer = '/timer';
+  static String sessionSummary(String id) => '/sessions/$id/summary';
 }

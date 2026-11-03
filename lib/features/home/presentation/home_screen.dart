@@ -8,9 +8,11 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
+import '../../intervals/domain/interval_templates.dart';
+import '../../intervals/presentation/interval_widgets.dart';
 
-/// S01 Inicio. En el entregable 1 muestra el estado vacío de la semana y los
-/// accesos a Entrenar; los datos reales llegan con el historial (D6).
+/// S01 Inicio: semana (vacía hasta D6), accesos a Entrenar y plantillas
+/// rápidas. Tabata en 2 toques: la plantilla abre S03 y "Empezar" arranca.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -75,6 +77,8 @@ class HomeScreen extends StatelessWidget {
           variant: TlButtonVariant.secondary,
           onPressed: () => context.go(Routes.train),
         ),
+        SectionLabel(l10n.homeQuickTemplates),
+        const TemplateGrid(IntervalTemplate.quickStart),
       ],
     );
   }
