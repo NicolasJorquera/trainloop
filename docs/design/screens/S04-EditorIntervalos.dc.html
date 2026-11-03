@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S04 · Editor de intervalos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 64px; padding: 0 16px 0 4px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+    <a href="S02-Entrenar.dc.html" aria-label="{{s.back}}" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800">{{s.title}}</h1>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.name}}
+      <input type="text" value="{{s.defaultName}}" style="height: 48px; padding: 0 14px; border: 2px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0; color: {{t.ink}}">
+    </label>
+
+    <div style="display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 8px 0 12px; background: {{t.sf}}; border-radius: 8px">
+      <span style="width: 22px; height: 22px; border-radius: 4px; background: #0E0F11; border: 1px solid {{t.line}}; color: #F2F3EF; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">■</span>
+      <span style="flex-grow: 1; font-size: 16px">{{s.prep}}</span>
+      <button type="button" style="height: 40px; padding: 0 12px; border: 0; border-radius: 4px; background: {{t.sf2}}; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">0:10</button>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 8px 0 12px; background: {{t.sf}}; border-radius: 8px">
+      <span style="width: 22px; height: 22px; border-radius: 4px; background: {{P.warm.bg}}; color: {{P.warm.ink}}; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">◆</span>
+      <span style="flex-grow: 1; font-size: 16px">{{s.warm}}</span>
+      <button type="button" style="height: 40px; padding: 0 12px; border: 0; border-radius: 4px; background: {{t.sf2}}; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">5:00</button>
+    </div>
+
+    <section aria-label="{{s.repeat}}" style="padding: 12px; background: {{t.sf}}; border: 2px solid {{t.acc}}; border-radius: 8px; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.accText}}">{{s.repeatCaps}}</span>
+        <div style="display: flex; align-items: center; gap: 4px" role="group" aria-label="{{s.roundsAria}}">
+          <button type="button" aria-label="{{s.lessRounds}}" onClick="{{roundsDown}}" style="width: 44px; height: 44px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-size: 20px; color: {{t.ink}}; cursor: pointer">−</button>
+          <span style="min-width: 84px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800">× {{rounds}} {{s.roundsWord}}</span>
+          <button type="button" aria-label="{{s.moreRounds}}" onClick="{{roundsUp}}" style="width: 44px; height: 44px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-size: 20px; color: {{t.ink}}; cursor: pointer">+</button>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 6px 0 10px; border-radius: 6px; background: {{P.work.bg}}; color: {{P.work.ink}}">
+        <span style="flex-grow: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800">▲ {{s.workCaps}}</span>
+        <button type="button" aria-label="{{s.workMinus}}" onClick="{{workDown}}" style="width: 40px; height: 40px; border: 0; border-radius: 4px; background: rgba(14,15,17,0.15); font-size: 18px; color: #0E0F11; cursor: pointer">−</button>
+        <span style="min-width: 48px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums">{{workLabel}}</span>
+        <button type="button" aria-label="{{s.workPlus}}" onClick="{{workUp}}" style="width: 40px; height: 40px; border: 0; border-radius: 4px; background: rgba(14,15,17,0.15); font-size: 18px; color: #0E0F11; cursor: pointer">+</button>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 6px 0 10px; border-radius: 6px; background: {{P.rest.bg}}; color: {{P.rest.ink}}">
+        <span style="flex-grow: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800">● {{s.restCaps}}</span>
+        <button type="button" aria-label="{{s.restMinus}}" onClick="{{restDown}}" style="width: 40px; height: 40px; border: 0; border-radius: 4px; background: rgba(14,15,17,0.15); font-size: 18px; color: #0E0F11; cursor: pointer">−</button>
+        <span style="min-width: 48px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums">{{restLabel}}</span>
+        <button type="button" aria-label="{{s.restPlus}}" onClick="{{restUp}}" style="width: 40px; height: 40px; border: 0; border-radius: 4px; background: rgba(14,15,17,0.15); font-size: 18px; color: #0E0F11; cursor: pointer">+</button>
+      </div>
+      <label style="display: flex; align-items: center; justify-content: space-between; height: 40px; font-size: 14px; color: {{t.ink}}; cursor: pointer">{{s.skipLast}}
+        <input type="checkbox" checked="{{skipLast}}" onChange="{{toggleSkip}}" style="width: 22px; height: 22px; accent-color: {{t.acc}}">
+      </label>
+    </section>
+
+    <div style="display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 8px 0 12px; background: {{t.sf}}; border-radius: 8px">
+      <span style="width: 22px; height: 22px; border-radius: 4px; background: {{P.cool.bg}}; color: {{P.cool.ink}}; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">▼</span>
+      <span style="flex-grow: 1; font-size: 16px">{{s.cool}}</span>
+      <button type="button" style="height: 40px; padding: 0 12px; border: 0; border-radius: 4px; background: {{t.sf2}}; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">3:00</button>
+    </div>
+
+    <button type="button" style="height: 48px; border: 2px dashed {{t.line}}; border-radius: 8px; background: transparent; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer">{{s.addBlock}}</button>
+
+    <sc-if value="{{hasError}}" hint-placeholder-val="{{false}}">
+      <p role="alert" style="margin: 0; padding: 10px 12px; border-radius: 6px; border: 2px solid {{t.danger}}; color: {{t.danger}}; font-size: 14px">{{s.error}}</p>
+    </sc-if>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 20px; background: {{t.sf}}; display: flex; align-items: center; gap: 16px">
+    <div style="flex-grow: 1; display: flex; flex-direction: column">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.total}}</span>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums" aria-live="polite">{{totalLabel}}</span>
+    </div>
+    <sc-if value="{{canSave}}" hint-placeholder-val="{{true}}">
+      <a href="S02-Entrenar.dc.html" style="height: 56px; padding: 0 32px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; text-decoration: none">{{s.save}}</a>
+    </sc-if>
+    <sc-if value="{{hasError}}" hint-placeholder-val="{{false}}">
+      <span aria-disabled="true" style="height: 56px; padding: 0 32px; border-radius: 6px; background: {{t.sf2}}; color: {{t.ink2}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800">{{s.save}}</span>
+    </sc-if>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', priBg: '#D45CFF', priInk: '#0E0F11', danger: '#FF6B6B', field: '#22252A' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', priBg: '#0E0F11', priInk: '#D45CFF', danger: '#C92A2A', field: '#FFFFFF' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { back: 'Volver', title: 'NUEVO ENTRENAMIENTO', name: 'NOMBRE', defaultName: 'Intervalos martes', prep: 'Preparación', warm: 'Calentamiento', cool: 'Vuelta a la calma', repeat: 'Repetición', repeatCaps: 'REPETICIÓN', roundsAria: 'Rondas', roundsWord: 'RONDAS', lessRounds: 'Menos rondas', moreRounds: 'Más rondas', workCaps: 'TRABAJO', restCaps: 'DESCANSO', workMinus: 'Restar 5 segundos de trabajo', workPlus: 'Sumar 5 segundos de trabajo', restMinus: 'Restar 5 segundos de descanso', restPlus: 'Sumar 5 segundos de descanso', skipLast: 'Omitir el último descanso', addBlock: '+ AGREGAR BLOQUE', error: 'Agrega al menos un intervalo de trabajo de 1 segundo o más.', total: 'DURACIÓN TOTAL', save: 'GUARDAR' },
+  en: { back: 'Back', title: 'NEW WORKOUT', name: 'NAME', defaultName: 'Tuesday intervals', prep: 'Get ready', warm: 'Warm-up', cool: 'Cool-down', repeat: 'Repeat', repeatCaps: 'REPEAT', roundsAria: 'Rounds', roundsWord: 'ROUNDS', lessRounds: 'Fewer rounds', moreRounds: 'More rounds', workCaps: 'WORK', restCaps: 'REST', workMinus: 'Subtract 5 seconds of work', workPlus: 'Add 5 seconds of work', restMinus: 'Subtract 5 seconds of rest', restPlus: 'Add 5 seconds of rest', skipLast: 'Skip the last rest', addBlock: '+ ADD BLOCK', error: 'Add at least one work interval of 1 second or more.', total: 'TOTAL TIME', save: 'SAVE' },
+  pt: { back: 'Voltar', title: 'NOVO TREINO', name: 'NOME', defaultName: 'Intervalos de terça', prep: 'Preparação', warm: 'Aquecimento', cool: 'Desaquecimento', repeat: 'Repetição', repeatCaps: 'REPETIÇÃO', roundsAria: 'Rodadas', roundsWord: 'RODADAS', lessRounds: 'Menos rodadas', moreRounds: 'Mais rodadas', workCaps: 'TRABALHO', restCaps: 'DESCANSO', workMinus: 'Tirar 5 segundos de trabalho', workPlus: 'Somar 5 segundos de trabalho', restMinus: 'Tirar 5 segundos de descanso', restPlus: 'Somar 5 segundos de descanso', skipLast: 'Pular o último descanso', addBlock: '+ ADICIONAR BLOCO', error: 'Adicione pelo menos um intervalo de trabalho de 1 segundo ou mais.', total: 'DURAÇÃO TOTAL', save: 'SALVAR' }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { rounds: 6, work: 60, rest: 60, skipLast: true };
+  }
+  fmt(s) {
+    var m = Math.floor(s / 60), r = s % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  renderVals() {
+    var st = this.state, self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var total = 10 + 300 + st.rounds * (st.work + st.rest) - (st.skipLast ? st.rest : 0) + 180;
+    var clamp = function (v, lo, hi) { return Math.max(lo, Math.min(hi, v)); };
+    return {
+      t: accTok(TOK[tema] || TOK.oscuro, tema, this.props.acento ?? 'orquidea'), P: phasesFor(this.props.acento ?? 'orquidea'), s: STR[idioma] || STR.es, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      rounds: st.rounds, workLabel: this.fmt(st.work), restLabel: this.fmt(st.rest), skipLast: st.skipLast,
+      totalLabel: this.fmt(total), hasError: st.work === 0, canSave: st.work > 0,
+      roundsDown: function () { self.setState({ rounds: clamp(st.rounds - 1, 1, 99) }); },
+      roundsUp: function () { self.setState({ rounds: clamp(st.rounds + 1, 1, 99) }); },
+      workDown: function () { self.setState({ work: clamp(st.work - 5, 0, 5999) }); },
+      workUp: function () { self.setState({ work: clamp(st.work + 5, 0, 5999) }); },
+      restDown: function () { self.setState({ rest: clamp(st.rest - 5, 0, 5999) }); },
+      restUp: function () { self.setState({ rest: clamp(st.rest + 5, 0, 5999) }); },
+      toggleSkip: function () { self.setState({ skipLast: !st.skipLast }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

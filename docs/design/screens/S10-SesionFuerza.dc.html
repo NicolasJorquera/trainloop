@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S10 · Sesión de fuerza</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; position: relative">
+  <header style="height: 64px; padding: 0 12px 0 20px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; background: {{t.sf}}">
+    <div style="flex-grow: 1; display: flex; flex-direction: column">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; line-height: 1">{{s.routine}}</span>
+      <span style="font-size: 13px; color: {{t.ink2}}; font-variant-numeric: tabular-nums">{{elapsed}} · {{doneCount}}/{{totalSets}} {{s.setsWord}}</span>
+    </div>
+    <sc-if value="{{hasPending}}" hint-placeholder-val="{{true}}">
+      <button type="button" onClick="{{finish}}" style="height: 44px; padding: 0 18px; border: 0; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer">{{s.finish}}</button>
+    </sc-if>
+    <sc-if value="{{allDone}}" hint-placeholder-val="{{false}}">
+      <a href="S06-Resumen.dc.html" style="height: 44px; padding: 0 18px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.finish}}</a>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{resting}}" hint-placeholder-val="{{true}}">
+    <div role="timer" aria-live="polite" style="flex-shrink: 0; padding: 10px 16px; background: {{P.rest.bg}}; color: {{P.rest.ink}}; display: flex; align-items: center; gap: 8px">
+      <div style="flex-grow: 1; display: flex; flex-direction: column">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px">● {{s.rest}}</span>
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 0.9; font-variant-numeric: tabular-nums">{{restLabel}}</span>
+      </div>
+      <button type="button" onClick="{{minus15}}" aria-label="{{s.minus15}}" style="width: 56px; height: 52px; border: 2px solid #0E0F11; border-radius: 6px; background: rgba(14,15,17,0.15); color: #0E0F11; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer">−15</button>
+      <button type="button" onClick="{{plus15}}" aria-label="{{s.plus15}}" style="width: 56px; height: 52px; border: 2px solid #0E0F11; border-radius: 6px; background: rgba(14,15,17,0.15); color: #0E0F11; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer">+15</button>
+      <button type="button" onClick="{{skipRest}}" style="height: 52px; padding: 0 14px; border: 0; border-radius: 6px; background: #0E0F11; color: {{P.rest.bg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; text-transform: uppercase; cursor: pointer">{{s.skip}}</button>
+    </div>
+  </sc-if>
+  <sc-if value="{{restDone}}" hint-placeholder-val="{{false}}">
+    <div role="status" style="flex-shrink: 0; height: 56px; padding: 0 16px; background: {{t.okSoft}}; color: {{t.ok}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; text-transform: uppercase">{{s.nextSet}}</div>
+  </sc-if>
+
+  <main style="flex-grow: 1; padding: 12px 12px 8px; display: flex; flex-direction: column; gap: 12px; overflow: hidden">
+    <sc-for list="{{exercises}}" as="ex" hint-placeholder-count="2">
+      <section style="background: {{t.sf}}; border-radius: 8px; padding: 12px 8px 8px; display: flex; flex-direction: column; gap: 4px">
+        <div style="display: flex; align-items: center; padding: 0 8px 4px">
+          <h2 style="margin: 0; flex-grow: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; text-transform: uppercase; color: {{t.accText}}">{{ex.name}}</h2>
+          <span style="font-size: 13px; color: {{t.ink2}}">{{ex.rest}}</span>
+          <span style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: {{t.ink2}}" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="12" cy="19" r="1.8"></circle></svg></span>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) 68px 60px 52px; align-items: center; padding: 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">
+          <span>{{s.setCol}}</span><span>{{s.prevCol}}</span><span style="text-align: center">KG</span><span style="text-align: center">REPS</span><span></span>
+        </div>
+        <sc-for list="{{ex.sets}}" as="st" hint-placeholder-count="3">
+          <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr) 68px 60px 52px; align-items: center; min-height: 56px; padding: 0 8px; border-radius: 6px; background: {{st.rowBg}}">
+            <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; color: {{st.tagColor}}">{{st.tag}}</span>
+            <span style="font-size: 14px; color: {{t.ink2}}">{{st.prev}}</span>
+            <a href="S11-RegistroSerie.dc.html" aria-label="{{st.kgAria}}" style="height: 44px; margin: 0 4px; border-radius: 4px; background: {{t.sf2}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; color: {{st.valColor}}; text-decoration: none">{{st.kg}}</a>
+            <a href="S11-RegistroSerie.dc.html" aria-label="{{st.repsAria}}" style="height: 44px; margin: 0 4px; border-radius: 4px; background: {{t.sf2}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; color: {{st.valColor}}; text-decoration: none">{{st.reps}}</a>
+            <button type="button" onClick="{{st.toggle}}" aria-pressed="{{st.done}}" aria-label="{{st.checkAria}}" style="width: 48px; height: 48px; justify-self: end; border: 2px solid {{st.checkBorder}}; border-radius: 6px; background: {{st.checkBg}}; color: {{st.checkInk}}; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></button>
+          </div>
+        </sc-for>
+        <button type="button" style="height: 44px; margin-top: 2px; border: 0; border-radius: 6px; background: {{t.sf2}}; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">+ {{s.addSet}}</button>
+      </section>
+    </sc-for>
+    <a href="S08-Ejercicios.dc.html" style="height: 52px; border: 2px dashed {{t.line}}; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; text-decoration: none">+ {{s.addEx}}</a>
+  </main>
+
+  <sc-if value="{{confirm}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
+      <div role="alertdialog" aria-label="{{pendingTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase; line-height: 1">{{pendingTitle}}</h2>
+        <p style="margin: 0; font-size: 15px; color: {{t.ink2}}">{{s.pendingBody}}</p>
+        <a href="S06-Resumen.dc.html" style="height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.discardFinish}}</a>
+        <a href="S06-Resumen.dc.html" style="height: 52px; border-radius: 6px; border: 2px solid {{t.ink}}; color: {{t.ink}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; text-decoration: none">{{s.markDone}}</a>
+        <button type="button" onClick="{{cancel}}" style="height: 48px; border: 0; background: transparent; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{s.backToSession}}</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"speed":{"editor":"enum","options":["1","5","10"],"default":"5","section":"Demo"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', priBg: '#D45CFF', priInk: '#0E0F11', ok: '#5CD38A', okSoft: '#15301F', warn: '#FFB547' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', priBg: '#0E0F11', priInk: '#D45CFF', ok: '#2B8A3E', okSoft: '#E6F4EA', warn: '#B35C00' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { dec: ',', routine: 'Piernas A', setsWord: 'series', finish: 'Terminar', rest: 'DESCANSO', minus15: 'Restar 15 segundos', plus15: 'Sumar 15 segundos', skip: 'Saltar', nextSet: '¡A la siguiente serie!', setCol: 'SERIE', prevCol: 'ANTERIOR', warmTag: 'C', addSet: 'Agregar serie', addEx: 'Agregar ejercicio', restWord: 'Descanso', editKg: 'Editar peso de la serie', editReps: 'Editar repeticiones de la serie', complete: 'Completar serie', pending1: 'Hay', pending2: 'series sin completar', pendingBody: 'Puedes descartarlas, darlas por hechas con los valores sugeridos o seguir entrenando.', discardFinish: 'Descartarlas y terminar', markDone: 'Marcarlas como completas', backToSession: 'Volver a la sesión', ex: ['Sentadilla', 'Peso muerto rumano'] },
+  en: { dec: '.', routine: 'Legs A', setsWord: 'sets', finish: 'Finish', rest: 'REST', minus15: 'Subtract 15 seconds', plus15: 'Add 15 seconds', skip: 'Skip', nextSet: 'On to the next set!', setCol: 'SET', prevCol: 'PREVIOUS', warmTag: 'W', addSet: 'Add set', addEx: 'Add exercise', restWord: 'Rest', editKg: 'Edit weight for set', editReps: 'Edit reps for set', complete: 'Complete set', pending1: 'There are', pending2: 'unfinished sets', pendingBody: 'You can discard them, mark them done with the suggested values, or keep training.', discardFinish: 'Discard and finish', markDone: 'Mark them as done', backToSession: 'Back to session', ex: ['Squat', 'Romanian deadlift'] },
+  pt: { dec: ',', routine: 'Pernas A', setsWord: 'séries', finish: 'Terminar', rest: 'DESCANSO', minus15: 'Tirar 15 segundos', plus15: 'Adicionar 15 segundos', skip: 'Pular', nextSet: 'Bora para a próxima série!', setCol: 'SÉRIE', prevCol: 'ANTERIOR', warmTag: 'A', addSet: 'Adicionar série', addEx: 'Adicionar exercício', restWord: 'Descanso', editKg: 'Editar peso da série', editReps: 'Editar repetições da série', complete: 'Concluir série', pending1: 'Há', pending2: 'séries não concluídas', pendingBody: 'Você pode descartá-las, marcá-las como feitas com os valores sugeridos ou continuar treinando.', discardFinish: 'Descartar e terminar', markDone: 'Marcar como concluídas', backToSession: 'Voltar à sessão', ex: ['Agachamento', 'Levantamento terra romeno'] }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { t0: 0, done: { s0: true, s1: true }, restEnd: 0, confirm: false };
+    this.ex = [
+      { rest: 120, sets: [
+        { id: 's0', warm: true, prev: '40 × 10', kg: 40, reps: 10 },
+        { id: 's1', tag: '1', prev: '80 × 8', kg: 80, reps: 8 },
+        { id: 's2', tag: '2', prev: '80 × 8', kg: 80, reps: 8 },
+        { id: 's3', tag: '3', prev: '80 × 7', kg: 82.5, reps: 8 }
+      ] },
+      { rest: 120, sets: [
+        { id: 'r1', tag: '1', prev: '60 × 10', kg: 60, reps: 10 },
+        { id: 'r2', tag: '2', prev: '60 × 10', kg: 60, reps: 10 },
+        { id: 'r3', tag: '3', prev: '60 × 9', kg: 60, reps: 10 }
+      ] }
+    ];
+  }
+  componentDidMount() {
+    var now = Date.now();
+    this.setState({ t0: now - 32 * 60 * 1000, restEnd: now + (75 * 1000) / this.speed() });
+    var self = this;
+    this.iv = setInterval(function () { self.forceUpdate(); }, 200);
+  }
+  componentWillUnmount() {
+    clearInterval(this.iv);
+  }
+  speed() {
+    var s = Number(this.props.speed ?? '5');
+    return s > 0 ? s : 1;
+  }
+  fmt(sec) {
+    var m = Math.floor(sec / 60), r = sec % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  renderVals() {
+    var st = this.state, self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var now = Date.now(), sp = this.speed();
+    var restLeft = st.restEnd ? Math.ceil(((st.restEnd - now) / 1000) * sp) : 0;
+    var resting = restLeft > 0;
+    var restDone = !resting && st.restEnd && (now - st.restEnd) < 3000;
+    var doneCount = 0, totalSets = 0;
+    var exercises = this.ex.map(function (e, ei) {
+      return {
+        name: s.ex[ei],
+        rest: s.restWord + ' ' + self.fmt(e.rest),
+        sets: e.sets.map(function (x) {
+          var done = !!st.done[x.id];
+          totalSets += 1;
+          if (done) doneCount += 1;
+          var tag = x.warm ? s.warmTag : x.tag;
+          var nd = Object.assign({}, st.done); nd[x.id] = !done;
+          return {
+            tag: tag, prev: x.prev,
+            kg: String(x.kg).replace('.', s.dec), reps: x.reps, done: done,
+            kgAria: s.editKg + ' ' + tag, repsAria: s.editReps + ' ' + tag, checkAria: s.complete + ' ' + tag,
+            tagColor: x.warm ? t.warn : t.ink,
+            valColor: done ? t.ink : t.ink2,
+            rowBg: done ? t.okSoft : 'transparent',
+            checkBg: done ? t.ok : 'transparent',
+            checkBorder: done ? t.ok : t.line,
+            checkInk: done ? '#0E0F11' : t.ink2,
+            toggle: function () {
+              if (!done) self.setState({ done: nd, restEnd: Date.now() + (e.rest * 1000) / sp });
+              else self.setState({ done: nd });
+            }
+          };
+        })
+      };
+    });
+    var elapsedS = st.t0 ? Math.floor((now - st.t0) / 1000) : 0;
+    var pending = totalSets - doneCount;
+    return {
+      P: phasesFor(acento),
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      exercises: exercises, doneCount: doneCount, totalSets: totalSets,
+      hasPending: pending > 0, allDone: pending === 0,
+      pendingTitle: s.pending1 + ' ' + pending + ' ' + s.pending2,
+      elapsed: this.fmt(elapsedS),
+      resting: resting, restDone: !!restDone,
+      restLabel: this.fmt(Math.max(0, restLeft)),
+      minus15: function () { self.setState({ restEnd: st.restEnd - (15 * 1000) / sp }); },
+      plus15: function () { self.setState({ restEnd: st.restEnd + (15 * 1000) / sp }); },
+      skipRest: function () { self.setState({ restEnd: Date.now() - 5000 }); },
+      confirm: st.confirm,
+      finish: function () { self.setState({ confirm: true }); },
+      cancel: function () { self.setState({ confirm: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S19 · Notificación en curso</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@300;400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: #121316; color: #F2F3EF; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; padding: 72px 16px 24px; gap: 12px">
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 32px">
+    <span style="font-size: 72px; font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1">07:14</span>
+    <span style="font-size: 16px; color: #A2A7AD">{{s.date}}</span>
+    <span style="margin-top: 8px; font-size: 13px; color: #A2A7AD">{{s.locked}}</span>
+  </div>
+
+  <a href="S05-Temporizador.dc.html" style="display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 20px; background: #24262B; color: #F2F3EF; text-decoration: none">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #A2A7AD">
+      <span style="width: 20px; height: 20px; border-radius: 4px; background: {{A}}; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E0F11" stroke-width="3.2" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"></path></svg></span>
+      <span>Trainloop · Tabata 20/10</span>
+      <span style="margin-left: auto">{{s.ongoing}}</span>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 10px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase; color: {{P.work.bg}}">▲ {{s.work}}</span>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; font-variant-numeric: tabular-nums">0:14</span>
+      <span style="margin-left: auto; font-size: 14px; color: #A2A7AD">{{s.round}}</span>
+    </div>
+    <div style="height: 4px; border-radius: 2px; background: #3A3D44; overflow: hidden" aria-hidden="true"><div style="width: 34%; height: 4px; background: {{P.work.bg}}"></div></div>
+    <div style="display: flex; gap: 8px">
+      <span style="height: 40px; padding: 0 18px; border-radius: 20px; background: #3A3D44; display: flex; align-items: center; font-size: 14px; font-weight: 600">{{s.pause}}</span>
+      <span style="height: 40px; padding: 0 18px; border-radius: 20px; background: #3A3D44; display: flex; align-items: center; font-size: 14px; font-weight: 600">{{s.skip}}</span>
+    </div>
+  </a>
+
+  <a href="S10-SesionFuerza.dc.html" style="display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 20px; background: #24262B; color: #F2F3EF; text-decoration: none">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #A2A7AD">
+      <span style="width: 20px; height: 20px; border-radius: 4px; background: {{A}}; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0E0F11" stroke-width="3.2" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"></path></svg></span>
+      <span>Trainloop · {{s.routine}}</span>
+      <span style="margin-left: auto">{{s.strengthVariant}}</span>
+    </div>
+    <div style="display: flex; align-items: baseline; gap: 10px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase; color: {{P.rest.bg}}">● {{s.rest}}</span>
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; font-variant-numeric: tabular-nums">1:05</span>
+    </div>
+    <div style="height: 4px; border-radius: 2px; background: #3A3D44; overflow: hidden" aria-hidden="true"><div style="width: 46%; height: 4px; background: {{P.rest.bg}}"></div></div>
+    <span style="font-size: 14px; color: #A2A7AD">{{s.nextSet}}</span>
+    <div style="display: flex; gap: 8px">
+      <span style="height: 40px; padding: 0 18px; border-radius: 20px; background: #3A3D44; display: flex; align-items: center; font-size: 14px; font-weight: 600">+15 s</span>
+      <span style="height: 40px; padding: 0 18px; border-radius: 20px; background: #3A3D44; display: flex; align-items: center; font-size: 14px; font-weight: 600">{{s.skip}}</span>
+    </div>
+  </a>
+
+  <p style="margin: auto 0 0; font-size: 13px; color: #A2A7AD; line-height: 1.5">{{s.footnote}}</p>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { date: 'martes, 3 de noviembre', locked: 'Pantalla bloqueada', ongoing: 'en curso', work: 'Trabajo', round: 'Ronda 3/8', pause: 'Pausar', skip: 'Saltar', routine: 'Piernas A', strengthVariant: 'variante fuerza', rest: 'Descanso', nextSet: 'Siguiente: Sentadilla, serie 3 · 80 kg × 8', footnote: 'El tiempo avanza con el cronómetro nativo de la notificación. Sin datos sensibles en pantalla bloqueada. Tocar la notificación vuelve a la sesión. Siempre oscura: es la pantalla de bloqueo del sistema.' },
+  en: { date: 'Tuesday, November 3', locked: 'Lock screen', ongoing: 'ongoing', work: 'Work', round: 'Round 3/8', pause: 'Pause', skip: 'Skip', routine: 'Legs A', strengthVariant: 'strength variant', rest: 'Rest', nextSet: 'Next: Squat, set 3 · 80 kg × 8', footnote: 'Time runs on the notification’s native chronometer. No sensitive data on the lock screen. Tapping the notification returns to the session. Always dark: this is the system lock screen.' },
+  pt: { date: 'terça-feira, 3 de novembro', locked: 'Tela bloqueada', ongoing: 'em andamento', work: 'Trabalho', round: 'Rodada 3/8', pause: 'Pausar', skip: 'Pular', routine: 'Pernas A', strengthVariant: 'variante força', rest: 'Descanso', nextSet: 'Próximo: Agachamento, série 3 · 80 kg × 8', footnote: 'O tempo avança com o cronômetro nativo da notificação. Sem dados sensíveis na tela bloqueada. Tocar na notificação volta para a sessão. Sempre escura: é a tela de bloqueio do sistema.' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var idioma = this.props.idioma ?? 'es', acento = this.props.acento ?? 'orquidea';
+    return { s: STR[idioma] || STR.es, lang: idioma === 'pt' ? 'pt-BR' : idioma, P: phasesFor(acento), A: (ACC[acento] || ACC.orquidea).d };
+  }
+}
+</script>
+</body>
+</html>

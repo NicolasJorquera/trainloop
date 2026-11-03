@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S14 · Progreso</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 64px; padding: 0 20px; display: flex; align-items: center; flex-shrink: 0">
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: 0.3px">{{s.title}}</h1>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+    <section style="padding: 16px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.week}}</span>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <div style="display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 800; line-height: 1">2<span style="color: {{t.ink2}}">/4</span></span><span style="font-size: 12px; color: {{t.ink2}}">{{s.sessions}}</span></div>
+        <div style="display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 800; line-height: 1">71</span><span style="font-size: 12px; color: {{t.ink2}}">{{s.mins}}</span></div>
+        <div style="display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 800; line-height: 1; color: {{t.accText}}">3</span><span style="font-size: 12px; color: {{t.ink2}}">{{s.streak}}</span></div>
+      </div>
+    </section>
+
+    <section style="padding: 16px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 10px" aria-label="{{s.chartAria}}">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 0.3px">{{s.chartTitle}}</span>
+        <span style="font-size: 12px; color: {{t.ink2}}">{{s.chartSub}}</span>
+      </div>
+      <div style="position: relative; height: 128px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; align-items: end; border-bottom: 1px solid {{t.line}}">
+        <span style="position: absolute; left: 0; right: 0; bottom: 104px; border-top: 1px dashed {{t.ink2}}" aria-hidden="true"></span>
+        <span style="position: absolute; right: 0; bottom: 108px; font-size: 11px; color: {{t.ink2}}">{{s.goal}}</span>
+        <sc-for list="{{weeks}}" as="w" hint-placeholder-count="8">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+            <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: {{t.ink}}">{{w.n}}</span>
+            <span style="width: 100%; height: {{w.h}}px; border-radius: 2px 2px 0 0; background: {{t.barOn}}; opacity: {{w.o}}"></span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; font-size: 11px; color: {{t.ink2}}; text-align: center">
+        <sc-for list="{{labels}}" as="lb" hint-placeholder-count="8"><span>{{lb.l}}</span></sc-for>
+      </div>
+      <p style="margin: 0; font-size: 12px; color: {{t.ink2}}">{{s.chartNote}}</p>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.lastMarks}}</span>
+      <a href="S15-DetalleEjercicio.dc.html" style="display: flex; align-items: center; min-height: 56px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+        <span style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700">{{s.m1n}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{s.m1m}}</span></span>
+        <span style="padding: 3px 8px; border-radius: 4px; background: {{t.accSoft}}; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700">↑ {{s.pr}}</span>
+      </a>
+      <a href="S15-DetalleEjercicio.dc.html" style="display: flex; align-items: center; min-height: 56px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+        <span style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700">{{s.m2n}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{s.m2m}}</span></span>
+        <span style="font-size: 13px; color: {{t.ink2}}">= {{s.same}}</span>
+      </a>
+      <a href="S15-DetalleEjercicio.dc.html" style="display: flex; align-items: center; min-height: 56px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+        <span style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700">{{s.m3n}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{s.m3m}}</span></span>
+        <span style="font-size: 13px; color: {{t.ink2}}">{{s.complete}}</span>
+      </a>
+    </section>
+  </main>
+
+  <div style="margin: 8px 16px; height: 50px; flex-shrink: 0; border: 1px dashed {{t.line}}; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: {{t.ink2}}">{{s.ad}}</div>
+
+  <nav aria-label="{{s.navAria}}" style="height: 68px; flex-shrink: 0; background: {{t.nav}}; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>{{s.nHome}}</a>
+    <a href="S02-Entrenar.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg>{{s.nTrain}}</a>
+    <a href="S12-Historial.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{{s.nHist}}</a>
+    <a href="S14-Progreso.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink}}; font-size: 11px; font-weight: 600; letter-spacing: 0.6px; border-top: 3px solid {{t.navOn}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"></path></svg>{{s.nProg}}</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', accText: '#D45CFF', accSoft: '#2A1838', barOn: '#D45CFF', nav: '#141518', navOn: '#D45CFF' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', accText: '#8A2BBF', accSoft: '#F3E6FA', barOn: '#8A2BBF', nav: '#FFFFFF', navOn: '#8A2BBF' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { title: 'PROGRESO', week: 'ESTA SEMANA', sessions: 'sesiones', mins: 'min activos', streak: 'semanas de racha', chartAria: 'Sesiones por semana, últimas 8 semanas', chartTitle: 'SESIONES POR SEMANA', chartSub: 'promedio 3,3 · objetivo 4', goal: 'objetivo', labels: ['14 sep', '21', '28', '5 oct', '12', '19', '26', 'Hoy'], chartNote: 'Fuerza e intervalos cuentan igual. Toca una barra para ver sus sesiones.', lastMarks: 'ÚLTIMA MARCA POR EJERCICIO', m1n: 'SENTADILLA', m1m: '85 kg × 8 · lun 26 oct', pr: 'RÉCORD', m2n: 'PRESS DE BANCA', m2m: '62,5 kg × 6 · jue 22 oct', same: 'igual', m3n: 'INTERVALOS MARTES', m3m: '6/6 rondas · 6:00 de trabajo · mar 27 oct', complete: 'completo', ad: 'Anuncio · banner', navAria: 'Navegación principal', nHome: 'INICIO', nTrain: 'ENTRENAR', nHist: 'HISTORIAL', nProg: 'PROGRESO' },
+  en: { title: 'PROGRESS', week: 'THIS WEEK', sessions: 'sessions', mins: 'active min', streak: 'week streak', chartAria: 'Sessions per week, last 8 weeks', chartTitle: 'SESSIONS PER WEEK', chartSub: 'average 3.3 · goal 4', goal: 'goal', labels: ['Sep 14', '21', '28', 'Oct 5', '12', '19', '26', 'Today'], chartNote: 'Strength and intervals count the same. Tap a bar to see its sessions.', lastMarks: 'LATEST MARK PER EXERCISE', m1n: 'SQUAT', m1m: '85 kg × 8 · Mon Oct 26', pr: 'PR', m2n: 'BENCH PRESS', m2m: '62.5 kg × 6 · Thu Oct 22', same: 'same', m3n: 'TUESDAY INTERVALS', m3m: '6/6 rounds · 6:00 of work · Tue Oct 27', complete: 'complete', ad: 'Ad · banner', navAria: 'Main navigation', nHome: 'HOME', nTrain: 'TRAIN', nHist: 'HISTORY', nProg: 'PROGRESS' },
+  pt: { title: 'PROGRESSO', week: 'ESTA SEMANA', sessions: 'sessões', mins: 'min ativos', streak: 'semanas seguidas', chartAria: 'Sessões por semana, últimas 8 semanas', chartTitle: 'SESSÕES POR SEMANA', chartSub: 'média 3,3 · meta 4', goal: 'meta', labels: ['14 set', '21', '28', '5 out', '12', '19', '26', 'Hoje'], chartNote: 'Força e intervalos contam igual. Toque numa barra para ver as sessões.', lastMarks: 'ÚLTIMA MARCA POR EXERCÍCIO', m1n: 'AGACHAMENTO', m1m: '85 kg × 8 · seg 26 out', pr: 'RECORDE', m2n: 'SUPINO RETO', m2m: '62,5 kg × 6 · qui 22 out', same: 'igual', m3n: 'INTERVALOS DE TERÇA', m3m: '6/6 rodadas · 6:00 de trabalho · ter 27 out', complete: 'completo', ad: 'Anúncio · banner', navAria: 'Navegação principal', nHome: 'INÍCIO', nTrain: 'TREINAR', nHist: 'HISTÓRICO', nProg: 'PROGRESSO' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var data = [3, 4, 2, 4, 3, 4, 4, 2];
+    var weeks = data.map(function (n, i) {
+      return { n: n, h: Math.round((n / 4) * 104), o: i === data.length - 1 ? 1 : 0.5 };
+    });
+    var labels = s.labels.map(function (l) { return { l: l }; });
+    return { t: t, s: s, weeks: weeks, labels: labels, lang: idioma === 'pt' ? 'pt-BR' : idioma };
+  }
+}
+</script>
+</body>
+</html>

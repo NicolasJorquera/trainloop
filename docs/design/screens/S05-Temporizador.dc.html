@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S05 · Temporizador en ejecución</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{bg}}; color: {{fg}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; position: relative; transition: background 250ms">
+  <div style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0">
+    <div style="display: flex; gap: 3px; height: 6px" role="img" aria-label="{{progressAria}}">
+      <sc-for list="{{segments}}" as="g" hint-placeholder-count="16">
+        <span style="flex-grow: {{g.d}}; flex-basis: 0; height: 6px; background: {{fg}}; opacity: {{g.o}}"></span>
+      </sc-for>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; letter-spacing: 1px">
+      <span>TABATA 20/10</span>
+      <span>{{roundLabel}}</span>
+    </div>
+  </div>
+
+  <button type="button" onClick="{{togglePause}}" aria-label="{{pauseAria}}" style="flex-grow: 1; border: 0; background: transparent; color: inherit; font-family: inherit; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 0 20px; cursor: pointer; text-align: left">
+    <span style="font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 60px; line-height: 0.9" aria-live="polite">{{phaseLabel}}</span>
+    <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 188px; line-height: 0.85; letter-spacing: -3px; font-variant-numeric: tabular-nums; opacity: {{timeOpacity}}">{{remaining}}</span>
+    <span style="margin-top: 10px; font-size: 17px; font-weight: 500; opacity: 0.9">{{nextLabel}}</span>
+    <span style="min-height: 26px; margin-top: 10px; padding: 3px 10px; border-radius: 4px; border: 2px solid {{fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; opacity: {{cueOpacity}}">{{cue}}</span>
+  </button>
+
+  <sc-if value="{{locked}}" hint-placeholder-val="{{false}}">
+    <p style="margin: 0 20px 8px; font-size: 14px; font-weight: 600">{{s.lockedMsg}}</p>
+  </sc-if>
+
+  <div style="flex-shrink: 0; padding: 0 20px 14px; display: flex; align-items: center; justify-content: space-between">
+    <button type="button" onClick="{{prev}}" disabled="{{locked}}" aria-label="{{s.prev}}" style="width: 64px; height: 64px; border: 2px solid {{fg}}; border-radius: 6px; background: transparent; color: {{fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: {{ctrlOpacity}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 20 9 12l10-8zM5 19V5h2v14z"></path></svg></button>
+    <button type="button" onClick="{{togglePause}}" disabled="{{locked}}" aria-label="{{pauseAria}}" style="width: 152px; height: 88px; border: 0; border-radius: 6px; background: {{fg}}; color: {{bg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: {{ctrlOpacity}}">
+      <sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg></sc-if>
+      <sc-if value="{{running}}" hint-placeholder-val="{{true}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></sc-if>
+    </button>
+    <button type="button" onClick="{{skip}}" disabled="{{locked}}" aria-label="{{s.skip}}" style="width: 64px; height: 64px; border: 2px solid {{fg}}; border-radius: 6px; background: transparent; color: {{fg}}; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: {{ctrlOpacity}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4l10 8-10 8zM17 5h2v14h-2z"></path></svg></button>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 0 20px 28px; display: flex; gap: 10px">
+    <button type="button" onPointerDown="{{holdStart}}" onPointerUp="{{holdEnd}}" onPointerLeave="{{holdEnd}}" disabled="{{locked}}" aria-label="{{s.holdAria}}" style="flex-grow: 1; height: 56px; border: 2px solid {{fg}}; border-radius: 6px; background: transparent; color: {{fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 1px; position: relative; overflow: hidden; cursor: pointer; opacity: {{ctrlOpacity}}">
+      <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{holdPct}}%; background: {{fg}}; opacity: 0.3" aria-hidden="true"></span>
+      <span style="position: relative">{{s.hold}}</span>
+    </button>
+    <button type="button" onClick="{{toggleLock}}" aria-pressed="{{locked}}" aria-label="{{s.lock}}" style="width: 56px; height: 56px; border: 2px solid {{fg}}; border-radius: 6px; background: {{lockBg}}; color: {{lockFg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></button>
+  </div>
+
+  <sc-if value="{{finished}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(14,15,17,0.92); color: #F2F3EF; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 32px; box-sizing: border-box; text-align: center">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-size: 48px; font-weight: 800; line-height: 1">{{finishTitle}}</span>
+      <span style="font-size: 15px; color: #A2A7AD">{{s.finishCue}}</span>
+      <a href="S06-Resumen.dc.html" style="margin-top: 8px; height: 60px; width: 260px; border-radius: 6px; background: {{accBg}}; color: #0E0F11; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-decoration: none">{{s.summary}}</a>
+      <button type="button" onClick="{{restart}}" style="height: 48px; padding: 0 20px; border: 0; background: transparent; color: #F2F3EF; font-family: inherit; font-size: 15px; text-decoration: underline; cursor: pointer">{{s.repeatDemo}}</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"speed":{"editor":"enum","options":["1","5","10"],"default":"5","section":"Demo"},"$preview":{"width":390,"height":844}}'>
+var TYPES = {
+  prep: { icon: '■', key: 'prep' },
+  work: { icon: '▲', key: 'work' },
+  rest: { icon: '●', key: 'rest' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { prep: 'PREPÁRATE', work: 'TRABAJO', rest: 'DESCANSO', prepN: 'Preparación', workN: 'Trabajo', restN: 'Descanso', next: 'Siguiente', last: 'Última fase', round: 'RONDA', paused: 'EN PAUSA', pause: 'Pausar', resume: 'Reanudar', prev: 'Volver al inicio de la fase', skip: 'Saltar a la siguiente fase', hold: 'MANTÉN PARA DETENER', holdAria: 'Mantén presionado para detener la sesión', lock: 'Bloquear controles', lockedMsg: 'Controles bloqueados · toca el candado para desbloquear', voice: 'VOZ', beep: 'PITIDO', vibLong: 'VIBRACIÓN LARGA', vibDouble: '2 VIBRACIONES', pausedCue: 'TOCA PARA REANUDAR', done: '¡SESIÓN COMPLETA!', stopped: 'SESIÓN DETENIDA', finishCue: 'Sonido final distinto + vibración larga', summary: 'VER RESUMEN', repeatDemo: 'Repetir demo', phaseOf: 'Fase', of: 'de' },
+  en: { prep: 'GET READY', work: 'WORK', rest: 'REST', prepN: 'Get ready', workN: 'Work', restN: 'Rest', next: 'Next', last: 'Last phase', round: 'ROUND', paused: 'PAUSED', pause: 'Pause', resume: 'Resume', prev: 'Back to phase start', skip: 'Skip to next phase', hold: 'HOLD TO STOP', holdAria: 'Press and hold to stop the session', lock: 'Lock controls', lockedMsg: 'Controls locked · tap the lock to unlock', voice: 'VOICE', beep: 'BEEP', vibLong: 'LONG VIBRATION', vibDouble: '2 VIBRATIONS', pausedCue: 'TAP TO RESUME', done: 'SESSION COMPLETE!', stopped: 'SESSION STOPPED', finishCue: 'Distinct end sound + long vibration', summary: 'SEE SUMMARY', repeatDemo: 'Repeat demo', phaseOf: 'Phase', of: 'of' },
+  pt: { prep: 'PREPARE-SE', work: 'TRABALHO', rest: 'DESCANSO', prepN: 'Preparação', workN: 'Trabalho', restN: 'Descanso', next: 'Próximo', last: 'Última fase', round: 'RODADA', paused: 'PAUSADO', pause: 'Pausar', resume: 'Retomar', prev: 'Voltar ao início da fase', skip: 'Pular para a próxima fase', hold: 'SEGURE PARA PARAR', holdAria: 'Toque e segure para parar a sessão', lock: 'Bloquear controles', lockedMsg: 'Controles bloqueados · toque no cadeado para desbloquear', voice: 'VOZ', beep: 'BIPE', vibLong: 'VIBRAÇÃO LONGA', vibDouble: '2 VIBRAÇÕES', pausedCue: 'TOQUE PARA RETOMAR', done: 'SESSÃO CONCLUÍDA!', stopped: 'SESSÃO INTERROMPIDA', finishCue: 'Som final diferente + vibração longa', summary: 'VER RESUMO', repeatDemo: 'Repetir demo', phaseOf: 'Fase', of: 'de' }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { start: 0, pausedMs: 0, paused: false, pauseAt: 0, offset: 0, stopped: false, holdAt: 0, locked: false };
+    var ph = [{ k: 'prep', d: 10 }];
+    for (var i = 1; i <= 8; i++) {
+      ph.push({ k: 'work', d: 20, r: i });
+      if (i < 8) ph.push({ k: 'rest', d: 10, r: i });
+    }
+    this.phases = ph;
+    this.total = ph.reduce(function (a, p) { return a + p.d; }, 0);
+  }
+  componentDidMount() {
+    var self = this;
+    this.setState({ start: Date.now() });
+    this.iv = setInterval(function () {
+      var st = self.state;
+      if (st.holdAt && Date.now() - st.holdAt >= 1000) {
+        self.setState({ stopped: true, holdAt: 0, paused: true, pauseAt: Date.now() });
+      } else {
+        self.forceUpdate();
+      }
+    }, 100);
+  }
+  componentWillUnmount() { clearInterval(this.iv); }
+  speed() { var s = Number(this.props.speed ?? '5'); return s > 0 ? s : 1; }
+  elapsed() {
+    var st = this.state;
+    if (!st.start) return 0;
+    var now = st.paused ? st.pauseAt : Date.now();
+    return Math.max(0, ((now - st.start - st.pausedMs) / 1000) * this.speed() + st.offset);
+  }
+  locate(e) {
+    var acc = 0;
+    for (var i = 0; i < this.phases.length; i++) {
+      if (e < acc + this.phases[i].d) return { i: i, start: acc };
+      acc += this.phases[i].d;
+    }
+    var last = this.phases.length - 1;
+    return { i: last, start: acc - this.phases[last].d };
+  }
+  fmt(s) { var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+  renderVals() {
+    var st = this.state, self = this;
+    var idioma = this.props.idioma ?? 'es', s = STR[idioma] || STR.es;
+    var e = this.elapsed();
+    var done = e >= this.total, finished = done || st.stopped;
+    var loc = this.locate(Math.min(e, this.total - 0.001));
+    var cur = this.phases[loc.i], next = this.phases[loc.i + 1];
+    var inPhase = e - loc.start;
+    var rem = Math.max(0, Math.ceil(cur.d - inPhase));
+    var acento = this.props.acento ?? 'orquidea', P = phasesFor(acento);
+    var ty = { icon: TYPES[cur.k].icon, bg: P[cur.k].bg, fg: P[cur.k].ink };
+    var round = 1;
+    for (var j = 0; j <= loc.i; j++) if (this.phases[j].k === 'work') round = this.phases[j].r;
+    var cue = '';
+    if (inPhase < 1.5 / Math.max(1, this.speed() / 2)) cue = s.voice + ': ' + s[cur.k] + (cur.k === 'work' ? ' · ' + s.vibLong : cur.k === 'rest' ? ' · ' + s.vibDouble : '');
+    else if (rem <= 3 && rem > 0) cue = s.beep + ' ' + rem;
+    if (st.paused && !finished) cue = s.pausedCue;
+    var holdPct = st.holdAt ? Math.min(100, Math.round(((Date.now() - st.holdAt) / 1000) * 100)) : 0;
+    return {
+      lang: idioma === 'pt' ? 'pt-BR' : idioma, s: s,
+      bg: ty.bg, fg: ty.fg, accBg: (ACC[acento] || ACC.orquidea).d,
+      phaseLabel: st.paused && !finished ? s.paused : ty.icon + ' ' + s[cur.k],
+      remaining: this.fmt(rem),
+      timeOpacity: st.paused ? 0.55 : 1,
+      nextLabel: next ? s.next + ': ' + s[next.k + 'N'] + ' ' + this.fmt(next.d) : s.last,
+      cue: cue || ' ', cueOpacity: cue ? 1 : 0,
+      roundLabel: s.round + ' ' + round + '/8',
+      progressAria: s.phaseOf + ' ' + (loc.i + 1) + ' ' + s.of + ' ' + this.phases.length,
+      segments: this.phases.map(function (p, k) { return { d: p.d, o: k < loc.i ? 1 : k === loc.i ? 0.7 : 0.25 }; }),
+      paused: st.paused, running: !st.paused,
+      pauseAria: st.paused ? s.resume : s.pause,
+      locked: st.locked, ctrlOpacity: st.locked ? 0.35 : 1,
+      lockBg: st.locked ? ty.fg : 'transparent', lockFg: st.locked ? ty.bg : ty.fg,
+      holdPct: holdPct, finished: finished,
+      finishTitle: st.stopped && !done ? s.stopped : s.done,
+      togglePause: function () {
+        if (st.locked || finished) return;
+        if (st.paused) self.setState({ paused: false, pausedMs: st.pausedMs + (Date.now() - st.pauseAt) });
+        else self.setState({ paused: true, pauseAt: Date.now() });
+      },
+      skip: function () { if (st.locked) return; self.setState({ offset: st.offset + (loc.start + cur.d - e) }); },
+      prev: function () {
+        if (st.locked) return;
+        if (inPhase > 2 || loc.i === 0) self.setState({ offset: st.offset - inPhase });
+        else self.setState({ offset: st.offset - inPhase - self.phases[loc.i - 1].d });
+      },
+      holdStart: function () { if (!st.locked) self.setState({ holdAt: Date.now() }); },
+      holdEnd: function () { if (st.holdAt) self.setState({ holdAt: 0 }); },
+      toggleLock: function () { self.setState({ locked: !st.locked }); },
+      restart: function () { self.setState({ start: Date.now(), pausedMs: 0, paused: false, pauseAt: 0, offset: 0, stopped: false, holdAt: 0, locked: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

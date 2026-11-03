@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S13 · Detalle de sesión</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; position: relative">
+  <header style="height: 64px; padding: 0 8px 0 4px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+    <a href="S12-Historial.dc.html" aria-label="{{s.back}}" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <h1 style="margin: 0; flex-grow: 1; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: 0.3px">{{s.title}}</h1>
+    <a href="S10-SesionFuerza.dc.html" style="height: 40px; padding: 0 14px; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.6px; color: {{t.accText}}; text-decoration: none">{{s.edit}}</a>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px 16px; display: flex; flex-direction: column; gap: 12px; overflow: hidden">
+    <div style="display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 14px; color: {{t.ink2}}">
+      <span>{{s.when}}</span><span>52 min</span><span>{{s.effort}}</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+      <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.vol}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800">{{s.volV}}</span></div>
+      <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.sets}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800">18</span></div>
+      <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.prs}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; color: {{t.accText}}">1</span></div>
+    </div>
+
+    <section style="padding: 12px 14px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 6px">
+      <a href="S15-DetalleEjercicio.dc.html" style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; color: {{t.ink}}; text-decoration: none">{{s.ex1}} ›</a>
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px; color: {{t.ink}}">
+        <thead><tr style="color: {{t.ink2}}; font-size: 12px; text-align: left"><th style="font-weight: 600; letter-spacing: 1px; padding: 4px 0">{{s.hSet}}</th><th style="font-weight: 600">KG</th><th style="font-weight: 600">{{s.hReps}}</th><th style="font-weight: 600">RPE</th></tr></thead>
+        <tbody>
+          <tr><td style="padding: 6px 0; color: {{t.warn}}; font-weight: 700">{{s.warmTag}}</td><td>40</td><td>10</td><td>—</td></tr>
+          <tr><td style="padding: 6px 0">1</td><td>80</td><td>8</td><td>7</td></tr>
+          <tr><td style="padding: 6px 0">2</td><td>80</td><td>8</td><td>8</td></tr>
+          <tr><td style="padding: 6px 0">3</td><td style="font-weight: 700">85</td><td style="font-weight: 700">8</td><td>9 · <span style="padding: 2px 6px; border-radius: 4px; background: {{t.accSoft}}; color: {{t.accText}}; font-weight: 700; font-size: 12px">{{s.pr}}</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section style="padding: 12px 14px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 4px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700">{{s.ex2}}</span>
+      <span style="font-size: 14px; color: {{t.ink2}}">{{s.ex2m}}</span>
+    </section>
+    <section style="padding: 12px 14px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 4px">
+      <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700">{{s.ex3}}</span>
+      <span style="font-size: 14px; color: {{t.ink2}}">{{s.ex3m}}</span>
+    </section>
+    <p style="margin: 0; padding: 10px 12px; border-radius: 8px; background: {{t.sf}}; font-size: 14px"><strong style="font-weight: 600">{{s.noteL}}</strong> {{s.note}}</p>
+
+    <div style="display: flex; gap: 8px; margin-top: auto">
+      <a href="S07-EditorRutina.dc.html" style="flex-grow: 1; height: 52px; border-radius: 6px; border: 2px solid {{t.ink}}; color: {{t.ink}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.6px; text-decoration: none">{{s.saveRoutine}}</a>
+      <button type="button" onClick="{{ask}}" style="height: 52px; padding: 0 18px; border: 2px solid {{t.danger}}; border-radius: 6px; background: transparent; color: {{t.danger}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.6px; cursor: pointer">{{s.del}}</button>
+    </div>
+  </main>
+
+  <sc-if value="{{confirm}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
+      <div role="alertdialog" aria-label="{{s.dTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800">{{s.dTitle}}</h2>
+        <p style="margin: 0; font-size: 15px; color: {{t.ink2}}">{{s.dBody}}</p>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px">
+          <button type="button" onClick="{{cancel}}" style="height: 48px; padding: 0 16px; border: 0; border-radius: 6px; background: transparent; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; cursor: pointer">{{s.cancel}}</button>
+          <a href="S12-Historial.dc.html" style="height: 48px; padding: 0 18px; border-radius: 6px; background: {{t.danger}}; color: {{t.onDanger}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-decoration: none">{{s.del}}</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', accText: '#D45CFF', accSoft: '#2A1838', danger: '#FF6B6B', onDanger: '#0E0F11', warn: '#FFB547' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', accText: '#8A2BBF', accSoft: '#F3E6FA', danger: '#C92A2A', onDanger: '#FFFFFF', warn: '#B35C00' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { back: 'Volver', title: 'PIERNAS A', edit: 'EDITAR', when: 'Lun 26 oct · 18:12', effort: 'Esfuerzo 8/10', vol: 'VOLUMEN', volV: '6.240 kg', sets: 'SERIES', prs: 'RÉCORDS', ex1: 'SENTADILLA', hSet: 'SERIE', hReps: 'REPS', warmTag: 'C', pr: 'RÉCORD', ex2: 'PESO MUERTO RUMANO', ex2m: '3 series · 60 kg × 10, 10, 10', ex3: 'PRENSA DE PIERNAS', ex3m: '3 series · 140 kg × 12, 12, 11', noteL: 'Nota:', note: 'buena profundidad, subir 2,5 kg la próxima.', saveRoutine: 'GUARDAR COMO RUTINA', del: 'ELIMINAR', dTitle: '¿Eliminar esta sesión?', dBody: 'Se recalcularán tus récords. Tendrás 5 segundos para deshacer.', cancel: 'CANCELAR' },
+  en: { back: 'Back', title: 'LEGS A', edit: 'EDIT', when: 'Mon Oct 26 · 6:12 PM', effort: 'Effort 8/10', vol: 'VOLUME', volV: '6,240 kg', sets: 'SETS', prs: 'RECORDS', ex1: 'SQUAT', hSet: 'SET', hReps: 'REPS', warmTag: 'W', pr: 'PR', ex2: 'ROMANIAN DEADLIFT', ex2m: '3 sets · 60 kg × 10, 10, 10', ex3: 'LEG PRESS', ex3m: '3 sets · 140 kg × 12, 12, 11', noteL: 'Note:', note: 'good depth, add 2.5 kg next time.', saveRoutine: 'SAVE AS ROUTINE', del: 'DELETE', dTitle: 'Delete this session?', dBody: 'Your records will be recalculated. You will have 5 seconds to undo.', cancel: 'CANCEL' },
+  pt: { back: 'Voltar', title: 'PERNAS A', edit: 'EDITAR', when: 'Seg 26 out · 18:12', effort: 'Esforço 8/10', vol: 'VOLUME', volV: '6.240 kg', sets: 'SÉRIES', prs: 'RECORDES', ex1: 'AGACHAMENTO', hSet: 'SÉRIE', hReps: 'REPS', warmTag: 'A', pr: 'RECORDE', ex2: 'LEVANTAMENTO TERRA ROMENO', ex2m: '3 séries · 60 kg × 10, 10, 10', ex3: 'LEG PRESS', ex3m: '3 séries · 140 kg × 12, 12, 11', noteL: 'Nota:', note: 'boa profundidade, subir 2,5 kg na próxima.', saveRoutine: 'SALVAR COMO ROTINA', del: 'EXCLUIR', dTitle: 'Excluir esta sessão?', dBody: 'Seus recordes serão recalculados. Você terá 5 segundos para desfazer.', cancel: 'CANCELAR' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    return {
+      t: accTok(TOK[tema] || TOK.oscuro, tema, acento), s: STR[idioma] || STR.es, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      confirm: !!st.confirm,
+      ask: function () { self.setState({ confirm: true }); },
+      cancel: function () { self.setState({ confirm: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

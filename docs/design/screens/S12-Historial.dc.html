@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S12 · Historial y calendario</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 64px; padding: 0 20px; display: flex; align-items: center; flex-shrink: 0">
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; letter-spacing: 0.3px">{{s.title}}</h1>
+  </header>
+
+  <div role="tablist" aria-label="{{s.tabsAria}}" style="margin: 0 16px 12px; padding: 4px; background: {{t.sf}}; border-radius: 8px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; flex-shrink: 0">
+    <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+      <button role="tab" aria-selected="{{tb.on}}" onClick="{{tb.pick}}" style="height: 40px; border: 0; border-radius: 6px; background: {{tb.bg}}; color: {{tb.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.6px; cursor: pointer">{{tb.label}}</button>
+    </sc-for>
+  </div>
+
+  <main style="flex-grow: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+    <sc-if value="{{isWeek}}" hint-placeholder-val="{{true}}">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700">{{s.weekHead}}</span>
+          <div style="display: flex; gap: 4px" role="group" aria-label="{{s.variantAria}}">
+            <button type="button" onClick="{{unified}}" aria-pressed="{{isUnified}}" style="height: 32px; padding: 0 10px; border: 2px solid {{t.ink}}; border-radius: 4px; background: {{uBg}}; color: {{uFg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.4px; cursor: pointer">{{s.unified}}</button>
+            <button type="button" onClick="{{separate}}" aria-pressed="{{isSeparate}}" style="height: 32px; padding: 0 10px; border: 2px solid {{t.ink}}; border-radius: 4px; background: {{sBg}}; color: {{sFg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.4px; cursor: pointer">{{s.separate}}</button>
+          </div>
+        </div>
+
+        <sc-if value="{{isUnified}}" hint-placeholder-val="{{true}}">
+          <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+            <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+              <li style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 12px; background: {{t.sf}}; border-radius: 8px">
+                <span style="width: 40px; font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: {{t.ink2}}; letter-spacing: 0.4px">{{d.day}}</span>
+                <span style="width: 28px; height: 28px; border-radius: 4px; border: 2px {{d.ringStyle}} {{d.ringColor}}; background: {{d.dotBg}}; color: {{t.markInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; box-sizing: border-box" aria-hidden="true">{{d.letter}}</span>
+                <span style="flex-grow: 1; display: flex; flex-direction: column">
+                  <span style="font-size: 15px; font-weight: 500">{{d.title}}</span>
+                  <span style="font-size: 12px; color: {{t.ink2}}">{{d.meta}}</span>
+                </span>
+              </li>
+            </sc-for>
+          </ol>
+          <p style="margin: 0; font-size: 12px; color: {{t.ink2}}">{{s.legend}}</p>
+        </sc-if>
+
+        <sc-if value="{{isSeparate}}" hint-placeholder-val="{{false}}">
+          <section style="padding: 12px 14px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700; color: {{t.accText}}">{{s.sepStr}}</span>
+            <span style="font-size: 14px">{{s.sepStr1}}</span>
+            <span style="font-size: 14px; color: {{t.ink2}}">{{s.sepStr2}}</span>
+          </section>
+          <section style="padding: 12px 14px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+            <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700; color: {{t.intv}}">{{s.sepInt}}</span>
+            <span style="font-size: 14px">{{s.sepInt1}}</span>
+            <span style="font-size: 14px; color: {{t.ink2}}">{{s.sepInt2}}</span>
+          </section>
+          <p style="margin: 0; font-size: 12px; color: {{t.ink2}}">{{s.sepNote}}</p>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isList}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.thisWeek}}</span>
+        <sc-for list="{{list1}}" as="it" hint-placeholder-count="2">
+          <a href="S13-DetalleSesion.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+            <span style="width: 32px; height: 32px; border-radius: 4px; background: {{it.c}}; color: {{t.markInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800" aria-hidden="true">{{it.letter}}</span>
+            <span style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 500">{{it.name}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{it.meta}}</span></span>
+          </a>
+        </sc-for>
+        <span style="margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.lastWeek}}</span>
+        <sc-for list="{{list2}}" as="it" hint-placeholder-count="2">
+          <a href="S13-DetalleSesion.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+            <span style="width: 32px; height: 32px; border-radius: 4px; background: {{it.c}}; color: {{t.markInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800" aria-hidden="true">{{it.letter}}</span>
+            <span style="flex-grow: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 500">{{it.name}}</span><span style="font-size: 12px; color: {{t.ink2}}">{{it.meta}}</span></span>
+          </a>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isCal}}" hint-placeholder-val="{{false}}">
+      <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <button type="button" aria-label="{{s.prevMonth}}" style="width: 44px; height: 44px; border: 0; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">‹</button>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 0.4px">{{s.month}}</span>
+          <button type="button" aria-label="{{s.nextMonth}}" style="width: 44px; height: 44px; border: 0; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">›</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: {{t.ink2}}">
+          <sc-for list="{{wd}}" as="w" hint-placeholder-count="7"><span>{{w.l}}</span></sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px">
+          <sc-for list="{{cells}}" as="c" hint-placeholder-count="35">
+            <span style="height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; border-radius: 4px; background: {{c.bg}}">
+              <span style="font-size: 14px; color: {{t.ink}}">{{c.n}}</span>
+              <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 800; color: {{c.color}}">{{c.mark}}</span>
+            </span>
+          </sc-for>
+        </div>
+      </div>
+      <a href="S13-DetalleSesion.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 14px; background: {{t.sf}}; border-radius: 8px; color: {{t.ink}}; text-decoration: none">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: {{t.ink2}}; width: 60px">{{s.calDay}}</span>
+        <span style="flex-grow: 1; font-size: 15px; font-weight: 500">{{s.calItem}}</span>
+      </a>
+    </sc-if>
+  </main>
+
+  <div style="margin: 8px 16px; height: 50px; flex-shrink: 0; border: 1px dashed {{t.line}}; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: {{t.ink2}}">{{s.ad}}</div>
+
+  <nav aria-label="{{s.navAria}}" style="height: 68px; flex-shrink: 0; background: {{t.nav}}; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>{{s.nHome}}</a>
+    <a href="S02-Entrenar.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg>{{s.nTrain}}</a>
+    <a href="S12-Historial.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink}}; font-size: 11px; font-weight: 600; letter-spacing: 0.6px; border-top: 3px solid {{t.navOn}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{{s.nHist}}</a>
+    <a href="S14-Progreso.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"></path></svg>{{s.nProg}}</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"vista":{"editor":"enum","options":["semana","lista","calendario"],"default":"semana"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', intv: '#2BB3A3', markInk: '#0E0F11', off: '#34383E', nav: '#141518', navOn: '#D45CFF', today: '#2A1838' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', intv: '#087F73', markInk: '#FFFFFF', off: '#C9CBC4', nav: '#FFFFFF', navOn: '#8A2BBF', today: '#F3E6FA' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { title: 'HISTORIAL', tabsAria: 'Vista del historial', tabs: ['SEMANA', 'LISTA', 'CALENDARIO'], weekHead: 'ESTA SEMANA · 2 DE 4', variantAria: 'Variante de la vista semanal (test)', unified: 'UNIFICADA', separate: 'SEPARADA', F: 'F', I: 'I',
+    days: ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'], dLegs: 'Piernas A', dInt: 'Intervalos martes', dRest: 'Descanso', dPush: 'Empuje', dTab: 'Tabata 20/10', dFree: 'Libre', mLegs: 'Hecho · 52 min · 6.240 kg', mInt: 'Hecho · 19 min · 6/6 rondas', planned: 'Planificado',
+    legend: 'F = fuerza (morado) · I = intervalos (verde azulado) · relleno = hecho · contorno = planificado',
+    sepStr: 'FUERZA · 1 DE 2', sepStr1: '✓ Lun · Piernas A · 52 min', sepStr2: '○ Jue · Empuje (planificado)', sepInt: 'INTERVALOS · 1 DE 2', sepInt1: '✓ Mar · Intervalos martes · 19 min', sepInt2: '○ Vie · Tabata 20/10 (planificado)', sepNote: 'Variante para comparar en el test de usabilidad (hipótesis H5).',
+    thisWeek: 'ESTA SEMANA · 2 SESIONES · 71 MIN', lastWeek: 'SEMANA ANTERIOR · 4 SESIONES · 148 MIN',
+    l1n: 'Intervalos martes', l1m: 'Mar 27 oct · 19 min · 6/6 rondas', l2n: 'Piernas A', l2m: 'Lun 26 oct · 52 min · 6.240 kg', l3n: 'Tabata 20/10', l3m: 'Sáb 24 oct · 4 min · incompleta', l4n: 'Empuje', l4m: 'Jue 22 oct · 58 min · 5.120 kg',
+    prevMonth: 'Mes anterior', nextMonth: 'Mes siguiente', month: 'OCTUBRE 2026', wd: ['L', 'M', 'M', 'J', 'V', 'S', 'D'], calDay: 'MAR 27', calItem: 'Intervalos martes · 19 min',
+    ad: 'Anuncio · banner', navAria: 'Navegación principal', nHome: 'INICIO', nTrain: 'ENTRENAR', nHist: 'HISTORIAL', nProg: 'PROGRESO' },
+  en: { title: 'HISTORY', tabsAria: 'History view', tabs: ['WEEK', 'LIST', 'CALENDAR'], weekHead: 'THIS WEEK · 2 OF 4', variantAria: 'Weekly view variant (test)', unified: 'UNIFIED', separate: 'SEPARATE', F: 'S', I: 'I',
+    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'], dLegs: 'Legs A', dInt: 'Tuesday intervals', dRest: 'Rest', dPush: 'Push', dTab: 'Tabata 20/10', dFree: 'Free', mLegs: 'Done · 52 min · 6,240 kg', mInt: 'Done · 19 min · 6/6 rounds', planned: 'Planned',
+    legend: 'S = strength (purple) · I = intervals (teal) · filled = done · outline = planned',
+    sepStr: 'STRENGTH · 1 OF 2', sepStr1: '✓ Mon · Legs A · 52 min', sepStr2: '○ Thu · Push (planned)', sepInt: 'INTERVALS · 1 OF 2', sepInt1: '✓ Tue · Tuesday intervals · 19 min', sepInt2: '○ Fri · Tabata 20/10 (planned)', sepNote: 'Variant to compare in the usability test (hypothesis H5).',
+    thisWeek: 'THIS WEEK · 2 SESSIONS · 71 MIN', lastWeek: 'LAST WEEK · 4 SESSIONS · 148 MIN',
+    l1n: 'Tuesday intervals', l1m: 'Tue Oct 27 · 19 min · 6/6 rounds', l2n: 'Legs A', l2m: 'Mon Oct 26 · 52 min · 6,240 kg', l3n: 'Tabata 20/10', l3m: 'Sat Oct 24 · 4 min · incomplete', l4n: 'Push', l4m: 'Thu Oct 22 · 58 min · 5,120 kg',
+    prevMonth: 'Previous month', nextMonth: 'Next month', month: 'OCTOBER 2026', wd: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], calDay: 'TUE 27', calItem: 'Tuesday intervals · 19 min',
+    ad: 'Ad · banner', navAria: 'Main navigation', nHome: 'HOME', nTrain: 'TRAIN', nHist: 'HISTORY', nProg: 'PROGRESS' },
+  pt: { title: 'HISTÓRICO', tabsAria: 'Visualização do histórico', tabs: ['SEMANA', 'LISTA', 'CALENDÁRIO'], weekHead: 'ESTA SEMANA · 2 DE 4', variantAria: 'Variante da visão semanal (teste)', unified: 'UNIFICADA', separate: 'SEPARADA', F: 'F', I: 'I',
+    days: ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'], dLegs: 'Pernas A', dInt: 'Intervalos de terça', dRest: 'Descanso', dPush: 'Empurrar', dTab: 'Tabata 20/10', dFree: 'Livre', mLegs: 'Feito · 52 min · 6.240 kg', mInt: 'Feito · 19 min · 6/6 rodadas', planned: 'Planejado',
+    legend: 'F = força (roxo) · I = intervalos (verde-azulado) · cheio = feito · contorno = planejado',
+    sepStr: 'FORÇA · 1 DE 2', sepStr1: '✓ Seg · Pernas A · 52 min', sepStr2: '○ Qui · Empurrar (planejado)', sepInt: 'INTERVALOS · 1 DE 2', sepInt1: '✓ Ter · Intervalos de terça · 19 min', sepInt2: '○ Sex · Tabata 20/10 (planejado)', sepNote: 'Variante para comparar no teste de usabilidade (hipótese H5).',
+    thisWeek: 'ESTA SEMANA · 2 SESSÕES · 71 MIN', lastWeek: 'SEMANA ANTERIOR · 4 SESSÕES · 148 MIN',
+    l1n: 'Intervalos de terça', l1m: 'Ter 27 out · 19 min · 6/6 rodadas', l2n: 'Pernas A', l2m: 'Seg 26 out · 52 min · 6.240 kg', l3n: 'Tabata 20/10', l3m: 'Sáb 24 out · 4 min · incompleta', l4n: 'Empurrar', l4m: 'Qui 22 out · 58 min · 5.120 kg',
+    prevMonth: 'Mês anterior', nextMonth: 'Próximo mês', month: 'OUTUBRO 2026', wd: ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'], calDay: 'TER 27', calItem: 'Intervalos de terça · 19 min',
+    ad: 'Anúncio · banner', navAria: 'Navegação principal', nHome: 'INÍCIO', nTrain: 'TREINAR', nHist: 'HISTÓRICO', nProg: 'PROGRESSO' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var P = phasesFor(acento);
+    t.markInk = '#0E0F11'; t.today = t.accSoft;
+    t.intv = tema === 'claro' ? (P.rest.bg === '#4D9FFF' ? '#1F5FC9' : '#0B7A6E') : P.rest.bg;
+    var view = st.view || this.props.vista || 'semana';
+    var variant = st.variant || 'unificada';
+    var self = this;
+    var ids = ['semana', 'lista', 'calendario'];
+    var tabs = ids.map(function (id, i) {
+      var on = view === id;
+      return { label: s.tabs[i], on: on, bg: on ? t.ink : 'transparent', fg: on ? t.bg : t.ink2, pick: function () { self.setState({ view: id }); } };
+    });
+    var F = (ACC[acento] || ACC.orquidea).d, I = P.rest.bg;
+    var plan = [
+      { k: 'F', title: s.dLegs, meta: s.mLegs, done: true },
+      { k: 'I', title: s.dInt, meta: s.mInt, done: true },
+      { k: '', title: s.dRest, meta: '', done: false },
+      { k: 'F', title: s.dPush, meta: s.planned, done: false },
+      { k: 'I', title: s.dTab, meta: s.planned, done: false },
+      { k: '', title: s.dFree, meta: '', done: false },
+      { k: '', title: s.dFree, meta: '', done: false }
+    ];
+    var days = plan.map(function (d, i) {
+      var c = d.k === 'F' ? F : d.k === 'I' ? I : t.off;
+      return { day: s.days[i], letter: d.done ? s[d.k] : '', title: d.title, meta: d.meta, ringStyle: d.k ? 'solid' : 'dotted', ringColor: c, dotBg: d.done ? c : 'transparent' };
+    });
+    var list1 = [{ letter: s.I, c: I, name: s.l1n, meta: s.l1m }, { letter: s.F, c: F, name: s.l2n, meta: s.l2m }];
+    var list2 = [{ letter: s.I, c: I, name: s.l3n, meta: s.l3m }, { letter: s.F, c: F, name: s.l4n, meta: s.l4m }];
+    var marks = { 1: 'F', 3: 'I', 5: 'F', 6: 'I', 8: 'F', 10: 'I', 12: 'F', 13: 'I', 15: 'F', 17: 'I', 19: 'F', 20: 'I', 22: 'F', 24: 'I', 26: 'F', 27: 'I' };
+    var cells = [];
+    for (var k = 0; k < 3; k++) cells.push({ n: '', mark: '', color: t.ink, bg: 'transparent' });
+    for (var n = 1; n <= 31; n++) {
+      var m = marks[n] || '';
+      cells.push({ n: n, mark: m ? s[m] : '', color: m === 'F' ? t.accText : t.intv, bg: n === 27 ? t.today : 'transparent' });
+    }
+    while (cells.length % 7) cells.push({ n: '', mark: '', color: t.ink, bg: 'transparent' });
+    var wd = s.wd.map(function (l) { return { l: l }; });
+    var isUnified = variant === 'unificada';
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      tabs: tabs,
+      isWeek: view === 'semana', isList: view === 'lista', isCal: view === 'calendario',
+      days: days, list1: list1, list2: list2, cells: cells, wd: wd,
+      isUnified: isUnified, isSeparate: !isUnified,
+      uBg: isUnified ? t.ink : 'transparent', uFg: isUnified ? t.bg : t.ink,
+      sBg: !isUnified ? t.ink : 'transparent', sFg: !isUnified ? t.bg : t.ink,
+      unified: function () { self.setState({ variant: 'unificada' }); },
+      separate: function () { self.setState({ variant: 'separada' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

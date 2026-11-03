@@ -1,0 +1,14 @@
+<!-- @dsCard group="Navegación" height=150 subtitle="Vistas y opciones excluyentes; chips de filtro" -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap">
+<div style="padding:16px;background:var(--bg);display:flex;flex-direction:column;gap:14px;font-family:var(--font-body)">
+  <div role="tablist" aria-label="Apariencia" style="max-width:358px;padding:4px;border-radius:var(--radius-md);background:var(--surface-2);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px">
+    <button role="tab" aria-selected="false" style="height:40px;border:0;border-radius:var(--radius-sm);background:transparent;color:var(--ink-muted);font-family:var(--font-body);font-size:14px;font-weight:500">Sistema</button>
+    <button role="tab" aria-selected="false" style="height:40px;border:0;border-radius:var(--radius-sm);background:transparent;color:var(--ink-muted);font-family:var(--font-body);font-size:14px;font-weight:500">Claro</button>
+    <button role="tab" aria-selected="true" style="height:40px;border:0;border-radius:var(--radius-sm);background:var(--surface-1);color:var(--ink);font-family:var(--font-body);font-size:14px;font-weight:600">Oscuro</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px">
+    <button aria-pressed="true" style="height:34px;padding:0 12px;border:1px solid var(--accent);border-radius:var(--radius-sm);background:var(--accent-soft);color:var(--accent);font-family:var(--font-body);font-size:13px;font-weight:600">Piernas</button>
+    <button aria-pressed="false" style="height:34px;padding:0 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:transparent;color:var(--ink);font-family:var(--font-body);font-size:13px;font-weight:500">Pecho</button>
+    <button aria-pressed="false" style="height:34px;padding:0 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:transparent;color:var(--ink);font-family:var(--font-body);font-size:13px;font-weight:500">Espalda</button>
+  </div>
+</div>

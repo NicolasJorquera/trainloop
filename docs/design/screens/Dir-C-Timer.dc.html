@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>C · Temporizador</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{p.bg}}; color: #FFFFFF; font-family: Sora, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="padding: 20px 20px 0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0">
+    <span style="height: 36px; padding: 0 14px; border-radius: 18px; background: rgba(255,255,255,0.18); display: flex; align-items: center; font-size: 13px; font-weight: 600">Tabata 20/10</span>
+    <span style="font-size: 15px; font-weight: 700">{{s.round}}</span>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <svg width="36" height="42" viewBox="0 0 48 56" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="34" cy="8" r="5"></circle><path d="M32 14 26 30M26 30l12 8-2 12M26 30l-10 10-6-2M31 18l9 6M31 18l-11 2"></path></svg>
+      <span style="font-size: 30px; font-weight: 800">{{phaseName}}</span>
+    </div>
+    <div style="position: relative; width: 290px; height: 290px" role="img" aria-label="{{s.ringAria}}">
+      <svg width="290" height="290" viewBox="0 0 290 290" aria-hidden="true"><circle cx="145" cy="145" r="132" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="16"></circle><circle cx="145" cy="145" r="132" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-dasharray="{{p.dash}} 830" transform="rotate(-90 145 145)"></circle></svg>
+      <span style="position: absolute; left: 0; top: 0; width: 290px; height: 290px; display: flex; align-items: center; justify-content: center; font-size: 96px; font-weight: 800; letter-spacing: -3px; font-variant-numeric: tabular-nums" aria-live="polite">{{p.time}}</span>
+    </div>
+    <span style="font-size: 16px; font-weight: 500; opacity: 0.9">{{nextLabel}}</span>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 0 24px 14px; display: flex; align-items: center; justify-content: space-between">
+    <button type="button" aria-label="{{s.prev}}" style="width: 64px; height: 64px; border: 0; border-radius: 32px; background: rgba(255,255,255,0.2); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 20 9 12l10-8zM5 19V5h2v14z"></path></svg></button>
+    <button type="button" aria-label="{{s.pause}}" style="width: 96px; height: 96px; border: 0; border-radius: 48px; background: #FFFFFF; color: {{p.bg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></button>
+    <button type="button" aria-label="{{s.skip}}" style="width: 64px; height: 64px; border: 0; border-radius: 32px; background: rgba(255,255,255,0.2); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4l10 8-10 8zM17 5h2v14h-2z"></path></svg></button>
+  </div>
+  <div style="flex-shrink: 0; padding: 0 24px 28px">
+    <button type="button" style="width: 100%; height: 52px; border: 2px solid rgba(255,255,255,0.7); border-radius: 26px; background: transparent; color: #FFFFFF; font-family: Sora, system-ui, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer">{{s.hold}}</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"fase":{"editor":"enum","options":["trabajo","descanso"],"default":"trabajo"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var PH = {
+  trabajo: { bg: '#C2412B', time: '0:12', key: 'work', next: 'rest', nextDur: '0:10', dash: '332' },
+  descanso: { bg: '#1E5BA8', time: '0:07', key: 'rest', next: 'work', nextDur: '0:20', dash: '249' }
+};
+var STR = {
+  es: { work: 'Trabajo', rest: 'Descanso', next: 'Siguiente', round: 'Ronda 3/8', ringAria: 'Tiempo restante de la fase', prev: 'Volver al inicio de la fase', pause: 'Pausar', skip: 'Saltar fase', hold: 'Mantén para detener' },
+  en: { work: 'Work', rest: 'Rest', next: 'Next', round: 'Round 3/8', ringAria: 'Time left in phase', prev: 'Back to phase start', pause: 'Pause', skip: 'Skip phase', hold: 'Hold to stop' },
+  pt: { work: 'Trabalho', rest: 'Descanso', next: 'Próximo', round: 'Rodada 3/8', ringAria: 'Tempo restante da fase', prev: 'Voltar ao início da fase', pause: 'Pausar', skip: 'Pular fase', hold: 'Segure para parar' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var fase = this.props.fase ?? 'trabajo', idioma = this.props.idioma ?? 'es';
+    var p = PH[fase] || PH.trabajo, s = STR[idioma] || STR.es;
+    return { p: p, s: s, phaseName: s[p.key], nextLabel: s.next + ': ' + s[p.next] + ' ' + p.nextDur, lang: idioma === 'pt' ? 'pt-BR' : idioma };
+  }
+}
+</script>
+</body>
+</html>

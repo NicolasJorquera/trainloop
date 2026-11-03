@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S11 · Registro de serie</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.scrimBg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; position: relative">
+  <a href="S10-SesionFuerza.dc.html" aria-label="{{s.closeNoSave}}" style="flex-grow: 1"></a>
+  <section role="dialog" aria-label="{{s.heading}}" style="background: {{t.sf}}; border-radius: 12px 12px 0 0; padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 16px">
+    <div style="align-self: center; width: 36px; height: 4px; border-radius: 2px; background: {{t.line}}" aria-hidden="true"></div>
+    <div style="display: flex; flex-direction: column; gap: 2px">
+      <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; text-transform: uppercase; line-height: 1">{{s.heading}}</h1>
+      <span style="font-size: 14px; color: {{t.ink2}}">{{s.last}}</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.weight}}</span>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <button type="button" onClick="{{kgDown}}" aria-label="{{s.kgMinus}}" style="width: 76px; height: 68px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: {{t.ink}}; cursor: pointer">−{{incLabel}}</button>
+        <span style="flex-grow: 1; height: 68px; border-radius: 6px; background: {{kgBg}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; font-variant-numeric: tabular-nums" aria-live="polite">{{kgLabel}}</span>
+        <button type="button" onClick="{{kgUp}}" aria-label="{{s.kgPlus}}" style="width: 76px; height: 68px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: {{t.ink}}; cursor: pointer">+{{incLabel}}</button>
+      </div>
+      <sc-if value="{{kgError}}" hint-placeholder-val="{{false}}">
+        <span role="alert" style="font-size: 13px; color: {{t.danger}}">{{s.kgErr}}</span>
+      </sc-if>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.reps}}</span>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <button type="button" onClick="{{repsDown}}" aria-label="{{s.repMinus}}" style="width: 76px; height: 68px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-size: 28px; color: {{t.ink}}; cursor: pointer">−</button>
+        <span style="flex-grow: 1; height: 68px; border-radius: 6px; background: {{t.sf2}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; font-variant-numeric: tabular-nums" aria-live="polite">{{reps}}</span>
+        <button type="button" onClick="{{repsUp}}" aria-label="{{s.repPlus}}" style="width: 76px; height: 68px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; font-size: 28px; color: {{t.ink}}; cursor: pointer">+</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.rpe}}</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <sc-for list="{{rpe}}" as="r" hint-placeholder-count="9">
+          <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="min-width: 44px; height: 44px; padding: 0 8px; border: 1px solid {{r.border}}; border-radius: 4px; background: {{r.bg}}; color: {{r.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 700; cursor: pointer">{{r.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.kind}}</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px">
+        <sc-for list="{{kinds}}" as="k" hint-placeholder-count="4">
+          <button type="button" onClick="{{k.pick}}" aria-pressed="{{k.on}}" style="height: 44px; padding: 0 14px; border: 2px solid {{k.border}}; border-radius: 4px; background: {{k.bg}}; color: {{k.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{k.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{valid}}" hint-placeholder-val="{{true}}">
+      <a href="S10-SesionFuerza.dc.html" style="height: 60px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.save}}</a>
+    </sc-if>
+    <sc-if value="{{kgError}}" hint-placeholder-val="{{false}}">
+      <span aria-disabled="true" style="height: 60px; border-radius: 6px; background: {{t.sf2}}; color: {{t.ink2}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase">{{s.save}}</span>
+    </sc-if>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { scrimBg: '#060708', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', priBg: '#D45CFF', priInk: '#0E0F11', danger: '#FF6B6B', dangerSoft: '#3A1A1A' },
+  claro: { scrimBg: '#5E5F5B', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', priBg: '#0E0F11', priInk: '#D45CFF', danger: '#C92A2A', dangerSoft: '#FFF0F0' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { dec: ',', closeNoSave: 'Cerrar sin guardar', heading: 'Sentadilla · serie 3', last: 'La vez anterior: 80 kg × 7', weight: 'PESO (KG)', kgMinus: 'Restar 2,5 kg', kgPlus: 'Sumar 2,5 kg', kgErr: 'Ingresa un peso entre 0 y 1.000 kg.', reps: 'REPETICIONES', repMinus: 'Restar una repetición', repPlus: 'Sumar una repetición', rpe: 'ESFUERZO (RPE) · OPCIONAL', kind: 'TIPO DE SERIE', kinds: ['Calentamiento', 'Normal', 'Al fallo', 'Drop set'], save: 'Guardar serie' },
+  en: { dec: '.', closeNoSave: 'Close without saving', heading: 'Squat · set 3', last: 'Last time: 80 kg × 7', weight: 'WEIGHT (KG)', kgMinus: 'Subtract 2.5 kg', kgPlus: 'Add 2.5 kg', kgErr: 'Enter a weight between 0 and 1,000 kg.', reps: 'REPS', repMinus: 'Subtract one rep', repPlus: 'Add one rep', rpe: 'EFFORT (RPE) · OPTIONAL', kind: 'SET TYPE', kinds: ['Warm-up', 'Normal', 'To failure', 'Drop set'], save: 'Save set' },
+  pt: { dec: ',', closeNoSave: 'Fechar sem salvar', heading: 'Agachamento · série 3', last: 'Da última vez: 80 kg × 7', weight: 'PESO (KG)', kgMinus: 'Tirar 2,5 kg', kgPlus: 'Adicionar 2,5 kg', kgErr: 'Informe um peso entre 0 e 1.000 kg.', reps: 'REPETIÇÕES', repMinus: 'Tirar uma repetição', repPlus: 'Adicionar uma repetição', rpe: 'ESFORÇO (RPE) · OPCIONAL', kind: 'TIPO DE SÉRIE', kinds: ['Aquecimento', 'Normal', 'Até a falha', 'Drop set'], save: 'Salvar série' }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { kg: 82.5, reps: 8, rpe: 8, kind: 1 };
+  }
+  renderVals() {
+    var st = this.state, self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var kgError = st.kg < 0 || st.kg > 1000;
+    var rpe = [6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].map(function (v) {
+      var on = st.rpe === v;
+      return { label: String(v).replace('.', s.dec), on: on, bg: on ? t.priBg : 'transparent', fg: on ? t.priInk : t.ink, border: on ? t.priBg : t.line, pick: function () { self.setState({ rpe: on ? 0 : v }); } };
+    });
+    var kinds = s.kinds.map(function (label, i) {
+      var on = st.kind === i;
+      return { label: label, on: on, bg: on ? t.accSoft : 'transparent', fg: on ? t.accText : t.ink, border: on ? t.acc : t.line, pick: function () { self.setState({ kind: i }); } };
+    });
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      kgLabel: String(st.kg).replace('.', s.dec),
+      incLabel: '2' + s.dec + '5',
+      kgBg: kgError ? t.dangerSoft : t.sf2,
+      kgError: kgError, valid: !kgError,
+      reps: st.reps, rpe: rpe, kinds: kinds,
+      kgDown: function () { self.setState({ kg: Math.round((st.kg - 2.5) * 100) / 100 }); },
+      kgUp: function () { self.setState({ kg: Math.round((st.kg + 2.5) * 100) / 100 }); },
+      repsDown: function () { self.setState({ reps: Math.max(0, st.reps - 1) }); },
+      repsUp: function () { self.setState({ reps: Math.min(999, st.reps + 1) }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

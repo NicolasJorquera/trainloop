@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S09 · Crear ejercicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 64px; padding: 0 16px 0 4px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+    <a href="S08-Ejercicios.dc.html" aria-label="{{s.back}}" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase">{{s.title}}</h1>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px 16px; display: flex; flex-direction: column; gap: 16px; overflow: hidden">
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.name}}
+      <input type="text" value="{{name}}" onChange="{{onName}}" placeholder="{{s.namePh}}" style="height: 48px; padding: 0 14px; border: 2px solid {{nameBorder}}; border-radius: 6px; background: {{t.field}}; font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0; color: {{t.ink}}">
+    </label>
+    <sc-if value="{{dup}}" hint-placeholder-val="{{false}}">
+      <div role="alert" style="margin-top: -8px; padding: 12px 14px; border-radius: 8px; background: {{t.sf}}; border: 1px solid {{t.warn}}; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 14px">{{s.dup}}</span>
+        <a href="S08-Ejercicios.dc.html" style="color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; text-decoration: none">{{s.useExisting}}</a>
+      </div>
+    </sc-if>
+
+    <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px">
+      <legend style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}; margin-bottom: 8px">{{s.track}}</legend>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{types}}" as="ty" hint-placeholder-count="4">
+          <button type="button" onClick="{{ty.pick}}" aria-pressed="{{ty.on}}" style="height: 48px; border: 2px solid {{ty.border}}; border-radius: 6px; background: {{ty.bg}}; color: {{ty.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{ty.label}}</button>
+        </sc-for>
+      </div>
+    </fieldset>
+
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.muscle}}
+      <select style="height: 48px; padding: 0 12px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0; color: {{t.ink}}">
+        <sc-for list="{{s.muscles}}" as="m" hint-placeholder-count="6"><option>{{m}}</option></sc-for>
+      </select>
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.equip}}
+      <select style="height: 48px; padding: 0 12px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0; color: {{t.ink}}">
+        <sc-for list="{{s.equips}}" as="e" hint-placeholder-count="5"><option>{{e}}</option></sc-for>
+      </select>
+    </label>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.inc}}
+        <input type="text" value="{{s.incVal}}" style="height: 48px; padding: 0 14px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0; color: {{t.ink}}">
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.rest}}
+        <input type="text" value="1:30" style="height: 48px; padding: 0 14px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 0; color: {{t.ink}}">
+      </label>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: {{t.ink2}}">{{s.tip}}</p>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 20px; background: {{t.sf}}">
+    <sc-if value="{{canSave}}" hint-placeholder-val="{{true}}">
+      <a href="S08-Ejercicios.dc.html" style="height: 56px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.save}}</a>
+    </sc-if>
+    <sc-if value="{{cantSave}}" hint-placeholder-val="{{false}}">
+      <span aria-disabled="true" style="height: 56px; border-radius: 6px; background: {{t.sf2}}; color: {{t.ink2}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase">{{s.save}}</span>
+    </sc-if>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', priBg: '#D45CFF', priInk: '#0E0F11', warn: '#FFB547', field: '#22252A' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', priBg: '#0E0F11', priInk: '#D45CFF', warn: '#B35C00', field: '#F2F2EE' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { back: 'Volver', title: 'Crear ejercicio', name: 'NOMBRE', namePh: 'Ej.: Sentadilla búlgara', defName: 'Sentadilla búlgara', dupKey: 'sentadilla', dup: 'Ya existe «Sentadilla». ¿Usar el existente?', useExisting: 'Usar «Sentadilla»', track: 'QUÉ REGISTRAS', types: ['Peso + reps', 'Solo reps', 'Tiempo', 'Distancia + tiempo'], muscle: 'MÚSCULO PRINCIPAL', muscles: ['Piernas', 'Pecho', 'Espalda', 'Hombros', 'Brazos', 'Core'], equip: 'EQUIPO', equips: ['Mancuernas', 'Barra', 'Máquina', 'Peso corporal', 'Kettlebell'], inc: 'INCREMENTO', incVal: '2,5 kg', rest: 'DESCANSO', tip: 'Prueba a escribir «Sentadilla» para ver la validación de duplicados.', save: 'Guardar ejercicio' },
+  en: { back: 'Back', title: 'Create exercise', name: 'NAME', namePh: 'E.g. Bulgarian split squat', defName: 'Bulgarian split squat', dupKey: 'squat', dup: '"Squat" already exists. Use the existing one?', useExisting: 'Use "Squat"', track: 'WHAT YOU TRACK', types: ['Weight + reps', 'Reps only', 'Time', 'Distance + time'], muscle: 'PRIMARY MUSCLE', muscles: ['Legs', 'Chest', 'Back', 'Shoulders', 'Arms', 'Core'], equip: 'EQUIPMENT', equips: ['Dumbbells', 'Barbell', 'Machine', 'Bodyweight', 'Kettlebell'], inc: 'INCREMENT', incVal: '2.5 kg', rest: 'REST', tip: 'Try typing "Squat" to see the duplicate check.', save: 'Save exercise' },
+  pt: { back: 'Voltar', title: 'Criar exercício', name: 'NOME', namePh: 'Ex.: Agachamento búlgaro', defName: 'Agachamento búlgaro', dupKey: 'agachamento', dup: '«Agachamento» já existe. Usar o existente?', useExisting: 'Usar «Agachamento»', track: 'O QUE VOCÊ REGISTRA', types: ['Peso + reps', 'Só reps', 'Tempo', 'Distância + tempo'], muscle: 'MÚSCULO PRINCIPAL', muscles: ['Pernas', 'Peito', 'Costas', 'Ombros', 'Braços', 'Core'], equip: 'EQUIPAMENTO', equips: ['Halteres', 'Barra', 'Máquina', 'Peso corporal', 'Kettlebell'], inc: 'INCREMENTO', incVal: '2,5 kg', rest: 'DESCANSO', tip: 'Digite «Agachamento» para ver a validação de duplicados.', save: 'Salvar exercício' }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { name: null, type: 0 };
+  }
+  renderVals() {
+    var st = this.state, self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var name = st.name == null ? s.defName : st.name;
+    var norm = name.trim().toLowerCase();
+    var dup = norm === s.dupKey;
+    var types = s.types.map(function (label, i) {
+      var on = st.type === i;
+      return { label: label, on: on, bg: on ? t.accSoft : 'transparent', fg: on ? t.accText : t.ink, border: on ? t.acc : t.line, pick: function () { self.setState({ type: i }); } };
+    });
+    var ok = norm.length > 0 && norm.length <= 40 && !dup;
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      name: name,
+      onName: function (e) { self.setState({ name: e.target.value }); },
+      nameBorder: dup ? t.warn : t.line,
+      dup: dup, types: types, canSave: ok, cantSave: !ok
+    };
+  }
+}
+</script>
+</body>
+</html>

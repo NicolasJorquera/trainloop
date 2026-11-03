@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S07 · Editor de rutina</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; position: relative">
+  <header style="height: 64px; padding: 0 16px 0 4px; display: flex; align-items: center; gap: 4px; flex-shrink: 0">
+    <a href="S02-Entrenar.dc.html" aria-label="{{s.back}}" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></a>
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase">{{s.title}}</h1>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.name}}
+      <input type="text" value="{{s.routine}}" style="height: 48px; padding: 0 14px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; font-family: Inter, system-ui, sans-serif; font-size: 16px; letter-spacing: 0; color: {{t.ink}}">
+    </label>
+
+    <span style="margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.exercises}} · 4</span>
+
+    <sc-for list="{{exercises}}" as="ex" hint-placeholder-count="4">
+      <div style="display: flex; align-items: center; gap: 4px; padding: 6px 4px; background: {{t.sf}}; border-radius: 8px">
+        <span style="width: 32px; height: 44px; display: flex; align-items: center; justify-content: center; color: {{t.ink2}}" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg></span>
+        <button type="button" onClick="{{ex.open}}" style="flex-grow: 1; min-height: 52px; border: 0; background: transparent; text-align: left; display: flex; flex-direction: column; justify-content: center; gap: 2px; color: {{t.ink}}; cursor: pointer; padding: 0 4px">
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 700; text-transform: uppercase">{{ex.name}}</span>
+          <span style="font-family: Inter, system-ui, sans-serif; font-size: 13px; color: {{t.ink2}}">{{ex.summary}}</span>
+        </button>
+        <span style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: {{t.ink2}}" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="12" cy="19" r="1.8"></circle></svg></span>
+      </div>
+    </sc-for>
+
+    <a href="S08-Ejercicios.dc.html" style="height: 52px; border: 2px dashed {{t.line}}; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; text-decoration: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{s.add}}</a>
+    <p style="margin: 0; font-size: 13px; color: {{t.ink2}}">{{s.hint}}</p>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 16px 20px; background: {{t.sf}}">
+    <a href="S02-Entrenar.dc.html" style="height: 56px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.save}}</a>
+  </footer>
+
+  <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(0,0,0,0.6); display: flex; flex-direction: column; justify-content: flex-end">
+      <button type="button" onClick="{{close}}" aria-label="{{s.close}}" style="flex-grow: 1; border: 0; background: transparent; cursor: pointer"></button>
+      <section role="dialog" aria-label="{{current}}" style="background: {{t.sf}}; border-radius: 12px 12px 0 0; padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 12px">
+        <div style="align-self: center; width: 36px; height: 4px; border-radius: 2px; background: {{t.line}}" aria-hidden="true"></div>
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase">{{current}}</h2>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px">
+          <span style="font-size: 16px">{{s.sets}}</span>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <button type="button" onClick="{{setsDown}}" aria-label="{{s.lessSets}}" style="width: 48px; height: 48px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">−</button>
+            <span style="min-width: 36px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800">{{sets}}</span>
+            <button type="button" onClick="{{setsUp}}" aria-label="{{s.moreSets}}" style="width: 48px; height: 48px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">+</button>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px">
+          <span style="font-size: 16px">{{s.reps}}</span>
+          <span style="height: 44px; padding: 0 16px; border-radius: 6px; background: {{t.sf2}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800">8 – 10</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px">
+          <span style="font-size: 16px">{{s.weight}} <span style="color: {{t.ink2}}; font-size: 14px">{{s.optional}}</span></span>
+          <span style="height: 44px; padding: 0 16px; border-radius: 6px; background: {{t.sf2}}; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 700; color: {{t.ink2}}">— KG</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px">
+          <span style="font-size: 16px">{{s.rest}}</span>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <button type="button" onClick="{{restDown}}" aria-label="{{s.lessRest}}" style="width: 48px; height: 48px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">−</button>
+            <span style="min-width: 56px; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums">{{restLabel}}</span>
+            <button type="button" onClick="{{restUp}}" aria-label="{{s.moreRest}}" style="width: 48px; height: 48px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-size: 22px; cursor: pointer">+</button>
+          </div>
+        </div>
+        <button type="button" onClick="{{close}}" style="height: 56px; margin-top: 4px; border: 0; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; cursor: pointer">{{s.done}}</button>
+      </section>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', priBg: '#D45CFF', priInk: '#0E0F11', field: '#22252A' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', priBg: '#0E0F11', priInk: '#D45CFF', field: '#F2F2EE' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { back: 'Volver', title: 'Editar rutina', name: 'NOMBRE', routine: 'Piernas A', exercises: 'EJERCICIOS', add: 'Agregar ejercicios', hint: 'Editar la rutina no cambia tus sesiones pasadas.', save: 'Guardar rutina', close: 'Cerrar', sets: 'Series', lessSets: 'Menos series', moreSets: 'Más series', reps: 'Repeticiones', weight: 'Peso objetivo', optional: '(opcional)', rest: 'Descanso', lessRest: 'Menos descanso', moreRest: 'Más descanso', done: 'Listo', restWord: 'descanso', ex: ['Sentadilla', 'Peso muerto rumano', 'Prensa de piernas', 'Elevación de talones'] },
+  en: { back: 'Back', title: 'Edit routine', name: 'NAME', routine: 'Legs A', exercises: 'EXERCISES', add: 'Add exercises', hint: 'Editing the routine doesn’t change your past sessions.', save: 'Save routine', close: 'Close', sets: 'Sets', lessSets: 'Fewer sets', moreSets: 'More sets', reps: 'Reps', weight: 'Target weight', optional: '(optional)', rest: 'Rest', lessRest: 'Less rest', moreRest: 'More rest', done: 'Done', restWord: 'rest', ex: ['Squat', 'Romanian deadlift', 'Leg press', 'Calf raise'] },
+  pt: { back: 'Voltar', title: 'Editar rotina', name: 'NOME', routine: 'Pernas A', exercises: 'EXERCÍCIOS', add: 'Adicionar exercícios', hint: 'Editar a rotina não altera suas sessões anteriores.', save: 'Salvar rotina', close: 'Fechar', sets: 'Séries', lessSets: 'Menos séries', moreSets: 'Mais séries', reps: 'Repetições', weight: 'Peso alvo', optional: '(opcional)', rest: 'Descanso', lessRest: 'Menos descanso', moreRest: 'Mais descanso', done: 'Pronto', restWord: 'descanso', ex: ['Agachamento', 'Levantamento terra romeno', 'Leg press', 'Panturrilha em pé'] }
+};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: -1, sets: 3, rest: 120 };
+  }
+  fmt(sec) {
+    var m = Math.floor(sec / 60), r = sec % 60;
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  renderVals() {
+    var st = this.state, self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var base = [
+      { sets: st.sets, reps: '8–10', rest: st.rest },
+      { sets: 3, reps: '8–10', rest: 120 },
+      { sets: 3, reps: '10–12', rest: 90 },
+      { sets: 4, reps: '12–15', rest: 60 }
+    ];
+    var exercises = base.map(function (e, i) {
+      return { name: s.ex[i], summary: e.sets + ' × ' + e.reps + ' · ' + s.restWord + ' ' + self.fmt(e.rest), open: function () { self.setState({ open: i }); } };
+    });
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      exercises: exercises,
+      sheetOpen: st.open >= 0,
+      current: st.open >= 0 ? s.ex[st.open] : '',
+      sets: st.sets,
+      restLabel: this.fmt(st.rest),
+      setsDown: function () { self.setState({ sets: Math.max(1, st.sets - 1) }); },
+      setsUp: function () { self.setState({ sets: Math.min(20, st.sets + 1) }); },
+      restDown: function () { self.setState({ rest: Math.max(0, st.rest - 15) }); },
+      restUp: function () { self.setState({ rest: Math.min(600, st.rest + 15) }); },
+      close: function () { self.setState({ open: -1 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

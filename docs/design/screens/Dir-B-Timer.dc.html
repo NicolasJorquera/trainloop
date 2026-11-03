@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>B · Temporizador</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&amp;family=Archivo:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{p.bg}}; color: {{p.ink}}; font-family: Archivo, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="padding: 18px 16px 0; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; flex-shrink: 0">
+    <span>TABATA 20/10</span>
+    <span>{{s.round}}</span>
+  </div>
+  <div style="padding: 10px 16px 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; flex-shrink: 0" role="img" aria-label="{{s.roundsAria}}">
+    <sc-for list="{{rounds}}" as="r" hint-placeholder-count="8">
+      <span style="height: 10px; border: 2px solid {{p.ink}}; background: {{r.fill}}; box-sizing: border-box"></span>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; padding: 0 16px">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 30px; font-weight: 800; letter-spacing: 4px">{{p.icon}} {{phaseName}}</span>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 132px; font-weight: 800; line-height: 1; letter-spacing: -6px; font-variant-numeric: tabular-nums" aria-live="polite">{{p.time}}</span>
+  </div>
+
+  <div style="flex-shrink: 0; height: 84px; margin: 0 16px 12px; padding: 0 16px; background: {{p.nextBg}}; color: {{p.nextInk}}; display: flex; align-items: center; justify-content: space-between">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px">{{s.next}}</span>
+    <span style="font-size: 22px; font-weight: 700">{{nextName}} · 0:{{p.nextDur}}</span>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 0 16px 24px; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 8px">
+    <button type="button" aria-label="{{s.prev}}" style="height: 72px; border: 2px solid {{p.ink}}; border-radius: 0; background: transparent; color: {{p.ink}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 20 9 12l10-8zM5 19V5h2v14z"></path></svg></button>
+    <button type="button" aria-label="{{s.pause}}" style="height: 72px; border: 0; border-radius: 0; background: {{p.ink}}; color: {{p.bg}}; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; cursor: pointer"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg>{{s.pauseShort}}</button>
+    <button type="button" aria-label="{{s.skip}}" style="height: 72px; border: 2px solid {{p.ink}}; border-radius: 0; background: transparent; color: {{p.ink}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4l10 8-10 8zM17 5h2v14h-2z"></path></svg></button>
+    <button type="button" style="grid-column: 1 / 4; height: 48px; border: 2px solid {{p.ink}}; border-radius: 0; background: transparent; color: {{p.ink}}; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer">{{s.hold}}</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"fase":{"editor":"enum","options":["trabajo","descanso"],"default":"trabajo"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var PH = {
+  trabajo: { bg: '#D9480F', ink: '#FFFFFF', icon: '▲', time: '0:12', key: 'work', next: 'rest', nextBg: '#1864AB', nextInk: '#FFFFFF', nextDur: '10' },
+  descanso: { bg: '#1864AB', ink: '#FFFFFF', icon: '●', time: '0:07', key: 'rest', next: 'work', nextBg: '#D9480F', nextInk: '#FFFFFF', nextDur: '20' }
+};
+var STR = {
+  es: { work: 'TRABAJO', rest: 'DESCANSO', workN: 'Trabajo', restN: 'Descanso', next: 'SIGUE', round: 'RONDA 3/8', roundsAria: 'Ronda 3 de 8', prev: 'Volver al inicio de la fase', pause: 'Pausar', pauseShort: 'PAUSA', skip: 'Saltar fase', hold: 'MANTÉN PARA DETENER' },
+  en: { work: 'WORK', rest: 'REST', workN: 'Work', restN: 'Rest', next: 'NEXT', round: 'ROUND 3/8', roundsAria: 'Round 3 of 8', prev: 'Back to phase start', pause: 'Pause', pauseShort: 'PAUSE', skip: 'Skip phase', hold: 'HOLD TO STOP' },
+  pt: { work: 'TRABALHO', rest: 'DESCANSO', workN: 'Trabalho', restN: 'Descanso', next: 'PRÓXIMO', round: 'RODADA 3/8', roundsAria: 'Rodada 3 de 8', prev: 'Voltar ao início da fase', pause: 'Pausar', pauseShort: 'PAUSA', skip: 'Pular fase', hold: 'SEGURE PARA PARAR' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var fase = this.props.fase ?? 'trabajo', idioma = this.props.idioma ?? 'es';
+    var p = PH[fase] || PH.trabajo, s = STR[idioma] || STR.es;
+    var rounds = [];
+    for (var i = 1; i <= 8; i++) rounds.push({ fill: i < 3 ? p.ink : 'transparent' });
+    return { p: p, s: s, rounds: rounds, phaseName: s[p.key], nextName: s[p.next + 'N'], lang: idioma === 'pt' ? 'pt-BR' : idioma };
+  }
+}
+</script>
+</body>
+</html>
