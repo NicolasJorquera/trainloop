@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../tool/src/pseudo.dart';
+import 'package:trainloop/core/l10n/pseudo.dart';
 
 Map<String, Object?> _readArb(String name) =>
     jsonDecode(File('lib/l10n/$name').readAsStringSync())

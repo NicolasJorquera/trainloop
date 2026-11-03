@@ -39,6 +39,11 @@ mixin Archivable on Table {
 
 @TableIndex(name: 'idx_exercise_normalized_name', columns: {#normalizedName})
 @TableIndex(name: 'idx_exercise_muscle', columns: {#primaryMuscle})
+@TableIndex(
+  name: 'idx_exercise_catalog_key',
+  columns: {#catalogKey},
+  unique: true,
+)
 class Exercises extends Table with Entity, Archivable {
   @override
   String get tableName => 'exercise';
@@ -56,6 +61,11 @@ class Exercises extends Table with Entity, Archivable {
   IntColumn get incrementGrams => integer().nullable()();
   IntColumn get defaultRestSeconds => integer().nullable()();
   BoolColumn get isCustom => boolean().withDefault(const Constant(false))();
+
+  /// Clave estable de los ejercicios de la biblioteca (v2), p. ej.
+  /// `bench_press_barbell`: el nombre visible sale del catálogo localizado y
+  /// la siembra no duplica. `null` en los ejercicios propios.
+  TextColumn get catalogKey => text().nullable()();
 }
 
 class StrengthRoutines extends Table with Entity, Archivable {

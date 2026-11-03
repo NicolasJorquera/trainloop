@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:trainloop/core/l10n/pseudo.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 
-import '../../tool/src/pseudo.dart';
 import '../helpers/pump_app.dart';
 
 /// Textos visibles que no vienen de l10n: con en-XA activo, todo texto

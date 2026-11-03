@@ -41,7 +41,7 @@ jobs:
       - name: Código de Drift al día
         run: |
           dart run build_runner build
-          dart run drift_dev schema generate drift_schemas/app_database/ test/drift/app_database/generated/
+          dart run drift_dev schema generate --data-classes --companions drift_schemas/app_database/ test/drift/app_database/generated/
           changes=$(git status --porcelain -- lib test drift_schemas)
           if [ -n "$changes" ]; then
             echo "$changes"

@@ -4,7 +4,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'src/pseudo.dart';
+import 'package:trainloop/core/l10n/pseudo.dart';
 
 void main() {
   final template = File('lib/l10n/app_en.arb');
