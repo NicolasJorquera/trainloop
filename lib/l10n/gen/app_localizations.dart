@@ -450,6 +450,612 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'ADD DEMO DATA'**
   String get debugSeedDemo;
+
+  /// Header button on Train > Routines that creates a routine. Uppercase, short.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get trainNewRoutine;
+
+  /// Hint below the routine list.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited routines. Press and hold a card to reorder.'**
+  String get trainRoutinesHint;
+
+  /// Link from Train > Routines to browse exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise library'**
+  String get trainExerciseLibrary;
+
+  /// Routine card subtitle: number of exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No exercises} =1{1 exercise} other{{count} exercises}}'**
+  String routineExerciseCount(int count);
+
+  /// Tooltip of the overflow menu of a routine card.
+  ///
+  /// In en, this message translates to:
+  /// **'Options for {name}'**
+  String routineActions(String name);
+
+  /// Routine menu action.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get routineEdit;
+
+  /// Routine menu action.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get routineDuplicate;
+
+  /// Routine menu action: hides the routine; history keeps it.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get routineArchive;
+
+  /// Snackbar after archiving a routine.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” archived'**
+  String routineArchived(String name);
+
+  /// Snackbar after duplicating a routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy created: “{name}”'**
+  String routineDuplicated(String name);
+
+  /// Name of a duplicated routine.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (copy)'**
+  String routineCopyName(String name);
+
+  /// Snackbar action that reverts the last action.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// Routine editor title when creating.
+  ///
+  /// In en, this message translates to:
+  /// **'New routine'**
+  String get routineNewTitle;
+
+  /// Routine editor title when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit routine'**
+  String get routineEditTitle;
+
+  /// Label of a name field, uppercase overline.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get fieldName;
+
+  /// Placeholder of the routine name.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Legs A'**
+  String get routineNameHint;
+
+  /// Name used when a routine is saved without a name.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine {number}'**
+  String routineDefaultName(int number);
+
+  /// Section label of the routine editor with the exercise count.
+  ///
+  /// In en, this message translates to:
+  /// **'EXERCISES · {count}'**
+  String routineExercisesLabel(int count);
+
+  /// Button that opens the exercise library to add exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Add exercises'**
+  String get routineAddExercises;
+
+  /// Hint at the bottom of the routine editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing the routine doesn’t change your past sessions.'**
+  String get routineEditorHint;
+
+  /// Primary button of the routine editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Save routine'**
+  String get routineSave;
+
+  /// Tooltip of the remove button of an exercise in the routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}'**
+  String routineRemoveExercise(String name);
+
+  /// Accessibility label of the drag handle.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder'**
+  String get routineDragHandle;
+
+  /// Sets times reps, e.g. 3 × 10.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} × {reps}'**
+  String summarySetsReps(int sets, int reps);
+
+  /// Sets times duration, e.g. 3 × 0:45.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} × {time}'**
+  String summarySetsTime(int sets, String time);
+
+  /// Number of sets when there is no reps or time target.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets, plural, =1{1 set} other{{sets} sets}}'**
+  String summarySets(int sets);
+
+  /// Rest part of the routine exercise summary.
+  ///
+  /// In en, this message translates to:
+  /// **'rest {time}'**
+  String summaryRest(String time);
+
+  /// Joins two parts of a summary.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} · {second}'**
+  String summaryJoin(String first, String second);
+
+  /// A weight with its unit, e.g. 60 kg.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} {unit}'**
+  String weightValue(String value, String unit);
+
+  /// Kilograms unit symbol.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get unitKg;
+
+  /// Pounds unit symbol.
+  ///
+  /// In en, this message translates to:
+  /// **'lb'**
+  String get unitLb;
+
+  /// Duration as m:ss; seconds come zero-padded.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes}:{seconds}'**
+  String durationMinSec(int minutes, String seconds);
+
+  /// A bare number shown in a stepper.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}'**
+  String numberValue(int value);
+
+  /// Stepper label in the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get sheetSets;
+
+  /// Stepper label in the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get sheetReps;
+
+  /// Stepper label (time target) in the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get sheetDuration;
+
+  /// Weight field label in the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Target weight (optional)'**
+  String get sheetWeight;
+
+  /// Stepper label in the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get sheetRest;
+
+  /// Button closing the routine exercise sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get sheetDone;
+
+  /// Tooltip of a stepper minus button.
+  ///
+  /// In en, this message translates to:
+  /// **'Less: {label}'**
+  String stepperDecrease(String label);
+
+  /// Tooltip of a stepper plus button.
+  ///
+  /// In en, this message translates to:
+  /// **'More: {label}'**
+  String stepperIncrease(String label);
+
+  /// Exercise library title (browse mode).
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises'**
+  String get libraryTitle;
+
+  /// Exercise library title when adding to a routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Add exercises'**
+  String get libraryPickTitle;
+
+  /// Search field placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Search exercise'**
+  String get librarySearch;
+
+  /// Accessibility label of the muscle chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by muscle'**
+  String get libraryFilterMuscle;
+
+  /// Equipment filter chip when no equipment is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment'**
+  String get libraryAnyEquipment;
+
+  /// Tracking-type filter chip when no type is chosen.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get libraryAnyLogType;
+
+  /// Filter option that clears the filter.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get libraryAll;
+
+  /// Empty search result.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found for “{query}”'**
+  String libraryNotFound(String query);
+
+  /// Button to create a custom exercise with the searched name.
+  ///
+  /// In en, this message translates to:
+  /// **'Create “{query}”'**
+  String libraryCreateNamed(String query);
+
+  /// Button to create a custom exercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your own exercise'**
+  String get libraryCreateCustom;
+
+  /// Footer button adding the selected exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {count}'**
+  String libraryAddCount(int count);
+
+  /// Disabled footer when nothing is selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Select exercises'**
+  String get libraryPickPrompt;
+
+  /// Tag of exercises created by the person.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get libraryCustomTag;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs'**
+  String get muscleGroupLegs;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get muscleGroupChest;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get muscleGroupBack;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get muscleGroupShoulders;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Arms'**
+  String get muscleGroupArms;
+
+  /// Muscle group chip.
+  ///
+  /// In en, this message translates to:
+  /// **'Core'**
+  String get muscleGroupCore;
+
+  /// Muscle group chip: full body, cardio and others.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardio & more'**
+  String get muscleGroupOther;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get muscleChest;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get muscleBack;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get muscleShoulders;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Biceps'**
+  String get muscleBiceps;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Triceps'**
+  String get muscleTriceps;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Forearms'**
+  String get muscleForearms;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Core'**
+  String get muscleCore;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quads'**
+  String get muscleQuads;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hamstrings'**
+  String get muscleHamstrings;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Glutes'**
+  String get muscleGlutes;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calves'**
+  String get muscleCalves;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body'**
+  String get muscleFullBody;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardio'**
+  String get muscleCardio;
+
+  /// Primary muscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get muscleOther;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Barbell'**
+  String get equipmentBarbell;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbells'**
+  String get equipmentDumbbell;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine'**
+  String get equipmentMachine;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Cable'**
+  String get equipmentCable;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Kettlebell'**
+  String get equipmentKettlebell;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Band'**
+  String get equipmentBand;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Bodyweight'**
+  String get equipmentBodyweight;
+
+  /// Equipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get equipmentOther;
+
+  /// What an exercise tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight + reps'**
+  String get logTypeWeightReps;
+
+  /// What an exercise tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps only'**
+  String get logTypeReps;
+
+  /// What an exercise tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get logTypeTime;
+
+  /// What an exercise tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get logTypeDistance;
+
+  /// What an exercise tracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance + time'**
+  String get logTypeTimeDistance;
+
+  /// Title of the custom exercise form.
+  ///
+  /// In en, this message translates to:
+  /// **'Create exercise'**
+  String get exerciseCreateTitle;
+
+  /// Title of the custom exercise form when editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit exercise'**
+  String get exerciseEditTitle;
+
+  /// Placeholder of the exercise name.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Bulgarian split squat'**
+  String get exerciseNameHint;
+
+  /// Warning when the typed name matches an existing exercise.
+  ///
+  /// In en, this message translates to:
+  /// **'“{name}” already exists. Use the existing one?'**
+  String exerciseDuplicate(String name);
+
+  /// Button that picks the existing exercise instead of creating a duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use “{name}”'**
+  String exerciseUseExisting(String name);
+
+  /// Overline of the tracking-type choice.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT YOU TRACK'**
+  String get exerciseTrackLabel;
+
+  /// Overline of the muscle field.
+  ///
+  /// In en, this message translates to:
+  /// **'PRIMARY MUSCLE'**
+  String get exerciseMuscleLabel;
+
+  /// Overline of the equipment field.
+  ///
+  /// In en, this message translates to:
+  /// **'EQUIPMENT'**
+  String get exerciseEquipmentLabel;
+
+  /// Overline of the weight increment field.
+  ///
+  /// In en, this message translates to:
+  /// **'INCREMENT'**
+  String get exerciseIncrementLabel;
+
+  /// Overline of the default rest stepper.
+  ///
+  /// In en, this message translates to:
+  /// **'DEFAULT REST'**
+  String get exerciseRestLabel;
+
+  /// Primary button of the exercise form.
+  ///
+  /// In en, this message translates to:
+  /// **'Save exercise'**
+  String get exerciseSave;
+
+  /// Tooltip of the archive action in the exercise form.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive exercise'**
+  String get exerciseArchive;
+
+  /// Snackbar after archiving a custom exercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise archived. Your history keeps it.'**
+  String get exerciseArchived;
 }
 
 class _AppLocalizationsDelegate

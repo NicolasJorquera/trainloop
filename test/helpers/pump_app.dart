@@ -45,3 +45,13 @@ ThemeData themeOf(WidgetTester tester, Finder finder) =>
 
 TlColors colorsOf(WidgetTester tester, Finder finder) =>
     tester.element(finder).colors;
+
+/// Como `pumpAndSettle`, pero avanza también los timers de las escrituras en
+/// la base (transacciones de Drift) aunque no haya cuadros pendientes.
+Future<void> settleDb(WidgetTester tester) async {
+  for (var i = 0; i < 5; i++) {
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+    await tester.pump(const Duration(milliseconds: 20));
+  }
+  await tester.pumpAndSettle();
+}

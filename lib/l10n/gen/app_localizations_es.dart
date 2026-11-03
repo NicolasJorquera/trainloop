@@ -194,6 +194,371 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get debugSeedDemo => 'AGREGAR DATOS DE PRUEBA';
+
+  @override
+  String get trainNewRoutine => 'NUEVA';
+
+  @override
+  String get trainRoutinesHint =>
+      'Sin límite de rutinas. Mantén presionada una tarjeta para reordenar.';
+
+  @override
+  String get trainExerciseLibrary => 'Biblioteca de ejercicios';
+
+  @override
+  String routineExerciseCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ejercicios',
+      one: '1 ejercicio',
+      zero: 'Sin ejercicios',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String routineActions(String name) {
+    return 'Opciones de $name';
+  }
+
+  @override
+  String get routineEdit => 'Editar';
+
+  @override
+  String get routineDuplicate => 'Duplicar';
+
+  @override
+  String get routineArchive => 'Archivar';
+
+  @override
+  String routineArchived(String name) {
+    return '«$name» archivada';
+  }
+
+  @override
+  String routineDuplicated(String name) {
+    return 'Copia creada: «$name»';
+  }
+
+  @override
+  String routineCopyName(String name) {
+    return '$name (copia)';
+  }
+
+  @override
+  String get undo => 'Deshacer';
+
+  @override
+  String get routineNewTitle => 'Nueva rutina';
+
+  @override
+  String get routineEditTitle => 'Editar rutina';
+
+  @override
+  String get fieldName => 'NOMBRE';
+
+  @override
+  String get routineNameHint => 'Ej.: Piernas A';
+
+  @override
+  String routineDefaultName(int number) {
+    return 'Rutina $number';
+  }
+
+  @override
+  String routineExercisesLabel(int count) {
+    return 'EJERCICIOS · $count';
+  }
+
+  @override
+  String get routineAddExercises => 'Agregar ejercicios';
+
+  @override
+  String get routineEditorHint =>
+      'Editar la rutina no cambia tus sesiones pasadas.';
+
+  @override
+  String get routineSave => 'Guardar rutina';
+
+  @override
+  String routineRemoveExercise(String name) {
+    return 'Quitar $name';
+  }
+
+  @override
+  String get routineDragHandle => 'Arrastra para reordenar';
+
+  @override
+  String summarySetsReps(int sets, int reps) {
+    return '$sets × $reps';
+  }
+
+  @override
+  String summarySetsTime(int sets, String time) {
+    return '$sets × $time';
+  }
+
+  @override
+  String summarySets(int sets) {
+    String _temp0 = intl.Intl.pluralLogic(
+      sets,
+      locale: localeName,
+      other: '$sets series',
+      one: '1 serie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String summaryRest(String time) {
+    return 'descanso $time';
+  }
+
+  @override
+  String summaryJoin(String first, String second) {
+    return '$first · $second';
+  }
+
+  @override
+  String weightValue(String value, String unit) {
+    return '$value $unit';
+  }
+
+  @override
+  String get unitKg => 'kg';
+
+  @override
+  String get unitLb => 'lb';
+
+  @override
+  String durationMinSec(int minutes, String seconds) {
+    return '$minutes:$seconds';
+  }
+
+  @override
+  String numberValue(int value) {
+    return '$value';
+  }
+
+  @override
+  String get sheetSets => 'Series';
+
+  @override
+  String get sheetReps => 'Repeticiones';
+
+  @override
+  String get sheetDuration => 'Duración';
+
+  @override
+  String get sheetWeight => 'Peso objetivo (opcional)';
+
+  @override
+  String get sheetRest => 'Descanso';
+
+  @override
+  String get sheetDone => 'Listo';
+
+  @override
+  String stepperDecrease(String label) {
+    return 'Menos: $label';
+  }
+
+  @override
+  String stepperIncrease(String label) {
+    return 'Más: $label';
+  }
+
+  @override
+  String get libraryTitle => 'Ejercicios';
+
+  @override
+  String get libraryPickTitle => 'Agregar ejercicios';
+
+  @override
+  String get librarySearch => 'Buscar ejercicio';
+
+  @override
+  String get libraryFilterMuscle => 'Filtrar por músculo';
+
+  @override
+  String get libraryAnyEquipment => 'Equipo';
+
+  @override
+  String get libraryAnyLogType => 'Registro';
+
+  @override
+  String get libraryAll => 'Todos';
+
+  @override
+  String libraryNotFound(String query) {
+    return 'No encontramos «$query»';
+  }
+
+  @override
+  String libraryCreateNamed(String query) {
+    return 'Crear «$query»';
+  }
+
+  @override
+  String get libraryCreateCustom => 'Crear ejercicio propio';
+
+  @override
+  String libraryAddCount(int count) {
+    return 'Agregar $count';
+  }
+
+  @override
+  String get libraryPickPrompt => 'Selecciona ejercicios';
+
+  @override
+  String get libraryCustomTag => 'Propio';
+
+  @override
+  String get muscleGroupLegs => 'Piernas';
+
+  @override
+  String get muscleGroupChest => 'Pecho';
+
+  @override
+  String get muscleGroupBack => 'Espalda';
+
+  @override
+  String get muscleGroupShoulders => 'Hombros';
+
+  @override
+  String get muscleGroupArms => 'Brazos';
+
+  @override
+  String get muscleGroupCore => 'Core';
+
+  @override
+  String get muscleGroupOther => 'Cardio y más';
+
+  @override
+  String get muscleChest => 'Pecho';
+
+  @override
+  String get muscleBack => 'Espalda';
+
+  @override
+  String get muscleShoulders => 'Hombros';
+
+  @override
+  String get muscleBiceps => 'Bíceps';
+
+  @override
+  String get muscleTriceps => 'Tríceps';
+
+  @override
+  String get muscleForearms => 'Antebrazos';
+
+  @override
+  String get muscleCore => 'Core';
+
+  @override
+  String get muscleQuads => 'Cuádriceps';
+
+  @override
+  String get muscleHamstrings => 'Isquiotibiales';
+
+  @override
+  String get muscleGlutes => 'Glúteos';
+
+  @override
+  String get muscleCalves => 'Pantorrillas';
+
+  @override
+  String get muscleFullBody => 'Cuerpo completo';
+
+  @override
+  String get muscleCardio => 'Cardio';
+
+  @override
+  String get muscleOther => 'Otro';
+
+  @override
+  String get equipmentBarbell => 'Barra';
+
+  @override
+  String get equipmentDumbbell => 'Mancuernas';
+
+  @override
+  String get equipmentMachine => 'Máquina';
+
+  @override
+  String get equipmentCable => 'Polea';
+
+  @override
+  String get equipmentKettlebell => 'Kettlebell';
+
+  @override
+  String get equipmentBand => 'Banda elástica';
+
+  @override
+  String get equipmentBodyweight => 'Peso corporal';
+
+  @override
+  String get equipmentOther => 'Otro';
+
+  @override
+  String get logTypeWeightReps => 'Peso + reps';
+
+  @override
+  String get logTypeReps => 'Solo reps';
+
+  @override
+  String get logTypeTime => 'Tiempo';
+
+  @override
+  String get logTypeDistance => 'Distancia';
+
+  @override
+  String get logTypeTimeDistance => 'Distancia + tiempo';
+
+  @override
+  String get exerciseCreateTitle => 'Crear ejercicio';
+
+  @override
+  String get exerciseEditTitle => 'Editar ejercicio';
+
+  @override
+  String get exerciseNameHint => 'Ej.: Sentadilla búlgara';
+
+  @override
+  String exerciseDuplicate(String name) {
+    return 'Ya existe «$name». ¿Usar el existente?';
+  }
+
+  @override
+  String exerciseUseExisting(String name) {
+    return 'Usar «$name»';
+  }
+
+  @override
+  String get exerciseTrackLabel => 'QUÉ REGISTRAS';
+
+  @override
+  String get exerciseMuscleLabel => 'MÚSCULO PRINCIPAL';
+
+  @override
+  String get exerciseEquipmentLabel => 'EQUIPO';
+
+  @override
+  String get exerciseIncrementLabel => 'INCREMENTO';
+
+  @override
+  String get exerciseRestLabel => 'DESCANSO POR DEFECTO';
+
+  @override
+  String get exerciseSave => 'Guardar ejercicio';
+
+  @override
+  String get exerciseArchive => 'Archivar ejercicio';
+
+  @override
+  String get exerciseArchived =>
+      'Ejercicio archivado. Tu historial lo conserva.';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 2, almacenamiento local.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agrega la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias que usarán los entregables siguientes y el respaldo automático de Android. Las funciones reales llegan después: ejercicios y rutinas (D3), temporizador (D4), registro de fuerza (D5), historial y estadísticas (D6), y anuncios y consentimiento (D8).
+Estado: **entregable 3, ejercicios y rutinas.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agrega la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza (crear, editar, duplicar, reordenar y archivar). Siguen: temporizador (D4), registro de fuerza (D5), historial y estadísticas (D6), y anuncios y consentimiento (D8).
 
 ## Cómo correrla
 
@@ -29,6 +29,8 @@ lib/
   data/db/                      base Drift: tables.dart (esquema), enums, convertidores,
                                 app_database.dart, daos/ (uno por agregado), providers
                                 y demo_seed.dart (solo depuración). *.g.dart es generado
+  data/catalog/                 biblioteca incluida (exercise_catalog.dart, nombres es/en/pt)
+                                y su siembra idempotente
   app/                          TrainloopApp (MaterialApp.router) y AppShell (barra inferior)
   core/
     units/                      WeightUnit (kg/lb ↔ gramos)
@@ -39,7 +41,7 @@ lib/
     widgets/                    componentes del sistema: TlButton, TlBottomNav,
                                 TlSegmentedControl, AccentPicker, PhaseGlyph, EmptyState…
   features/<feature>/           por funcionalidad: domain / data / application / presentation
-    home, train, history, progress, settings
+    home, train, history, progress, settings, exercises (S08/S09), routines (S07)
   l10n/                         ARB (fuente) y gen/ (generado por flutter gen-l10n)
 assets/fonts/                   Barlow Condensed e Inter (OFL, empaquetadas: no se descargan)
 docs/design/                    copia del sistema de diseño (system/) y prototipos HTML (screens/)
@@ -51,6 +53,14 @@ test/                           unitarias (tokens, fases, pseudo, repositorio, D
 ```
 
 Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una rama o ruta en `lib/core/router/app_router.dart`.
+
+## Ejercicios y rutinas (D3)
+
+- **Biblioteca incluida.** `lib/data/catalog/exercise_catalog.dart` lista 105 ejercicios con clave estable (`bench_press_barbell`), músculo, equipo, tipo de registro, incremento y descanso, y su nombre en es, en y pt-BR. La base guarda la clave en `exercise.catalog_key`; la pantalla muestra el nombre del idioma activo (`exerciseName`), así cambiar de idioma renombra la biblioteca sin reiniciar. En en-XA el nombre se pseudo-localiza. Los ejercicios propios guardan el nombre literal.
+- **Siembra.** `seedExerciseCatalog` inserta solo las claves que faltan (índice único en `catalog_key`); corre al abrir la biblioteca. Para ampliar la biblioteca basta con agregar entradas con claves nuevas. Nunca cambies ni reutilices una clave.
+- **Búsqueda y duplicados.** La búsqueda compara el nombre visible sin mayúsculas ni tildes. Al crear un ejercicio propio, `findDuplicateExercise` lo compara con los propios y con los incluidos en los 3 idiomas («plank» choca con «Plancha»): avisa, no deja guardar y ofrece usar el existente.
+- **Rutinas.** El editor maneja series iguales por ejercicio (series, reps o tiempo, peso opcional y descanso); al agregar un ejercicio toma 3 × 10 (o 3 × 0:45 si es por tiempo) y su descanso por defecto. El peso se escribe y se muestra en la unidad de la persona. Guardar reemplaza los ejercicios de la plantilla; las sesiones pasadas no cambian porque guardan su copia en `template_snapshot` (lo prueba `test/features/routines/routine_repository_test.dart`). Archivar es borrado lógico con "Deshacer".
+- Empezar una sesión de fuerza y el entrenamiento libre llegan en D5; los intervalos de Entrenar, en D4.
 
 ## Tema, acento e idioma
 
@@ -84,7 +94,7 @@ Solo está disponible en builds de depuración. En release, en-XA no figura entr
 
 - **Desde la app:** Configuración → Idioma → "Pseudo-locale (en-XA, debug)".
 - **Al arrancar:** `flutter run --dart-define=TL_PSEUDO=true`.
-- **En pruebas:** `test/app/pseudo_locale_test.dart` recorre las pestañas y Configuración en en-XA y falla si algún texto visible no tiene las marcas `[ ]`, es decir, si no viene de l10n.
+- **En pruebas:** `test/app/pseudo_locale_test.dart` recorre las pestañas, Configuración, la biblioteca, el formulario de ejercicio y el editor de rutina en en-XA y falla si algún texto visible no tiene las marcas `[ ]`, es decir, si no viene de l10n.
 
 Cualquier texto que veas en la app sin corchetes ni acentos está escrito directamente en el código.
 
@@ -100,6 +110,8 @@ SQLite con Drift, en `trainloop.sqlite` dentro del directorio de soporte de la a
 - Cada serie (`SessionsDao.logSet`) y cada fase (`logPhase`) se guarda en su propia transacción (NF-06).
 
 Acceso: un DAO por agregado (`ExercisesDao`, `RoutinesDao`, `IntervalWorkoutsDao`, `SessionsDao`, `RecordsDao`, `PlanDao`, `AdStateDao`), expuestos por providers de Riverpod en `lib/data/db/database_providers.dart`. `appDatabaseProvider` abre una sola instancia y la cierra al desechar el `ProviderScope`; las pruebas la sobrescriben con una base en memoria.
+
+Versión actual del esquema: **2** (D3 agregó `exercise.catalog_key` con índice único).
 
 El código generado (`*.g.dart`, `test/drift/*/generated/`) va en el repositorio. Tras cambiar tablas o DAOs:
 

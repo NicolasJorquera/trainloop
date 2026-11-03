@@ -55,6 +55,41 @@ ThemeData buildTrainloopTheme(Brightness brightness, AccentPreset accent) {
         borderRadius: BorderRadius.circular(TlRadius.sm),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: c.surface2,
+      hintStyle: t.body.copyWith(color: c.inkMuted),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: TlSpace.s4,
+        vertical: TlSpace.s3,
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        borderSide: BorderSide(color: c.line),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        borderSide: BorderSide(color: c.line),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        borderSide: BorderSide(color: c.accent, width: 2),
+      ),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: c.ink,
+      contentTextStyle: t.bodySm.copyWith(color: c.bg),
+      actionTextColor: brightness == Brightness.dark ? c.bg : c.accentSoft,
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: c.surface1,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(TlRadius.sheet),
+        ),
+      ),
+    ),
     appBarTheme: AppBarTheme(
       systemOverlayStyle: brightness == Brightness.dark
           ? SystemUiOverlayStyle.light
