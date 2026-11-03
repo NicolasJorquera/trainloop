@@ -324,7 +324,7 @@ void main() {
       await doAll(first);
 
       final second = await repo.startFromRoutine(routineId);
-      var data = (await repo.load(second))!;
+      final data = (await repo.load(second))!;
       final squat = data.exercises.first.sets;
       await repo.completeSet(
         squat[0].id,
