@@ -7,6 +7,10 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../platform/timer_engine_client.dart';
+import '../../settings/application/settings_controller.dart';
+import '../../strength/application/strength_session_controller.dart';
+import '../../strength/application/strength_texts.dart';
+import '../../strength/presentation/strength_dialogs.dart';
 import '../application/interval_providers.dart';
 import '../application/interval_session_controller.dart';
 import 'session_dialogs.dart';
@@ -14,7 +18,9 @@ import 'session_dialogs.dart';
 /// Al abrir la app y al volver a ella: precalienta la voz, se engancha a
 /// una sesión que sigue corriendo (abre S05, p. ej. al tocar la
 /// notificación), guarda una que terminó sin interfaz y ofrece recuperar la
-/// que Android cerró (S18-b, F-16). Nunca se reanuda sola (T-11).
+/// que Android cerró (S18-b, F-16). Nunca se reanuda sola (T-11). Lo mismo
+/// para la sesión de fuerza (D5): se engancha al servicio vivo y abre S10,
+/// u ofrece retomar la que quedó abierta (sus series ya están en la base).
 class SessionGate extends ConsumerStatefulWidget {
   const SessionGate({required this.child, super.key});
 
@@ -65,7 +71,25 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       final active = ref.read(intervalSessionProvider)?.active ?? false;
       final path = router.routerDelegate.currentConfiguration.uri.path;
       // Sin esperar: push termina recién al cerrar S05.
-      if (active && path != Routes.timer) unawaited(router.push(Routes.timer));
+      if (active && path != Routes.timer) {
+        unawaited(router.push(Routes.timer));
+        return;
+      }
+      if (active) return;
+
+      final strength = ref.read(strengthSessionProvider.notifier);
+      final strengthOffer = await strength.syncOnLaunch();
+      if (strengthOffer != null) {
+        await _offerStrengthRecovery(strength, strengthOffer);
+        return;
+      }
+      // Al abrir la app o tocar la notificación se vuelve a S10, salvo que
+      // la persona esté eligiendo ejercicios para la sesión.
+      if (ref.read(strengthSessionProvider) != null &&
+          path != Routes.strength &&
+          !path.startsWith(Routes.exercises)) {
+        unawaited(router.push(Routes.strength));
+      }
     } finally {
       _busy = false;
     }
@@ -97,6 +121,33 @@ class _SessionGateState extends ConsumerState<SessionGate> {
     if (_onTimer(router)) router.go(Routes.home);
   }
 
+  Future<void> _offerStrengthRecovery(
+    StrengthSessionController controller,
+    StrengthRecoveryOffer offer,
+  ) async {
+    final router = ref.read(routerProvider);
+    final context = router.routerDelegate.navigatorKey.currentContext;
+    if (context == null) return;
+    final choice = await showStrengthRecoveryDialog(context, offer);
+    if (choice == null || !context.mounted) return;
+    final onStrength =
+        router.routerDelegate.currentConfiguration.uri.path == Routes.strength;
+    switch (choice) {
+      case RecoveryChoice.resume:
+        await controller.resumeRecovered(
+          offer,
+          StrengthEnv.of(context, ref.read(settingsControllerProvider)),
+        );
+        if (!onStrength) unawaited(router.push(Routes.strength));
+      case RecoveryChoice.saveIncomplete:
+        await controller.saveRecoveredAsIncomplete(offer);
+        if (onStrength) router.go(Routes.home);
+      case RecoveryChoice.discard:
+        await controller.discardRecovered(offer);
+        if (onStrength) router.go(Routes.home);
+    }
+  }
+
   static bool _onTimer(GoRouter router) =>
       router.routerDelegate.currentConfiguration.uri.path == Routes.timer;
 
@@ -105,6 +156,11 @@ class _SessionGateState extends ConsumerState<SessionGate> {
     // Android detuvo el servicio con la app abierta: se ofrece recuperar.
     ref.listen(intervalSessionProvider, (_, next) {
       if (next?.engine.state == EngineRunState.interrupted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
+      }
+    });
+    ref.listen(strengthSessionProvider, (_, next) {
+      if (next?.interrupted ?? false) {
         WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
       }
     });

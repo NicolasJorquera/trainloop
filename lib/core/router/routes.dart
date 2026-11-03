@@ -31,4 +31,11 @@ abstract final class Routes {
   /// Sesión en curso (S05) y su resumen (S06).
   static const timer = '/timer';
   static String sessionSummary(String id) => '/sessions/$id/summary';
+
+  /// Sesión de fuerza en curso (S10) y su resumen (S06, variante fuerza).
+  static const strength = '/strength';
+  static String strengthSummary(String id) => '/strength/$id/summary';
+
+  /// Entrenar con la vista de rutinas.
+  static const trainRoutines = '/train?kind=routines';
 }

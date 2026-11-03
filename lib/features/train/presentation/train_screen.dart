@@ -14,16 +14,27 @@ import '../../routines/presentation/routine_list.dart';
 enum _TrainKind { intervals, routines }
 
 /// S02 Entrenar: entrenamientos de intervalos y plantillas (D4) y rutinas
-/// de fuerza (D3).
+/// de fuerza (D3) con EMPEZAR y entrenamiento libre (D5).
 class TrainScreen extends StatefulWidget {
-  const TrainScreen({super.key});
+  const TrainScreen({this.showRoutines = false, super.key});
+
+  /// Abre la vista de rutinas (botón FUERZA de Inicio).
+  final bool showRoutines;
 
   @override
   State<TrainScreen> createState() => _TrainScreenState();
 }
 
 class _TrainScreenState extends State<TrainScreen> {
-  _TrainKind _kind = _TrainKind.intervals;
+  late _TrainKind _kind = widget.showRoutines
+      ? _TrainKind.routines
+      : _TrainKind.intervals;
+
+  @override
+  void didUpdateWidget(TrainScreen old) {
+    super.didUpdateWidget(old);
+    if (widget.showRoutines && !old.showRoutines) _kind = _TrainKind.routines;
+  }
 
   @override
   Widget build(BuildContext context) {

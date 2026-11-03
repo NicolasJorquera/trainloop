@@ -217,9 +217,8 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
   Future<void> reorderExercises(String sessionId, List<String> orderedIds) =>
       transaction(() async {
         for (final (i, id) in orderedIds.indexed) {
-          await (update(sessionExercises)..where(
-                (t) => t.id.equals(id) & t.sessionId.equals(sessionId),
-              ))
+          await (update(sessionExercises)
+                ..where((t) => t.id.equals(id) & t.sessionId.equals(sessionId)))
               .write(
                 SessionExercisesCompanion(
                   sortOrder: Value(i),
