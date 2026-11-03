@@ -122,14 +122,8 @@ class IntervalSessionController extends Notifier<ActiveSession?> {
   Future<void> previous() => _engine.previous();
   Future<void> stop() => _engine.stop();
 
-  /// Pide el estado al motor (al volver a la app).
-  Future<void> refresh() async {
-    final s = await _engine.current();
-    if (s != null) await _enqueue(s);
-  }
-
-  /// Al abrir la app: se engancha a una sesión viva, guarda una terminada
-  /// sin interfaz o devuelve la que hay que ofrecer recuperar.
+  /// Al abrir la app o volver a ella: se engancha a una sesión viva, guarda
+  /// una terminada sin interfaz o devuelve la que hay que ofrecer recuperar.
   Future<RecoveryOffer?> syncOnLaunch() async {
     final live = await _engine.current();
     if (live != null) {
@@ -206,7 +200,8 @@ class IntervalSessionController extends Notifier<ActiveSession?> {
     await _engine.clear();
   }
 
-  /// Olvida la sesión terminada (después de abrir el resumen).
+  /// Olvida la sesión terminada o interrumpida (después de abrir el resumen
+  /// o al ofrecer recuperarla).
   void dismiss() {
     if (state?.active == false) state = null;
   }
@@ -257,6 +252,12 @@ class IntervalSessionController extends Notifier<ActiveSession?> {
       snapshot: current.snapshot,
       engine: s,
     );
+
+    if (s.state == EngineRunState.interrupted) {
+      // El punto guardado queda para la recuperación (SessionGate la ofrece).
+      await _repo.markRecoveryPending(s.sessionId, current.snapshot, s);
+      return;
+    }
 
     final fresh = [
       for (final r in s.results)

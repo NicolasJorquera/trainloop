@@ -8,6 +8,7 @@ import android.media.ToneGenerator
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -32,6 +33,7 @@ object CuePlayer {
 
     private val handler = Handler(Looper.getMainLooper())
     private var tts: TextToSpeech? = null
+    @Volatile
     private var ttsReady = false
     private var ttsLocale: String? = null
     private var pending = mutableListOf<(Boolean) -> Unit>()
@@ -42,6 +44,7 @@ object CuePlayer {
     val voiceReady: Boolean get() = ttsReady
 
     /** Inicia el TTS (si hace falta) con [languageTag] y avisa si hay voz para ese idioma. */
+    @Synchronized
     fun prewarm(context: Context, languageTag: String, onReady: ((Boolean) -> Unit)? = null) {
         val app = context.applicationContext
         val engine = tts
@@ -87,11 +90,11 @@ object CuePlayer {
         }
     }
 
-    private fun restart(context: Context) {
+    private fun restart(context: Context, onReady: ((Boolean) -> Unit)? = null) {
         tts?.shutdown()
         tts = null
         ttsReady = false
-        ttsLocale?.let { prewarm(context, it) }
+        ttsLocale?.let { prewarm(context, it, onReady) }
     }
 
     private fun applyLanguage(tag: String): Boolean {
@@ -105,6 +108,7 @@ object CuePlayer {
      * Inicio de fase: tono + voz con su etiqueta y vibración del tipo de fase. Devuelve `true` si
      * la voz habló (para el registro de depuración).
      */
+    @Synchronized
     fun phaseStart(context: Context, program: TimerProgram, phase: PhaseSpec, id: String): Boolean {
         var spoke = false
         val audible = audioAllowed(context)
@@ -126,19 +130,28 @@ object CuePlayer {
     private fun speak(context: Context, text: String, id: String): Boolean {
         val ok = tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id) == TextToSpeech.SUCCESS
         if (!ok) {
+            // El servicio de voz murió (en el emulador, Google TTS cae a veces tras hablar): se
+            // reinicia y el aviso se dice al estar listo, si no pasaron más de 2 s.
             Log.w(TAG, "tts speak failed: restarting")
-            restart(context)
+            val asked = SystemClock.elapsedRealtime()
+            restart(context) { ready ->
+                if (ready && SystemClock.elapsedRealtime() - asked < 2_000) {
+                    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, id)
+                }
+            }
         }
         return ok
     }
 
     /** Pitido 3-2-1 de los últimos segundos. */
+    @Synchronized
     fun countdown(context: Context, program: TimerProgram) {
         if (!program.sounds || !audioAllowed(context)) return
         withFocus(context) { tone()?.startTone(ToneGenerator.TONE_PROP_BEEP, 120) }
     }
 
     /** Sonido final distinto + vibración larga. */
+    @Synchronized
     fun finish(context: Context, program: TimerProgram, speech: String?) {
         if (audioAllowed(context)) {
             withFocus(context) {
@@ -151,6 +164,7 @@ object CuePlayer {
         if (program.vibration) vibrate(context, longArrayOf(0, 900))
     }
 
+    @Synchronized
     fun stopSpeaking() {
         tts?.stop()
     }

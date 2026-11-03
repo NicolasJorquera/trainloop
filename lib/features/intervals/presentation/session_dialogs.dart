@@ -41,8 +41,9 @@ Future<bool> showNotificationRationale(BuildContext context) async {
   return result ?? false;
 }
 
-/// S18-b: sesión que quedó sin terminar. No se descarta tocando fuera.
-Future<RecoveryChoice> showRecoveryDialog(
+/// S18-b: sesión que quedó sin terminar. No se descarta tocando fuera;
+/// `null` solo si otra navegación lo cierra.
+Future<RecoveryChoice?> showRecoveryDialog(
   BuildContext context,
   RecoveryOffer offer,
 ) async {
@@ -57,7 +58,7 @@ Future<RecoveryChoice> showRecoveryDialog(
   final minutes = saved == null
       ? 0
       : DateTime.now().difference(saved).inMinutes.clamp(0, 999999);
-  final result = await _show<RecoveryChoice>(
+  return _show<RecoveryChoice>(
     context,
     key: const Key('recovery-dialog'),
     icon: Icons.history,
@@ -96,7 +97,6 @@ Future<RecoveryChoice> showRecoveryDialog(
       ),
     ],
   );
-  return result ?? RecoveryChoice.resume;
 }
 
 /// S18-c: la app está "Restringida" en batería y el servicio no duraría

@@ -7,7 +7,10 @@ enum EngineRunState {
   running,
   paused,
   finished,
-  stopped;
+  stopped,
+
+  /// Android detuvo el servicio con la sesión en curso: hay que recuperarla.
+  interrupted;
 
   bool get active => this == running || this == paused;
 

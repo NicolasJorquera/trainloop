@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/router/routes.dart';
+import '../../../platform/timer_engine_client.dart';
 import '../application/interval_providers.dart';
 import '../application/interval_session_controller.dart';
 import 'session_dialogs.dart';
@@ -54,17 +56,16 @@ class _SessionGateState extends ConsumerState<SessionGate> {
         unawaited(
           engine.prewarmVoice(Localizations.localeOf(context).toLanguageTag()),
         );
-        final offer = await controller.syncOnLaunch();
-        if (offer != null) {
-          await _offerRecovery(controller, offer);
-          return;
-        }
-      } else {
-        await controller.refresh();
+      }
+      final offer = await controller.syncOnLaunch();
+      if (offer != null) {
+        await _offerRecovery(controller, offer);
+        return;
       }
       final active = ref.read(intervalSessionProvider)?.active ?? false;
       final path = router.routerDelegate.currentConfiguration.uri.path;
-      if (active && path != Routes.timer) await router.push(Routes.timer);
+      // Sin esperar: push termina recién al cerrar S05.
+      if (active && path != Routes.timer) unawaited(router.push(Routes.timer));
     } finally {
       _busy = false;
     }
@@ -79,16 +80,34 @@ class _SessionGateState extends ConsumerState<SessionGate> {
     if (context == null) return;
     final choice = await showRecoveryDialog(context, offer);
     switch (choice) {
+      case null:
+        // El diálogo se cerró sin elegir: la sesión sigue pendiente.
+        return;
       case RecoveryChoice.resume:
         await controller.resumeRecovered(offer);
-        await router.push(Routes.timer);
+        if (!_onTimer(router)) unawaited(router.push(Routes.timer));
+        return;
       case RecoveryChoice.saveIncomplete:
         await controller.saveRecoveredAsIncomplete(offer);
       case RecoveryChoice.discard:
         await controller.discardRecovered(offer);
     }
+    // Si Android detuvo el servicio con S05 abierta, se vuelve a Inicio.
+    controller.dismiss();
+    if (_onTimer(router)) router.go(Routes.home);
   }
 
+  static bool _onTimer(GoRouter router) =>
+      router.routerDelegate.currentConfiguration.uri.path == Routes.timer;
+
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) {
+    // Android detuvo el servicio con la app abierta: se ofrece recuperar.
+    ref.listen(intervalSessionProvider, (_, next) {
+      if (next?.engine.state == EngineRunState.interrupted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
+      }
+    });
+    return widget.child;
+  }
 }

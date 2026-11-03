@@ -289,6 +289,48 @@ void main() {
   });
 
   testWidgets(
+    'si Android detiene el servicio con la app abierta, ofrece recuperar',
+    (tester) async {
+      await pump(tester);
+      final id = await startTabataFromHome(tester);
+      final interrupted = engineState(
+        id,
+        index: 3,
+        positionMs: 45000,
+        activeMs: 45000,
+        results: [for (var i = 0; i < 3; i++) phaseResult(i, 10000)],
+        savedAt: DateTime.now(),
+      );
+      engine
+        ..pendingState = interrupted
+        ..emit(
+          EngineState(
+            sessionId: id,
+            state: EngineRunState.interrupted,
+            index: 3,
+            count: 16,
+            remainingMs: 15000,
+            positionMs: 45000,
+            activeMs: 45000,
+            pausedMs: 0,
+            results: interrupted.results,
+          ),
+        );
+      await frames(tester, 30);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('recovery-dialog')), findsOneWidget);
+      expect(
+        (await tester.runAsync(() => db.sessionsDao.findById(id)))!.status,
+        SessionStatus.recoveryPending,
+      );
+      await tester.tap(find.byKey(const Key('recovery-discard')));
+      await frames(tester);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('template-tabata')), findsOneWidget);
+    },
+  );
+
+  testWidgets(
     'editor: bloques, rondas, total al instante y error sin trabajo',
     (tester) async {
       await pump(tester);

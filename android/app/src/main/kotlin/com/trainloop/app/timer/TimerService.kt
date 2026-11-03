@@ -8,9 +8,11 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
+import android.os.Process
 import android.os.SystemClock
 import android.util.Log
 import org.json.JSONObject
@@ -23,6 +25,9 @@ import java.io.File
  *
  * - Cada cambio de fase se programa en su instante absoluto de SystemClock.elapsedRealtime
  *   (inmune a cambios de hora) a partir de [TimerEngine]; nunca se cuentan ticks.
+ * - Corre en un hilo propio de prioridad alta (no en el hilo principal, que comparte con la
+ *   interfaz): así un hilo principal ocupado no atrasa los avisos. El estado se protege con el
+ *   monitor del servicio y los estados se publican en el hilo principal.
  * - Wake lock parcial solo mientras la sesión corre: se suelta en pausa y al terminar.
  * - Punto de recuperación atómico en cada cambio y cada 5 s (R-I11 pide ≥ 1 cada 10 s).
  * - Sin alarmas exactas: el spike no las necesitó (ver docs/arquitectura.md).
@@ -60,7 +65,9 @@ class TimerService : Service() {
         }
     }
 
-    private val handler = Handler(Looper.getMainLooper())
+    private val thread = HandlerThread("trainloop-timer", Process.THREAD_PRIORITY_URGENT_AUDIO)
+    private lateinit var handler: Handler
+    private val main = Handler(Looper.getMainLooper())
     private lateinit var checkpoints: CheckpointStore
     private var program: TimerProgram? = null
     private var engine: TimerEngine? = null
@@ -72,6 +79,8 @@ class TimerService : Service() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        thread.start()
+        handler = Handler(thread.looper)
         checkpoints = store(this)
         if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0) {
             debugLog = File(filesDir, DEBUG_LOG).also {
@@ -85,27 +94,41 @@ class TimerService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_START -> intent.getStringExtra(EXTRA_PROGRAM)?.let {
-                begin(TimerProgram.fromJson(JSONObject(it)))
+        val action = intent?.action
+        val program = intent?.getStringExtra(EXTRA_PROGRAM)
+        handler.post {
+            synchronized(this) {
+                when (action) {
+                    ACTION_START -> program?.let { begin(TimerProgram.fromJson(JSONObject(it))) }
+                    ACTION_RESTORE -> restore()
+                    ACTION_PAUSE -> pause()
+                    ACTION_RESUME -> resume()
+                    ACTION_SKIP -> skip()
+                    ACTION_PREVIOUS -> previous()
+                    ACTION_STOP -> end(SessionState.STOPPED)
+                }
+                if (engine == null) stopSelf()
             }
-            ACTION_RESTORE -> restore()
-            ACTION_PAUSE -> pause()
-            ACTION_RESUME -> resume()
-            ACTION_SKIP -> skip()
-            ACTION_PREVIOUS -> previous()
-            ACTION_STOP -> end(SessionState.STOPPED)
         }
-        if (engine == null) stopSelf()
         return START_NOT_STICKY
     }
 
     override fun onDestroy() {
-        // Detenido por el sistema con la sesión en curso: queda el punto para recuperarla.
-        if (!ended && engine != null) saveCheckpoint()
-        handler.removeCallbacksAndMessages(null)
-        releaseWake()
-        instance = null
+        synchronized(this) {
+            // Detenido por el sistema con la sesión en curso (p. ej. app restringida): queda el
+            // punto para recuperarla y la interfaz, si está abierta, lo sabe al instante.
+            if (!ended && engine != null) {
+                saveCheckpoint()
+                log("interrupted", engine?.index ?: -1, now(), now())
+                stateMap(SessionState.RUNNING)?.let { m ->
+                    main.post { listener?.invoke(m + ("state" to "interrupted")) }
+                }
+            }
+            handler.removeCallbacksAndMessages(null)
+            releaseWake()
+            instance = null
+        }
+        thread.quitSafely()
         super.onDestroy()
     }
 
@@ -178,7 +201,7 @@ class TimerService : Service() {
         enterPhase()
     }
 
-    private val transition = Runnable { onTransition() }
+    private val transition = Runnable { synchronized(this) { onTransition() } }
 
     private fun onTransition() {
         val e = engine ?: return
@@ -226,8 +249,10 @@ class TimerService : Service() {
 
     private val beeps = Array(3) { i ->
         Runnable {
-            program?.let { CuePlayer.countdown(this, it) }
-            log("beep${i + 1}", engine?.index ?: -1, 0, now())
+            synchronized(this) {
+                program?.let { CuePlayer.countdown(this, it) }
+                log("beep${i + 1}", engine?.index ?: -1, 0, now())
+            }
         }
     }
 
@@ -253,6 +278,7 @@ class TimerService : Service() {
         endState ?: if (engine?.paused == true) SessionState.PAUSED else SessionState.RUNNING
 
     /** Estado para la interfaz; `null` si no hay sesión. */
+    @Synchronized
     fun stateMap(state: SessionState = currentState()): Map<String, Any?>? {
         val e = engine ?: return null
         val p = program ?: return null
@@ -272,8 +298,8 @@ class TimerService : Service() {
     }
 
     private fun emit(state: SessionState = currentState()) {
-        val l = listener ?: return
-        stateMap(state)?.let(l)
+        val map = stateMap(state) ?: return
+        main.post { listener?.invoke(map) }
     }
 
     private fun saveCheckpoint(state: SessionState = currentState()) {
@@ -290,9 +316,11 @@ class TimerService : Service() {
 
     private val checkpointLoop = object : Runnable {
         override fun run() {
-            if (ended) return
-            if (engine?.paused == false) saveCheckpoint()
-            handler.postDelayed(this, CHECKPOINT_EVERY_MS)
+            synchronized(this@TimerService) {
+                if (ended) return
+                if (engine?.paused == false) saveCheckpoint()
+                handler.postDelayed(this, CHECKPOINT_EVERY_MS)
+            }
         }
     }
 

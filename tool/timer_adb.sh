@@ -28,6 +28,12 @@ case "$1" in
   launch) $ADB shell am start -n $PKG/.MainActivity >/dev/null ;;
   tap) tap_text "$2" ;;
   wait) wait_text "$2" ;;
+  tabata) # desde cualquier pantalla: Inicio → Tabata → EMPEZAR (2 toques)
+    $ADB shell am start -n $PKG/.MainActivity >/dev/null 2>&1
+    sleep 3
+    $ADB shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
+    $ADB shell cat /sdcard/ui.xml | grep -q 'content-desc="LISTO"' && tap_text LISTO && sleep 3
+    wait_text 'PLANTILLAS R' >/dev/null && tap_text 'Tabata 20' && wait_text EMPEZAR >/dev/null && tap_text EMPEZAR ;;
   off) $ADB shell input keyevent KEYCODE_SLEEP ;;
   on) $ADB shell input keyevent KEYCODE_WAKEUP; $ADB shell wm dismiss-keyguard ;;
   csv) $ADB shell run-as $PKG cat files/timer_debug.csv ;;
@@ -41,5 +47,5 @@ case "$1" in
       $1=="transition"{n++;s+=$7;if($7>m)m=$7;if($7<mi)mi=$7;last=$6;off+=($8=="false");idle+=($9=="true")}
       $1=="finished"{fin=$6}
       END{if(n)printf "transitions=%d avg_late=%.1fms min=%dms max=%dms screen_off=%d idle=%d session_ms=%d\n",n,s/n,mi,m,off,idle,(fin?fin:last)-st}' ;;
-  *) echo "comandos: launch tap wait off on csv clearcsv checkpoint pid kill stats" ;;
+  *) echo "comandos: launch tap wait tabata off on csv clearcsv checkpoint pid kill stats" ;;
 esac
