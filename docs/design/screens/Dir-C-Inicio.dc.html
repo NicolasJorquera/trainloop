@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>C · Inicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Sora, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 60px; padding: 0 8px 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0">
+    <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.5px">trainloop</span>
+    <a href="S16-Configuracion.dc.html" aria-label="{{s.settings}}" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
+    </a>
+  </header>
+
+  <main style="flex-grow: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+    <a href="Dir-C-Timer.dc.html" style="position: relative; height: 210px; border-radius: 28px; overflow: hidden; background: {{t.hero}}; color: #FFFFFF; text-decoration: none; display: flex; flex-direction: column; justify-content: flex-end; padding: 18px; box-sizing: border-box">
+      <div style="position: absolute; right: 8px; top: 8px; width: 170px; height: 150px; border-radius: 20px; border: 2px dashed rgba(255,255,255,0.55); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; padding: 8px; box-sizing: border-box">
+        <svg width="64" height="64" viewBox="0 0 48 56" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="34" cy="8" r="5"></circle><path d="M32 14 26 30M26 30l12 8-2 12M26 30l-10 10-6-2M31 18l9 6M31 18l-11 2"></path></svg>
+        <span style="font-size: 11px; line-height: 1.3; opacity: 0.9">{{s.photo}}</span>
+      </div>
+      <span style="position: relative; font-size: 12px; font-weight: 600; letter-spacing: 0.8px; opacity: 0.9">{{s.today}}</span>
+      <span style="position: relative; font-size: 24px; font-weight: 700; line-height: 1.15; max-width: 190px">{{s.todayName}}</span>
+      <span style="position: relative; margin-top: 10px; align-self: flex-start; height: 40px; padding: 0 18px; border-radius: 20px; background: #FFFFFF; color: #17181C; display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>{{s.start}}</span>
+    </a>
+
+    <section style="padding: 14px 16px; border-radius: 22px; background: {{t.sf}}; display: flex; align-items: center; gap: 14px">
+      <div style="position: relative; width: 64px; height: 64px; flex-shrink: 0" role="img" aria-label="{{s.progressAria}}">
+        <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" fill="none" stroke="{{t.track}}" stroke-width="7"></circle><circle cx="32" cy="32" r="27" fill="none" stroke="{{t.acc}}" stroke-width="7" stroke-linecap="round" stroke-dasharray="84.8 169.6" transform="rotate(-90 32 32)"></circle></svg>
+        <span style="position: absolute; left: 0; top: 0; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800">2/4</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 16px; font-weight: 700">{{s.weekTitle}}</span>
+        <span style="font-size: 13px; color: {{t.ink2}}">{{s.weekMeta}}</span>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <a href="Dir-C-Timer.dc.html" style="padding: 14px; border-radius: 22px; background: {{t.sf}}; color: {{t.ink}}; text-decoration: none; display: flex; flex-direction: column; gap: 10px">
+        <span style="width: 48px; height: 48px; border-radius: 16px; background: {{t.accSoft}}; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+          <svg width="32" height="36" viewBox="0 0 48 56" fill="none" stroke="{{t.accInk}}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="34" cy="8" r="5"></circle><path d="M32 14 26 30M26 30l12 8-2 12M26 30l-10 10-6-2M31 18l9 6M31 18l-11 2"></path></svg>
+        </span>
+        <span style="font-size: 16px; font-weight: 700">{{s.int}}</span>
+        <span style="font-size: 12px; color: {{t.ink2}}">{{s.intMeta}}</span>
+      </a>
+      <a href="S10-SesionFuerza.dc.html" style="padding: 14px; border-radius: 22px; background: {{t.sf}}; color: {{t.ink}}; text-decoration: none; display: flex; flex-direction: column; gap: 10px">
+        <span style="width: 48px; height: 48px; border-radius: 16px; background: {{t.strSoft}}; display: flex; align-items: center; justify-content: center" aria-hidden="true">
+          <svg width="32" height="36" viewBox="0 0 48 56" fill="none" stroke="{{t.strInk}}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="9" r="5"></circle><path d="M24 15v13M24 28l-9 6 2 14M24 28l9 6-2 14M8 19h32M8 15v8M40 15v8"></path></svg>
+        </span>
+        <span style="font-size: 16px; font-weight: 700">{{s.str}}</span>
+        <span style="font-size: 12px; color: {{t.ink2}}">{{s.strMeta}}</span>
+      </a>
+    </div>
+  </main>
+
+  <div style="margin: 8px 16px; height: 50px; flex-shrink: 0; border: 1px dashed {{t.line}}; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: {{t.ink2}}">{{s.ad}}</div>
+
+  <nav aria-label="{{s.navAria}}" style="height: 72px; flex-shrink: 0; padding: 0 12px 10px; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+    <a href="Dir-C-Inicio.dc.html" aria-current="page" style="display: flex; align-items: center; justify-content: center; border-radius: 22px; background: {{t.ink}}; color: {{t.bg}}; text-decoration: none; font-size: 12px; font-weight: 700">{{s.nHome}}</a>
+    <a href="S02-Entrenar.dc.html" style="display: flex; align-items: center; justify-content: center; border-radius: 22px; color: {{t.ink2}}; text-decoration: none; font-size: 12px; font-weight: 600">{{s.nTrain}}</a>
+    <a href="S12-Historial.dc.html" style="display: flex; align-items: center; justify-content: center; border-radius: 22px; color: {{t.ink2}}; text-decoration: none; font-size: 12px; font-weight: 600">{{s.nHist}}</a>
+    <a href="S14-Progreso.dc.html" style="display: flex; align-items: center; justify-content: center; border-radius: 22px; color: {{t.ink2}}; text-decoration: none; font-size: 12px; font-weight: 600">{{s.nProg}}</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#17181C', sf: '#222329', ink: '#F4F4F6', ink2: '#A6A8B0', line: '#3A3C44', hero: '#C2412B', acc: '#FF7A5C', track: '#34363E', accSoft: '#3A2620', accInk: '#FF9A80', strSoft: '#1E2A3B', strInk: '#8CB8F0' },
+  claro: { bg: '#F6F6F4', sf: '#FFFFFF', ink: '#17181C', ink2: '#5A5C64', line: '#C9CAC6', hero: '#C2412B', acc: '#D9482B', track: '#E6E6E2', accSoft: '#FDE7E1', accInk: '#B33A22', strSoft: '#E3EDFA', strInk: '#1E5BA8' }
+};
+var STR = {
+  es: { settings: 'Ajustes', photo: '[Foto con licencia: persona real entrenando, en acción]', today: 'HOY TOCA', todayName: 'Intervalos martes · 19 min', start: 'Empezar', progressAria: '2 de 4 sesiones esta semana', weekTitle: 'Vas a mitad de semana', weekMeta: '95 min activos · 3 semanas de racha', int: 'Intervalos', intMeta: 'Tabata, HIIT, EMOM, carrera', str: 'Fuerza', strMeta: 'Piernas A · hace 2 días', ad: 'Anuncio · banner', navAria: 'Navegación principal', nHome: 'Inicio', nTrain: 'Entrenar', nHist: 'Historial', nProg: 'Progreso' },
+  en: { settings: 'Settings', photo: '[Licensed photo: real person training, in action]', today: 'UP TODAY', todayName: 'Tuesday intervals · 19 min', start: 'Start', progressAria: '2 of 4 sessions this week', weekTitle: 'Halfway through your week', weekMeta: '95 active min · 3-week streak', int: 'Intervals', intMeta: 'Tabata, HIIT, EMOM, running', str: 'Strength', strMeta: 'Legs A · 2 days ago', ad: 'Ad · banner', navAria: 'Main navigation', nHome: 'Home', nTrain: 'Train', nHist: 'History', nProg: 'Progress' },
+  pt: { settings: 'Ajustes', photo: '[Foto licenciada: pessoa real treinando, em ação]', today: 'HOJE TEM', todayName: 'Intervalos de terça · 19 min', start: 'Começar', progressAria: '2 de 4 sessões nesta semana', weekTitle: 'Metade da semana feita', weekMeta: '95 min ativos · 3 semanas seguidas', int: 'Intervalos', intMeta: 'Tabata, HIIT, EMOM, corrida', str: 'Força', strMeta: 'Pernas A · há 2 dias', ad: 'Anúncio · banner', navAria: 'Navegação principal', nHome: 'Início', nTrain: 'Treinar', nHist: 'Histórico', nProg: 'Progresso' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    return { t: TOK[tema] || TOK.oscuro, s: STR[idioma] || STR.es, lang: idioma === 'pt' ? 'pt-BR' : idioma };
+  }
+}
+</script>
+</body>
+</html>

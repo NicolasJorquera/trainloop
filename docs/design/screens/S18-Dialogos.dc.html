@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S18 · Diálogos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.scrimBg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="padding: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; flex-shrink: 0" role="group" aria-label="{{s.pickAria}}">
+    <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+      <button type="button" onClick="{{tb.pick}}" aria-pressed="{{tb.on}}" style="height: 44px; border: 2px solid {{tb.border}}; border-radius: 6px; background: {{tb.bg}}; color: {{tb.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.4px; cursor: pointer">{{tb.label}}</button>
+    </sc-for>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 16px">
+    <sc-if value="{{isNotif}}" hint-placeholder-val="{{true}}">
+      <div role="dialog" aria-label="{{s.nTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <span style="width: 48px; height: 48px; border-radius: 6px; background: {{t.accSoft}}; color: {{t.accText}}; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg></span>
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.05">{{s.nTitle}}</h2>
+        <p style="margin: 0; font-size: 15px; color: {{t.ink2}}; line-height: 1.45">{{s.nBody}}</p>
+        <a href="S05-Temporizador.dc.html" style="height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.6px; text-decoration: none">{{s.continue}}</a>
+        <a href="S05-Temporizador.dc.html" style="height: 48px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: {{t.ink}}; text-decoration: underline">{{s.notNow}}</a>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isRecover}}" hint-placeholder-val="{{false}}">
+      <div role="alertdialog" aria-label="{{s.rTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.05">{{s.rTitle}}</h2>
+        <div style="padding: 12px 14px; border-radius: 6px; background: {{t.sf2}}; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700">TABATA 20/10</span>
+          <span style="font-size: 14px; color: {{t.ink2}}">{{s.rMeta}}</span>
+        </div>
+        <p style="margin: 0; font-size: 14px; color: {{t.ink2}}">{{s.rBody}}</p>
+        <a href="S05-Temporizador.dc.html" style="height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.6px; text-decoration: none">{{s.resume}}</a>
+        <a href="S06-Resumen.dc.html" style="height: 48px; border-radius: 6px; border: 2px solid {{t.ink}}; color: {{t.ink}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.4px; text-decoration: none">{{s.saveInc}}</a>
+        <a href="Main.dc.html" style="height: 48px; display: flex; align-items: center; justify-content: center; color: {{t.danger}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.4px; text-decoration: none">{{s.discard}}</a>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isBattery}}" hint-placeholder-val="{{false}}">
+      <div role="dialog" aria-label="{{s.bTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.05">{{s.bTitle}}</h2>
+        <p style="margin: 0; font-size: 14px; color: {{t.ink2}}; line-height: 1.45">{{s.bBody}}</p>
+        <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px">
+          <sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+            <li style="display: flex; gap: 10px; align-items: center; font-size: 15px"><span style="width: 28px; height: 28px; border-radius: 4px; background: {{t.accSoft}}; color: {{t.accText}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 800; flex-shrink: 0">{{st.n}}</span>{{st.text}}</li>
+          </sc-for>
+        </ol>
+        <button type="button" style="height: 52px; border: 0; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.6px; cursor: pointer">{{s.openSettings}}</button>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" style="height: 48px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; cursor: pointer">{{s.done}}</button>
+          <button type="button" style="height: 48px; border: 0; border-radius: 6px; background: transparent; color: {{t.ink2}}; font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; cursor: pointer">{{s.later}}</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isGoal}}" hint-placeholder-val="{{false}}">
+      <div role="dialog" aria-label="{{s.gTitle}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 14px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; line-height: 1.05">{{s.gTitle}}</h2>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+          <sc-for list="{{goals}}" as="g" hint-placeholder-count="7">
+            <button type="button" onClick="{{g.pick}}" aria-pressed="{{g.on}}" style="height: 48px; border: 2px solid {{g.border}}; border-radius: 6px; background: {{g.bg}}; color: {{g.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 800; cursor: pointer; padding: 0">{{g.n}}</button>
+          </sc-for>
+        </div>
+        <span style="font-size: 14px; color: {{t.ink2}}">{{s.gDays}}</span>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px">
+          <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+            <span style="height: 40px; border-radius: 4px; border: 2px solid {{d.border}}; background: {{d.bg}}; color: {{d.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; box-sizing: border-box">{{d.l}}</span>
+          </sc-for>
+        </div>
+        <a href="Main.dc.html" style="height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.6px; text-decoration: none">{{s.save}}</a>
+        <a href="Main.dc.html" style="height: 44px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: {{t.ink}}; text-decoration: underline">{{s.skip}}</a>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"dialogo":{"editor":"enum","options":["notificaciones","recuperacion","bateria","objetivo"],"default":"recuperacion"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { scrimBg: '#050506', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', priBg: '#D45CFF', priInk: '#0E0F11', danger: '#FF6B6B', tabOnBg: '#F2F3EF', tabOnFg: '#0E0F11', tabFg: '#F2F3EF', tabBorder: '#F2F3EF' },
+  claro: { scrimBg: '#7A7B76', sf: '#FFFFFF', sf2: '#F2F2EE', ink: '#0E0F11', ink2: '#555A60', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', priBg: '#0E0F11', priInk: '#D45CFF', danger: '#C92A2A', tabOnBg: '#FFFFFF', tabOnFg: '#0E0F11', tabFg: '#FFFFFF', tabBorder: '#FFFFFF' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { pickAria: 'Elegir diálogo', tabs: ['A · NOTIFICACIONES', 'B · RECUPERACIÓN', 'C · BATERÍA', 'D · OBJETIVO SEMANAL'],
+    nTitle: 'SIGUE TU ENTRENAMIENTO CON LA PANTALLA APAGADA', nBody: 'Trainloop muestra una notificación mientras entrenas para que veas la fase y el tiempo sin desbloquear el teléfono.', continue: 'CONTINUAR', notNow: 'Ahora no · empezar igual',
+    rTitle: 'TIENES UN ENTRENAMIENTO SIN TERMINAR', rMeta: 'Ronda 5/8 · interrumpido hace 12 min', rBody: 'Android cerró la app. Guardamos tu avance hasta el último punto.', resume: 'REANUDAR (EN PAUSA)', saveInc: 'GUARDAR COMO INCOMPLETA', discard: 'DESCARTAR',
+    bTitle: 'EVITA QUE SAMSUNG PAUSE EL TEMPORIZADOR', bBody: 'Algunos teléfonos detienen apps en segundo plano para ahorrar batería. Se configura una sola vez:', steps: ['Ajustes › Aplicaciones › Trainloop', 'Batería', 'Elige «Sin restricciones»'], openSettings: 'ABRIR AJUSTES', done: 'YA LO HICE', later: 'MÁS TARDE',
+    gTitle: '¿CUÁNTAS VECES QUIERES ENTRENAR POR SEMANA?', gDays: 'Días preferidos (opcional, para recordatorios)', days: ['L', 'M', 'M', 'J', 'V', 'S', 'D'], save: 'GUARDAR', skip: 'Omitir' },
+  en: { pickAria: 'Choose dialog', tabs: ['A · NOTIFICATIONS', 'B · RECOVERY', 'C · BATTERY', 'D · WEEKLY GOAL'],
+    nTitle: 'KEEP TRAINING WITH THE SCREEN OFF', nBody: 'Trainloop shows a notification while you train so you can see the phase and time without unlocking your phone.', continue: 'CONTINUE', notNow: 'Not now · start anyway',
+    rTitle: 'YOU HAVE AN UNFINISHED WORKOUT', rMeta: 'Round 5/8 · interrupted 12 min ago', rBody: 'Android closed the app. We saved your progress up to the last point.', resume: 'RESUME (PAUSED)', saveInc: 'SAVE AS INCOMPLETE', discard: 'DISCARD',
+    bTitle: 'STOP SAMSUNG FROM PAUSING THE TIMER', bBody: 'Some phones stop background apps to save battery. You only need to set this once:', steps: ['Settings › Apps › Trainloop', 'Battery', 'Choose “Unrestricted”'], openSettings: 'OPEN SETTINGS', done: 'DONE', later: 'LATER',
+    gTitle: 'HOW MANY TIMES A WEEK DO YOU WANT TO TRAIN?', gDays: 'Preferred days (optional, for reminders)', days: ['M', 'T', 'W', 'T', 'F', 'S', 'S'], save: 'SAVE', skip: 'Skip' },
+  pt: { pickAria: 'Escolher diálogo', tabs: ['A · NOTIFICAÇÕES', 'B · RECUPERAÇÃO', 'C · BATERIA', 'D · META SEMANAL'],
+    nTitle: 'CONTINUE TREINANDO COM A TELA APAGADA', nBody: 'O Trainloop mostra uma notificação enquanto você treina para você ver a fase e o tempo sem desbloquear o celular.', continue: 'CONTINUAR', notNow: 'Agora não · começar mesmo assim',
+    rTitle: 'VOCÊ TEM UM TREINO NÃO TERMINADO', rMeta: 'Rodada 5/8 · interrompido há 12 min', rBody: 'O Android fechou o app. Salvamos seu progresso até o último ponto.', resume: 'RETOMAR (PAUSADO)', saveInc: 'SALVAR COMO INCOMPLETO', discard: 'DESCARTAR',
+    bTitle: 'IMPEÇA A SAMSUNG DE PAUSAR O CRONÔMETRO', bBody: 'Alguns celulares param apps em segundo plano para economizar bateria. Basta configurar uma vez:', steps: ['Configurações › Apps › Trainloop', 'Bateria', 'Escolha “Sem restrições”'], openSettings: 'ABRIR CONFIGURAÇÕES', done: 'JÁ FIZ', later: 'DEPOIS',
+    gTitle: 'QUANTAS VEZES POR SEMANA VOCÊ QUER TREINAR?', gDays: 'Dias preferidos (opcional, para lembretes)', days: ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'], save: 'SALVAR', skip: 'Pular' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var self = this;
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var cur = st.d || this.props.dialogo || 'recuperacion';
+    var ids = ['notificaciones', 'recuperacion', 'bateria', 'objetivo'];
+    var tabs = ids.map(function (id, i) {
+      var on = cur === id;
+      return { label: s.tabs[i], on: on, bg: on ? t.tabOnBg : 'transparent', fg: on ? t.tabOnFg : t.tabFg, border: t.tabBorder, pick: function () { self.setState({ d: id }); } };
+    });
+    var g = st.goal || 4;
+    var goals = [1, 2, 3, 4, 5, 6, 7].map(function (n) {
+      var on = n === g;
+      return { n: n, on: on, bg: on ? t.ink : 'transparent', fg: on ? t.sf : t.ink, border: t.ink, pick: function () { self.setState({ goal: n }); } };
+    });
+    var picked = [true, true, false, true, true, false, false];
+    var days = s.days.map(function (l, i) {
+      return { l: l, bg: picked[i] ? t.acc : 'transparent', fg: picked[i] ? t.priInkOnAcc || (tema === 'claro' ? '#FFFFFF' : '#0E0F11') : t.ink, border: picked[i] ? t.acc : t.ink2 };
+    });
+    var steps = s.steps.map(function (text, i) { return { n: i + 1, text: text }; });
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      tabs: tabs, goals: goals, days: days, steps: steps,
+      isNotif: cur === 'notificaciones',
+      isRecover: cur === 'recuperacion',
+      isBattery: cur === 'bateria',
+      isGoal: cur === 'objetivo'
+    };
+  }
+}
+</script>
+</body>
+</html>

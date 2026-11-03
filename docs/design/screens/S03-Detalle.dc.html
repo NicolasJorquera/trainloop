@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S03 · Detalle antes de empezar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.scrim}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; position: relative">
+  <a href="S02-Entrenar.dc.html" aria-label="{{s.close}}" style="position: absolute; left: 0; top: 0; width: 390px; height: 250px"></a>
+  <section role="dialog" aria-label="Tabata 20/10" style="background: {{t.sf}}; border-radius: 12px 12px 0 0; padding: 8px 20px 24px; display: flex; flex-direction: column; gap: 16px; height: 594px; box-sizing: border-box; position: relative">
+    <div style="align-self: center; width: 36px; height: 4px; border-radius: 2px; background: {{t.line}}" aria-hidden="true"></div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1">TABATA 20/10</h1>
+        <span style="font-size: 14px; color: {{t.ink2}}">{{s.meta}}</span>
+      </div>
+      <a href="S02-Entrenar.dc.html" aria-label="{{s.close}}" style="width: 48px; height: 48px; margin: -6px -12px 0 0; display: flex; align-items: center; justify-content: center; color: {{t.ink2}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+    </div>
+
+    <ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+      <li style="display: flex; align-items: center; gap: 12px; height: 52px; padding: 0 14px; border-radius: 6px; background: {{t.sf2}}">
+        <span style="width: 22px; height: 22px; border-radius: 4px; background: #0E0F11; border: 1px solid {{t.line}}; color: #F2F3EF; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">■</span>
+        <span style="flex-grow: 1; font-size: 16px">{{s.prep}}</span>
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">0:10</span>
+      </li>
+      <li style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 6px; border: 2px solid {{t.line}}">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}"><span>{{s.repeat}}</span><span>{{s.rounds}}</span></div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 44px">
+          <span style="width: 22px; height: 22px; border-radius: 4px; background: {{P.work.bg}}; color: {{P.work.ink}}; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">▲</span>
+          <span style="flex-grow: 1; font-size: 16px">{{s.work}}</span>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">0:20</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 44px">
+          <span style="width: 22px; height: 22px; border-radius: 4px; background: {{P.rest.bg}}; color: {{P.rest.ink}}; display: flex; align-items: center; justify-content: center; font-size: 11px" aria-hidden="true">●</span>
+          <span style="flex-grow: 1; font-size: 16px">{{s.rest}}</span>
+          <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums">0:10</span>
+        </div>
+        <span style="font-size: 13px; color: {{t.ink2}}">{{s.skipLast}}</span>
+      </li>
+    </ol>
+
+    <span style="font-size: 14px; color: {{t.ink2}}">{{s.alerts}}</span>
+    <div style="flex-grow: 1"></div>
+
+    <a href="S05-Temporizador.dc.html" style="height: 60px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 0.5px; text-decoration: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>{{s.start}}</a>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <a href="S04-EditorIntervalos.dc.html" style="height: 52px; border-radius: 6px; border: 2px solid {{t.ink}}; color: {{t.ink}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; text-decoration: none">{{s.edit}}</a>
+      <button type="button" onClick="{{dup}}" style="height: 52px; border-radius: 6px; border: 2px solid {{t.ink}}; background: transparent; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer">{{s.duplicate}}</button>
+    </div>
+    <sc-if value="{{dupDone}}" hint-placeholder-val="{{false}}">
+      <div role="status" style="position: absolute; left: 16px; right: 16px; bottom: 16px; height: 52px; padding: 0 16px; border-radius: 6px; background: {{t.snack}}; color: {{t.snackInk}}; display: flex; align-items: center; justify-content: space-between; font-size: 14px">
+        <span>{{s.copied}}</span>
+        <a href="S04-EditorIntervalos.dc.html" style="color: {{t.snackLink}}; font-weight: 600; text-decoration: none">{{s.editShort}}</a>
+      </div>
+    </sc-if>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { scrim: '#050506', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', priBg: '#D45CFF', priInk: '#0E0F11', snack: '#F2F3EF', snackInk: '#0E0F11', snackLink: '#8A2BBF' },
+  claro: { scrim: '#5E5F5B', sf: '#FFFFFF', sf2: '#F2F2EE', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', priBg: '#0E0F11', priInk: '#D45CFF', snack: '#0E0F11', snackInk: '#F2F3EF', snackLink: '#D45CFF' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { close: 'Cerrar', meta: '4:10 en total · 8 rondas · plantilla', prep: 'Preparación', repeat: 'REPETICIÓN', rounds: '× 8 RONDAS', work: 'Trabajo', rest: 'Descanso', skipLast: 'Se omite el último descanso', alerts: 'Voz, pitidos y vibración activados', start: 'EMPEZAR', edit: 'EDITAR', duplicate: 'DUPLICAR', copied: 'Copia creada: «Tabata 20/10 (2)»', editShort: 'Editar' },
+  en: { close: 'Close', meta: '4:10 total · 8 rounds · template', prep: 'Get ready', repeat: 'REPEAT', rounds: '× 8 ROUNDS', work: 'Work', rest: 'Rest', skipLast: 'Last rest is skipped', alerts: 'Voice, beeps and vibration on', start: 'START', edit: 'EDIT', duplicate: 'DUPLICATE', copied: 'Copy created: "Tabata 20/10 (2)"', editShort: 'Edit' },
+  pt: { close: 'Fechar', meta: '4:10 no total · 8 rodadas · modelo', prep: 'Preparação', repeat: 'REPETIÇÃO', rounds: '× 8 RODADAS', work: 'Trabalho', rest: 'Descanso', skipLast: 'O último descanso é pulado', alerts: 'Voz, bipes e vibração ativados', start: 'INICIAR', edit: 'EDITAR', duplicate: 'DUPLICAR', copied: 'Cópia criada: «Tabata 20/10 (2)»', editShort: 'Editar' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var self = this;
+    var acento = this.props.acento ?? 'orquidea', a = ACC[acento] || ACC.orquidea;
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento);
+    t.snackLink = tema === 'claro' ? a.d : a.l;
+    return {
+      t: t, P: phasesFor(acento), s: STR[idioma] || STR.es, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      dupDone: !!(this.state && this.state.dup),
+      dup: function () { self.setState({ dup: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

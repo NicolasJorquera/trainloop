@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S06 · Resumen de sesión</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden; position: relative">
+  <main style="flex-grow: 1; padding: 32px 20px 16px; display: flex; flex-direction: column; gap: 18px; overflow: hidden">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="width: 48px; height: 48px; border-radius: 6px; background: {{t.okSoft}}; color: {{t.ok}}; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+      <h1 style="margin: 8px 0 0; font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-size: 40px; font-weight: 800; line-height: 1; text-transform: uppercase">{{s.title}}</h1>
+      <span style="font-size: 15px; color: {{t.ink2}}">{{subtitle}}</span>
+    </div>
+
+    <sc-if value="{{isInt}}" hint-placeholder-val="{{true}}">
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.total}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 34px; font-weight: 800; line-height: 1">4:10</span></div>
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.rounds}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 34px; font-weight: 800; line-height: 1">8/8</span></div>
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.work}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 34px; font-weight: 800; line-height: 1">2:40</span></div>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: {{t.ink2}}">{{s.noSkips}}</p>
+    </sc-if>
+
+    <sc-if value="{{isStr}}" hint-placeholder-val="{{false}}">
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.duration}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; line-height: 1">52 MIN</span></div>
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.volume}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; line-height: 1">{{s.volVal}}</span></div>
+        <div style="padding: 12px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; font-weight: 600; letter-spacing: 1px; color: {{t.ink2}}">{{s.sets}}</span><span style="font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; line-height: 1">18</span></div>
+      </div>
+      <div style="padding: 14px 16px; background: {{t.accSoft}}; border-radius: 8px; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 1px; color: {{t.accText}}">{{s.record}}</span>
+        <span style="font-size: 15px">{{s.recordVal}}</span>
+      </div>
+      <div style="padding: 14px 16px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 15px; font-weight: 500">{{s.updateQ}}</span>
+        <div style="display: flex; gap: 8px">
+          <button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{s.yesUpdate}}</button>
+          <button type="button" style="height: 44px; padding: 0 18px; border: 2px solid {{t.ink}}; border-radius: 6px; background: transparent; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{s.no}}</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <section style="display: flex; flex-direction: column; gap: 8px" aria-label="{{s.rpeAria}}">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.rpeQ}}</span>
+      <div style="display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px">
+        <sc-for list="{{rpe}}" as="r" hint-placeholder-count="10">
+          <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" aria-label="{{r.aria}}" style="height: 44px; border: 1px solid {{r.border}}; border-radius: 4px; background: {{r.bg}}; color: {{r.fg}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; cursor: pointer; padding: 0">{{r.n}}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 12px; color: {{t.ink2}}"><span>{{s.easy}}</span><span>{{s.max}}</span></div>
+    </section>
+
+    <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.2px; color: {{t.ink2}}">{{s.note}}
+      <textarea rows="2" placeholder="{{s.notePh}}" style="padding: 12px; border: 1px solid {{t.line}}; border-radius: 6px; background: {{t.field}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; font-size: 15px; letter-spacing: 0; resize: none"></textarea>
+    </label>
+  </main>
+
+  <footer style="flex-shrink: 0; padding: 12px 20px 24px; display: flex; flex-direction: column; gap: 4px">
+    <a href="Main.dc.html" style="height: 56px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.done}}</a>
+    <button type="button" onClick="{{askDiscard}}" style="height: 48px; border: 0; background: transparent; color: {{t.danger}}; font-family: Inter, system-ui, sans-serif; font-size: 15px; font-weight: 600; cursor: pointer">{{s.discard}}</button>
+  </footer>
+
+  <sc-if value="{{confirm}}" hint-placeholder-val="{{false}}">
+    <div style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
+      <div role="alertdialog" aria-label="{{s.discardQ}}" style="width: 100%; padding: 24px; background: {{t.sf}}; border-radius: 8px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 800; text-transform: uppercase">{{s.discardQ}}</h2>
+        <p style="margin: 0; font-size: 15px; color: {{t.ink2}}">{{s.discardBody}}</p>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px">
+          <button type="button" onClick="{{cancel}}" style="height: 48px; padding: 0 16px; border: 0; background: transparent; color: {{t.accText}}; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer">{{s.cancel}}</button>
+          <a href="Main.dc.html" style="height: 48px; padding: 0 18px; border-radius: 6px; background: {{t.danger}}; color: #0E0F11; display: flex; align-items: center; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 800; text-transform: uppercase; text-decoration: none">{{s.discardBtn}}</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tipo":{"editor":"enum","options":["intervalos","fuerza"],"default":"intervalos"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', acc: '#D45CFF', accText: '#D45CFF', accSoft: '#2A1838', priBg: '#D45CFF', priInk: '#0E0F11', ok: '#5CD38A', okSoft: '#15301F', danger: '#FF6B6B', warn: '#FFB547', field: '#22252A' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', acc: '#8A2BBF', accText: '#8A2BBF', accSoft: '#F3E6FA', priBg: '#0E0F11', priInk: '#D45CFF', ok: '#2B8A3E', okSoft: '#E6F4EA', danger: '#C92A2A', warn: '#B35C00', field: '#F2F2EE' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { title: '¡Sesión completa!', subInt: 'Tabata 20/10 · hoy, 07:12', subStr: 'Piernas A · hoy, 19:05', total: 'TOTAL', rounds: 'RONDAS', work: 'TRABAJO', noSkips: '0 fases omitidas · sin interrupciones', duration: 'DURACIÓN', volume: 'VOLUMEN', volVal: '6.240 KG', sets: 'SERIES', record: 'RÉCORD NUEVO', recordVal: 'Sentadilla: 85 kg × 8 · 1RM estimado 107,7 kg', updateQ: 'Agregaste «Zancadas». ¿Actualizar la rutina «Piernas A»?', yesUpdate: 'Sí, actualizar', no: 'No', rpeAria: 'Esfuerzo percibido', rpeQ: '¿QUÉ TAN DURO FUE? (OPCIONAL)', rpeN: 'Esfuerzo', easy: 'Muy suave', max: 'Máximo', note: 'NOTA', notePh: 'Ej.: «Rodilla molesta en la última ronda»', done: 'Listo', discard: 'Descartar sesión', discardQ: '¿Descartar esta sesión?', discardBody: 'No se guardará en tu historial ni contará para tu semana.', cancel: 'Cancelar', discardBtn: 'Descartar' },
+  en: { title: 'Session complete!', subInt: 'Tabata 20/10 · today, 7:12 AM', subStr: 'Legs A · today, 7:05 PM', total: 'TOTAL', rounds: 'ROUNDS', work: 'WORK', noSkips: '0 phases skipped · no interruptions', duration: 'DURATION', volume: 'VOLUME', volVal: '6,240 KG', sets: 'SETS', record: 'NEW RECORD', recordVal: 'Squat: 85 kg × 8 · estimated 1RM 107.7 kg', updateQ: 'You added "Lunges". Update the "Legs A" routine?', yesUpdate: 'Yes, update', no: 'No', rpeAria: 'Perceived effort', rpeQ: 'HOW HARD WAS IT? (OPTIONAL)', rpeN: 'Effort', easy: 'Very easy', max: 'Max', note: 'NOTE', notePh: 'E.g. "Knee felt off in the last round"', done: 'Done', discard: 'Discard session', discardQ: 'Discard this session?', discardBody: 'It won’t be saved to your history or count toward your week.', cancel: 'Cancel', discardBtn: 'Discard' },
+  pt: { title: 'Sessão completa!', subInt: 'Tabata 20/10 · hoje, 07:12', subStr: 'Pernas A · hoje, 19:05', total: 'TOTAL', rounds: 'RODADAS', work: 'TRABALHO', noSkips: '0 fases puladas · sem interrupções', duration: 'DURAÇÃO', volume: 'VOLUME', volVal: '6.240 KG', sets: 'SÉRIES', record: 'NOVO RECORDE', recordVal: 'Agachamento: 85 kg × 8 · 1RM estimado 107,7 kg', updateQ: 'Você adicionou «Avanço». Atualizar a rotina «Pernas A»?', yesUpdate: 'Sim, atualizar', no: 'Não', rpeAria: 'Esforço percebido', rpeQ: 'QUÃO PESADO FOI? (OPCIONAL)', rpeN: 'Esforço', easy: 'Muito leve', max: 'Máximo', note: 'NOTA', notePh: 'Ex.: «Joelho incomodou na última rodada»', done: 'Pronto', discard: 'Descartar sessão', discardQ: 'Descartar esta sessão?', discardBody: 'Ela não será salva no histórico nem contará para a sua semana.', cancel: 'Cancelar', discardBtn: 'Descartar' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var st = this.state || {};
+    var self = this;
+    var tipo = this.props.tipo ?? 'intervalos';
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = (this.state && this.state.acento) || this.props.acento || 'orquidea';
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var sel = st.rpe || 0;
+    var rpe = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (n) {
+      var on = n === sel;
+      return { n: n, on: on, aria: s.rpeN + ' ' + n, bg: on ? t.priBg : 'transparent', fg: on ? t.priInk : t.ink, border: on ? t.priBg : t.line, pick: function () { self.setState({ rpe: n }); } };
+    });
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      isInt: tipo === 'intervalos',
+      isStr: tipo === 'fuerza',
+      subtitle: tipo === 'fuerza' ? s.subStr : s.subInt,
+      rpe: rpe,
+      confirm: !!st.confirm,
+      askDiscard: function () { self.setState({ confirm: true }); },
+      cancel: function () { self.setState({ confirm: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

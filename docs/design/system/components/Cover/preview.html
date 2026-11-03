@@ -1,0 +1,30 @@
+<!-- @dsCard height=288 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Inter:wght@400;500&display=swap">
+<div style="position:relative;width:960px;height:288px;overflow:hidden;background:var(--bg)">
+  <style>
+    .tl-work{fill:var(--phase-work)}
+    .tl-rest{fill:var(--phase-rest)}
+    .tl-warm{fill:var(--phase-warm)}
+    .tl-cool{fill:var(--phase-cool)}
+    .tl-glyph{fill:var(--phase-work-ink);font-family:var(--font-display);font-style:italic;font-weight:800}
+    .tl-r{rx:var(--radius-lg)}
+  </style>
+  <!--
+    blocks: phase-work 268×288 (slab), phase-rest 176×168, phase-warm 80×104, phase-cool 80×104 — orchid takes the largest field because it is the brand.
+    arrangement: one tall slab with satellites stacked on the right, bleeding off the top, right and bottom edges; gaps are space-4 (16px).
+    pattern: a distinctive numerals face → one oversized numeral "12" in Barlow Condensed italic, in phase-work-ink, clipped by the orchid slab, because the timer number is the product's face.
+    scales: gap space-4 (16px), corners radius-lg (8px), satellite widths 5 × space-4.
+  -->
+  <svg width="960" height="288" viewBox="0 0 960 288" aria-hidden="true" style="position:absolute;left:0;top:0">
+    <defs><clipPath id="tl-slab"><rect x="500" y="0" width="268" height="288" rx="8"/></clipPath></defs>
+    <rect class="tl-work tl-r" x="500" y="-8" width="268" height="304"/>
+    <text class="tl-glyph" x="508" y="318" font-size="330" clip-path="url(#tl-slab)">12</text>
+    <rect class="tl-rest tl-r" x="784" y="-8" width="184" height="176"/>
+    <rect class="tl-warm tl-r" x="784" y="184" width="80" height="112"/>
+    <rect class="tl-cool tl-r" x="880" y="184" width="88" height="112"/>
+  </svg>
+  <div style="position:absolute;left:32px;bottom:32px;max-width:440px;display:flex;flex-direction:column;gap:8px">
+    <div style="font-family:var(--font-display);font-style:italic;font-weight:800;font-size:80px;line-height:.92;color:var(--ink)">Trainloop</div>
+    <div style="font-family:var(--font-body);font-size:14px;color:var(--ink-muted)">Intervalos que no se cortan y series en un toque.</div>
+  </div>
+</div>

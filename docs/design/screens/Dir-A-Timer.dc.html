@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>A · Temporizador</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{p.bg}}; color: {{p.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="padding: 20px 20px 0; display: flex; flex-direction: column; gap: 12px; flex-shrink: 0">
+    <div style="display: flex; gap: 3px; height: 6px" role="img" aria-label="{{s.progressAria}}">
+      <sc-for list="{{segs}}" as="g" hint-placeholder-count="16">
+        <span style="flex-grow: {{g.d}}; flex-basis: 0; height: 6px; background: {{p.ink}}; opacity: {{g.o}}"></span>
+      </sc-for>
+    </div>
+    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; letter-spacing: 1px">
+      <span>TABATA 20/10</span>
+      <span>{{s.round}}</span>
+    </div>
+  </div>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 20px">
+    <span style="font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-weight: 800; font-size: 64px; line-height: 0.9; letter-spacing: 0.5px">{{p.icon}} {{phaseName}}</span>
+    <span style="font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 188px; line-height: 0.85; letter-spacing: -3px; font-variant-numeric: tabular-nums" aria-live="polite">{{p.time}}</span>
+    <span style="margin-top: 12px; font-size: 17px; font-weight: 500; opacity: 0.85">{{nextLabel}}</span>
+  </div>
+
+  <div style="flex-shrink: 0; padding: 0 20px 14px; display: flex; align-items: center; justify-content: space-between">
+    <button type="button" aria-label="{{s.prev}}" style="width: 64px; height: 64px; border: 2px solid {{p.ink}}; border-radius: 6px; background: transparent; color: {{p.ink}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 20 9 12l10-8zM5 19V5h2v14z"></path></svg></button>
+    <button type="button" aria-label="{{s.pause}}" style="width: 152px; height: 88px; border: 0; border-radius: 6px; background: {{p.ink}}; color: {{p.bg}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></button>
+    <button type="button" aria-label="{{s.skip}}" style="width: 64px; height: 64px; border: 2px solid {{p.ink}}; border-radius: 6px; background: transparent; color: {{p.ink}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4l10 8-10 8zM17 5h2v14h-2z"></path></svg></button>
+  </div>
+  <div style="flex-shrink: 0; padding: 0 20px 28px; display: flex; gap: 10px">
+    <button type="button" style="flex-grow: 1; height: 52px; border: 2px solid {{p.ink}}; border-radius: 6px; background: transparent; color: {{p.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; cursor: pointer">{{s.hold}}</button>
+    <button type="button" aria-label="{{s.lock}}" style="width: 52px; height: 52px; border: 2px solid {{p.ink}}; border-radius: 6px; background: transparent; color: {{p.ink}}; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"fase":{"editor":"enum","options":["trabajo","descanso","preparacion"],"default":"trabajo"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"$preview":{"width":390,"height":844}}'>
+var PH = {
+  trabajo: { bg: '#D7FF3A', ink: '#0E0F11', icon: '▲', time: '0:12', key: 'work', next: 'rest' },
+  descanso: { bg: '#1864AB', ink: '#FFFFFF', icon: '●', time: '0:07', key: 'rest', next: 'work' },
+  preparacion: { bg: '#0E0F11', ink: '#F2F3EF', icon: '■', time: '0:04', key: 'prep', next: 'work' }
+};
+var STR = {
+  es: { work: 'TRABAJO', rest: 'DESCANSO', prep: 'PREPÁRATE', next: 'Siguiente', round: 'RONDA 3/8', prev: 'Volver al inicio de la fase', pause: 'Pausar', skip: 'Saltar fase', hold: 'MANTÉN PARA DETENER', lock: 'Bloquear controles', progressAria: 'Fase 6 de 16' },
+  en: { work: 'WORK', rest: 'REST', prep: 'GET READY', next: 'Next', round: 'ROUND 3/8', prev: 'Back to phase start', pause: 'Pause', skip: 'Skip phase', hold: 'HOLD TO STOP', lock: 'Lock controls', progressAria: 'Phase 6 of 16' },
+  pt: { work: 'TRABALHO', rest: 'DESCANSO', prep: 'PREPARE-SE', next: 'Próximo', round: 'RODADA 3/8', prev: 'Voltar ao início da fase', pause: 'Pausar', skip: 'Pular fase', hold: 'SEGURE PARA PARAR', lock: 'Bloquear controles', progressAria: 'Fase 6 de 16' }
+};
+class Component extends DCLogic {
+  renderVals() {
+    var fase = this.props.fase ?? 'trabajo', idioma = this.props.idioma ?? 'es';
+    var p = PH[fase] || PH.trabajo, s = STR[idioma] || STR.es;
+    var segs = [];
+    for (var i = 0; i < 16; i++) segs.push({ d: i === 0 ? 10 : (i % 2 ? 20 : 10), o: i < 5 ? 1 : i === 5 ? 0.7 : 0.25 });
+    var nextDur = p.next === 'rest' ? '0:10' : '0:20';
+    return { p: p, s: s, segs: segs, phaseName: s[p.key], nextLabel: s.next + ': ' + s[p.next].charAt(0) + s[p.next].slice(1).toLowerCase() + ' ' + nextDur, lang: idioma === 'pt' ? 'pt-BR' : idioma };
+  }
+}
+</script>
+</body>
+</html>

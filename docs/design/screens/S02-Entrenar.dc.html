@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>S02 · Entrenar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&amp;family=Inter:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+</style>
+</helmet>
+<div lang="{{lang}}" style="width: 390px; height: 844px; box-sizing: border-box; background: {{t.bg}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <header style="height: 64px; padding: 0 12px 0 20px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0">
+    <h1 style="margin: 0; font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 0.3px">{{s.title}}</h1>
+    <sc-if value="{{showInt}}" hint-placeholder-val="{{true}}">
+      <a href="S04-EditorIntervalos.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; gap: 6px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{s.newInt}}</a>
+    </sc-if>
+    <sc-if value="{{showRut}}" hint-placeholder-val="{{false}}">
+      <a href="S07-EditorRutina.dc.html" style="height: 44px; padding: 0 16px; display: flex; align-items: center; gap: 6px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{s.newRut}}</a>
+    </sc-if>
+  </header>
+
+  <div role="tablist" aria-label="{{s.tabsAria}}" style="margin: 0 16px 12px; padding: 4px; background: {{t.sf2}}; border-radius: 6px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; flex-shrink: 0">
+    <sc-if value="{{showInt}}" hint-placeholder-val="{{true}}">
+      <button role="tab" aria-selected="true" onClick="{{pickInt}}" style="height: 40px; border: 0; border-radius: 4px; background: {{t.sf}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer">{{s.int}}</button>
+      <button role="tab" aria-selected="false" onClick="{{pickRut}}" style="height: 40px; border: 0; border-radius: 4px; background: transparent; color: {{t.ink2}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer">{{s.rut}}</button>
+    </sc-if>
+    <sc-if value="{{showRut}}" hint-placeholder-val="{{false}}">
+      <button role="tab" aria-selected="false" onClick="{{pickInt}}" style="height: 40px; border: 0; border-radius: 4px; background: transparent; color: {{t.ink2}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; cursor: pointer">{{s.int}}</button>
+      <button role="tab" aria-selected="true" onClick="{{pickRut}}" style="height: 40px; border: 0; border-radius: 4px; background: {{t.sf}}; color: {{t.ink}}; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer">{{s.rut}}</button>
+    </sc-if>
+  </div>
+
+  <main style="flex-grow: 1; padding: 0 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden">
+    <sc-if value="{{showInt}}" hint-placeholder-val="{{true}}">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{intItems}}" as="it" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; background: {{t.sf}}; border-radius: 8px">
+            <a href="S03-Detalle.dc.html" style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: {{t.ink}}">
+              <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; line-height: 1">{{it.name}}</span>
+              <span style="font-size: 13px; color: {{t.ink2}}">{{it.meta}}</span>
+              <span style="display: flex; gap: 3px" aria-hidden="true">
+                <sc-for list="{{it.bars}}" as="b" hint-placeholder-count="5">
+                  <span style="width: {{b.w}}px; height: 5px; border-radius: 2px; background: {{b.c}}"></span>
+                </sc-for>
+              </span>
+            </a>
+            <a href="S05-Temporizador.dc.html" aria-label="{{it.startAria}}" style="width: 52px; height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg></a>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{showRut}}" hint-placeholder-val="{{false}}">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{rutItems}}" as="it" hint-placeholder-count="3">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; background: {{t.sf}}; border-radius: 8px">
+            <a href="S07-EditorRutina.dc.html" style="flex-grow: 1; display: flex; flex-direction: column; gap: 4px; text-decoration: none; color: {{t.ink}}">
+              <span style="font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; line-height: 1">{{it.name}}</span>
+              <span style="font-size: 13px; color: {{t.ink2}}">{{it.meta}}</span>
+            </a>
+            <a href="S10-SesionFuerza.dc.html" aria-label="{{it.startAria}}" style="width: 52px; height: 52px; border-radius: 6px; background: {{t.priBg}}; color: {{t.priInk}}; display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg></a>
+          </div>
+        </sc-for>
+        <a href="S10-SesionFuerza.dc.html" style="height: 56px; border: 2px dashed {{t.line}}; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: {{t.ink}}; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-decoration: none">{{s.free}}</a>
+        <p style="margin: 4px 0 0; font-size: 13px; color: {{t.ink2}}">{{s.hint}}</p>
+      </div>
+    </sc-if>
+  </main>
+
+  <div style="margin: 8px 16px; height: 50px; flex-shrink: 0; border: 1px dashed {{t.line}}; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: {{t.ink2}}">{{s.ad}}</div>
+
+  <nav aria-label="{{s.navAria}}" style="height: 68px; flex-shrink: 0; background: {{t.nav}}; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>{{s.nHome}}</a>
+    <a href="S02-Entrenar.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink}}; font-size: 11px; font-weight: 600; letter-spacing: 0.6px; border-top: 3px solid {{t.navOn}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12"></path></svg>{{s.nTrain}}</a>
+    <a href="S12-Historial.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{{s.nHist}}</a>
+    <a href="S14-Progreso.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; color: {{t.ink2}}; font-size: 11px; font-weight: 500; letter-spacing: 0.6px; border-top: 3px solid transparent">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"></path></svg>{{s.nProg}}</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"acento":{"editor":"enum","options":["orquidea","rosa","rojo","naranja","amarillo","lima","azul","violeta"],"default":"orquidea"},"tema":{"editor":"enum","options":["oscuro","claro"],"default":"oscuro"},"idioma":{"editor":"enum","options":["es","en","pt"],"default":"es"},"tab":{"editor":"enum","options":["intervalos","rutinas"],"default":"intervalos"},"$preview":{"width":390,"height":844}}'>
+var TOK = {
+  oscuro: { bg: '#0E0F11', sf: '#191B1E', sf2: '#22252A', ink: '#F2F3EF', ink2: '#A2A7AD', line: '#34383E', priBg: '#D45CFF', priInk: '#0E0F11', nav: '#141518', navOn: '#D45CFF' },
+  claro: { bg: '#F2F2EE', sf: '#FFFFFF', sf2: '#E8E8E3', ink: '#0E0F11', ink2: '#555A60', line: '#C9CBC4', priBg: '#0E0F11', priInk: '#D45CFF', nav: '#FFFFFF', navOn: '#8A2BBF' }
+};
+var ACC = {
+ orquidea:{n:{es:'Orquídea',en:'Orchid',pt:'Orquídea'},d:'#D45CFF',l:'#8A2BBF',sd:'#2E1B37',sl:'#F9E8FF'},
+ rosa:{n:{es:'Rosa',en:'Pink',pt:'Rosa'},d:'#FF5CA8',l:'#B8216A',sd:'#351B29',sl:'#FFE8F3'},
+ rojo:{n:{es:'Rojo',en:'Red',pt:'Vermelho'},d:'#FF5A5F',l:'#C2262E',sd:'#351B1E',sl:'#FFE8E9'},
+ naranja:{n:{es:'Naranja',en:'Orange',pt:'Laranja'},d:'#FF8A3D',l:'#B4500F',sd:'#352318',sl:'#FFEFE4'},
+ amarillo:{n:{es:'Amarillo',en:'Yellow',pt:'Amarelo'},d:'#FFD23F',l:'#8A6A00',sd:'#352E18',sl:'#FFF9E4'},
+ lima:{n:{es:'Lima',en:'Lime',pt:'Lima'},d:'#A3E635',l:'#4D7C0F',sd:'#263117',sl:'#F2FCE3'},
+ azul:{n:{es:'Azul',en:'Blue',pt:'Azul'},d:'#4D9FFF',l:'#1F5FC9',sd:'#182637',sl:'#E6F2FF'},
+ violeta:{n:{es:'Violeta',en:'Violet',pt:'Violeta'},d:'#9B7BFF',l:'#5B3FD1',sd:'#252037',sl:'#F1ECFF'}
+};
+function phasesFor(k){ var a=ACC[k]||ACC.orquidea; var p={prep:{bg:'#0E0F11',ink:'#F2F3EF'},warm:{bg:'#FFB020',ink:'#0E0F11'},work:{bg:a.d,ink:'#0E0F11'},rest:{bg:'#2BD9C5',ink:'#0E0F11'},cool:{bg:'#4D9FFF',ink:'#0E0F11'}}; if(k==='lima'){p.rest.bg='#4D9FFF';p.cool.bg='#9B7BFF';} if(k==='amarillo'||k==='naranja'){p.warm.bg='#FF5CA8';} if(k==='azul'){p.cool.bg='#9B7BFF';} return p; }
+function accTok(t,tema,k){ var a=ACC[k]||ACC.orquidea, o={}; for (var x in t) o[x]=t[x]; if(tema==='claro'){o.acc=a.l;o.accText=a.l;o.accSoft=a.sl;o.priBg='#0E0F11';o.priInk=a.d;o.barOn=a.l;o.navOn=a.l;} else {o.acc=a.d;o.accText=a.d;o.accSoft=a.sd;o.priBg=a.d;o.priInk='#0E0F11';o.barOn=a.d;o.navOn=a.d;} return o; }
+var STR = {
+  es: { title: 'ENTRENAR', newInt: 'NUEVO', newRut: 'NUEVA', tabsAria: 'Tipo de entrenamiento', int: 'Intervalos', rut: 'Rutinas', start: 'Empezar', free: 'ENTRENAMIENTO LIBRE', hint: 'Sin límite de rutinas. Mantén presionada una tarjeta para reordenar.', ad: 'Anuncio · banner', navAria: 'Navegación principal', nHome: 'INICIO', nTrain: 'ENTRENAR', nHist: 'HISTORIAL', nProg: 'PROGRESO',
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Intervalos martes', 'Calent. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · plantilla'], ['EMOM 10 min', '10 × 1:00 · plantilla']],
+    ruts: [['Piernas A', '5 ejercicios · hace 2 días'], ['Empuje', '6 ejercicios · hace 4 días'], ['Tirón', '5 ejercicios · hace 6 días']] },
+  en: { title: 'TRAIN', newInt: 'NEW', newRut: 'NEW', tabsAria: 'Workout type', int: 'Intervals', rut: 'Routines', start: 'Start', free: 'FREE WORKOUT', hint: 'Unlimited routines. Press and hold a card to reorder.', ad: 'Ad · banner', navAria: 'Main navigation', nHome: 'HOME', nTrain: 'TRAIN', nHist: 'HISTORY', nProg: 'PROGRESS',
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Tuesday intervals', 'Warm-up 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · template'], ['EMOM 10 min', '10 × 1:00 · template']],
+    ruts: [['Legs A', '5 exercises · 2 days ago'], ['Push', '6 exercises · 4 days ago'], ['Pull', '5 exercises · 6 days ago']] },
+  pt: { title: 'TREINAR', newInt: 'NOVO', newRut: 'NOVA', tabsAria: 'Tipo de treino', int: 'Intervalos', rut: 'Rotinas', start: 'Iniciar', free: 'TREINO LIVRE', hint: 'Rotinas ilimitadas. Toque e segure um cartão para reordenar.', ad: 'Anúncio · banner', navAria: 'Navegação principal', nHome: 'INÍCIO', nTrain: 'TREINAR', nHist: 'HISTÓRICO', nProg: 'PROGRESSO',
+    ints: [['Tabata 20/10', '8 × 20 s / 10 s · 4:10'], ['Intervalos de terça', 'Aquec. 5:00 · 6 × 1:00 / 1:00 · 19:10'], ['HIIT 40/20', '12 × 40 s / 20 s · 12:00 · modelo'], ['EMOM 10 min', '10 × 1:00 · modelo']],
+    ruts: [['Pernas A', '5 exercícios · há 2 dias'], ['Empurrar', '6 exercícios · há 4 dias'], ['Puxar', '5 exercícios · há 6 dias']] }
+};
+var BARS = [
+  [['prep', 12], ['work', 20], ['rest', 10], ['work', 20], ['rest', 10], ['work', 20]],
+  [['warm', 30], ['work', 14], ['rest', 14], ['work', 14], ['rest', 14], ['cool', 20]],
+  [['work', 24], ['rest', 12], ['work', 24], ['rest', 12], ['work', 24]],
+  [['work', 36], ['work', 36], ['work', 36]]
+];
+class Component extends DCLogic {
+  renderVals() {
+    var tema = this.props.tema ?? 'oscuro', idioma = this.props.idioma ?? 'es';
+    var acento = this.props.acento ?? 'orquidea', P = phasesFor(acento);
+    var t = accTok(TOK[tema] || TOK.oscuro, tema, acento), s = STR[idioma] || STR.es;
+    var tab = (this.state && this.state.tab) || this.props.tab || 'intervalos';
+    var self = this;
+    var intItems = s.ints.map(function (x, i) {
+      return { name: x[0], meta: x[1], startAria: s.start + ' ' + x[0], bars: BARS[i].map(function (b) { return { c: P[b[0]].bg, w: b[1] }; }) };
+    });
+    var rutItems = s.ruts.map(function (x) { return { name: x[0], meta: x[1], startAria: s.start + ' ' + x[0] }; });
+    return {
+      t: t, s: s, lang: idioma === 'pt' ? 'pt-BR' : idioma,
+      showInt: tab === 'intervalos', showRut: tab === 'rutinas',
+      intItems: intItems, rutItems: rutItems,
+      pickInt: function () { self.setState({ tab: 'intervalos' }); },
+      pickRut: function () { self.setState({ tab: 'rutinas' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
