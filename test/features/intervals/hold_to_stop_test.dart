@@ -57,4 +57,44 @@ void main() {
     await g.up();
     expect(stops, isEmpty);
   });
+
+  testWidgets('soltar después de que S05 se cerró no lanza (D9)', (
+    tester,
+  ) async {
+    // Al detener, S05 se cierra antes de que la persona levante el dedo:
+    // el botón ya no existe cuando llega el «soltar».
+    final shown = ValueNotifier(true);
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: buildTrainloopTheme(Brightness.dark, AccentPreset.orquidea),
+        home: Scaffold(
+          body: ValueListenableBuilder<bool>(
+            valueListenable: shown,
+            builder: (context, visible, _) => visible
+                ? Center(
+                    child: SizedBox(
+                      width: 300,
+                      child: HoldToStopButton(
+                        label: 'STOP',
+                        semanticLabel: 'Hold',
+                        color: Colors.white,
+                        enabled: true,
+                        onStop: () => shown.value = false,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ),
+    );
+    final g = await tester.startGesture(tester.getCenter(find.text('STOP')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 1050));
+    await tester.pump();
+    expect(find.text('STOP'), findsNothing);
+    await g.up();
+    await tester.pump();
+    expect(tester.takeException(), isNull);
+  });
 }

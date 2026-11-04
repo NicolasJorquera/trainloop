@@ -591,6 +591,9 @@ class _HoldToStopButtonState extends State<HoldToStopButton>
   }
 
   void _cancel() {
+    // Al detener, S05 puede cerrarse antes de que se levante el dedo: el
+    // «soltar» llega con el botón ya desechado.
+    if (!mounted) return;
     if (_hold.status != AnimationStatus.completed) _hold.value = 0;
   }
 }
