@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firma de release (D9): nunca se versionan la llave ni sus claves.
+/android/key.properties
+key.properties
+*.jks
+*.keystore
