@@ -7238,6 +7238,38 @@ class $PersonalRecordsTable extends PersonalRecords
         type: DriftSqlType.int,
         requiredDuringInsert: true,
       ).withConverter<DateTime>($PersonalRecordsTable.$converterachievedAt);
+  static const VerificationMeta _weightGramsMeta = const VerificationMeta(
+    'weightGrams',
+  );
+  @override
+  late final GeneratedColumn<int> weightGrams = GeneratedColumn<int>(
+    'weight_grams',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _repsMeta = const VerificationMeta('reps');
+  @override
+  late final GeneratedColumn<int> reps = GeneratedColumn<int>(
+    'reps',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _previousValueMeta = const VerificationMeta(
+    'previousValue',
+  );
+  @override
+  late final GeneratedColumn<double> previousValue = GeneratedColumn<double>(
+    'previous_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -7248,6 +7280,9 @@ class $PersonalRecordsTable extends PersonalRecords
     value,
     sessionId,
     achievedAt,
+    weightGrams,
+    reps,
+    previousValue,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7284,6 +7319,30 @@ class $PersonalRecordsTable extends PersonalRecords
       context.handle(
         _sessionIdMeta,
         sessionId.isAcceptableOrUnknown(data['session_id']!, _sessionIdMeta),
+      );
+    }
+    if (data.containsKey('weight_grams')) {
+      context.handle(
+        _weightGramsMeta,
+        weightGrams.isAcceptableOrUnknown(
+          data['weight_grams']!,
+          _weightGramsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reps')) {
+      context.handle(
+        _repsMeta,
+        reps.isAcceptableOrUnknown(data['reps']!, _repsMeta),
+      );
+    }
+    if (data.containsKey('previous_value')) {
+      context.handle(
+        _previousValueMeta,
+        previousValue.isAcceptableOrUnknown(
+          data['previous_value']!,
+          _previousValueMeta,
+        ),
       );
     }
     return context;
@@ -7335,6 +7394,18 @@ class $PersonalRecordsTable extends PersonalRecords
           data['${effectivePrefix}achieved_at'],
         )!,
       ),
+      weightGrams: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}weight_grams'],
+      )!,
+      reps: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reps'],
+      ),
+      previousValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}previous_value'],
+      ),
     );
   }
 
@@ -7362,6 +7433,17 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
   final double value;
   final String? sessionId;
   final DateTime achievedAt;
+
+  /// Peso del récord `maxReps` (más repeticiones con este peso), en gramos;
+  /// 0 en los demás tipos y en peso corporal (v5).
+  final int weightGrams;
+
+  /// Repeticiones de la serie que logró el récord: «90 kg × 3» (v5).
+  final int? reps;
+
+  /// Valor que este récord superó; `null` si fue la primera marca (no se
+  /// destaca como récord nuevo) (v5).
+  final double? previousValue;
   const PersonalRecord({
     required this.id,
     required this.createdAt,
@@ -7371,6 +7453,9 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
     required this.value,
     this.sessionId,
     required this.achievedAt,
+    required this.weightGrams,
+    this.reps,
+    this.previousValue,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7401,6 +7486,13 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
         $PersonalRecordsTable.$converterachievedAt.toSql(achievedAt),
       );
     }
+    map['weight_grams'] = Variable<int>(weightGrams);
+    if (!nullToAbsent || reps != null) {
+      map['reps'] = Variable<int>(reps);
+    }
+    if (!nullToAbsent || previousValue != null) {
+      map['previous_value'] = Variable<double>(previousValue);
+    }
     return map;
   }
 
@@ -7416,6 +7508,11 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
           ? const Value.absent()
           : Value(sessionId),
       achievedAt: Value(achievedAt),
+      weightGrams: Value(weightGrams),
+      reps: reps == null && nullToAbsent ? const Value.absent() : Value(reps),
+      previousValue: previousValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(previousValue),
     );
   }
 
@@ -7435,6 +7532,9 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
       value: serializer.fromJson<double>(json['value']),
       sessionId: serializer.fromJson<String?>(json['sessionId']),
       achievedAt: serializer.fromJson<DateTime>(json['achievedAt']),
+      weightGrams: serializer.fromJson<int>(json['weightGrams']),
+      reps: serializer.fromJson<int?>(json['reps']),
+      previousValue: serializer.fromJson<double?>(json['previousValue']),
     );
   }
   @override
@@ -7451,6 +7551,9 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
       'value': serializer.toJson<double>(value),
       'sessionId': serializer.toJson<String?>(sessionId),
       'achievedAt': serializer.toJson<DateTime>(achievedAt),
+      'weightGrams': serializer.toJson<int>(weightGrams),
+      'reps': serializer.toJson<int?>(reps),
+      'previousValue': serializer.toJson<double?>(previousValue),
     };
   }
 
@@ -7463,6 +7566,9 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
     double? value,
     Value<String?> sessionId = const Value.absent(),
     DateTime? achievedAt,
+    int? weightGrams,
+    Value<int?> reps = const Value.absent(),
+    Value<double?> previousValue = const Value.absent(),
   }) => PersonalRecord(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
@@ -7472,6 +7578,11 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
     value: value ?? this.value,
     sessionId: sessionId.present ? sessionId.value : this.sessionId,
     achievedAt: achievedAt ?? this.achievedAt,
+    weightGrams: weightGrams ?? this.weightGrams,
+    reps: reps.present ? reps.value : this.reps,
+    previousValue: previousValue.present
+        ? previousValue.value
+        : this.previousValue,
   );
   PersonalRecord copyWithCompanion(PersonalRecordsCompanion data) {
     return PersonalRecord(
@@ -7487,6 +7598,13 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
       achievedAt: data.achievedAt.present
           ? data.achievedAt.value
           : this.achievedAt,
+      weightGrams: data.weightGrams.present
+          ? data.weightGrams.value
+          : this.weightGrams,
+      reps: data.reps.present ? data.reps.value : this.reps,
+      previousValue: data.previousValue.present
+          ? data.previousValue.value
+          : this.previousValue,
     );
   }
 
@@ -7500,7 +7618,10 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
           ..write('type: $type, ')
           ..write('value: $value, ')
           ..write('sessionId: $sessionId, ')
-          ..write('achievedAt: $achievedAt')
+          ..write('achievedAt: $achievedAt, ')
+          ..write('weightGrams: $weightGrams, ')
+          ..write('reps: $reps, ')
+          ..write('previousValue: $previousValue')
           ..write(')'))
         .toString();
   }
@@ -7515,6 +7636,9 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
     value,
     sessionId,
     achievedAt,
+    weightGrams,
+    reps,
+    previousValue,
   );
   @override
   bool operator ==(Object other) =>
@@ -7527,7 +7651,10 @@ class PersonalRecord extends DataClass implements Insertable<PersonalRecord> {
           other.type == this.type &&
           other.value == this.value &&
           other.sessionId == this.sessionId &&
-          other.achievedAt == this.achievedAt);
+          other.achievedAt == this.achievedAt &&
+          other.weightGrams == this.weightGrams &&
+          other.reps == this.reps &&
+          other.previousValue == this.previousValue);
 }
 
 class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
@@ -7539,6 +7666,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
   final Value<double> value;
   final Value<String?> sessionId;
   final Value<DateTime> achievedAt;
+  final Value<int> weightGrams;
+  final Value<int?> reps;
+  final Value<double?> previousValue;
   final Value<int> rowid;
   const PersonalRecordsCompanion({
     this.id = const Value.absent(),
@@ -7549,6 +7679,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
     this.value = const Value.absent(),
     this.sessionId = const Value.absent(),
     this.achievedAt = const Value.absent(),
+    this.weightGrams = const Value.absent(),
+    this.reps = const Value.absent(),
+    this.previousValue = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   PersonalRecordsCompanion.insert({
@@ -7560,6 +7693,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
     required double value,
     this.sessionId = const Value.absent(),
     required DateTime achievedAt,
+    this.weightGrams = const Value.absent(),
+    this.reps = const Value.absent(),
+    this.previousValue = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : exerciseId = Value(exerciseId),
        type = Value(type),
@@ -7574,6 +7710,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
     Expression<double>? value,
     Expression<String>? sessionId,
     Expression<int>? achievedAt,
+    Expression<int>? weightGrams,
+    Expression<int>? reps,
+    Expression<double>? previousValue,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -7585,6 +7724,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
       if (value != null) 'value': value,
       if (sessionId != null) 'session_id': sessionId,
       if (achievedAt != null) 'achieved_at': achievedAt,
+      if (weightGrams != null) 'weight_grams': weightGrams,
+      if (reps != null) 'reps': reps,
+      if (previousValue != null) 'previous_value': previousValue,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -7598,6 +7740,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
     Value<double>? value,
     Value<String?>? sessionId,
     Value<DateTime>? achievedAt,
+    Value<int>? weightGrams,
+    Value<int?>? reps,
+    Value<double?>? previousValue,
     Value<int>? rowid,
   }) {
     return PersonalRecordsCompanion(
@@ -7609,6 +7754,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
       value: value ?? this.value,
       sessionId: sessionId ?? this.sessionId,
       achievedAt: achievedAt ?? this.achievedAt,
+      weightGrams: weightGrams ?? this.weightGrams,
+      reps: reps ?? this.reps,
+      previousValue: previousValue ?? this.previousValue,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -7648,6 +7796,15 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
         $PersonalRecordsTable.$converterachievedAt.toSql(achievedAt.value),
       );
     }
+    if (weightGrams.present) {
+      map['weight_grams'] = Variable<int>(weightGrams.value);
+    }
+    if (reps.present) {
+      map['reps'] = Variable<int>(reps.value);
+    }
+    if (previousValue.present) {
+      map['previous_value'] = Variable<double>(previousValue.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -7665,6 +7822,9 @@ class PersonalRecordsCompanion extends UpdateCompanion<PersonalRecord> {
           ..write('value: $value, ')
           ..write('sessionId: $sessionId, ')
           ..write('achievedAt: $achievedAt, ')
+          ..write('weightGrams: $weightGrams, ')
+          ..write('reps: $reps, ')
+          ..write('previousValue: $previousValue, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -9140,9 +9300,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'idx_interval_phase_log_session',
     'CREATE INDEX idx_interval_phase_log_session ON interval_phase_log (session_id, sort_order)',
   );
-  late final Index idxPersonalRecordExerciseType = Index(
-    'idx_personal_record_exercise_type',
-    'CREATE UNIQUE INDEX idx_personal_record_exercise_type ON personal_record (exercise_id, type)',
+  late final Index idxPersonalRecordKey = Index(
+    'idx_personal_record_key',
+    'CREATE UNIQUE INDEX idx_personal_record_key ON personal_record (exercise_id, type, weight_grams)',
   );
   late final ExercisesDao exercisesDao = ExercisesDao(this as AppDatabase);
   late final RoutinesDao routinesDao = RoutinesDao(this as AppDatabase);
@@ -9186,7 +9346,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     idxSetLogSession,
     idxSetLogSessionExerciseOrder,
     idxIntervalPhaseLogSession,
-    idxPersonalRecordExerciseType,
+    idxPersonalRecordKey,
   ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
@@ -15085,6 +15245,9 @@ typedef $$PersonalRecordsTableCreateCompanionBuilder =
       required double value,
       Value<String?> sessionId,
       required DateTime achievedAt,
+      Value<int> weightGrams,
+      Value<int?> reps,
+      Value<double?> previousValue,
       Value<int> rowid,
     });
 typedef $$PersonalRecordsTableUpdateCompanionBuilder =
@@ -15097,6 +15260,9 @@ typedef $$PersonalRecordsTableUpdateCompanionBuilder =
       Value<double> value,
       Value<String?> sessionId,
       Value<DateTime> achievedAt,
+      Value<int> weightGrams,
+      Value<int?> reps,
+      Value<double?> previousValue,
       Value<int> rowid,
     });
 
@@ -15187,6 +15353,21 @@ class $$PersonalRecordsTableFilterComposer
         builder: (column) => ColumnWithTypeConverterFilters(column),
       );
 
+  ColumnFilters<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get reps => $composableBuilder(
+    column: $table.reps,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get previousValue => $composableBuilder(
+    column: $table.previousValue,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$ExercisesTableFilterComposer get exerciseId {
     final $$ExercisesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -15273,6 +15454,21 @@ class $$PersonalRecordsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get reps => $composableBuilder(
+    column: $table.reps,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get previousValue => $composableBuilder(
+    column: $table.previousValue,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$ExercisesTableOrderingComposer get exerciseId {
     final $$ExercisesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -15349,6 +15545,19 @@ class $$PersonalRecordsTableAnnotationComposer
         column: $table.achievedAt,
         builder: (column) => column,
       );
+
+  GeneratedColumn<int> get weightGrams => $composableBuilder(
+    column: $table.weightGrams,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get reps =>
+      $composableBuilder(column: $table.reps, builder: (column) => column);
+
+  GeneratedColumn<double> get previousValue => $composableBuilder(
+    column: $table.previousValue,
+    builder: (column) => column,
+  );
 
   $$ExercisesTableAnnotationComposer get exerciseId {
     final $$ExercisesTableAnnotationComposer composer = $composerBuilder(
@@ -15435,6 +15644,9 @@ class $$PersonalRecordsTableTableManager
                 Value<double> value = const Value.absent(),
                 Value<String?> sessionId = const Value.absent(),
                 Value<DateTime> achievedAt = const Value.absent(),
+                Value<int> weightGrams = const Value.absent(),
+                Value<int?> reps = const Value.absent(),
+                Value<double?> previousValue = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => PersonalRecordsCompanion(
                 id: id,
@@ -15445,6 +15657,9 @@ class $$PersonalRecordsTableTableManager
                 value: value,
                 sessionId: sessionId,
                 achievedAt: achievedAt,
+                weightGrams: weightGrams,
+                reps: reps,
+                previousValue: previousValue,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -15457,6 +15672,9 @@ class $$PersonalRecordsTableTableManager
                 required double value,
                 Value<String?> sessionId = const Value.absent(),
                 required DateTime achievedAt,
+                Value<int> weightGrams = const Value.absent(),
+                Value<int?> reps = const Value.absent(),
+                Value<double?> previousValue = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => PersonalRecordsCompanion.insert(
                 id: id,
@@ -15467,6 +15685,9 @@ class $$PersonalRecordsTableTableManager
                 value: value,
                 sessionId: sessionId,
                 achievedAt: achievedAt,
+                weightGrams: weightGrams,
+                reps: reps,
+                previousValue: previousValue,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

@@ -267,11 +267,13 @@ class IntervalPhaseLogs extends Table with Entity {
 
 // ------------------------------------------------------ Derivados y ajustes
 
-/// Caché recalculable desde set_log. [value] va en unidad canónica:
-/// gramos (peso, 1RM, volumen), repeticiones, segundos o metros.
+/// Caché recalculable desde set_log (R-P3). [value] va en unidad canónica:
+/// gramos (peso, 1RM, volumen), repeticiones, segundos o metros. Único por
+/// ejercicio + tipo + [weightGrams] (v5): "más repeticiones con un peso
+/// dado" guarda un récord por peso.
 @TableIndex(
-  name: 'idx_personal_record_exercise_type',
-  columns: {#exerciseId, #type},
+  name: 'idx_personal_record_key',
+  columns: {#exerciseId, #type, #weightGrams},
   unique: true,
 )
 class PersonalRecords extends Table with Entity {
@@ -288,6 +290,17 @@ class PersonalRecords extends Table with Entity {
     onDelete: KeyAction.setNull,
   )();
   IntColumn get achievedAt => integer().map(const UtcMillisConverter())();
+
+  /// Peso del récord `maxReps` (más repeticiones con este peso), en gramos;
+  /// 0 en los demás tipos y en peso corporal (v5).
+  IntColumn get weightGrams => integer().withDefault(const Constant(0))();
+
+  /// Repeticiones de la serie que logró el récord: «90 kg × 3» (v5).
+  IntColumn get reps => integer().nullable()();
+
+  /// Valor que este récord superó; `null` si fue la primera marca (no se
+  /// destaca como récord nuevo) (v5).
+  RealColumn get previousValue => real().nullable()();
 }
 
 /// Día de la semana (ISO: 1 = lunes … 7 = domingo) → entrenamiento.
