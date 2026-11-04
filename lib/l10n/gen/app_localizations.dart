@@ -3635,6 +3635,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value}'**
   String formattedValue(String value);
+
+  /// Routine editor dialog title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD CHANGES?'**
+  String get routineDiscardTitle;
+
+  /// Routine editor discard dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'The routine stays as it was.'**
+  String get routineDiscardBody;
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD'**
+  String get routineDiscardConfirm;
+
+  /// Button.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get routineDiscardKeep;
 }
 
 class _AppLocalizationsDelegate

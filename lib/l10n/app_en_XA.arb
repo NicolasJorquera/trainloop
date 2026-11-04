@@ -586,5 +586,9 @@
   "homeLocalDataNotice": "[Ýöûŕ ðáţá ļîṽéš öñļý öñ ţĥîš þĥöñé. ············]",
   "homeLocalDataAction": "[Ɓáçķ ûþ › ···]",
   "homeLocalDataDismiss": "[Çļöšé ñöţîçé ·····]",
-  "formattedValue": "[{value}]"
+  "formattedValue": "[{value}]",
+  "routineDiscardTitle": "[ÐÎŠÇÅŔÐ ÇĤÅÑĜÉŠ? ······]",
+  "routineDiscardBody": "[Ţĥé ŕöûţîñé šţáýš áš îţ ŵáš. ·········]",
+  "routineDiscardConfirm": "[ÐÎŠÇÅŔÐ ···]",
+  "routineDiscardKeep": "[Ķééþ éðîţîñĝ ·····]"
 }

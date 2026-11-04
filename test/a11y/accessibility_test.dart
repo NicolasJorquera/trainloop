@@ -170,6 +170,12 @@ void main() {
       await tester.tap(find.text('Rutinas'));
       await settle(tester);
       await scrollThrough(tester);
+      // S07 editor de rutina (J3).
+      await go(tester, 'new-routine');
+      await scrollThrough(tester);
+      if (scale == 1) await expectTapTargets(tester);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
 
       // S16 y S17.
       await go(tester, 'nav-home');

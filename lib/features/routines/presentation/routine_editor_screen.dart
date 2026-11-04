@@ -13,6 +13,7 @@ import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../../data/db/app_database.dart';
 import '../../exercises/domain/exercise_names.dart';
+import '../../intervals/presentation/session_dialogs.dart';
 import '../../settings/application/settings_controller.dart';
 import '../application/routine_providers.dart';
 import '../domain/routine_draft.dart';
@@ -35,6 +36,14 @@ class _RoutineEditorScreenState extends ConsumerState<RoutineEditorScreen> {
   final _name = TextEditingController();
   RoutineDraft? _draft;
   var _saving = false;
+
+  /// Hay cambios sin guardar: volver pregunta antes de descartarlos (D3).
+  var _dirty = false;
+
+  void _edit(RoutineDraft next) => setState(() {
+    _draft = next;
+    _dirty = true;
+  });
 
   @override
   void initState() {
@@ -64,110 +73,144 @@ class _RoutineEditorScreenState extends ConsumerState<RoutineEditorScreen> {
     final draft = _draft;
     final unit = ref.watch(settingsControllerProvider).weightUnit;
 
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: draft == null
-            ? const SizedBox.shrink()
-            : ListView(
-                padding: const EdgeInsets.fromLTRB(
-                  TlSpace.s4,
-                  0,
-                  TlSpace.s4,
-                  TlSpace.s8,
+    return PopScope(
+      canPop: !_dirty,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        if (await _confirmDiscard() && context.mounted) {
+          setState(() => _dirty = false);
+          context.pop();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          bottom: false,
+          child: draft == null
+              ? const SizedBox.shrink()
+              : ListView(
+                  padding: const EdgeInsets.fromLTRB(
+                    TlSpace.s4,
+                    0,
+                    TlSpace.s4,
+                    TlSpace.s8,
+                  ),
+                  children: [
+                    ScreenHeader(
+                      title: widget.routineId == null
+                          ? l10n.routineNewTitle
+                          : l10n.routineEditTitle,
+                      leading: IconButton(
+                        tooltip: l10n.backTooltip,
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.of(context).maybePop(),
+                      ),
+                    ),
+                    SectionLabel(l10n.fieldName),
+                    TextField(
+                      key: const Key('routine-name'),
+                      controller: _name,
+                      maxLength: 60,
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        hintText: l10n.routineNameHint,
+                        counterText: '',
+                      ),
+                      onChanged: (v) => _edit(draft.rename(v)),
+                    ),
+                    SectionLabel(
+                      l10n.routineExercisesLabel(draft.entries.length),
+                    ),
+                    ReorderableListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      buildDefaultDragHandles: false,
+                      itemCount: draft.entries.length,
+                      onReorder: (from, to) => _edit(draft.move(from, to)),
+                      itemBuilder: (context, i) {
+                        final entry = draft.entries[i];
+                        return Padding(
+                          key: ValueKey('entry-$i-${entry.exercise.id}'),
+                          padding: const EdgeInsets.only(bottom: TlSpace.s2),
+                          child: _EntryRow(
+                            index: i,
+                            entry: entry,
+                            unit: unit,
+                            onTap: () => _openEntry(i),
+                            onRemove: () => _edit(draft.removeAt(i)),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: TlSpace.s2),
+                    TlButton(
+                      key: const Key('routine-add-exercises'),
+                      label: l10n.routineAddExercises,
+                      icon: Icons.add,
+                      variant: TlButtonVariant.secondary,
+                      onPressed: _addExercises,
+                    ),
+                    const SizedBox(height: TlSpace.s4),
+                    Text(
+                      l10n.routineEditorHint,
+                      textAlign: TextAlign.center,
+                      style: context.text.caption.copyWith(color: c.inkMuted),
+                    ),
+                  ],
                 ),
-                children: [
-                  ScreenHeader(
-                    title: widget.routineId == null
-                        ? l10n.routineNewTitle
-                        : l10n.routineEditTitle,
-                    leading: IconButton(
-                      tooltip: l10n.backTooltip,
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => context.pop(),
-                    ),
+        ),
+        bottomNavigationBar: draft == null
+            ? null
+            : SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    TlSpace.s4,
+                    TlSpace.s2,
+                    TlSpace.s4,
+                    TlSpace.s4,
                   ),
-                  SectionLabel(l10n.fieldName),
-                  TextField(
-                    key: const Key('routine-name'),
-                    controller: _name,
-                    maxLength: 60,
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration: InputDecoration(
-                      hintText: l10n.routineNameHint,
-                      counterText: '',
-                    ),
-                    onChanged: (v) => setState(() => _draft = draft.rename(v)),
+                  child: TlButton(
+                    key: const Key('routine-save'),
+                    label: l10n.routineSave,
+                    onPressed: draft.canSave && !_saving
+                        ? () => _save(draft)
+                        : null,
                   ),
-                  SectionLabel(
-                    l10n.routineExercisesLabel(draft.entries.length),
-                  ),
-                  ReorderableListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    buildDefaultDragHandles: false,
-                    itemCount: draft.entries.length,
-                    onReorder: (from, to) =>
-                        setState(() => _draft = draft.move(from, to)),
-                    itemBuilder: (context, i) {
-                      final entry = draft.entries[i];
-                      return Padding(
-                        key: ValueKey('entry-$i-${entry.exercise.id}'),
-                        padding: const EdgeInsets.only(bottom: TlSpace.s2),
-                        child: _EntryRow(
-                          index: i,
-                          entry: entry,
-                          unit: unit,
-                          onTap: () => _openEntry(i),
-                          onRemove: () =>
-                              setState(() => _draft = draft.removeAt(i)),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: TlSpace.s2),
-                  TlButton(
-                    key: const Key('routine-add-exercises'),
-                    label: l10n.routineAddExercises,
-                    icon: Icons.add,
-                    variant: TlButtonVariant.secondary,
-                    onPressed: _addExercises,
-                  ),
-                  const SizedBox(height: TlSpace.s4),
-                  Text(
-                    l10n.routineEditorHint,
-                    textAlign: TextAlign.center,
-                    style: context.text.caption.copyWith(color: c.inkMuted),
-                  ),
-                ],
+                ),
               ),
       ),
-      bottomNavigationBar: draft == null
-          ? null
-          : SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                  TlSpace.s4,
-                  TlSpace.s2,
-                  TlSpace.s4,
-                  TlSpace.s4,
-                ),
-                child: TlButton(
-                  key: const Key('routine-save'),
-                  label: l10n.routineSave,
-                  onPressed: draft.canSave && !_saving
-                      ? () => _save(draft)
-                      : null,
-                ),
-              ),
-            ),
     );
+  }
+
+  /// «¿Descartar los cambios?»: `true` = salir sin guardar.
+  Future<bool> _confirmDiscard() async {
+    final l10n = context.l10n;
+    final result = await showTlDialog<bool>(
+      context,
+      key: const Key('routine-discard-dialog'),
+      icon: Icons.edit_off_outlined,
+      title: l10n.routineDiscardTitle,
+      body: [Text(l10n.routineDiscardBody)],
+      actions: (pop) => [
+        TlButton(
+          key: const Key('routine-discard-confirm'),
+          label: l10n.routineDiscardConfirm,
+          onPressed: () => pop(true),
+        ),
+        TlButton(
+          key: const Key('routine-discard-keep'),
+          label: l10n.routineDiscardKeep,
+          variant: TlButtonVariant.text,
+          onPressed: () => pop(false),
+        ),
+      ],
+    );
+    return result ?? false;
   }
 
   Future<void> _addExercises() async {
     final picked = await context.push<List<Exercise>>(Routes.exercisesPick);
     if (picked == null || picked.isEmpty || !mounted) return;
-    setState(() => _draft = _draft!.addAll(picked));
+    _edit(_draft!.addAll(picked));
   }
 
   Future<void> _openEntry(int index) async {
@@ -176,7 +219,7 @@ class _RoutineEditorScreenState extends ConsumerState<RoutineEditorScreen> {
       context,
       entry: _draft!.entries[index],
       unit: unit,
-      onChanged: (e) => setState(() => _draft = _draft!.replaceAt(index, e)),
+      onChanged: (e) => _edit(_draft!.replaceAt(index, e)),
     );
   }
 
@@ -186,7 +229,9 @@ class _RoutineEditorScreenState extends ConsumerState<RoutineEditorScreen> {
     final repo = ref.read(routineRepositoryProvider);
     final fallback = l10n.routineDefaultName(await repo.activeCount() + 1);
     await repo.save(draft, fallbackName: fallback);
-    if (mounted) context.pop();
+    if (!mounted) return;
+    setState(() => _dirty = false);
+    context.pop();
   }
 }
 

@@ -586,5 +586,9 @@
   "homeLocalDataNotice": "Seus dados ficam só neste celular.",
   "homeLocalDataAction": "Fazer backup ›",
   "homeLocalDataDismiss": "Fechar aviso",
-  "formattedValue": "{value}"
+  "formattedValue": "{value}",
+  "routineDiscardTitle": "DESCARTAR AS ALTERAÇÕES?",
+  "routineDiscardBody": "A rotina fica como estava.",
+  "routineDiscardConfirm": "DESCARTAR",
+  "routineDiscardKeep": "Continuar editando"
 }

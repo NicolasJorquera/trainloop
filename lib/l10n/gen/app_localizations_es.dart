@@ -2213,6 +2213,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String formattedValue(String value) {
     return '$value';
   }
+
+  @override
+  String get routineDiscardTitle => '¿DESCARTAR LOS CAMBIOS?';
+
+  @override
+  String get routineDiscardBody => 'La rutina queda como estaba.';
+
+  @override
+  String get routineDiscardConfirm => 'DESCARTAR';
+
+  @override
+  String get routineDiscardKeep => 'Seguir editando';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

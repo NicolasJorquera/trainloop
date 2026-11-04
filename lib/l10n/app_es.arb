@@ -586,5 +586,9 @@
   "homeLocalDataNotice": "Tus datos viven solo en este teléfono.",
   "homeLocalDataAction": "Respaldar ›",
   "homeLocalDataDismiss": "Cerrar aviso",
-  "formattedValue": "{value}"
+  "formattedValue": "{value}",
+  "routineDiscardTitle": "¿DESCARTAR LOS CAMBIOS?",
+  "routineDiscardBody": "La rutina queda como estaba.",
+  "routineDiscardConfirm": "DESCARTAR",
+  "routineDiscardKeep": "Seguir editando"
 }

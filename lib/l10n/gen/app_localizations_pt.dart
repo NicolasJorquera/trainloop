@@ -2210,6 +2210,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String formattedValue(String value) {
     return '$value';
   }
+
+  @override
+  String get routineDiscardTitle => 'DESCARTAR AS ALTERAÇÕES?';
+
+  @override
+  String get routineDiscardBody => 'A rotina fica como estava.';
+
+  @override
+  String get routineDiscardConfirm => 'DESCARTAR';
+
+  @override
+  String get routineDiscardKeep => 'Continuar editando';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

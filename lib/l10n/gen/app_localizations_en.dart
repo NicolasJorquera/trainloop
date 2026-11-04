@@ -2208,6 +2208,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String formattedValue(String value) {
     return '$value';
   }
+
+  @override
+  String get routineDiscardTitle => 'DISCARD CHANGES?';
+
+  @override
+  String get routineDiscardBody => 'The routine stays as it was.';
+
+  @override
+  String get routineDiscardConfirm => 'DISCARD';
+
+  @override
+  String get routineDiscardKeep => 'Keep editing';
 }
 
 /// The translations for English (`en_XA`).
@@ -4434,4 +4446,16 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String formattedValue(String value) {
     return '[$value]';
   }
+
+  @override
+  String get routineDiscardTitle => '[ÐÎŠÇÅŔÐ ÇĤÅÑĜÉŠ? ······]';
+
+  @override
+  String get routineDiscardBody => '[Ţĥé ŕöûţîñé šţáýš áš îţ ŵáš. ·········]';
+
+  @override
+  String get routineDiscardConfirm => '[ÐÎŠÇÅŔÐ ···]';
+
+  @override
+  String get routineDiscardKeep => '[Ķééþ éðîţîñĝ ·····]';
 }

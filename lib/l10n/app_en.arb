@@ -1173,5 +1173,13 @@
   "homeLocalDataDismiss": "Close notice",
   "@homeLocalDataDismiss": {"description": "Tooltip."},
   "formattedValue": "{value}",
-  "@formattedValue": {"description": "A value already formatted for the language (date, time, weekday).", "placeholders": {"value": {"type": "String"}}}
+  "@formattedValue": {"description": "A value already formatted for the language (date, time, weekday).", "placeholders": {"value": {"type": "String"}}},
+  "routineDiscardTitle": "DISCARD CHANGES?",
+  "@routineDiscardTitle": {"description": "Routine editor dialog title, uppercase."},
+  "routineDiscardBody": "The routine stays as it was.",
+  "@routineDiscardBody": {"description": "Routine editor discard dialog body."},
+  "routineDiscardConfirm": "DISCARD",
+  "@routineDiscardConfirm": {"description": "Button, uppercase."},
+  "routineDiscardKeep": "Keep editing",
+  "@routineDiscardKeep": {"description": "Button."}
 }

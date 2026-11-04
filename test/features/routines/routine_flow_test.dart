@@ -162,4 +162,42 @@ void main() {
     await settleDb(tester);
     expect(find.text('Pecho A (copia)'), findsOneWidget);
   });
+
+  testWidgets('volver con cambios sin guardar pregunta antes de descartar', (
+    tester,
+  ) async {
+    useTallViewport(tester);
+    await pumpTrainloop(
+      tester,
+      settings: const AppSettings(language: AppLanguage.es),
+    );
+    await _openRoutines(tester);
+
+    // Sin cambios: vuelve directo.
+    await tester.tap(find.byKey(const Key('new-routine')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Volver'));
+    await tester.pumpAndSettle();
+    expect(find.byType(RoutineEditorScreen), findsNothing);
+
+    // Con un nombre escrito: pregunta.
+    await tester.tap(find.byKey(const Key('new-routine')));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(const Key('routine-name')), 'Piernas');
+    await tester.pump();
+    await tester.tap(find.byTooltip('Volver'));
+    await tester.pumpAndSettle();
+    expect(find.text('¿DESCARTAR LOS CAMBIOS?'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('routine-discard-keep')));
+    await tester.pumpAndSettle();
+    expect(find.byType(RoutineEditorScreen), findsOneWidget);
+
+    // El botón atrás del sistema también pregunta; descartar sale.
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('routine-discard-confirm')));
+    await tester.pumpAndSettle();
+    expect(find.byType(RoutineEditorScreen), findsNothing);
+    expect(find.text('PIERNAS'), findsNothing);
+  });
 }
