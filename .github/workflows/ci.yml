@@ -56,6 +56,8 @@ jobs:
         run: flutter analyze
 
       - name: Pruebas
+        # Toda la suite tarda ~15 s; si algo se cuelga, falla en minutos.
+        timeout-minutes: 5
         run: flutter test
 
       - name: APK de depuración

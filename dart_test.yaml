@@ -1,0 +1,2 @@
+# Límite por prueba: una prueba que se cuelga falla en vez de bloquear la corrida.
+timeout: 60s

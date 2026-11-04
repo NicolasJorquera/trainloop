@@ -200,7 +200,7 @@ void main() {
     useTallViewport(tester);
     final engine = FakeTimerEngine();
     final db = openTestDatabase();
-    addTearDown(db.close);
+    addTearDown(() => closeTestDatabase(tester, db));
     await seedExerciseCatalog(db.exercisesDao);
     final bench = (await db.exercisesDao.findByCatalogKey(
       'bench_press_barbell',

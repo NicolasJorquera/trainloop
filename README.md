@@ -14,10 +14,12 @@ export PUB_HOSTED_URL=https://pub.dev
 
 flutter pub get
 flutter run                  # depuración
-flutter test --timeout 60s   # pruebas (el límite evita procesos colgados)
+flutter test                 # pruebas (límite de 60 s por prueba en dart_test.yaml)
 flutter analyze              # lints
 flutter build apk --debug    # APK en build/app/outputs/flutter-apk/
 ```
+
+Las pruebas de widgets que usan la base montan la app con `pumpTrainloop` y, si abren su propia base, la cierran con `closeTestDatabase` (`test/helpers/`): desmonta la app y cierra con el reloj real. Cerrar la base dentro del reloj simulado deja el archivo colgado cuando una expectativa falla a mitad de prueba.
 
 `pubspec.lock` debe apuntar a `https://pub.dev`. Si ves `jfrog` en el lockfile, exporta la variable y vuelve a correr `flutter pub get`.
 
