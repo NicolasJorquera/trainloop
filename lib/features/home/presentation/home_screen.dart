@@ -236,11 +236,16 @@ class _WeekCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: TlSpace.s2),
+                  // Con letra grande se achica en vez de partir la palabra.
                   Flexible(
-                    child: Text(
-                      l10n.homeSeeProgress,
-                      textAlign: TextAlign.end,
-                      style: t.overline.copyWith(color: c.accent),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        l10n.homeSeeProgress,
+                        textAlign: TextAlign.end,
+                        style: t.overline.copyWith(color: c.accent),
+                      ),
                     ),
                   ),
                 ],
