@@ -16,10 +16,19 @@ final settingsRepositoryProvider = Provider<SettingsRepository>(
 final settingsControllerProvider =
     NotifierProvider<SettingsController, AppSettings>(SettingsController.new);
 
+/// `--dart-define=TL_WEEK_VARIANT=separate|unified` fija la variante de la
+/// vista semanal (prueba H5) por encima del ajuste guardado.
+const String weekVariantDefine = String.fromEnvironment('TL_WEEK_VARIANT');
+
 class SettingsController extends Notifier<AppSettings> {
   @override
   AppSettings build() {
-    final stored = ref.watch(settingsRepositoryProvider).load();
+    var stored = ref.watch(settingsRepositoryProvider).load();
+    if (weekVariantDefine.isNotEmpty) {
+      stored = stored.copyWith(
+        weekVariant: WeekVariant.fromName(weekVariantDefine),
+      );
+    }
     if (pseudoLocaleForced) {
       return stored.copyWith(language: AppLanguage.pseudo);
     }
@@ -59,6 +68,10 @@ class SettingsController extends Notifier<AppSettings> {
       ),
     ),
   );
+
+  /// Variante de la vista semanal (H5); solo desde depuración.
+  Future<void> setWeekVariant(WeekVariant variant) =>
+      _update(state.copyWith(weekVariant: variant));
 
   Future<void> _update(AppSettings next) async {
     if (next == state) return;

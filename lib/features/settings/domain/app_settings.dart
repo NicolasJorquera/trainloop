@@ -53,6 +53,20 @@ enum WeekStart {
   );
 }
 
+/// Variante de la vista semanal para la prueba de usabilidad H5 (F-11):
+/// fuerza e intervalos juntos o en dos bloques. No tiene pantalla pública:
+/// se cambia en la sección de depuración de Configuración o al compilar con
+/// `--dart-define=TL_WEEK_VARIANT=separate` (ver README).
+enum WeekVariant {
+  unified,
+  separate;
+
+  static WeekVariant fromName(String? name) => WeekVariant.values.firstWhere(
+    (v) => v.name == name,
+    orElse: () => WeekVariant.unified,
+  );
+}
+
 /// Preferencias del usuario (almacén clave-valor, no la base).
 @immutable
 class AppSettings {
@@ -66,6 +80,7 @@ class AppSettings {
     this.voice = true,
     this.vibration = true,
     this.weeklyGoal = defaultWeeklyGoal,
+    this.weekVariant = WeekVariant.unified,
   });
 
   /// Sesiones por semana.
@@ -85,6 +100,9 @@ class AppSettings {
   final bool vibration;
   final int weeklyGoal;
 
+  /// Ajuste interno de la prueba H5 (sin pantalla pública).
+  final WeekVariant weekVariant;
+
   AppSettings copyWith({
     ThemePreference? theme,
     AccentPreset? accent,
@@ -95,6 +113,7 @@ class AppSettings {
     bool? voice,
     bool? vibration,
     int? weeklyGoal,
+    WeekVariant? weekVariant,
   }) => AppSettings(
     theme: theme ?? this.theme,
     accent: accent ?? this.accent,
@@ -105,6 +124,7 @@ class AppSettings {
     voice: voice ?? this.voice,
     vibration: vibration ?? this.vibration,
     weeklyGoal: weeklyGoal ?? this.weeklyGoal,
+    weekVariant: weekVariant ?? this.weekVariant,
   );
 
   @override
@@ -118,7 +138,8 @@ class AppSettings {
       other.sounds == sounds &&
       other.voice == voice &&
       other.vibration == vibration &&
-      other.weeklyGoal == weeklyGoal;
+      other.weeklyGoal == weeklyGoal &&
+      other.weekVariant == weekVariant;
 
   @override
   int get hashCode => Object.hash(
@@ -131,11 +152,12 @@ class AppSettings {
     voice,
     vibration,
     weeklyGoal,
+    weekVariant,
   );
 
   @override
   String toString() =>
       'AppSettings($theme, $accent, $language, $weightUnit, $weekStart, '
       'sounds: $sounds, voice: $voice, vibration: $vibration, '
-      'weeklyGoal: $weeklyGoal)';
+      'weeklyGoal: $weeklyGoal, weekVariant: ${weekVariant.name})';
 }

@@ -6,8 +6,11 @@ import '../../../core/theme/theme_context.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tl_button.dart';
+import '../../../core/widgets/tl_segmented_control.dart';
 import '../../../data/db/database_providers.dart';
 import '../../../data/db/demo_seed.dart';
+import '../application/settings_controller.dart';
+import '../domain/app_settings.dart';
 
 /// Filas por tabla de la base local.
 final dbRowCountsProvider = FutureProvider.autoDispose<Map<String, int>>(
@@ -47,6 +50,25 @@ class DebugDatabaseSection extends ConsumerWidget {
           style: context.text.bodySm.copyWith(color: c.inkMuted),
         ),
         const SizedBox(height: TlSpace.s3),
+        SectionLabel(l10n.debugWeekVariant),
+        Text(
+          l10n.debugWeekVariantHelp,
+          style: context.text.bodySm.copyWith(color: c.inkMuted),
+        ),
+        const SizedBox(height: TlSpace.s2),
+        TlSegmentedControl<WeekVariant>(
+          key: const Key('debug-week-variant'),
+          semanticLabel: l10n.debugWeekVariant,
+          selected: ref.watch(settingsControllerProvider).weekVariant,
+          onChanged: ref
+              .read(settingsControllerProvider.notifier)
+              .setWeekVariant,
+          segments: [
+            TlSegment(WeekVariant.unified, l10n.weekVariantUnified),
+            TlSegment(WeekVariant.separate, l10n.weekVariantSeparate),
+          ],
+        ),
+        const SizedBox(height: TlSpace.s4),
         TlButton(
           key: const Key('debug-db-seed'),
           label: l10n.debugSeedDemo,

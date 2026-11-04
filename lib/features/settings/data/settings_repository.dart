@@ -29,6 +29,9 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const keyVibration = 'settings.vibration';
   static const keyWeeklyGoal = 'settings.weeklyGoal';
 
+  /// Ajuste interno de la prueba H5 (vista semanal unificada o separada).
+  static const keyWeekVariant = 'debug.weekVariant';
+
   static const _defaults = AppSettings();
 
   final SharedPreferences _prefs;
@@ -47,6 +50,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       AppSettings.minWeeklyGoal,
       AppSettings.maxWeeklyGoal,
     ),
+    weekVariant: WeekVariant.fromName(_prefs.getString(keyWeekVariant)),
   );
 
   @override
@@ -61,6 +65,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       _prefs.setBool(keyVoice, settings.voice),
       _prefs.setBool(keyVibration, settings.vibration),
       _prefs.setInt(keyWeeklyGoal, settings.weeklyGoal),
+      _prefs.setString(keyWeekVariant, settings.weekVariant.name),
     ]);
   }
 }

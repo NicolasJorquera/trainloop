@@ -15,6 +15,7 @@ import '../../../core/widgets/screen_header.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
+import '../../../core/widgets/tl_stepper.dart';
 import '../application/settings_controller.dart';
 import '../domain/app_settings.dart';
 import 'debug_database_section.dart';
@@ -94,6 +95,33 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: TlSpace.s2),
           Text(l10n.settingsUnitsHelp, style: help),
+          const SizedBox(height: TlSpace.s4),
+          Text(l10n.settingsWeekStart, style: t.body),
+          const SizedBox(height: TlSpace.s2),
+          TlSegmentedControl<WeekStart>(
+            key: const Key('settings-week-start'),
+            semanticLabel: l10n.settingsWeekStart,
+            selected: settings.weekStart,
+            onChanged: controller.setWeekStart,
+            segments: [
+              TlSegment(WeekStart.monday, l10n.settingsMonday),
+              TlSegment(WeekStart.sunday, l10n.settingsSunday),
+            ],
+          ),
+          const SizedBox(height: TlSpace.s4),
+          TlStepper(
+            key: const Key('settings-goal'),
+            label: l10n.settingsWeeklyGoal,
+            value: l10n.numberValue(settings.weeklyGoal),
+            decreaseTooltip: l10n.settingsGoalLess,
+            increaseTooltip: l10n.settingsGoalMore,
+            onDecrease: settings.weeklyGoal > AppSettings.minWeeklyGoal
+                ? () => controller.setWeeklyGoal(settings.weeklyGoal - 1)
+                : null,
+            onIncrease: settings.weeklyGoal < AppSettings.maxWeeklyGoal
+                ? () => controller.setWeeklyGoal(settings.weeklyGoal + 1)
+                : null,
+          ),
           SectionLabel(l10n.settingsAlerts),
           _AlertSwitch(
             key: const Key('alert-voice'),

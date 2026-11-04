@@ -143,6 +143,10 @@ class SessionsDao extends DatabaseAccessor<AppDatabase>
   Future<void> archive(String id) =>
       _edit(id, SessionsCompanion(archivedAt: Value(nowUtc())));
 
+  /// Deshace [archive] (borrar del historial con deshacer, S13).
+  Future<void> unarchive(String id) =>
+      _edit(id, const SessionsCompanion(archivedAt: Value(null)));
+
   Future<String> addExercise({
     required String sessionId,
     required String exerciseId,

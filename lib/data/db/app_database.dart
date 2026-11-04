@@ -58,7 +58,7 @@ class AppDatabase extends _$AppDatabase {
   /// Cada cambio de esquema sube este número, guarda el esquema con
   /// `dart run drift_dev make-migrations` y agrega su paso y su prueba.
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -83,11 +83,34 @@ class AppDatabase extends _$AppDatabase {
           schema.sessionExercise.restSeconds,
         );
       },
+      // v5 (D6): récords por peso, reps de la serie y valor superado. La
+      // tabla es una caché (R-P3): se vacía y se recalcula al abrir.
+      from4To5: (m, schema) async {
+        await customStatement(
+          'DROP INDEX IF EXISTS idx_personal_record_exercise_type',
+        );
+        await customStatement('DELETE FROM personal_record');
+        await m.addColumn(
+          schema.personalRecord,
+          schema.personalRecord.weightGrams,
+        );
+        await m.addColumn(schema.personalRecord, schema.personalRecord.reps);
+        await m.addColumn(
+          schema.personalRecord,
+          schema.personalRecord.previousValue,
+        );
+        await m.create(schema.idxPersonalRecordKey);
+        recordsRebuildPending = true;
+      },
     ),
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     },
   );
+
+  /// La migración vació la caché de récords: hay que recalcularla desde
+  /// set_log (lo hace `RecordsRepository.rebuildIfPending` al abrir la app).
+  bool recordsRebuildPending = false;
 
   /// Filas por tabla (sección de depuración en Configuración).
   Future<Map<String, int>> rowCounts() async => {

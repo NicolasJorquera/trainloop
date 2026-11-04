@@ -56,12 +56,16 @@ enum SessionStatus {
   recoveryPending,
 }
 
-/// Tipo de récord personal (único por ejercicio + tipo).
+/// Tipo de récord personal (PRD, flujo 3): peso máximo, 1RM estimado,
+/// más repeticiones con un peso dado (uno por peso), mayor volumen del
+/// ejercicio en una sesión, y en ejercicios de tiempo o distancia la mayor
+/// duración o distancia de una serie. v5 renombró `maxSetVolume` a
+/// [maxSessionVolume] (la caché se vació y se recalculó).
 enum RecordType {
   maxWeight,
   estimatedOneRm,
   maxReps,
-  maxSetVolume,
+  maxSessionVolume,
   maxDuration,
   maxDistance,
 }

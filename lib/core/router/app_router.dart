@@ -6,11 +6,13 @@ import '../../app/app_shell.dart';
 import '../../features/exercises/presentation/exercise_form_screen.dart';
 import '../../features/exercises/presentation/exercise_library_screen.dart';
 import '../../features/history/presentation/history_screen.dart';
+import '../../features/history/presentation/session_detail_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/intervals/presentation/interval_detail_screen.dart';
 import '../../features/intervals/presentation/interval_editor_screen.dart';
 import '../../features/intervals/presentation/session_summary_screen.dart';
 import '../../features/intervals/presentation/timer_screen.dart';
+import '../../features/progress/presentation/exercise_detail_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/routines/presentation/routine_editor_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
@@ -136,6 +138,18 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootKey,
         builder: (context, state) =>
             StrengthSummaryScreen(sessionId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/history/:id',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            SessionDetailScreen(sessionId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/progress/exercises/:id',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            ExerciseDetailScreen(exerciseId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.exercises,

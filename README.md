@@ -90,8 +90,31 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **S11.** Peso con ± del incremento del ejercicio (2,5 kg / 5 lb por defecto) o teclado, reps, RPE 6–10 opcional y tipo de serie (calentamiento, normal, al fallo, drop set). Validaciones de R-G4. Peso en la unidad elegida; se guarda con su unidad original (R-G7). Decimales con coma en es-419 y pt-BR (`numberLocale`).
 - **Descanso (F-09).** Corre en `TimerService` en modo fuerza (sin un temporizador en Dart): `RestTimer` con fin absoluto en `elapsedRealtime`, ±15 s y saltar; wake lock solo durante el descanso; pitidos 3-2-1, tono, voz y vibración al terminar según Configuración → Alertas, también con la pantalla apagada. La notificación muestra el descanso con +15 s y Saltar, «¡A la siguiente serie!» o la sesión con su tiempo y series.
 - **Persistencia y recuperación.** Cada serie se guarda en su propia transacción al marcarla. Si Android cierra la app, al abrir se ofrece retomarla (S18-b: Reanudar, Guardar como incompleta, Descartar); el descanso en curso se recalcula con el reloj monotónico desde `files/strength_checkpoint.json` o se descarta si venció o hubo un reinicio.
-- **Resumen.** Duración, volumen (sin calentamiento), series, récord simple del día (peso máximo o 1RM de Epley frente al historial; la tabla de récords llega en D6), «¿Actualizar la rutina?» si cambió la estructura (R-G12), esfuerzo 1–10 y nota.
+- **Resumen.** Duración, volumen (sin calentamiento), series, récords nuevos de la sesión (desde D6, leídos de la caché `personal_record`), «¿Actualizar la rutina?» si cambió la estructura (R-G12), esfuerzo 1–10 y nota.
 - **Pruebas.** Dominio, repositorio (copia, última marca, serie repetida, cierre forzado con la base en archivo), flujo de S10/S11/resumen/recuperación con un motor falso, pseudo-locale y JVM de `RestTimer`. Resultados en emulador y deuda: `docs/pruebas-fuerza.md`.
+
+## Historial y estadísticas (D6)
+
+- **S12 Historial** (pestaña): SEMANA, LISTA y CALENDARIO.
+  - **Semana:** fuerza, intervalos, descanso, libre y planificado; tocar un día de hoy en adelante abre el plan opcional del día, que se repite cada semana y nunca empieza una sesión.
+  - **Lista:** sesiones agrupadas por semana, con sesiones y minutos.
+  - **Calendario:** mes con marcas F/I; tocar un día muestra sus sesiones.
+- **Variante H5 (unificada o separada).** No tiene pantalla pública.
+  - En depuración: Configuración → sección de depuración → «Vista semanal (prueba H5)».
+  - En cualquier build: `--dart-define=TL_WEEK_VARIANT=separate` (o `unified`). Este valor manda sobre el ajuste guardado (`debug.weekVariant`).
+- **S13 Detalle de sesión** (`/history/:id`).
+  - Muestra volumen, series y récords (fuerza), o total, rondas y trabajo (intervalos).
+  - EDITAR permite cambiar el nombre, el esfuerzo y la nota. En fuerza, además, tocar una serie abre S11 para cambiar peso, reps, RPE o tipo, o para quitarla.
+  - GUARDAR COMO RUTINA crea una rutina con las series hechas.
+  - ELIMINAR pide confirmación, archiva la sesión y ofrece DESHACER durante 5 s.
+- **Récords (R-P3, `RecordsRepository`).** Tipos: peso máximo (con sus reps), 1RM de Epley (1–12 reps), más reps con cada peso, mayor volumen del ejercicio en una sesión, y mayor duración o distancia.
+  - Se recalculan desde `set_log` al terminar una sesión de fuerza, al descartarla desde el resumen y al editar, borrar o restaurar una sesión.
+  - Se guardan en `personal_record`, que es solo una caché.
+  - Un récord es «nuevo» si superó una marca anterior (`previous_value`); la primera vez no se destaca.
+- **Inicio:** «2/3 sesiones de tu objetivo», minutos activos y racha, según el inicio de semana y el objetivo semanal (ambos nuevos en Configuración → Entrenamiento).
+- **S14 Progreso:** la semana en curso (sesiones/objetivo, minutos, racha y volumen), barras de sesiones de las últimas 8 semanas con la línea del objetivo (tocar una barra lista sus sesiones) y la última marca por ejercicio e intervalos.
+- **S15 Detalle de ejercicio** (`/progress/exercises/:id`): última marca y su 1RM, tendencia simple del 1RM estimado (CustomPaint, rangos 4 sem / 12 sem / 6 m / 1 año / todo), récords e historial.
+- **Pruebas:** cifras calculadas a mano frente a la app, y recálculo al editar y al borrar. Ver `docs/pruebas-historial.md`, que incluye la deuda.
 
 ## Tema, acento e idioma
 
@@ -142,7 +165,7 @@ SQLite con Drift, en `trainloop.sqlite` dentro del directorio de soporte de la a
 
 Acceso: un DAO por agregado (`ExercisesDao`, `RoutinesDao`, `IntervalWorkoutsDao`, `SessionsDao`, `RecordsDao`, `PlanDao`, `AdStateDao`), expuestos por providers de Riverpod en `lib/data/db/database_providers.dart`. `appDatabaseProvider` abre una sola instancia y la cierra al desechar el `ProviderScope`; las pruebas la sobrescriben con una base en memoria.
 
-Versión actual del esquema: **4** (D3 agregó `exercise.catalog_key` con índice único; D4, `interval_block.skip_last_rest`; D5, `session_exercise.rest_seconds`).
+Versión actual del esquema: **5** (D3 agregó `exercise.catalog_key` con índice único; D4, `interval_block.skip_last_rest`; D5, `session_exercise.rest_seconds`; D6, en `personal_record`, `weight_grams`, `reps` y `previous_value`, con el índice único ejercicio + tipo + peso. La migración vacía la caché de récords y la app la recalcula al abrir).
 
 El código generado (`*.g.dart`, `test/drift/*/generated/`) va en el repositorio. Tras cambiar tablas o DAOs:
 

@@ -344,11 +344,14 @@ void main() {
       // 85 × 8 = 680 kg; el calentamiento no cuenta.
       expect(summary.data.volumeGrams, 680000);
       expect(await db.sessionsDao.watchVolumeGrams(second).first, 680000);
+      // D6: los récords nuevos salen de la caché recalculada al guardar
+      // (R-P3): peso máximo 85 × 8 y 1RM 107,7 kg superan la sesión 1.
       final record = summary.records.single;
       expect(record.exercise.catalogKey, 'back_squat_barbell');
-      expect(record.weightRecord, isTrue);
-      expect(record.set.reps, 8);
-      expect(record.oneRmGrams!.round(), 107667);
+      final byType = {for (final r in record.records) r.type: r};
+      expect(byType[RecordType.maxWeight]!.value, 85000);
+      expect(byType[RecordType.maxWeight]!.reps, 8);
+      expect(byType[RecordType.estimatedOneRm]!.value.round(), 107667);
       expect(summary.durationSeconds, greaterThanOrEqualTo(0));
       // Quitó ejercicios y series: se ofrece actualizar la rutina.
       expect(summary.routineName, 'Piernas A');

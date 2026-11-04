@@ -1515,6 +1515,461 @@ class AppLocalizationsEs extends AppLocalizations {
   String decimalText(String value) {
     return '$value';
   }
+
+  @override
+  String get debugWeekVariant => 'Vista semanal (prueba H5)';
+
+  @override
+  String get debugWeekVariantHelp =>
+      'Ajuste interno para la prueba de usabilidad: fuerza e intervalos juntos o separados.';
+
+  @override
+  String get weekVariantUnified => 'UNIFICADA';
+
+  @override
+  String get weekVariantSeparate => 'SEPARADA';
+
+  @override
+  String get detailColSet => 'SERIE';
+
+  @override
+  String get detailColReps => 'REPS';
+
+  @override
+  String get detailColRpe => 'RPE';
+
+  @override
+  String get detailColTime => 'TIEMPO';
+
+  @override
+  String get detailDelete => 'ELIMINAR';
+
+  @override
+  String get detailDeleteTitle => '¿Eliminar esta sesión?';
+
+  @override
+  String get detailDeleteBody =>
+      'Se recalcularán tus récords. Tendrás 5 segundos para deshacer.';
+
+  @override
+  String get detailDeleted => 'Sesión eliminada';
+
+  @override
+  String get detailDone => 'LISTO';
+
+  @override
+  String get detailEditHelp =>
+      'Toca una serie para cambiar peso, reps, RPE o tipo. Los récords se recalculan.';
+
+  @override
+  String detailEffort(int value) {
+    return 'Esfuerzo $value/10';
+  }
+
+  @override
+  String get detailMissing => 'Esta sesión ya no está en tu historial.';
+
+  @override
+  String get detailNameLabel => 'NOMBRE';
+
+  @override
+  String detailNote(String note) {
+    return 'Nota: $note';
+  }
+
+  @override
+  String get detailRecordTag => 'RÉCORD';
+
+  @override
+  String get detailRecords => 'RÉCORDS';
+
+  @override
+  String get detailRounds => 'RONDAS';
+
+  @override
+  String detailRoutineSaved(String name) {
+    return 'Rutina «$name» guardada';
+  }
+
+  @override
+  String get detailSaveRoutine => 'GUARDAR COMO RUTINA';
+
+  @override
+  String get detailSets => 'SERIES';
+
+  @override
+  String get detailTotal => 'TOTAL';
+
+  @override
+  String get detailVolume => 'VOLUMEN';
+
+  @override
+  String get detailWork => 'TRABAJO';
+
+  @override
+  String distanceMeters(int meters) {
+    return '$meters m';
+  }
+
+  @override
+  String get exerciseHistory => 'HISTORIAL';
+
+  @override
+  String get exerciseLastMark => 'ÚLTIMA MARCA';
+
+  @override
+  String get exerciseNoHistory => 'Aún no hay sesiones con este ejercicio.';
+
+  @override
+  String get exerciseNoRecords => 'Aún no hay récords.';
+
+  @override
+  String exerciseOneRm(String value) {
+    return '1RM estimado $value';
+  }
+
+  @override
+  String get exerciseRecords => 'RÉCORDS';
+
+  @override
+  String exerciseTrendMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Faltan $count sesiones para ver la tendencia.',
+      one: 'Falta 1 sesión para ver la tendencia.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exerciseTrendNote(String from, String to, String change) {
+    return 'De $from a $to ($change %)';
+  }
+
+  @override
+  String get exerciseTrendTitle => '1RM ESTIMADO';
+
+  @override
+  String historyBlockDone(String day, String name, String minutes) {
+    return '✓ $day · $name · $minutes';
+  }
+
+  @override
+  String get historyBlockEmpty => 'Nada hecho ni planificado esta semana.';
+
+  @override
+  String historyBlockStrength(int done, int total) {
+    return 'FUERZA · $done DE $total';
+  }
+
+  @override
+  String historyBlockIntervals(int done, int total) {
+    return 'INTERVALOS · $done DE $total';
+  }
+
+  @override
+  String historyBlockPlanned(String day, String name) {
+    return '○ $day · $name (planificado)';
+  }
+
+  @override
+  String historyCalendarDay(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$date: $count sesiones',
+      one: '$date: 1 sesión',
+      zero: '$date: sin sesiones',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyDate(String date) {
+    return '$date';
+  }
+
+  @override
+  String get historyDayEmpty => 'Sin sesiones este día.';
+
+  @override
+  String get historyDayFree => 'Libre';
+
+  @override
+  String historyDayName(String day) {
+    return '$day';
+  }
+
+  @override
+  String get historyDayRest => 'Descanso';
+
+  @override
+  String historyDayTitle(String date) {
+    return '$date';
+  }
+
+  @override
+  String get historyIncomplete => 'incompleta';
+
+  @override
+  String get historyIntervalsFallback => 'Intervalos';
+
+  @override
+  String get historyLastWeek => 'SEMANA ANTERIOR';
+
+  @override
+  String get historyLetterStrength => 'F';
+
+  @override
+  String get historyLetterIntervals => 'I';
+
+  @override
+  String historyMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String historyMonth(String month) {
+    return '$month';
+  }
+
+  @override
+  String get historyNextMonth => 'Mes siguiente';
+
+  @override
+  String get historyPrevMonth => 'Mes anterior';
+
+  @override
+  String historyRounds(int done, int total) {
+    return '$done/$total rondas';
+  }
+
+  @override
+  String historySets(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count series',
+      one: '1 serie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyStateDone => 'Hecho';
+
+  @override
+  String get historyStateIncomplete => 'Incompleta';
+
+  @override
+  String get historyStatePlanned => 'Planificado';
+
+  @override
+  String get historyTabWeek => 'SEMANA';
+
+  @override
+  String get historyTabList => 'LISTA';
+
+  @override
+  String get historyTabCalendar => 'CALENDARIO';
+
+  @override
+  String get historyTabsLabel => 'Vista del historial';
+
+  @override
+  String get historyThisWeek => 'ESTA SEMANA';
+
+  @override
+  String historyWeekGroup(String week, int sessions, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      sessions,
+      locale: localeName,
+      other: '$week · $sessions SESIONES · $minutes MIN',
+      one: '$week · 1 SESIÓN · $minutes MIN',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyWeekHead(int done, int goal) {
+    return 'ESTA SEMANA · $done DE $goal';
+  }
+
+  @override
+  String get historyWeekLegend =>
+      'F = fuerza · I = intervalos · relleno = hecho · contorno = planificado · punteado = descanso o libre. Toca un día libre para planificarlo.';
+
+  @override
+  String historyWeekOf(String date) {
+    return 'SEMANA DEL $date';
+  }
+
+  @override
+  String get homeSeeProgress => 'VER PROGRESO';
+
+  @override
+  String homeWeekMinutes(int minutes) {
+    return '$minutes min activos';
+  }
+
+  @override
+  String homeWeekProgressLabel(int done, int goal) {
+    return '$done de $goal sesiones esta semana';
+  }
+
+  @override
+  String get homeWeekSessions => 'sesiones de tu objetivo';
+
+  @override
+  String homeWeekStreak(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks semanas de racha',
+      one: '1 semana de racha',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planHelp =>
+      'Se repite cada semana. Solo se muestra en tu semana: nunca empieza una sesión.';
+
+  @override
+  String get planNone => 'Sin plan';
+
+  @override
+  String planTitle(String day) {
+    return 'Plan del $day';
+  }
+
+  @override
+  String progressBarLabel(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Semana del $date: $count sesiones',
+      one: 'Semana del $date: 1 sesión',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progressChartNote =>
+      'Fuerza e intervalos cuentan igual. Toca una barra para ver sus sesiones.';
+
+  @override
+  String progressChartSub(String average, int goal) {
+    return 'promedio $average · objetivo $goal';
+  }
+
+  @override
+  String get progressChartTitle => 'SESIONES POR SEMANA';
+
+  @override
+  String get progressComplete => 'COMPLETO';
+
+  @override
+  String get progressGoalLine => 'objetivo';
+
+  @override
+  String progressGoalSuffix(int goal) {
+    return '/$goal';
+  }
+
+  @override
+  String progressIntervalMark(String rounds, String work) {
+    return '$rounds · $work de trabajo';
+  }
+
+  @override
+  String get progressLastMarks => 'ÚLTIMA MARCA POR EJERCICIO';
+
+  @override
+  String get progressMinutes => 'min activos';
+
+  @override
+  String get progressRecordBadge => '↑ RÉCORD';
+
+  @override
+  String get progressSameBadge => '= IGUAL';
+
+  @override
+  String get progressSessions => 'sesiones';
+
+  @override
+  String get progressStreak => 'semanas de racha';
+
+  @override
+  String get progressThisWeekShort => 'Hoy';
+
+  @override
+  String progressWeekVolume(String volume) {
+    return 'Volumen de fuerza esta semana: $volume';
+  }
+
+  @override
+  String rangeWeeks(int count) {
+    return '$count SEM';
+  }
+
+  @override
+  String rangeMonths(int count) {
+    return '$count M';
+  }
+
+  @override
+  String get rangeYear => '1 AÑO';
+
+  @override
+  String get rangeAll => 'TODO';
+
+  @override
+  String recordLine(String name, String value) {
+    return '$name: $value';
+  }
+
+  @override
+  String get recordMaxWeight => 'Peso máximo';
+
+  @override
+  String get recordOneRm => '1RM estimado';
+
+  @override
+  String recordMaxRepsAt(String weight) {
+    return 'Más reps con $weight';
+  }
+
+  @override
+  String get recordMaxRepsBodyweight => 'Más reps';
+
+  @override
+  String get recordMaxVolume => 'Mayor volumen';
+
+  @override
+  String get recordMaxDuration => 'Mayor duración';
+
+  @override
+  String get recordMaxDistance => 'Mayor distancia';
+
+  @override
+  String get settingsWeekStart => 'La semana empieza el';
+
+  @override
+  String get settingsMonday => 'LUNES';
+
+  @override
+  String get settingsSunday => 'DOMINGO';
+
+  @override
+  String get settingsWeeklyGoal => 'Objetivo semanal (sesiones)';
+
+  @override
+  String get settingsGoalLess => 'Menos sesiones';
+
+  @override
+  String get settingsGoalMore => 'Más sesiones';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

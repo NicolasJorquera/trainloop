@@ -36,6 +36,12 @@ abstract final class Routes {
   static const strength = '/strength';
   static String strengthSummary(String id) => '/strength/$id/summary';
 
+  /// Detalle de una sesión del historial (S13).
+  static String sessionDetail(String id) => '/history/$id';
+
+  /// Detalle de un ejercicio en Progreso (S15).
+  static String exerciseProgress(String id) => '/progress/exercises/$id';
+
   /// Entrenar con la vista de rutinas.
   static const trainRoutines = '/train?kind=routines';
 }
