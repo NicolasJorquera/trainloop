@@ -79,6 +79,10 @@ class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
     personalRecords,
   )..where((t) => t.sessionId.equals(sessionId))).get();
 
+  Stream<List<PersonalRecord>> watchForSession(String sessionId) => (select(
+    personalRecords,
+  )..where((t) => t.sessionId.equals(sessionId))).watch();
+
   Stream<List<PersonalRecord>> watchAll() => select(personalRecords).watch();
 
   /// Borra los récords de un ejercicio antes de recalcularlos.

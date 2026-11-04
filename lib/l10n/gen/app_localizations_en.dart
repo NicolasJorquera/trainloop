@@ -1511,6 +1511,461 @@ class AppLocalizationsEn extends AppLocalizations {
   String decimalText(String value) {
     return '$value';
   }
+
+  @override
+  String get debugWeekVariant => 'Weekly view (H5 test)';
+
+  @override
+  String get debugWeekVariantHelp =>
+      'Internal setting for the usability test: strength and intervals together or separate.';
+
+  @override
+  String get weekVariantUnified => 'UNIFIED';
+
+  @override
+  String get weekVariantSeparate => 'SEPARATE';
+
+  @override
+  String get detailColSet => 'SET';
+
+  @override
+  String get detailColReps => 'REPS';
+
+  @override
+  String get detailColRpe => 'RPE';
+
+  @override
+  String get detailColTime => 'TIME';
+
+  @override
+  String get detailDelete => 'DELETE';
+
+  @override
+  String get detailDeleteTitle => 'Delete this session?';
+
+  @override
+  String get detailDeleteBody =>
+      'Your records will be recalculated. You\'ll have 5 seconds to undo.';
+
+  @override
+  String get detailDeleted => 'Session deleted';
+
+  @override
+  String get detailDone => 'DONE';
+
+  @override
+  String get detailEditHelp =>
+      'Tap a set to change its weight, reps, RPE or type. Records are recalculated.';
+
+  @override
+  String detailEffort(int value) {
+    return 'Effort $value/10';
+  }
+
+  @override
+  String get detailMissing => 'This session is no longer in your history.';
+
+  @override
+  String get detailNameLabel => 'NAME';
+
+  @override
+  String detailNote(String note) {
+    return 'Note: $note';
+  }
+
+  @override
+  String get detailRecordTag => 'RECORD';
+
+  @override
+  String get detailRecords => 'RECORDS';
+
+  @override
+  String get detailRounds => 'ROUNDS';
+
+  @override
+  String detailRoutineSaved(String name) {
+    return 'Routine \"$name\" saved';
+  }
+
+  @override
+  String get detailSaveRoutine => 'SAVE AS ROUTINE';
+
+  @override
+  String get detailSets => 'SETS';
+
+  @override
+  String get detailTotal => 'TOTAL';
+
+  @override
+  String get detailVolume => 'VOLUME';
+
+  @override
+  String get detailWork => 'WORK';
+
+  @override
+  String distanceMeters(int meters) {
+    return '$meters m';
+  }
+
+  @override
+  String get exerciseHistory => 'HISTORY';
+
+  @override
+  String get exerciseLastMark => 'LAST MARK';
+
+  @override
+  String get exerciseNoHistory => 'No sessions with this exercise yet.';
+
+  @override
+  String get exerciseNoRecords => 'No records yet.';
+
+  @override
+  String exerciseOneRm(String value) {
+    return 'estimated 1RM $value';
+  }
+
+  @override
+  String get exerciseRecords => 'RECORDS';
+
+  @override
+  String exerciseTrendMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count more sessions to see the trend.',
+      one: '1 more session to see the trend.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exerciseTrendNote(String from, String to, String change) {
+    return 'From $from to $to ($change%)';
+  }
+
+  @override
+  String get exerciseTrendTitle => 'ESTIMATED 1RM';
+
+  @override
+  String historyBlockDone(String day, String name, String minutes) {
+    return '✓ $day · $name · $minutes';
+  }
+
+  @override
+  String get historyBlockEmpty => 'Nothing done or planned this week.';
+
+  @override
+  String historyBlockStrength(int done, int total) {
+    return 'STRENGTH · $done OF $total';
+  }
+
+  @override
+  String historyBlockIntervals(int done, int total) {
+    return 'INTERVALS · $done OF $total';
+  }
+
+  @override
+  String historyBlockPlanned(String day, String name) {
+    return '○ $day · $name (planned)';
+  }
+
+  @override
+  String historyCalendarDay(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$date: $count sessions',
+      one: '$date: 1 session',
+      zero: '$date: no sessions',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyDate(String date) {
+    return '$date';
+  }
+
+  @override
+  String get historyDayEmpty => 'No sessions this day.';
+
+  @override
+  String get historyDayFree => 'Free';
+
+  @override
+  String historyDayName(String day) {
+    return '$day';
+  }
+
+  @override
+  String get historyDayRest => 'Rest';
+
+  @override
+  String historyDayTitle(String date) {
+    return '$date';
+  }
+
+  @override
+  String get historyIncomplete => 'incomplete';
+
+  @override
+  String get historyIntervalsFallback => 'Intervals';
+
+  @override
+  String get historyLastWeek => 'LAST WEEK';
+
+  @override
+  String get historyLetterStrength => 'S';
+
+  @override
+  String get historyLetterIntervals => 'I';
+
+  @override
+  String historyMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String historyMonth(String month) {
+    return '$month';
+  }
+
+  @override
+  String get historyNextMonth => 'Next month';
+
+  @override
+  String get historyPrevMonth => 'Previous month';
+
+  @override
+  String historyRounds(int done, int total) {
+    return '$done/$total rounds';
+  }
+
+  @override
+  String historySets(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sets',
+      one: '1 set',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get historyStateDone => 'Done';
+
+  @override
+  String get historyStateIncomplete => 'Incomplete';
+
+  @override
+  String get historyStatePlanned => 'Planned';
+
+  @override
+  String get historyTabWeek => 'WEEK';
+
+  @override
+  String get historyTabList => 'LIST';
+
+  @override
+  String get historyTabCalendar => 'CALENDAR';
+
+  @override
+  String get historyTabsLabel => 'History view';
+
+  @override
+  String get historyThisWeek => 'THIS WEEK';
+
+  @override
+  String historyWeekGroup(String week, int sessions, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      sessions,
+      locale: localeName,
+      other: '$week · $sessions SESSIONS · $minutes MIN',
+      one: '$week · 1 SESSION · $minutes MIN',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyWeekHead(int done, int goal) {
+    return 'THIS WEEK · $done OF $goal';
+  }
+
+  @override
+  String get historyWeekLegend =>
+      'S = strength · I = intervals · filled = done · outline = planned · dotted = rest or free. Tap a free day to plan it.';
+
+  @override
+  String historyWeekOf(String date) {
+    return 'WEEK OF $date';
+  }
+
+  @override
+  String get homeSeeProgress => 'SEE PROGRESS';
+
+  @override
+  String homeWeekMinutes(int minutes) {
+    return '$minutes active min';
+  }
+
+  @override
+  String homeWeekProgressLabel(int done, int goal) {
+    return '$done of $goal sessions this week';
+  }
+
+  @override
+  String get homeWeekSessions => 'sessions of your goal';
+
+  @override
+  String homeWeekStreak(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks-week streak',
+      one: '1-week streak',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get planHelp =>
+      'Repeats every week. It only shows in your week: it never starts a session.';
+
+  @override
+  String get planNone => 'No plan';
+
+  @override
+  String planTitle(String day) {
+    return 'Plan for $day';
+  }
+
+  @override
+  String progressBarLabel(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Week of $date: $count sessions',
+      one: 'Week of $date: 1 session',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progressChartNote =>
+      'Strength and intervals count the same. Tap a bar to see its sessions.';
+
+  @override
+  String progressChartSub(String average, int goal) {
+    return 'average $average · goal $goal';
+  }
+
+  @override
+  String get progressChartTitle => 'SESSIONS PER WEEK';
+
+  @override
+  String get progressComplete => 'COMPLETE';
+
+  @override
+  String get progressGoalLine => 'goal';
+
+  @override
+  String progressGoalSuffix(int goal) {
+    return '/$goal';
+  }
+
+  @override
+  String progressIntervalMark(String rounds, String work) {
+    return '$rounds · $work of work';
+  }
+
+  @override
+  String get progressLastMarks => 'LAST MARK PER EXERCISE';
+
+  @override
+  String get progressMinutes => 'active min';
+
+  @override
+  String get progressRecordBadge => '↑ RECORD';
+
+  @override
+  String get progressSameBadge => '= SAME';
+
+  @override
+  String get progressSessions => 'sessions';
+
+  @override
+  String get progressStreak => 'weeks streak';
+
+  @override
+  String get progressThisWeekShort => 'Now';
+
+  @override
+  String progressWeekVolume(String volume) {
+    return 'Strength volume this week: $volume';
+  }
+
+  @override
+  String rangeWeeks(int count) {
+    return '$count WK';
+  }
+
+  @override
+  String rangeMonths(int count) {
+    return '$count MO';
+  }
+
+  @override
+  String get rangeYear => '1 YEAR';
+
+  @override
+  String get rangeAll => 'ALL';
+
+  @override
+  String recordLine(String name, String value) {
+    return '$name: $value';
+  }
+
+  @override
+  String get recordMaxWeight => 'Max weight';
+
+  @override
+  String get recordOneRm => 'Estimated 1RM';
+
+  @override
+  String recordMaxRepsAt(String weight) {
+    return 'Most reps with $weight';
+  }
+
+  @override
+  String get recordMaxRepsBodyweight => 'Most reps';
+
+  @override
+  String get recordMaxVolume => 'Best session volume';
+
+  @override
+  String get recordMaxDuration => 'Longest set';
+
+  @override
+  String get recordMaxDistance => 'Longest distance';
+
+  @override
+  String get settingsWeekStart => 'Week starts on';
+
+  @override
+  String get settingsMonday => 'MONDAY';
+
+  @override
+  String get settingsSunday => 'SUNDAY';
+
+  @override
+  String get settingsWeeklyGoal => 'Weekly goal (sessions)';
+
+  @override
+  String get settingsGoalLess => 'Fewer sessions';
+
+  @override
+  String get settingsGoalMore => 'More sessions';
 }
 
 /// The translations for English (`en_XA`).
@@ -3032,4 +3487,462 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String decimalText(String value) {
     return '[$value]';
   }
+
+  @override
+  String get debugWeekVariant => '[Ŵééķļý ṽîéŵ (Ĥ5 ţéšţ) ······]';
+
+  @override
+  String get debugWeekVariantHelp =>
+      '[Îñţéŕñáļ šéţţîñĝ ƒöŕ ţĥé ûšáƀîļîţý ţéšţ: šţŕéñĝţĥ áñð îñţéŕṽáļš ţöĝéţĥéŕ öŕ šéþáŕáţé. ·····························]';
+
+  @override
+  String get weekVariantUnified => '[ÛÑÎƑÎÉÐ ···]';
+
+  @override
+  String get weekVariantSeparate => '[ŠÉÞÅŔÅŢÉ ····]';
+
+  @override
+  String get detailColSet => '[ŠÉŢ ··]';
+
+  @override
+  String get detailColReps => '[ŔÉÞŠ ··]';
+
+  @override
+  String get detailColRpe => '[ŔÞÉ ··]';
+
+  @override
+  String get detailColTime => '[ŢÎṀÉ ··]';
+
+  @override
+  String get detailDelete => '[ÐÉĻÉŢÉ ···]';
+
+  @override
+  String get detailDeleteTitle => '[Ðéļéţé ţĥîš šéššîöñ? ·······]';
+
+  @override
+  String get detailDeleteBody =>
+      '[Ýöûŕ ŕéçöŕðš ŵîļļ ƀé ŕéçáļçûļáţéð. Ýöû\'ļļ ĥáṽé 5 šéçöñðš ţö ûñðö. ·····················]';
+
+  @override
+  String get detailDeleted => '[Šéššîöñ ðéļéţéð ······]';
+
+  @override
+  String get detailDone => '[ÐÖÑÉ ··]';
+
+  @override
+  String get detailEditHelp =>
+      '[Ţáþ á šéţ ţö çĥáñĝé îţš ŵéîĝĥţ, ŕéþš, ŔÞÉ öŕ ţýþé. Ŕéçöŕðš áŕé ŕéçáļçûļáţéð. ························]';
+
+  @override
+  String detailEffort(int value) {
+    return '[Éƒƒöŕţ $value/10 ···]';
+  }
+
+  @override
+  String get detailMissing =>
+      '[Ţĥîš šéššîöñ îš ñö ļöñĝéŕ îñ ýöûŕ ĥîšţöŕý. ··············]';
+
+  @override
+  String get detailNameLabel => '[ÑÅṀÉ ··]';
+
+  @override
+  String detailNote(String note) {
+    return '[Ñöţé: $note ··]';
+  }
+
+  @override
+  String get detailRecordTag => '[ŔÉÇÖŔÐ ···]';
+
+  @override
+  String get detailRecords => '[ŔÉÇÖŔÐŠ ···]';
+
+  @override
+  String get detailRounds => '[ŔÖÛÑÐŠ ···]';
+
+  @override
+  String detailRoutineSaved(String name) {
+    return '[Ŕöûţîñé \"$name\" šáṽéð ·····]';
+  }
+
+  @override
+  String get detailSaveRoutine => '[ŠÅṼÉ ÅŠ ŔÖÛŢÎÑÉ ······]';
+
+  @override
+  String get detailSets => '[ŠÉŢŠ ··]';
+
+  @override
+  String get detailTotal => '[ŢÖŢÅĻ ··]';
+
+  @override
+  String get detailVolume => '[ṼÖĻÛṀÉ ···]';
+
+  @override
+  String get detailWork => '[ŴÖŔĶ ··]';
+
+  @override
+  String distanceMeters(int meters) {
+    return '[$meters ɱ ·]';
+  }
+
+  @override
+  String get exerciseHistory => '[ĤÎŠŢÖŔÝ ···]';
+
+  @override
+  String get exerciseLastMark => '[ĻÅŠŢ ṀÅŔĶ ····]';
+
+  @override
+  String get exerciseNoHistory =>
+      '[Ñö šéššîöñš ŵîţĥ ţĥîš éẋéŕçîšé ýéţ. ············]';
+
+  @override
+  String get exerciseNoRecords => '[Ñö ŕéçöŕðš ýéţ. ·····]';
+
+  @override
+  String exerciseOneRm(String value) {
+    return '[éšţîɱáţéð 1ŔṀ $value ·····]';
+  }
+
+  @override
+  String get exerciseRecords => '[ŔÉÇÖŔÐŠ ···]';
+
+  @override
+  String exerciseTrendMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ɱöŕé šéššîöñš ţö šéé ţĥé ţŕéñð.',
+      one: '1 ɱöŕé šéššîöñ ţö šéé ţĥé ţŕéñð.',
+    );
+    return '[$_temp0 ····················]';
+  }
+
+  @override
+  String exerciseTrendNote(String from, String to, String change) {
+    return '[Ƒŕöɱ $from ţö $to ($change%) ···]';
+  }
+
+  @override
+  String get exerciseTrendTitle => '[ÉŠŢÎṀÅŢÉÐ 1ŔṀ ·····]';
+
+  @override
+  String historyBlockDone(String day, String name, String minutes) {
+    return '[✓ $day · $name · $minutes]';
+  }
+
+  @override
+  String get historyBlockEmpty =>
+      '[Ñöţĥîñĝ ðöñé öŕ þļáññéð ţĥîš ŵééķ. ············]';
+
+  @override
+  String historyBlockStrength(int done, int total) {
+    return '[ŠŢŔÉÑĜŢĤ · $done ÖƑ $total ····]';
+  }
+
+  @override
+  String historyBlockIntervals(int done, int total) {
+    return '[ÎÑŢÉŔṼÅĻŠ · $done ÖƑ $total ·····]';
+  }
+
+  @override
+  String historyBlockPlanned(String day, String name) {
+    return '[○ $day · $name (þļáññéð) ···]';
+  }
+
+  @override
+  String historyCalendarDay(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$date: $count šéššîöñš',
+      one: '$date: 1 šéššîöñ',
+      zero: '$date: ñö šéššîöñš',
+    );
+    return '[$_temp0 ··········]';
+  }
+
+  @override
+  String historyDate(String date) {
+    return '[$date]';
+  }
+
+  @override
+  String get historyDayEmpty => '[Ñö šéššîöñš ţĥîš ðáý. ·······]';
+
+  @override
+  String get historyDayFree => '[Ƒŕéé ··]';
+
+  @override
+  String historyDayName(String day) {
+    return '[$day]';
+  }
+
+  @override
+  String get historyDayRest => '[Ŕéšţ ··]';
+
+  @override
+  String historyDayTitle(String date) {
+    return '[$date]';
+  }
+
+  @override
+  String get historyIncomplete => '[îñçöɱþļéţé ····]';
+
+  @override
+  String get historyIntervalsFallback => '[Îñţéŕṽáļš ····]';
+
+  @override
+  String get historyLastWeek => '[ĻÅŠŢ ŴÉÉĶ ····]';
+
+  @override
+  String get historyLetterStrength => '[Š ·]';
+
+  @override
+  String get historyLetterIntervals => '[Î ·]';
+
+  @override
+  String historyMinutes(int minutes) {
+    return '[$minutes ɱîñ ··]';
+  }
+
+  @override
+  String historyMonth(String month) {
+    return '[$month]';
+  }
+
+  @override
+  String get historyNextMonth => '[Ñéẋţ ɱöñţĥ ····]';
+
+  @override
+  String get historyPrevMonth => '[Þŕéṽîöûš ɱöñţĥ ······]';
+
+  @override
+  String historyRounds(int done, int total) {
+    return '[$done/$total ŕöûñðš ···]';
+  }
+
+  @override
+  String historySets(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count šéţš',
+      one: '1 šéţ',
+    );
+    return '[$_temp0 ···]';
+  }
+
+  @override
+  String get historyStateDone => '[Ðöñé ··]';
+
+  @override
+  String get historyStateIncomplete => '[Îñçöɱþļéţé ····]';
+
+  @override
+  String get historyStatePlanned => '[Þļáññéð ···]';
+
+  @override
+  String get historyTabWeek => '[ŴÉÉĶ ··]';
+
+  @override
+  String get historyTabList => '[ĻÎŠŢ ··]';
+
+  @override
+  String get historyTabCalendar => '[ÇÅĻÉÑÐÅŔ ····]';
+
+  @override
+  String get historyTabsLabel => '[Ĥîšţöŕý ṽîéŵ ·····]';
+
+  @override
+  String get historyThisWeek => '[ŢĤÎŠ ŴÉÉĶ ····]';
+
+  @override
+  String historyWeekGroup(String week, int sessions, int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      sessions,
+      locale: localeName,
+      other: '$week · $sessions ŠÉŠŠÎÖÑŠ · $minutes ṀÎÑ',
+      one: '$week · 1 ŠÉŠŠÎÖÑ · $minutes ṀÎÑ',
+    );
+    return '[$_temp0 ·········]';
+  }
+
+  @override
+  String historyWeekHead(int done, int goal) {
+    return '[ŢĤÎŠ ŴÉÉĶ · $done ÖƑ $goal ····]';
+  }
+
+  @override
+  String get historyWeekLegend =>
+      '[Š = šţŕéñĝţĥ · Î = îñţéŕṽáļš · ƒîļļéð = ðöñé · öûţļîñé = þļáññéð · ðöţţéð = ŕéšţ öŕ ƒŕéé. Ţáþ á ƒŕéé ðáý ţö þļáñ îţ. ································]';
+
+  @override
+  String historyWeekOf(String date) {
+    return '[ŴÉÉĶ ÖƑ $date ···]';
+  }
+
+  @override
+  String get homeSeeProgress => '[ŠÉÉ ÞŔÖĜŔÉŠŠ ·····]';
+
+  @override
+  String homeWeekMinutes(int minutes) {
+    return '[$minutes áçţîṽé ɱîñ ····]';
+  }
+
+  @override
+  String homeWeekProgressLabel(int done, int goal) {
+    return '[$done öƒ $goal šéššîöñš ţĥîš ŵééķ ········]';
+  }
+
+  @override
+  String get homeWeekSessions => '[šéššîöñš öƒ ýöûŕ ĝöáļ ········]';
+
+  @override
+  String homeWeekStreak(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks-ŵééķ šţŕéáķ',
+      one: '1-ŵééķ šţŕéáķ',
+    );
+    return '[$_temp0 ········]';
+  }
+
+  @override
+  String get planHelp =>
+      '[Ŕéþéáţš éṽéŕý ŵééķ. Îţ öñļý šĥöŵš îñ ýöûŕ ŵééķ: îţ ñéṽéŕ šţáŕţš á šéššîöñ. ························]';
+
+  @override
+  String get planNone => '[Ñö þļáñ ···]';
+
+  @override
+  String planTitle(String day) {
+    return '[Þļáñ ƒöŕ $day ···]';
+  }
+
+  @override
+  String progressBarLabel(String date, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ŵééķ öƒ $date: $count šéššîöñš',
+      one: 'Ŵééķ öƒ $date: 1 šéššîöñ',
+    );
+    return '[$_temp0 ···········]';
+  }
+
+  @override
+  String get progressChartNote =>
+      '[Šţŕéñĝţĥ áñð îñţéŕṽáļš çöûñţ ţĥé šáɱé. Ţáþ á ƀáŕ ţö šéé îţš šéššîöñš. ······················]';
+
+  @override
+  String progressChartSub(String average, int goal) {
+    return '[áṽéŕáĝé $average · ĝöáļ $goal ·····]';
+  }
+
+  @override
+  String get progressChartTitle => '[ŠÉŠŠÎÖÑŠ ÞÉŔ ŴÉÉĶ ······]';
+
+  @override
+  String get progressComplete => '[ÇÖṀÞĻÉŢÉ ····]';
+
+  @override
+  String get progressGoalLine => '[ĝöáļ ··]';
+
+  @override
+  String progressGoalSuffix(int goal) {
+    return '[/$goal]';
+  }
+
+  @override
+  String progressIntervalMark(String rounds, String work) {
+    return '[$rounds · $work öƒ ŵöŕķ ···]';
+  }
+
+  @override
+  String get progressLastMarks => '[ĻÅŠŢ ṀÅŔĶ ÞÉŔ ÉẊÉŔÇÎŠÉ ········]';
+
+  @override
+  String get progressMinutes => '[áçţîṽé ɱîñ ····]';
+
+  @override
+  String get progressRecordBadge => '[↑ ŔÉÇÖŔÐ ···]';
+
+  @override
+  String get progressSameBadge => '[= ŠÅṀÉ ··]';
+
+  @override
+  String get progressSessions => '[šéššîöñš ····]';
+
+  @override
+  String get progressStreak => '[ŵééķš šţŕéáķ ·····]';
+
+  @override
+  String get progressThisWeekShort => '[Ñöŵ ··]';
+
+  @override
+  String progressWeekVolume(String volume) {
+    return '[Šţŕéñĝţĥ ṽöļûɱé ţĥîš ŵééķ: $volume ·········]';
+  }
+
+  @override
+  String rangeWeeks(int count) {
+    return '[$count ŴĶ ·]';
+  }
+
+  @override
+  String rangeMonths(int count) {
+    return '[$count ṀÖ ·]';
+  }
+
+  @override
+  String get rangeYear => '[1 ÝÉÅŔ ··]';
+
+  @override
+  String get rangeAll => '[ÅĻĻ ··]';
+
+  @override
+  String recordLine(String name, String value) {
+    return '[$name: $value]';
+  }
+
+  @override
+  String get recordMaxWeight => '[Ṁáẋ ŵéîĝĥţ ····]';
+
+  @override
+  String get recordOneRm => '[Éšţîɱáţéð 1ŔṀ ·····]';
+
+  @override
+  String recordMaxRepsAt(String weight) {
+    return '[Ṁöšţ ŕéþš ŵîţĥ $weight ·····]';
+  }
+
+  @override
+  String get recordMaxRepsBodyweight => '[Ṁöšţ ŕéþš ····]';
+
+  @override
+  String get recordMaxVolume => '[Ɓéšţ šéššîöñ ṽöļûɱé ·······]';
+
+  @override
+  String get recordMaxDuration => '[Ļöñĝéšţ šéţ ····]';
+
+  @override
+  String get recordMaxDistance => '[Ļöñĝéšţ ðîšţáñçé ······]';
+
+  @override
+  String get settingsWeekStart => '[Ŵééķ šţáŕţš öñ ·····]';
+
+  @override
+  String get settingsMonday => '[ṀÖÑÐÅÝ ···]';
+
+  @override
+  String get settingsSunday => '[ŠÛÑÐÅÝ ···]';
+
+  @override
+  String get settingsWeeklyGoal => '[Ŵééķļý ĝöáļ (šéššîöñš) ········]';
+
+  @override
+  String get settingsGoalLess => '[Ƒéŵéŕ šéššîöñš ······]';
+
+  @override
+  String get settingsGoalMore => '[Ṁöŕé šéššîöñš ·····]';
 }

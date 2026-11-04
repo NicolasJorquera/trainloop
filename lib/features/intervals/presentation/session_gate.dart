@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../platform/timer_engine_client.dart';
+import '../../history/application/history_providers.dart';
 import '../../settings/application/settings_controller.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../../strength/application/strength_texts.dart';
@@ -59,6 +60,8 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       final controller = ref.read(intervalSessionProvider.notifier);
       if (!_launched) {
         _launched = true;
+        // Récords: si la migración a v5 vació la caché, se recalcula.
+        unawaited(ref.read(recordsRepositoryProvider).rebuildIfPending());
         unawaited(
           engine.prewarmVoice(Localizations.localeOf(context).toLanguageTag()),
         );

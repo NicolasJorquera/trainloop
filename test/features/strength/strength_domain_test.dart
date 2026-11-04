@@ -180,26 +180,6 @@ void main() {
     expect(estimatedOneRmGrams(null, 5), isNull);
   });
 
-  test('récord del día: solo si supera el historial', () {
-    final e = _exercise();
-    final history = [_log(0, kg: 80, reps: 8)];
-    final record = dayRecordFor(e, [_log(0, kg: 85, reps: 5)], history)!;
-    expect(record.weightRecord, isTrue);
-    // Mismo peso con más reps: récord de 1RM, no de peso.
-    final rm = dayRecordFor(e, [_log(0, kg: 80, reps: 10)], history)!;
-    expect(rm.weightRecord, isFalse);
-    expect(rm.oneRmGrams!.round(), 106667);
-    expect(dayRecordFor(e, [_log(0, kg: 80, reps: 8)], history), isNull);
-    // Sin historial no hay récord; el calentamiento no cuenta.
-    expect(dayRecordFor(e, [_log(0, kg: 85, reps: 5)], const []), isNull);
-    expect(
-      dayRecordFor(e, [
-        _log(0, kg: 200, reps: 1, type: SetType.warmup),
-      ], history),
-      isNull,
-    );
-  });
-
   test('la estructura cambió (R-G12)', () {
     const a = [(exerciseId: 'a', sets: 3), (exerciseId: 'b', sets: 3)];
     expect(structureChanged(a, [...a]), isFalse);

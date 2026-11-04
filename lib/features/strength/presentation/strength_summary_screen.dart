@@ -13,6 +13,8 @@ import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../../data/db/enums.dart';
 import '../../exercises/domain/exercise_names.dart';
+import '../../history/application/history_texts.dart';
+import '../../history/data/records_repository.dart';
 import '../../settings/application/settings_controller.dart';
 import '../application/strength_session_controller.dart';
 import '../application/strength_texts.dart';
@@ -134,7 +136,7 @@ class _StrengthSummaryScreenState extends ConsumerState<StrengthSummaryScreen> {
               ),
               for (final r in s.records) ...[
                 const SizedBox(height: TlSpace.s3),
-                _RecordCard(record: r, unit: unit),
+                _RecordCard(records: r, unit: unit),
               ],
               if (s.routineChanged && s.routineName != null) ...[
                 const SizedBox(height: TlSpace.s3),
@@ -297,10 +299,12 @@ class _Stat extends StatelessWidget {
   }
 }
 
+/// Récords nuevos de un ejercicio en la sesión (caché recalculada al
+/// guardarla, R-P3): «RÉCORD NUEVO · Sentadilla» y una línea por récord.
 class _RecordCard extends StatelessWidget {
-  const _RecordCard({required this.record, required this.unit});
+  const _RecordCard({required this.records, required this.unit});
 
-  final DayRecord record;
+  final ExerciseRecords records;
   final WeightUnit unit;
 
   @override
@@ -308,21 +312,9 @@ class _RecordCard extends StatelessWidget {
     final l10n = context.l10n;
     final c = context.colors;
     final t = context.text;
-    final name = exerciseName(record.exercise, context.locale);
-    final set = SetValues.ofLog(record.set);
-    final values =
-        setValuesText(l10n, record.exercise.logType, set, unit) ??
-        l10n.strengthNoValue;
-    final rm = record.oneRmGrams;
-    final detail = rm == null
-        ? l10n.strengthRecordSet(name, values)
-        : l10n.strengthRecordWithRm(
-            name,
-            values,
-            l10n.weight(roundWeight(unit.fromGrams(rm.round())), unit),
-          );
+    final exercise = records.exercise;
     return Container(
-      key: Key('record-${record.exercise.catalogKey ?? record.exercise.id}'),
+      key: Key('record-${exercise.catalogKey ?? exercise.id}'),
       padding: const EdgeInsets.all(TlSpace.s4),
       decoration: BoxDecoration(
         color: c.accentSoft,
@@ -337,7 +329,16 @@ class _RecordCard extends StatelessWidget {
             style: t.overline.copyWith(color: c.accent),
           ),
           const SizedBox(height: TlSpace.s1),
-          Text(detail, style: t.body.copyWith(color: c.ink)),
+          Text(
+            exerciseName(exercise, context.locale),
+            style: t.title.copyWith(color: c.ink),
+          ),
+          for (final r in records.records)
+            Text(
+              recordLine(l10n, r, unit),
+              key: Key('record-line-${r.type.name}-${r.weightGrams}'),
+              style: t.body.copyWith(color: c.ink),
+            ),
         ],
       ),
     );

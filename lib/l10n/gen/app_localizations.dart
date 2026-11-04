@@ -2592,6 +2592,690 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{value}'**
   String decimalText(String value);
+
+  /// Debug section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly view (H5 test)'**
+  String get debugWeekVariant;
+
+  /// Debug help.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal setting for the usability test: strength and intervals together or separate.'**
+  String get debugWeekVariantHelp;
+
+  /// Weekly view variant, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'UNIFIED'**
+  String get weekVariantUnified;
+
+  /// Weekly view variant, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SEPARATE'**
+  String get weekVariantSeparate;
+
+  /// Session detail column, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SET'**
+  String get detailColSet;
+
+  /// Session detail column, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REPS'**
+  String get detailColReps;
+
+  /// Session detail column (rate of perceived exertion).
+  ///
+  /// In en, this message translates to:
+  /// **'RPE'**
+  String get detailColRpe;
+
+  /// Session detail column, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get detailColTime;
+
+  /// Delete session button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get detailDelete;
+
+  /// Delete confirmation title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this session?'**
+  String get detailDeleteTitle;
+
+  /// Delete confirmation body.
+  ///
+  /// In en, this message translates to:
+  /// **'Your records will be recalculated. You\'ll have 5 seconds to undo.'**
+  String get detailDeleteBody;
+
+  /// Snackbar after deleting a session.
+  ///
+  /// In en, this message translates to:
+  /// **'Session deleted'**
+  String get detailDeleted;
+
+  /// Finish editing button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DONE'**
+  String get detailDone;
+
+  /// Help while editing a past session.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a set to change its weight, reps, RPE or type. Records are recalculated.'**
+  String get detailEditHelp;
+
+  /// Perceived effort of the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Effort {value}/10'**
+  String detailEffort(int value);
+
+  /// Shown when the session was deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'This session is no longer in your history.'**
+  String get detailMissing;
+
+  /// Session name field label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NAME'**
+  String get detailNameLabel;
+
+  /// Session or exercise note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: {note}'**
+  String detailNote(String note);
+
+  /// Tag on the set that set a record, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RECORD'**
+  String get detailRecordTag;
+
+  /// Stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RECORDS'**
+  String get detailRecords;
+
+  /// Stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ROUNDS'**
+  String get detailRounds;
+
+  /// Snackbar after saving a session as a routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine \"{name}\" saved'**
+  String detailRoutineSaved(String name);
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE AS ROUTINE'**
+  String get detailSaveRoutine;
+
+  /// Stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SETS'**
+  String get detailSets;
+
+  /// Stat label: active time, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL'**
+  String get detailTotal;
+
+  /// Stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'VOLUME'**
+  String get detailVolume;
+
+  /// Stat label: work time, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WORK'**
+  String get detailWork;
+
+  /// Distance in meters.
+  ///
+  /// In en, this message translates to:
+  /// **'{meters} m'**
+  String distanceMeters(int meters);
+
+  /// Exercise detail section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'HISTORY'**
+  String get exerciseHistory;
+
+  /// Exercise detail section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST MARK'**
+  String get exerciseLastMark;
+
+  /// Exercise without history.
+  ///
+  /// In en, this message translates to:
+  /// **'No sessions with this exercise yet.'**
+  String get exerciseNoHistory;
+
+  /// Exercise without records.
+  ///
+  /// In en, this message translates to:
+  /// **'No records yet.'**
+  String get exerciseNoRecords;
+
+  /// Estimated one-rep max.
+  ///
+  /// In en, this message translates to:
+  /// **'estimated 1RM {value}'**
+  String exerciseOneRm(String value);
+
+  /// Exercise detail section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RECORDS'**
+  String get exerciseRecords;
+
+  /// Chart with fewer than 2 points.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 more session to see the trend.} other{{count} more sessions to see the trend.}}'**
+  String exerciseTrendMissing(int count);
+
+  /// Trend summary; change is a signed percent like +12.
+  ///
+  /// In en, this message translates to:
+  /// **'From {from} to {to} ({change}%)'**
+  String exerciseTrendNote(String from, String to, String change);
+
+  /// Chart title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ESTIMATED 1RM'**
+  String get exerciseTrendTitle;
+
+  /// Done session in the separate weekly view.
+  ///
+  /// In en, this message translates to:
+  /// **'✓ {day} · {name} · {minutes}'**
+  String historyBlockDone(String day, String name, String minutes);
+
+  /// Empty block in the separate weekly view.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing done or planned this week.'**
+  String get historyBlockEmpty;
+
+  /// Separate weekly view header, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'STRENGTH · {done} OF {total}'**
+  String historyBlockStrength(int done, int total);
+
+  /// Separate weekly view header, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERVALS · {done} OF {total}'**
+  String historyBlockIntervals(int done, int total);
+
+  /// Pending planned workout in the separate weekly view.
+  ///
+  /// In en, this message translates to:
+  /// **'○ {day} · {name} (planned)'**
+  String historyBlockPlanned(String day, String name);
+
+  /// Calendar day for screen readers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{{date}: no sessions} =1{{date}: 1 session} other{{date}: {count} sessions}}'**
+  String historyCalendarDay(String date, int count);
+
+  /// A date already formatted for the language.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}'**
+  String historyDate(String date);
+
+  /// Calendar day without sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'No sessions this day.'**
+  String get historyDayEmpty;
+
+  /// Week day without plan or session.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get historyDayFree;
+
+  /// A weekday name already formatted for the language.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}'**
+  String historyDayName(String day);
+
+  /// Past day without sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get historyDayRest;
+
+  /// Selected calendar day heading.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}'**
+  String historyDayTitle(String date);
+
+  /// Session saved as incomplete, lowercase.
+  ///
+  /// In en, this message translates to:
+  /// **'incomplete'**
+  String get historyIncomplete;
+
+  /// Interval session without a name.
+  ///
+  /// In en, this message translates to:
+  /// **'Intervals'**
+  String get historyIntervalsFallback;
+
+  /// History list group, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST WEEK'**
+  String get historyLastWeek;
+
+  /// One-letter mark for strength sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'S'**
+  String get historyLetterStrength;
+
+  /// One-letter mark for interval sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'I'**
+  String get historyLetterIntervals;
+
+  /// Active minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String historyMinutes(int minutes);
+
+  /// Month and year already formatted.
+  ///
+  /// In en, this message translates to:
+  /// **'{month}'**
+  String historyMonth(String month);
+
+  /// Calendar button tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get historyNextMonth;
+
+  /// Calendar button tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get historyPrevMonth;
+
+  /// Interval rounds done of planned.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} rounds'**
+  String historyRounds(int done, int total);
+
+  /// Completed sets.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 set} other{{count} sets}}'**
+  String historySets(int count);
+
+  /// Week day state.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get historyStateDone;
+
+  /// Week day state.
+  ///
+  /// In en, this message translates to:
+  /// **'Incomplete'**
+  String get historyStateIncomplete;
+
+  /// Week day state.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned'**
+  String get historyStatePlanned;
+
+  /// History view tab, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WEEK'**
+  String get historyTabWeek;
+
+  /// History view tab, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'LIST'**
+  String get historyTabList;
+
+  /// History view tab, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'CALENDAR'**
+  String get historyTabCalendar;
+
+  /// Semantics label of the history tabs.
+  ///
+  /// In en, this message translates to:
+  /// **'History view'**
+  String get historyTabsLabel;
+
+  /// History list group, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'THIS WEEK'**
+  String get historyThisWeek;
+
+  /// History list group header, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'{sessions, plural, =1{{week} · 1 SESSION · {minutes} MIN} other{{week} · {sessions} SESSIONS · {minutes} MIN}}'**
+  String historyWeekGroup(String week, int sessions, int minutes);
+
+  /// Weekly view header, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'THIS WEEK · {done} OF {goal}'**
+  String historyWeekHead(int done, int goal);
+
+  /// Weekly view legend.
+  ///
+  /// In en, this message translates to:
+  /// **'S = strength · I = intervals · filled = done · outline = planned · dotted = rest or free. Tap a free day to plan it.'**
+  String get historyWeekLegend;
+
+  /// History list group, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WEEK OF {date}'**
+  String historyWeekOf(String date);
+
+  /// Home week card link, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SEE PROGRESS'**
+  String get homeSeeProgress;
+
+  /// Home week card.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} active min'**
+  String homeWeekMinutes(int minutes);
+
+  /// Goal bar for screen readers.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {goal} sessions this week'**
+  String homeWeekProgressLabel(int done, int goal);
+
+  /// Home week card, after 2/4.
+  ///
+  /// In en, this message translates to:
+  /// **'sessions of your goal'**
+  String get homeWeekSessions;
+
+  /// Weekly streak.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks, plural, =1{1-week streak} other{{weeks}-week streak}}'**
+  String homeWeekStreak(int weeks);
+
+  /// Plan sheet help.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeats every week. It only shows in your week: it never starts a session.'**
+  String get planHelp;
+
+  /// Plan sheet option.
+  ///
+  /// In en, this message translates to:
+  /// **'No plan'**
+  String get planNone;
+
+  /// Plan sheet title.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan for {day}'**
+  String planTitle(String day);
+
+  /// Chart bar for screen readers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Week of {date}: 1 session} other{Week of {date}: {count} sessions}}'**
+  String progressBarLabel(String date, int count);
+
+  /// Chart note.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength and intervals count the same. Tap a bar to see its sessions.'**
+  String get progressChartNote;
+
+  /// Chart subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'average {average} · goal {goal}'**
+  String progressChartSub(String average, int goal);
+
+  /// Chart title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SESSIONS PER WEEK'**
+  String get progressChartTitle;
+
+  /// Interval session badge, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'COMPLETE'**
+  String get progressComplete;
+
+  /// Goal line label.
+  ///
+  /// In en, this message translates to:
+  /// **'goal'**
+  String get progressGoalLine;
+
+  /// After the session count: /4.
+  ///
+  /// In en, this message translates to:
+  /// **'/{goal}'**
+  String progressGoalSuffix(int goal);
+
+  /// Interval last mark.
+  ///
+  /// In en, this message translates to:
+  /// **'{rounds} · {work} of work'**
+  String progressIntervalMark(String rounds, String work);
+
+  /// Section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'LAST MARK PER EXERCISE'**
+  String get progressLastMarks;
+
+  /// Stat label.
+  ///
+  /// In en, this message translates to:
+  /// **'active min'**
+  String get progressMinutes;
+
+  /// Badge, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'↑ RECORD'**
+  String get progressRecordBadge;
+
+  /// Badge, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'= SAME'**
+  String get progressSameBadge;
+
+  /// Stat label.
+  ///
+  /// In en, this message translates to:
+  /// **'sessions'**
+  String get progressSessions;
+
+  /// Stat label.
+  ///
+  /// In en, this message translates to:
+  /// **'weeks streak'**
+  String get progressStreak;
+
+  /// Chart label of the current week.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get progressThisWeekShort;
+
+  /// Weekly volume.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength volume this week: {volume}'**
+  String progressWeekVolume(String volume);
+
+  /// Chart range, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} WK'**
+  String rangeWeeks(int count);
+
+  /// Chart range, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} MO'**
+  String rangeMonths(int count);
+
+  /// Chart range, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'1 YEAR'**
+  String get rangeYear;
+
+  /// Chart range, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ALL'**
+  String get rangeAll;
+
+  /// A record with its value.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {value}'**
+  String recordLine(String name, String value);
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Max weight'**
+  String get recordMaxWeight;
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated 1RM'**
+  String get recordOneRm;
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Most reps with {weight}'**
+  String recordMaxRepsAt(String weight);
+
+  /// Record type without weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Most reps'**
+  String get recordMaxRepsBodyweight;
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Best session volume'**
+  String get recordMaxVolume;
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest set'**
+  String get recordMaxDuration;
+
+  /// Record type.
+  ///
+  /// In en, this message translates to:
+  /// **'Longest distance'**
+  String get recordMaxDistance;
+
+  /// Settings label.
+  ///
+  /// In en, this message translates to:
+  /// **'Week starts on'**
+  String get settingsWeekStart;
+
+  /// Settings option, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'MONDAY'**
+  String get settingsMonday;
+
+  /// Settings option, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SUNDAY'**
+  String get settingsSunday;
+
+  /// Settings label.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly goal (sessions)'**
+  String get settingsWeeklyGoal;
+
+  /// Stepper tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Fewer sessions'**
+  String get settingsGoalLess;
+
+  /// Stepper tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'More sessions'**
+  String get settingsGoalMore;
 }
 
 class _AppLocalizationsDelegate

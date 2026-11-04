@@ -6,6 +6,7 @@ import '../../../data/db/converters.dart';
 import '../../../data/db/daos/routines_dao.dart';
 import '../../../data/db/daos/sessions_dao.dart';
 import '../../../data/db/enums.dart';
+import '../../history/data/records_repository.dart';
 import '../../routines/domain/routine_draft.dart';
 import '../domain/strength_rules.dart';
 import '../domain/strength_session.dart';
@@ -24,9 +25,9 @@ class StrengthSummary {
 
   final StrengthSessionData data;
 
-  /// Récords simples del día (peso máximo o 1RM estimado), uno por
-  /// ejercicio. Se calculan al mostrar; la tabla de récords llega en D6.
-  final List<DayRecord> records;
+  /// Récords nuevos de la sesión por ejercicio, leídos de la caché que se
+  /// recalcula al guardarla (R-P3). La primera marca no cuenta como récord.
+  final List<ExerciseRecords> records;
 
   /// Rutina de origen si sigue activa, para ofrecer actualizarla (R-G12).
   final String? routineName;
@@ -46,9 +47,10 @@ class StrengthSummary {
 /// `template_snapshot`. Cada serie marcada se guarda en su propia
 /// transacción (NF-06): un cierre a la fuerza no pierde ninguna.
 class StrengthSessionRepository {
-  StrengthSessionRepository(this._db);
+  StrengthSessionRepository(this._db) : _records = RecordsRepository(_db);
 
   final AppDatabase _db;
+  final RecordsRepository _records;
 
   SessionsDao get _dao => _db.sessionsDao;
   RoutinesDao get _routines => _db.routinesDao;
@@ -360,7 +362,7 @@ class StrengthSessionRepository {
   }) async {
     final data = await load(sessionId);
     if (data == null) return SessionStatus.discarded;
-    return _db.transaction(() async {
+    final saved = await _db.transaction(() async {
       for (final e in data.exercises) {
         for (final s in e.sets.where((s) => !s.completed)) {
           final v = s.proposed;
@@ -384,6 +386,11 @@ class StrengthSessionRepository {
       await _dao.finish(sessionId, status: result, endedAt: endedAt);
       return result;
     });
+    // Récords al guardar la sesión (R-P3), en la caché.
+    await _records.recomputeExercises({
+      for (final e in data.exercises) e.exercise.id,
+    });
+    return saved;
   }
 
   /// Android cerró la app con la sesión abierta: queda para recuperar.
@@ -404,8 +411,15 @@ class StrengthSessionRepository {
     return finish(sessionId, status: SessionStatus.incomplete, endedAt: last);
   }
 
-  Future<void> discard(String sessionId) =>
-      _dao.setStatus(sessionId, SessionStatus.discarded);
+  /// Descarta la sesión; si ya estaba guardada (el resumen ofrece
+  /// descartarla), sus récords se recalculan sin ella.
+  Future<void> discard(String sessionId) async {
+    final saved = await _dao.findById(sessionId);
+    await _dao.setStatus(sessionId, SessionStatus.discarded);
+    if (saved != null && SessionsDao.historyStatuses.contains(saved.status)) {
+      await _records.recomputeSession(sessionId);
+    }
+  }
 
   /// Esfuerzo percibido (1–10) y nota del resumen.
   Future<void> rate(String sessionId, {int? perceivedEffort, String? note}) =>
@@ -416,21 +430,7 @@ class StrengthSessionRepository {
   Future<StrengthSummary?> summary(String sessionId) async {
     final data = await load(sessionId);
     if (data == null) return null;
-    final records = <DayRecord>[];
-    final seen = <String>{};
-    for (final e in data.exercises) {
-      if (!seen.add(e.exercise.id)) continue;
-      final today = [
-        for (final x in data.exercises)
-          if (x.exercise.id == e.exercise.id) ...x.sets.map((s) => s.log),
-      ];
-      final history = await _dao.historySetsForExercise(
-        e.exercise.id,
-        excludeSessionId: sessionId,
-      );
-      final r = dayRecordFor(e.exercise, today, history);
-      if (r != null) records.add(r);
-    }
+    final records = await _records.newRecordsOf(sessionId);
     final routine = await _activeRoutine(data.session);
     return StrengthSummary(
       data: data,

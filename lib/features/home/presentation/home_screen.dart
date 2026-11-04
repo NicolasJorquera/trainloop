@@ -11,14 +11,18 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
+import '../../history/application/history_providers.dart';
 import '../../intervals/domain/interval_templates.dart';
 import '../../intervals/presentation/interval_widgets.dart';
+import '../../settings/domain/app_settings.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../../strength/application/strength_texts.dart';
 import '../../strength/data/strength_session_repository.dart';
 import '../../strength/presentation/strength_launcher.dart';
 
-/// S01 Inicio: semana (vacía hasta D6), accesos a Entrenar, la sesión de
+/// S01 Inicio: semana en curso (D6: sesiones frente al objetivo según el
+/// inicio de semana de Configuración, minutos activos y racha; abre
+/// Progreso), accesos a Entrenar, la sesión de
 /// fuerza en curso, "repetir último" (D5) y plantillas rápidas. Tabata en 2
 /// toques: la plantilla abre S03 y "Empezar" arranca.
 class HomeScreen extends ConsumerWidget {
@@ -29,7 +33,6 @@ class HomeScreen extends ConsumerWidget {
     final active = ref.watch(strengthSessionProvider);
     final last = ref.watch(lastStrengthSessionProvider).value;
     final l10n = context.l10n;
-    final c = context.colors;
     final t = context.text;
     return TabPage(
       children: [
@@ -53,26 +56,7 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
         SectionLabel(l10n.homeWeekOverline),
-        Container(
-          padding: const EdgeInsets.all(TlSpace.s4),
-          decoration: BoxDecoration(
-            color: c.surface1,
-            borderRadius: BorderRadius.circular(TlRadius.lg),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l10n.homeWeekEmptyTitle, style: t.title),
-              const SizedBox(height: TlSpace.s2),
-              Text(
-                l10n.homeWeekEmptyBody,
-                style: t.bodySm.copyWith(color: c.inkMuted),
-              ),
-              const SizedBox(height: TlSpace.s4),
-              const _GoalBar(done: 0, goal: 4),
-            ],
-          ),
-        ),
+        _WeekCard(summary: ref.watch(weekSummaryProvider).value),
         if (active != null) ...[
           const SizedBox(height: TlSpace.s4),
           _SessionCard(
@@ -122,7 +106,95 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-/// Barra segmentada del objetivo semanal (decorativa en D1).
+/// Tarjeta de la semana (Main): «2/4 sesiones de tu objetivo», la barra,
+/// minutos activos y racha. Toda la tarjeta abre Progreso.
+class _WeekCard extends StatelessWidget {
+  const _WeekCard({required this.summary});
+
+  final WeekSummary? summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final c = context.colors;
+    final t = context.text;
+    final s = summary;
+    final done = s?.week.sessions ?? 0;
+    final goal = s?.goal ?? AppSettings.defaultWeeklyGoal;
+    return Material(
+      color: c.surface1,
+      borderRadius: BorderRadius.circular(TlRadius.lg),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        key: const Key('home-week'),
+        onTap: () => context.go(Routes.progress),
+        child: Padding(
+          padding: const EdgeInsets.all(TlSpace.s4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      text: l10n.numberValue(done),
+                      children: [
+                        TextSpan(
+                          text: l10n.progressGoalSuffix(goal),
+                          style: t.title.copyWith(color: c.inkMuted),
+                        ),
+                      ],
+                    ),
+                    key: const Key('home-week-count'),
+                    style: t.displayXl.copyWith(fontSize: 44, height: 1),
+                  ),
+                  const SizedBox(width: TlSpace.s2),
+                  Expanded(
+                    child: Text(
+                      l10n.homeWeekSessions,
+                      style: t.bodySm.copyWith(color: c.inkMuted),
+                    ),
+                  ),
+                  const SizedBox(width: TlSpace.s2),
+                  Flexible(
+                    child: Text(
+                      l10n.homeSeeProgress,
+                      textAlign: TextAlign.end,
+                      style: t.overline.copyWith(color: c.accent),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: TlSpace.s3),
+              Semantics(
+                label: l10n.homeWeekProgressLabel(done, goal),
+                child: _GoalBar(done: done, goal: goal),
+              ),
+              const SizedBox(height: TlSpace.s3),
+              if (done == 0)
+                Text(
+                  l10n.homeWeekEmptyBody,
+                  style: t.bodySm.copyWith(color: c.inkMuted),
+                )
+              else
+                Text(
+                  l10n.summaryJoin(
+                    l10n.homeWeekMinutes(s?.week.activeMinutes ?? 0),
+                    l10n.homeWeekStreak(s?.streak ?? 0),
+                  ),
+                  key: const Key('home-week-meta'),
+                  style: t.bodySm,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Barra segmentada del objetivo semanal.
 class _GoalBar extends StatelessWidget {
   const _GoalBar({required this.done, required this.goal});
 
