@@ -35,6 +35,8 @@ android {
         // la variable de entorno TL_ADMOB_APP_ID o una línea en
         // android/local.properties (no se versiona). Ver README, «Anuncios».
         manifestPlaceholders["admobAppId"] = admobAppId()
+        // Recorridos de integration_test/ como prueba instrumentada (D9).
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Firma de release (D9): android/key.properties o variables de entorno
@@ -180,4 +182,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     // android.jar solo trae stubs de org.json: las pruebas usan la implementación real.
     testImplementation("org.json:json:20240303")
+    // integration_test en Firebase Test Lab (tool/test_lab.sh). Las mismas
+    // versiones que trae el plugin integration_test (resolución consistente).
+    androidTestImplementation("androidx.test:runner:1.2.0")
+    androidTestImplementation("androidx.test:rules:1.2.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
 }
