@@ -32,7 +32,7 @@ No se repitió la prueba larga de desfase (60 min): sigue como deuda de D9.
 - **No implementado de R-G9:** reemplazar un ejercicio en la sesión (conservando sus notas). Sí: agregar, quitar, subir/bajar y notas por ejercicio.
 - Tipos de ejercicio de distancia (R-G5): S10/S11 registran solo el tiempo; falta el campo de distancia.
 - R-G15 (a las 3 h sin actividad la notificación propone terminar) sin implementar.
-- Récords: el resumen calcula un récord simple del día (peso máximo o 1RM estimado frente al historial) sin guardarlo; la tabla `personal_record` y su recálculo al editar sesiones (R-G14) quedan para D6.
+- ~~Récords sin guardar~~: resuelto en D6 (caché `personal_record` con recálculo, ver `docs/pruebas-historial.md`).
 - «Repetir la última» solo cubre fuerza; Inicio no ofrece repetir un temporizador de intervalos.
 - Rango de reps objetivo (p. ej. 8–12): el diseño S11 no lo pide; no se implementó.
 - La serie nueva de un ejercicio sin historial propone el objetivo de la rutina, no la última serie hecha en la misma sesión (R-G2 al pie de la letra).
