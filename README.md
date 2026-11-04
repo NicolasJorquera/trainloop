@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 8, monetización y consentimiento.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agregó el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). D8 agrega consentimiento (UMP), banner fuera de la sesión, intersticial experimental apagado, la compra única «Sin anuncios» y analítica sin proveedor. Los IDs reales de AdMob, el producto en Play Console y el proveedor de analítica quedan pendientes de Gestión.
+Estado: **entregable 9, pruebas y estabilidad.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agregó el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). D8 agrega consentimiento (UMP), banner fuera de la sesión, intersticial experimental apagado, la compra única «Sin anuncios» y analítica sin proveedor. Los IDs reales de AdMob, el producto en Play Console y el proveedor de analítica quedan pendientes de Gestión. D9 agrega el build de release con R8, la guarda de IDs de AdMob, el registro local de errores, recorridos de `integration_test` y las mediciones en emulador (`docs/pruebas-estabilidad.md`).
 
 ## Cómo correrla
 
@@ -67,8 +67,9 @@ assets/fonts/                   Barlow Condensed e Inter (OFL, empaquetadas: no 
 docs/design/                    copia del sistema de diseño (system/) y prototipos HTML (screens/)
 docs/modelo-datos.md            modelo de datos del PRD y decisiones de persistencia
 drift_schemas/                  esquema de cada versión de la base (JSON, para migraciones)
-tool/                           script del pseudo-locale y timer_adb.sh (pruebas del
-                                temporizador por adb)
+tool/                           pseudo-locale, timer_adb.sh (temporizador por adb),
+                                test_lab.sh (Firebase Test Lab) y noche_telefono.sh
+integration_test/               recorridos en emulador o teléfono (D9)
 test/                           unitarias (tokens, fases, contraste, pseudo, repositorio, DAOs),
                                 de widgets, a11y/ (200 %, áreas táctiles, etiquetas) y drift/
                                 (migraciones; generated/ es generado)
@@ -174,6 +175,62 @@ Ejemplo de release: `flutter build appbundle -PTL_ADMOB_APP_ID=ca-app-pub-XXX~YY
 
 **Pruebas.** `pumpTrainloop` monta un AdMob/UMP falso (`FakeAdsPlatform`, por defecto sin banner) y un Play Billing falso (`FakeInAppPurchase`); `test/features/monetization/` prueba el criterio de D8 (ningún anuncio en sesión), sin red, compra e intersticial.
 
+## Build de release y estabilidad (D9)
+
+Resultados, matriz de dispositivos, plan para teléfono real y deuda: `docs/pruebas-estabilidad.md`.
+
+### Llave de subida
+
+Nunca se versiona (`key.properties`, `*.jks` y `*.keystore` están en `.gitignore`). Para generarla una vez:
+
+```sh
+keytool -genkey -v -keystore ~/trainloop-upload.jks -keyalg RSA -keysize 2048 \
+  -validity 10000 -alias upload
+```
+
+Luego, `android/key.properties`:
+
+```properties
+storeFile=/Users/<tú>/trainloop-upload.jks
+storePassword=…
+keyAlias=upload
+keyPassword=…
+```
+
+O las variables `TL_KEYSTORE_PATH`, `TL_KEYSTORE_PASSWORD`, `TL_KEY_ALIAS` y `TL_KEY_PASSWORD` (CI). Sin llave, el release se firma con la de depuración y Gradle avisa: sirve para probar, no para Play. Guardar la llave y sus claves fuera del repo (Play App Signing guarda la de firma).
+
+### Compilar
+
+```sh
+flutter build appbundle -PTL_ADMOB_APP_ID=ca-app-pub-XXX~YYY \
+  --dart-define=TL_ADMOB_BANNER_ID=ca-app-pub-XXX/AAA \
+  --dart-define=TL_ADMOB_INTERSTITIAL_ID=ca-app-pub-XXX/BBB
+```
+
+- **R8:** `isMinifyEnabled` e `isShrinkResources`; reglas en `android/app/proguard-rules.pro` (código nativo propio, AdMob y Play Billing).
+- **Guarda de AdMob:** la tarea `verifyReleaseAdIds` (antes de `preReleaseBuild`) hace fallar el release si el App ID, el banner o el intersticial son los de prueba. Para pruebas: `TL_ALLOW_TEST_ADS=true flutter build apk --release` o `--dart-define=TL_ADS=off`.
+
+### Registro de errores (NF-04)
+
+`lib/features/diagnostics/`: `FlutterError.onError` y `PlatformDispatcher.onError` escriben en un anillo de 50 entradas (`files/diagnostics/errors.jsonl`); `CrashLog.kt` guarda las 5 últimas excepciones nativas. No sale del teléfono: Configuración → Datos y privacidad → «Registro de errores» lo exporta con el selector del sistema. Para sumar un proveedor (decisión de Gestión), implementar `ErrorReporter` y pasar `MultiErrorReporter([errorLog, proveedor])` en `main`. El ≥ 99,5 % de sesiones sin fallos se mide con Android vitals en la prueba interna de Play.
+
+### Pruebas de integración
+
+Corren en un emulador o teléfono con el motor nativo real:
+
+```sh
+flutter test integration_test/app_test.dart -d <id>      # Tabata, fuerza y cierre forzado
+adb shell cmd connectivity airplane-mode enable           # NF-05
+flutter test integration_test/offline_test.dart -d <id>
+adb shell cmd connectivity airplane-mode disable
+flutter drive --profile --no-dds --driver=test_driver/perf_driver.dart \
+  --target=integration_test/perf_test.dart -d <id>        # S05 20 s → build/s05_timeline.*
+```
+
+- **Firebase Test Lab:** `TL_FIREBASE_PROJECT=<proyecto> tool/test_lab.sh` compila la app y la prueba instrumentada (`android/app/src/androidTest/`) y lanza la matriz; `TL_DRY_RUN=1` solo compila y muestra el comando.
+- **Teléfono real, de noche:** `tool/noche_telefono.sh` mide el desfase en 60 min y la batería por hora (NF-03, NF-10).
+- **Respaldos entre versiones:** `test/features/backup/backup_versions_test.dart` restaura `test/fixtures/backups/trainloop-schema-v{3,4,5}.json.gz`. No se regeneran salvo a propósito: `TL_WRITE_BACKUP_FIXTURES=1 flutter test test/features/backup/backup_versions_test.dart`.
+
 ## Tema, acento e idioma
 
 - Los colores salen de `docs/design/system/tokens.json` y viven en `TlColors` (un `ThemeExtension`). En los widgets: `context.colors.accent`, `context.text.headline`.
@@ -253,7 +310,7 @@ La app no pide el permiso `INTERNET` en release; solo lo declaran los manifiesto
 
 ## CI
 
-`.github/workflows/ci.yml` corre en cada pull request y en cada push a `main`. Ejecuta `pub get` con el lockfile, revisa que las localizaciones y el código generado de Drift estén al día, revisa el formato y corre `analyze`, `test`, `build apk --debug` y las pruebas JVM del motor del temporizador (`./gradlew testDebugUnitTest`). El APK queda como artefacto del run. No usa secretos.
+`.github/workflows/ci.yml` corre en cada pull request y en cada push a `main`. Ejecuta `pub get` con el lockfile, revisa que las localizaciones y el código generado de Drift estén al día, revisa el formato y corre `analyze`, `test`, `build apk --debug` y las pruebas JVM del motor del temporizador (`./gradlew testDebugUnitTest`). Desde D9 además comprueba que la guarda de AdMob falle sin IDs reales, compila el release con R8 (`TL_ALLOW_TEST_ADS=true`, APK por ABI y AAB, firmado con la llave de depuración) y escribe su tamaño en el resumen del job. Los recorridos de `integration_test` no corren en CI (no hay emulador). El APK de depuración queda como artefacto del run. No usa secretos.
 
 ## Fuentes
 
