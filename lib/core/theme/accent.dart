@@ -52,7 +52,7 @@ enum AccentPreset {
   naranja(
     AccentSwatch(
       dark: Color(0xFFFF8A3D),
-      light: Color(0xFFB4500F),
+      light: Color(0xFFA84B0E),
       softDark: Color(0xFF352318),
       softLight: Color(0xFFFFEFE4),
     ),
@@ -60,7 +60,7 @@ enum AccentPreset {
   amarillo(
     AccentSwatch(
       dark: Color(0xFFFFD23F),
-      light: Color(0xFF8A6A00),
+      light: Color(0xFF806200),
       softDark: Color(0xFF352E18),
       softLight: Color(0xFFFFF9E4),
     ),
@@ -68,7 +68,7 @@ enum AccentPreset {
   lima(
     AccentSwatch(
       dark: Color(0xFFA3E635),
-      light: Color(0xFF4D7C0F),
+      light: Color(0xFF47730E),
       softDark: Color(0xFF263117),
       softLight: Color(0xFFF2FCE3),
     ),

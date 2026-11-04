@@ -34,32 +34,69 @@ class WeeklyBars extends StatelessWidget {
     final c = context.colors;
     final t = context.text;
     final top = [goal, ...values].reduce((a, b) => a > b ? a : b).clamp(1, 99);
-    final goalY = 1 - goal / top;
+    final barArea = height - 20;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SizedBox(
-          height: height,
-          child: Stack(
+        // Leyenda del objetivo fuera de las barras: una barra alta ya no la
+        // tapa (deuda de D6).
+        ExcludeSemantics(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: _GoalLinePainter(
-                    y: goalY,
-                    color: c.inkMuted,
-                    base: c.line,
-                  ),
+              CustomPaint(
+                size: const Size(16, 8),
+                painter: _GoalLinePainter(
+                  y: 0.5,
+                  color: c.inkMuted,
+                  base: Colors.transparent,
                 ),
               ),
-              Positioned(
-                right: 0,
-                top: (goalY * height - 16).clamp(0, height - 16),
+              const SizedBox(width: TlSpace.s1),
+              Flexible(
                 child: Text(
                   goalLabel,
                   style: t.caption.copyWith(color: c.inkMuted),
                 ),
               ),
+            ],
+          ),
+        ),
+        const SizedBox(height: TlSpace.s1),
+        // Cifras sobre cada barra, en su propia fila: con letra grande no
+        // empujan las barras fuera del gráfico.
+        ExcludeSemantics(
+          child: Row(
+            children: [
+              for (final v in values)
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      valueText(v),
+                      style: t.caption.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 2),
+        SizedBox(
+          height: barArea,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _GoalLinePainter(
+                    y: 1 - goal / top,
+                    color: c.inkMuted,
+                    base: c.line,
+                  ),
+                ),
+              ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   for (final (i, v) in values.indexed)
                     Expanded(
@@ -74,18 +111,12 @@ class WeeklyBars extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                               horizontal: TlSpace.s1,
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  valueText(v),
-                                  style: t.caption.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Container(
-                                  height: (height - 20) * v / top,
+                            child: Align(
+                              alignment: Alignment.bottomCenter,
+                              child: FractionallySizedBox(
+                                heightFactor: v / top,
+                                widthFactor: 1,
+                                child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: c.accent.withValues(
                                       alpha: i == values.length - 1 ? 1 : 0.5,
@@ -95,7 +126,7 @@ class WeeklyBars extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -112,12 +143,17 @@ class WeeklyBars extends StatelessWidget {
             children: [
               for (final l in labels)
                 Expanded(
-                  child: Text(
-                    l,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.clip,
-                    style: t.caption.copyWith(color: c.inkMuted, fontSize: 11),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      l,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: t.caption.copyWith(
+                        color: c.inkMuted,
+                        fontSize: 11,
+                      ),
+                    ),
                   ),
                 ),
             ],
@@ -145,7 +181,7 @@ class _GoalLinePainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 1;
-    final yy = y * (size.height - 20) + 20;
+    final yy = (y * size.height).clamp(0.5, size.height - 0.5);
     for (var x = 0.0; x < size.width; x += 8) {
       canvas.drawLine(Offset(x, yy), Offset(x + 4, yy), paint);
     }

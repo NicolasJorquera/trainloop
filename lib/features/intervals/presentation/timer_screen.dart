@@ -286,8 +286,8 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                             tooltip: l10n.timerLock,
                             color: fg,
                             filled: _locked ? colors : null,
-                            width: TlSize.buttonHeight,
-                            height: TlSize.buttonHeight,
+                            width: TlSize.touchSession,
+                            height: TlSize.touchSession,
                             selected: _locked,
                             onPressed: () => setState(() => _locked = !_locked),
                           ),
@@ -548,29 +548,37 @@ class _HoldToStopButtonState extends State<HoldToStopButton>
           onPointerUp: (_) => _cancel(),
           onPointerCancel: (_) => _cancel(),
           child: Container(
-            height: TlSize.buttonHeight,
+            // NF-08: 64 dp durante la sesión; crece con letra grande.
+            constraints: const BoxConstraints(minHeight: TlSize.touchSession),
             decoration: BoxDecoration(
               border: Border.all(color: color, width: 2),
               borderRadius: BorderRadius.circular(TlRadius.md),
             ),
             clipBehavior: Clip.antiAlias,
             child: Stack(
-              fit: StackFit.expand,
+              alignment: Alignment.center,
               children: [
-                AnimatedBuilder(
-                  animation: _hold,
-                  builder: (context, _) => FractionallySizedBox(
-                    alignment: Alignment.centerLeft,
-                    widthFactor: _hold.value,
-                    child: ColoredBox(
-                      color: color.withValues(alpha: 0.3),
-                      child: const SizedBox.expand(),
+                Positioned.fill(
+                  child: AnimatedBuilder(
+                    animation: _hold,
+                    builder: (context, _) => FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: _hold.value,
+                      child: ColoredBox(
+                        color: color.withValues(alpha: 0.3),
+                        child: const SizedBox.expand(),
+                      ),
                     ),
                   ),
                 ),
-                Center(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: TlSpace.s2,
+                    vertical: TlSpace.s2,
+                  ),
                   child: Text(
                     widget.label,
+                    textAlign: TextAlign.center,
                     style: context.text.button.copyWith(color: color),
                   ),
                 ),

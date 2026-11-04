@@ -64,9 +64,9 @@ La persona elige su acento en Configuración entre 8 opciones predefinidas; no h
 | Orquídea (por defecto) | `accent-orquidea` #D45CFF | #8A2BBF | `accent-orquidea-soft` |
 | Rosa | `accent-rosa` #FF5CA8 | #B8216A | `accent-rosa-soft` |
 | Rojo | `accent-rojo` #FF5A5F | #C2262E | `accent-rojo-soft` |
-| Naranja | `accent-naranja` #FF8A3D | #B4500F | `accent-naranja-soft` |
-| Amarillo | `accent-amarillo` #FFD23F | #8A6A00 | `accent-amarillo-soft` |
-| Lima | `accent-lima` #A3E635 | #4D7C0F | `accent-lima-soft` |
+| Naranja | `accent-naranja` #FF8A3D | #A84B0E | `accent-naranja-soft` |
+| Amarillo | `accent-amarillo` #FFD23F | #806200 | `accent-amarillo-soft` |
+| Lima | `accent-lima` #A3E635 | #47730E | `accent-lima-soft` |
 | Azul | `accent-azul` #4D9FFF | #1F5FC9 | `accent-azul-soft` |
 | Violeta | `accent-violeta` #9B7BFF | #5B3FD1 | `accent-violeta-soft` |
 

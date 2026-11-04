@@ -34,7 +34,7 @@ class TlChip extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 40),
+            constraints: const BoxConstraints(minHeight: TlSize.touchMin),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: TlSpace.s4),
               child: Row(

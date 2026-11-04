@@ -32,6 +32,9 @@ class TlBottomNav extends StatelessWidget {
     final c = context.colors;
     final label = context.text.overline.copyWith(fontSize: 11);
     final bottomInset = MediaQuery.paddingOf(context).bottom;
+    // Con letra grande la barra crece para que la etiqueta quepa (NF-08).
+    final scaled = MediaQuery.textScalerOf(context).scale(label.fontSize!);
+    final extra = (scaled - label.fontSize!) * (label.height ?? 1.4);
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -41,7 +44,7 @@ class TlBottomNav extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(bottom: bottomInset),
           child: SizedBox(
-            height: TlSize.bottomNavHeight,
+            height: TlSize.bottomNavHeight + (extra > 0 ? extra : 0),
             child: Row(
               children: [
                 for (var i = 0; i < items.length; i++)
@@ -104,11 +107,17 @@ class _NavButton extends StatelessWidget {
               children: [
                 Icon(item.icon, size: 22, color: color),
                 const SizedBox(height: TlSpace.s1),
-                Text(
-                  item.label,
-                  style: labelStyle.copyWith(color: color),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                // Nunca se corta: si no cabe a lo ancho, se achica (NF-08).
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: TlSpace.s1),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      item.label,
+                      style: labelStyle.copyWith(color: color),
+                      maxLines: 1,
+                    ),
+                  ),
                 ),
               ],
             ),
