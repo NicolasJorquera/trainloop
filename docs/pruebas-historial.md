@@ -109,3 +109,26 @@ La variante es un ajuste interno (`AppSettings.weekVariant`, clave `debug.weekVa
 - **Filtros del historial.** El diseño no los pide y no se implementaron.
 - **Ruta del detalle de ejercicio.** S15 vive en `/progress/exercises/:id` porque `/exercises/:id` ya es el formulario del ejercicio.
 - **Pruebas de widgets.** El test de la sección de depuración necesitó un bucle de `runAsync` y `pump`: Inicio e Historial escuchan la base con streams que corren en el reloj falso y se alternan con la siembra.
+
+## 7. Emulador (emulator-5560)
+
+Se instaló el APK de depuración sobre los datos que ya había en el emulador (sesiones de D4 y D5). No se registraron sesiones nuevas ni se cargaron datos de demo.
+
+**Capturas tomadas:**
+
+- Inicio con «5/3»;
+- S12 semana unificada;
+- S14 Progreso (con «↑ RÉCORD», que confirma que la caché se recalculó tras migrar a v5);
+- S15 Press de banca.
+
+**Capturas que faltan (deuda):**
+
+- S12 lista y calendario;
+- semana separada;
+- S13 en edición;
+- resumen con un récord nuevo.
+
+**Detalles visuales vistos:**
+
+- En las barras de S14, la etiqueta «objetivo» queda tapada por una barra alta.
+- Las sesiones de fuerza de prueba de D5 muestran «0 min» porque duraron segundos.
