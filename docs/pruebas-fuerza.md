@@ -27,7 +27,6 @@ No se repitió la prueba larga de desfase (60 min): sigue como deuda de D9.
 
 ## Deuda técnica
 
-- **Pruebas saltadas (TODO(D9)).** Los 3 casos de `test/features/routines/routine_flow_test.dart` (D3: «crea una rutina de 5 ejercicios…», «el peso objetivo se muestra en la unidad de la persona» y «duplicar, archivar con deshacer») quedaron con `skip: true`. Con los cambios de D5 el primero falla y los otros dos se quedan colgados hasta el tiempo límite (la suite completa no terminaba). Por indicación del usuario no se investigó la causa. Sospecha: el cambio de separador decimal de es-419 (de «60.5» a «60,5») rompe una expectativa del primero, y la falla deja una ruta o un `Timer` abierto que cuelga a los siguientes. Arreglar y quitar los `skip` en D9.
 - **Procesos `flutter_tester` huérfanos.** Cortar `flutter test` desde fuera (p. ej. con `alarm`) deja el `flutter_tester` vivo. Usar `flutter test --timeout 60s`.
 - Medir en el emulador la corrección del descanso reanudado (sin los segundos del diálogo) y la voz del fin del descanso en un teléfono real.
 - **No implementado de R-G9:** reemplazar un ejercicio en la sesión (conservando sus notas). Sí: agregar, quitar, subir/bajar y notas por ejercicio.

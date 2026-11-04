@@ -47,7 +47,6 @@ Future<void> _createChestRoutine(WidgetTester tester, String name) async {
 }
 
 void main() {
-  // TODO(D9): se cuelga, ver deuda (docs/pruebas-fuerza.md).
   testWidgets('crea una rutina de 5 ejercicios con valores por defecto', (
     tester,
   ) async {
@@ -81,15 +80,14 @@ void main() {
     await tester.enterText(find.byKey(const Key('sheet-weight')), '60,5');
     await tester.tap(find.byKey(const Key('sheet-done')));
     await tester.pumpAndSettle();
-    expect(find.text('4 × 10 · 60.5 kg · descanso 2:30'), findsOneWidget);
+    expect(find.text('4 × 10 · 60,5 kg · descanso 2:30'), findsOneWidget);
     await tester.tap(find.byKey(const Key('remove-entry-4')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('routine-save')));
     await settleDb(tester);
     expect(find.text('4 ejercicios'), findsOneWidget);
-  }, skip: true); // TODO(D9): se cuelga, ver deuda
+  });
 
-  // TODO(D9): se cuelga, ver deuda (docs/pruebas-fuerza.md).
   testWidgets('el peso objetivo se muestra en la unidad de la persona', (
     tester,
   ) async {
@@ -134,9 +132,8 @@ void main() {
     await tester.tap(find.text('Routine 1'));
     await settleDb(tester);
     expect(find.textContaining('102.06 kg'), findsOneWidget);
-  }, skip: true); // TODO(D9): se cuelga, ver deuda
+  });
 
-  // TODO(D9): se cuelga, ver deuda (docs/pruebas-fuerza.md).
   testWidgets('duplicar, archivar con deshacer', (tester) async {
     useTallViewport(tester);
     await pumpTrainloop(
@@ -164,5 +161,5 @@ void main() {
     await tester.tap(find.byKey(const Key('undo-archive')));
     await settleDb(tester);
     expect(find.text('Pecho A (copia)'), findsOneWidget);
-  }, skip: true); // TODO(D9): se cuelga, ver deuda
+  });
 }
