@@ -3,8 +3,11 @@ import 'package:go_router/go_router.dart';
 
 import '../core/l10n/l10n.dart';
 import '../core/widgets/tl_bottom_nav.dart';
+import '../features/monetization/application/ad_guard_provider.dart';
+import '../features/monetization/presentation/ad_banner.dart';
 
-/// Contenedor de las 4 pestañas con la barra inferior.
+/// Contenedor de las 4 pestañas con la barra inferior y, sobre ella, el
+/// banner (diseño de Main; solo si el guard lo permite).
 class AppShell extends StatelessWidget {
   const AppShell({required this.navigationShell, super.key});
 
@@ -14,7 +17,12 @@ class AppShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      body: navigationShell,
+      body: Column(
+        children: [
+          Expanded(child: navigationShell),
+          const AdBanner(placement: BannerPlacement.tabs),
+        ],
+      ),
       bottomNavigationBar: TlBottomNav(
         semanticLabel: l10n.navMainLabel,
         currentIndex: navigationShell.currentIndex,

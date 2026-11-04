@@ -19,6 +19,7 @@ import '../../../core/widgets/tl_button.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
 import '../../../core/widgets/tl_stepper.dart';
 import '../../intervals/application/interval_providers.dart';
+import '../../monetization/presentation/monetization_settings.dart';
 import '../../reminders/presentation/reminder_section.dart';
 import '../application/settings_controller.dart';
 import '../domain/app_settings.dart';
@@ -26,8 +27,9 @@ import 'debug_database_section.dart';
 
 /// S16 Configuración: tema, acento, idioma, entrenamiento (unidad, inicio
 /// de semana, objetivo y descanso por defecto), recordatorios (F-13),
-/// alertas con «Probar sonido» y datos (aviso y enlace a S17). Pantalla
-/// crítica: sin anuncios.
+/// alertas con «Probar sonido», datos y privacidad (aviso, enlace a S17,
+/// analítica y preferencias de privacidad) y la compra «Sin anuncios» (D8).
+/// Pantalla crítica: sin anuncios.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -194,6 +196,9 @@ class SettingsScreen extends ConsumerWidget {
             meta: _backupMeta(l10n, settings.lastBackup),
             onTap: () => context.push(Routes.backup),
           ),
+          const PrivacySettingsRows(),
+          const SizedBox(height: TlSpace.s4),
+          const RemoveAdsCard(),
           if (kDebugMode) const DebugDatabaseSection(),
         ],
       ),

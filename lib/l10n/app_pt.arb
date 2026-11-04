@@ -590,5 +590,22 @@
   "routineDiscardTitle": "DESCARTAR AS ALTERAÇÕES?",
   "routineDiscardBody": "A rotina fica como estava.",
   "routineDiscardConfirm": "DESCARTAR",
-  "routineDiscardKeep": "Continuar editando"
+  "routineDiscardKeep": "Continuar editando",
+  "adBannerLabel": "Anúncio",
+  "settingsAnalytics": "Estatísticas de uso anônimas",
+  "settingsAnalyticsHelp": "Só quais tipos de sessão começam e terminam. Nunca seus treinos nem dados pessoais.",
+  "settingsPrivacyOptions": "Preferências de privacidade",
+  "settingsPrivacyOptionsMeta": "REVISAR",
+  "removeAdsTitle": "REMOVER ANÚNCIOS · PAGAMENTO ÚNICO",
+  "removeAdsBody": "Um único pagamento, sem assinatura. Todas as funções continuam grátis.",
+  "removeAdsBuy": "REMOVER ANÚNCIOS · {price}",
+  "removeAdsBuyNoPrice": "REMOVER ANÚNCIOS",
+  "removeAdsRestore": "Restaurar compra",
+  "removeAdsOwned": "Sem anúncios. Obrigado por apoiar o Trainloop!",
+  "removeAdsRestored": "Compra restaurada: sem anúncios.",
+  "removeAdsPending": "Compra pendente: os anúncios somem quando o Google Play confirmar.",
+  "removeAdsCanceled": "Compra cancelada. Nenhuma cobrança foi feita.",
+  "removeAdsError": "Não foi possível concluir a compra. Tente de novo.",
+  "removeAdsUnavailable": "O Google Play não está disponível agora. Verifique a conexão e tente de novo.",
+  "removeAdsNothing": "Esta conta do Google Play não tem a compra."
 }

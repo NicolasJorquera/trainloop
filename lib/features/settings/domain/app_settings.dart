@@ -84,6 +84,7 @@ class AppSettings {
     this.defaultRestSeconds = defaultRest,
     this.localDataNoticeDismissed = false,
     this.lastBackup,
+    this.analytics = true,
   });
 
   /// Sesiones por semana.
@@ -122,6 +123,10 @@ class AppSettings {
   /// Último respaldo creado (S17); `null` si nunca se creó.
   final LastBackup? lastBackup;
 
+  /// «Estadísticas de uso anónimas» (S16, D8). Además requiere el
+  /// consentimiento donde aplique.
+  final bool analytics;
+
   AppSettings copyWith({
     ThemePreference? theme,
     AccentPreset? accent,
@@ -136,6 +141,7 @@ class AppSettings {
     int? defaultRestSeconds,
     bool? localDataNoticeDismissed,
     LastBackup? lastBackup,
+    bool? analytics,
   }) => AppSettings(
     theme: theme ?? this.theme,
     accent: accent ?? this.accent,
@@ -151,6 +157,7 @@ class AppSettings {
     localDataNoticeDismissed:
         localDataNoticeDismissed ?? this.localDataNoticeDismissed,
     lastBackup: lastBackup ?? this.lastBackup,
+    analytics: analytics ?? this.analytics,
   );
 
   @override
@@ -168,7 +175,8 @@ class AppSettings {
       other.weekVariant == weekVariant &&
       other.defaultRestSeconds == defaultRestSeconds &&
       other.localDataNoticeDismissed == localDataNoticeDismissed &&
-      other.lastBackup == lastBackup;
+      other.lastBackup == lastBackup &&
+      other.analytics == analytics;
 
   @override
   int get hashCode => Object.hash(
@@ -185,6 +193,7 @@ class AppSettings {
     defaultRestSeconds,
     localDataNoticeDismissed,
     lastBackup,
+    analytics,
   );
 
   @override
@@ -193,7 +202,7 @@ class AppSettings {
       'sounds: $sounds, voice: $voice, vibration: $vibration, '
       'weeklyGoal: $weeklyGoal, weekVariant: ${weekVariant.name}, '
       'rest: $defaultRestSeconds, notice: $localDataNoticeDismissed, '
-      'lastBackup: $lastBackup)';
+      'lastBackup: $lastBackup, analytics: $analytics)';
 }
 
 /// Último respaldo creado: fecha, sesiones que incluía y tamaño.

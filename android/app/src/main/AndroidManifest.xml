@@ -59,6 +59,12 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+        <!-- Anuncios (D8): App ID de AdMob desde build.gradle.kts (por defecto, el de prueba de Google).
+             El SDK agrega INTERNET, ACCESS_NETWORK_STATE y AD_ID; in_app_purchase agrega BILLING.
+             Ver docs/data-safety.md. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

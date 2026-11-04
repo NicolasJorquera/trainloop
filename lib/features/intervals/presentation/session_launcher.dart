@@ -6,10 +6,13 @@ import '../../../core/l10n/formatters.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme_context.dart';
+import '../../analytics/application/analytics_service.dart';
+import '../../monetization/application/ad_guard_provider.dart';
 import '../../settings/application/settings_controller.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../application/interval_providers.dart';
 import '../application/interval_session_controller.dart';
+import '../domain/interval_templates.dart';
 import '../domain/interval_workout_draft.dart';
 import 'session_dialogs.dart';
 
@@ -30,20 +33,33 @@ Future<void> startIntervalSession(
   String? sourceId,
 }) async {
   final controller = ref.read(intervalSessionProvider.notifier);
-  if (!await checkBeforeSession(context, ref)) return;
-  if (!context.mounted) return;
-  final settings = ref.read(settingsControllerProvider);
-  final l10n = context.l10n;
-  final palette = context.colors.phases;
-  final localeTag = context.locale.toLanguageTag();
-  await controller.start(
-    workout,
-    sourceId: sourceId,
-    l10n: l10n,
-    settings: settings,
-    palette: palette,
-    localeTag: localeTag,
+  // R-A1: sin anuncios desde «Empezar» (también durante los avisos previos).
+  final started = await ref.read(adHoldsProvider.notifier).during(
+    AdHold.starting,
+    () async {
+      if (!await checkBeforeSession(context, ref)) return false;
+      if (!context.mounted) return false;
+      final settings = ref.read(settingsControllerProvider);
+      final l10n = context.l10n;
+      final palette = context.colors.phases;
+      final localeTag = context.locale.toLanguageTag();
+      await controller.start(
+        workout,
+        sourceId: sourceId,
+        l10n: l10n,
+        settings: settings,
+        palette: palette,
+        localeTag: localeTag,
+      );
+      return true;
+    },
   );
+  if (!started) return;
+  final analytics = ref.read(analyticsServiceProvider)
+    ..log(AnalyticsEvent.sessionStarted(SessionKindParam.intervals));
+  if (IntervalTemplate.bySourceId(sourceId) case final template?) {
+    analytics.log(AnalyticsEvent.templateUsed(template.key));
+  }
   if (context.mounted) await context.push(Routes.timer);
 }
 

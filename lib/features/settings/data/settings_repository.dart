@@ -33,6 +33,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const keyLastBackupAt = 'backup.lastAt';
   static const keyLastBackupSessions = 'backup.lastSessions';
   static const keyLastBackupBytes = 'backup.lastBytes';
+  static const keyAnalytics = 'privacy.analytics';
 
   /// Ajuste interno de la prueba H5 (vista semanal unificada o separada).
   static const keyWeekVariant = 'debug.weekVariant';
@@ -63,6 +64,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
         ),
     localDataNoticeDismissed: _prefs.getBool(keyNoticeDismissed) ?? false,
     lastBackup: _lastBackup(),
+    analytics: _prefs.getBool(keyAnalytics) ?? _defaults.analytics,
   );
 
   LastBackup? _lastBackup() {
@@ -90,6 +92,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       _prefs.setString(keyWeekVariant, settings.weekVariant.name),
       _prefs.setInt(keyDefaultRest, settings.defaultRestSeconds),
       _prefs.setBool(keyNoticeDismissed, settings.localDataNoticeDismissed),
+      _prefs.setBool(keyAnalytics, settings.analytics),
       if (settings.lastBackup case final b?) ...[
         _prefs.setInt(keyLastBackupAt, b.at.millisecondsSinceEpoch),
         _prefs.setInt(keyLastBackupSessions, b.sessions),

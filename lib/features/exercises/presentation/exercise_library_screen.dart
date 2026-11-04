@@ -12,6 +12,8 @@ import '../../../core/widgets/tl_button.dart';
 import '../../../core/widgets/tl_chip.dart';
 import '../../../data/db/app_database.dart';
 import '../../../data/db/enums.dart';
+import '../../monetization/application/ad_guard_provider.dart';
+import '../../monetization/presentation/ad_banner.dart';
 import '../application/exercise_providers.dart';
 import '../domain/exercise_filter.dart';
 import '../domain/exercise_names.dart';
@@ -130,7 +132,10 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                 ),
               ),
             )
-          : null,
+          : const SafeArea(
+              top: false,
+              child: AdBanner(placement: BannerPlacement.library),
+            ),
     );
   }
 
