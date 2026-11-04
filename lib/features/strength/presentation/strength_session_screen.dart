@@ -406,17 +406,16 @@ class _RestBanner extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final engine = active.engine;
     final ended = active.restEndedAt;
-    final showDone =
-        ended != null && DateTime.now().difference(ended) < _doneVisible;
+    final clock = ref.read(timerEngineClientProvider).clock;
+    bool showDone() => ended != null && clock() - ended < _doneVisible;
     return _Ticking(
       period: const Duration(milliseconds: 250),
-      active: active.resting || showDone,
+      active: active.resting || showDone(),
       builder: (context) {
         if (engine != null && engine.resting) {
-          final clock = ref.read(timerEngineClientProvider).clock;
           return _RestBar(engine: engine, clock: clock);
         }
-        if (ended != null && DateTime.now().difference(ended) < _doneVisible) {
+        if (showDone()) {
           final c = context.colors;
           return Semantics(
             liveRegion: true,
@@ -492,29 +491,38 @@ class _RestBar extends ConsumerWidget {
                 ),
               ),
             ),
-            _RestButton(
-              key: const Key('rest-minus'),
-              label: l10n.strengthMinus15,
-              tooltip: l10n.strengthMinus15Tooltip,
-              ink: ink,
-              onTap: () => controller.adjustRest(-restStepSeconds),
-            ),
-            const SizedBox(width: TlSpace.s2),
-            _RestButton(
-              key: const Key('rest-plus'),
-              label: l10n.strengthPlus15,
-              tooltip: l10n.strengthPlus15Tooltip,
-              ink: ink,
-              onTap: () => controller.adjustRest(restStepSeconds),
-            ),
-            const SizedBox(width: TlSpace.s2),
-            _RestButton(
-              key: const Key('rest-skip'),
-              label: l10n.strengthSkipRest,
-              tooltip: l10n.strengthSkipRestTooltip,
-              ink: phase.background,
-              background: ink,
-              onTap: controller.skipRest,
+            // Con textos largos (pseudo-locale, letra grande) los botones
+            // pasan a una segunda fila en vez de achicarse.
+            Flexible(
+              child: Wrap(
+                alignment: WrapAlignment.end,
+                spacing: TlSpace.s2,
+                runSpacing: TlSpace.s2,
+                children: [
+                  _RestButton(
+                    key: const Key('rest-minus'),
+                    label: l10n.strengthMinus15,
+                    tooltip: l10n.strengthMinus15Tooltip,
+                    ink: ink,
+                    onTap: () => controller.adjustRest(-restStepSeconds),
+                  ),
+                  _RestButton(
+                    key: const Key('rest-plus'),
+                    label: l10n.strengthPlus15,
+                    tooltip: l10n.strengthPlus15Tooltip,
+                    ink: ink,
+                    onTap: () => controller.adjustRest(restStepSeconds),
+                  ),
+                  _RestButton(
+                    key: const Key('rest-skip'),
+                    label: l10n.strengthSkipRest,
+                    tooltip: l10n.strengthSkipRestTooltip,
+                    ink: phase.background,
+                    background: ink,
+                    onTap: controller.skipRest,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -633,9 +641,14 @@ class _ExerciseCard extends StatelessWidget {
                   style: t.title.copyWith(color: c.accent),
                 ),
               ),
-              Text(
-                l10n.strengthRestFor(l10n.duration(item.restSeconds)),
-                style: t.bodySm.copyWith(color: c.inkMuted),
+              const SizedBox(width: TlSpace.s2),
+              Flexible(
+                flex: 0,
+                child: Text(
+                  l10n.strengthRestFor(l10n.duration(item.restSeconds)),
+                  textAlign: TextAlign.end,
+                  style: t.bodySm.copyWith(color: c.inkMuted),
+                ),
               ),
               PopupMenuButton<_ExerciseAction>(
                 key: Key('exercise-menu-${item.id}'),
@@ -687,7 +700,7 @@ class _ExerciseCard extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: 40,
+                    width: 48,
                     child: Text(l10n.strengthColSet, style: labelStyle),
                   ),
                   Expanded(
@@ -799,7 +812,7 @@ class _SetRow extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 40,
+            width: 48,
             child: Text(
               tag,
               style: t.title.copyWith(

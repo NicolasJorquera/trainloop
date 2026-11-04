@@ -2586,6 +2586,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'E.g. \"Knee felt better\"'**
   String get strengthNoteHint;
+
+  /// A number already formatted with the decimal separator of the language, e.g. 82,5.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}'**
+  String decimalText(String value);
 }
 
 class _AppLocalizationsDelegate

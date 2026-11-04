@@ -412,5 +412,6 @@
   "strengthUpdateRoutineNo": "[Ñö ·]",
   "strengthRoutineUpdated": "[\"{routine}\" ûþðáţéð: éẋéŕçîšéš áñð ñûɱƀéŕ öƒ šéţš. ·············]",
   "strengthRoutineKept": "[Ţĥé ŕöûţîñé šţáýš áš îţ ŵáš. ·········]",
-  "strengthNoteHint": "[É.ĝ. \"Ķñéé ƒéļţ ƀéţţéŕ\" ·······]"
+  "strengthNoteHint": "[É.ĝ. \"Ķñéé ƒéļţ ƀéţţéŕ\" ·······]",
+  "decimalText": "[{value}]"
 }

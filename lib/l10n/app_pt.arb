@@ -412,5 +412,6 @@
   "strengthUpdateRoutineNo": "Não",
   "strengthRoutineUpdated": "«{routine}» atualizada: exercícios e número de séries.",
   "strengthRoutineKept": "A rotina fica como estava.",
-  "strengthNoteHint": "Ex.: «O joelho melhor»"
+  "strengthNoteHint": "Ex.: «O joelho melhor»",
+  "decimalText": "{value}"
 }

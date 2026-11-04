@@ -1506,6 +1506,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get strengthNoteHint => 'E.g. \"Knee felt better\"';
+
+  @override
+  String decimalText(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for English (`en_XA`).
@@ -3022,4 +3027,9 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get strengthNoteHint => '[É.ĝ. \"Ķñéé ƒéļţ ƀéţţéŕ\" ·······]';
+
+  @override
+  String decimalText(String value) {
+    return '[$value]';
+  }
 }

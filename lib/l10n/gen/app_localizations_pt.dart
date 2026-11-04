@@ -1507,6 +1507,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get strengthNoteHint => 'Ex.: «O joelho melhor»';
+
+  @override
+  String decimalText(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

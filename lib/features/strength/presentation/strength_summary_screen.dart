@@ -117,7 +117,12 @@ class _StrengthSummaryScreenState extends ConsumerState<StrengthSummaryScreen> {
                   ),
                   _Stat(
                     label: l10n.strengthSummaryVolume,
-                    value: l10n.weight(volume, unit).toUpperCase(),
+                    value: l10n
+                        .weightValue(
+                          l10n.grouped(volume),
+                          l10n.unitSymbol(unit),
+                        )
+                        .toUpperCase(),
                     valueKey: const Key('summary-volume'),
                   ),
                   _Stat(

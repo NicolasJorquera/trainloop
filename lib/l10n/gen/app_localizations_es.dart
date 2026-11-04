@@ -1510,6 +1510,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get strengthNoteHint => 'Ej.: «La rodilla mejor»';
+
+  @override
+  String decimalText(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

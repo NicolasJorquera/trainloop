@@ -261,9 +261,13 @@ class StrengthPending {
     this.restRemainingMs = 0,
     this.next = '',
     this.savedAt,
+    this.receivedAt = Duration.zero,
   });
 
-  factory StrengthPending.fromMap(Map<Object?, Object?> m) {
+  factory StrengthPending.fromMap(
+    Map<Object?, Object?> m, {
+    Duration receivedAt = Duration.zero,
+  }) {
     final saved = m['savedAtWallMs'] as num?;
     return StrengthPending(
       sessionId: m['sessionId']! as String,
@@ -272,13 +276,27 @@ class StrengthPending {
       savedAt: saved == null
           ? null
           : DateTime.fromMillisecondsSinceEpoch(saved.toInt()),
+      receivedAt: receivedAt,
     );
   }
 
   final String sessionId;
+
+  /// Lo que faltaba del descanso en [receivedAt].
   final int restRemainingMs;
   final String next;
   final DateTime? savedAt;
+
+  /// Instante (reloj de [TimerEngineClient.clock]) en que se consultó.
+  final Duration receivedAt;
+
+  /// Lo que falta del descanso en [now] (el diálogo pudo tardar en
+  /// responderse).
+  int restRemainingAt(Duration now) =>
+      (restRemainingMs - (now - receivedAt).inMilliseconds).clamp(
+        0,
+        restRemainingMs,
+      );
 }
 
 /// Sesión de fuerza que recibe el servicio: avisos, textos ya localizados y
@@ -556,7 +574,7 @@ class MethodChannelTimerEngine implements TimerEngineClient {
     final m = await _methods.invokeMethod<Map<Object?, Object?>>(
       'strengthPending',
     );
-    return m == null ? null : StrengthPending.fromMap(m);
+    return m == null ? null : StrengthPending.fromMap(m, receivedAt: clock());
   }
 
   @override

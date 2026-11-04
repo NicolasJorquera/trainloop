@@ -320,7 +320,7 @@ class _SetEditorState extends State<_SetEditor> {
                 for (final r in SetLimits.rpeValues)
                   TlChip(
                     key: Key('rpe-${r.toString()}'),
-                    label: l10n.decimal(r),
+                    label: l10n.decimalText(l10n.decimal(r)),
                     selected: _v.rpe == r,
                     onTap: () => setState(
                       () => _v = _v.copyWith(rpe: () => _v.rpe == r ? null : r),

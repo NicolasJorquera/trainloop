@@ -825,5 +825,7 @@
   "strengthRoutineKept": "The routine stays as it was.",
   "@strengthRoutineKept": {"description": "After answering no to updating the routine."},
   "strengthNoteHint": "E.g. \"Knee felt better\"",
-  "@strengthNoteHint": {"description": "Summary note hint for strength."}
+  "@strengthNoteHint": {"description": "Summary note hint for strength."},
+  "decimalText": "{value}",
+  "@decimalText": {"description": "A number already formatted with the decimal separator of the language, e.g. 82,5.", "placeholders": {"value": {"type": "String"}}}
 }

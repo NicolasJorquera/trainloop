@@ -48,7 +48,7 @@ class StrengthEnv {
 /// `null` si no hay peso.
 String? weightNumber(AppLocalizations l10n, SetValues v, WeightUnit unit) {
   final w = v.weightIn(unit);
-  return w == null ? null : l10n.decimal(w);
+  return w == null ? null : l10n.decimalText(l10n.decimal(w));
 }
 
 /// Valores de una serie en una línea según lo que registra el ejercicio:

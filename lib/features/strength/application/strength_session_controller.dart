@@ -58,9 +58,10 @@ class ActiveStrength {
   final String sessionId;
   final StrengthEngineState? engine;
 
-  /// Cuándo terminó el último descanso (S10 muestra "¡A la siguiente
-  /// serie!" unos segundos).
-  final DateTime? restEndedAt;
+  /// Cuándo terminó el último descanso, en el reloj de
+  /// [TimerEngineClient.clock] (S10 muestra "¡A la siguiente serie!" unos
+  /// segundos).
+  final Duration? restEndedAt;
 
   bool get resting => engine?.resting ?? false;
 
@@ -68,7 +69,7 @@ class ActiveStrength {
 
   ActiveStrength copyWith({
     StrengthEngineState? engine,
-    DateTime? Function()? restEndedAt,
+    Duration? Function()? restEndedAt,
   }) => ActiveStrength(
     sessionId: sessionId,
     engine: engine ?? this.engine,
@@ -264,7 +265,7 @@ class StrengthSessionController extends Notifier<ActiveStrength?> {
   ) async {
     await _repo.markResumed(offer.sessionId);
     await _begin(offer.sessionId, env);
-    final rest = offer.pending?.restRemainingMs ?? 0;
+    final rest = offer.pending?.restRemainingAt(_engine.clock()) ?? 0;
     if (rest > 0) {
       await _engine.startRest(rest, next: offer.pending?.next ?? '');
     }
@@ -301,7 +302,7 @@ class StrengthSessionController extends Notifier<ActiveStrength?> {
       sessionId: s.sessionId,
       engine: s,
       restEndedAt: ended
-          ? DateTime.now()
+          ? s.receivedAt
           : s.rest == RestRunState.done
           ? current?.restEndedAt
           : null,
