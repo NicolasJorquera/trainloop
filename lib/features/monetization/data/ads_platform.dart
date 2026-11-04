@@ -179,11 +179,14 @@ class GoogleAdsPlatform implements AdsPlatform {
     required int width,
     required Orientation orientation,
   }) async {
-    final size =
-        await gma.AdSize.getLargeAnchoredAdaptiveBannerAdSizeWithOrientation(
-          orientation,
-          width,
-        );
+    // Banner adaptativo anclado estándar (~50–60 dp, como el diseño de Main).
+    // La variante «large» que recomienda el SDK mide ~120 dp en un teléfono
+    // y tapa demasiado; revisar con Diseño si se adopta.
+    // ignore: deprecated_member_use
+    final size = await gma.AdSize.getAnchoredAdaptiveBannerAdSize(
+      orientation,
+      width,
+    );
     if (size == null) return null;
     final result = Completer<LoadedBanner?>();
     final ad = gma.BannerAd(

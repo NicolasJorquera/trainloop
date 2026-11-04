@@ -90,8 +90,16 @@ class AdsController extends Notifier<AdsState> {
 
   /// Al abrir la app (y al volver, mientras UMP no haya respondido).
   /// [allowForm] es `false` si hay una sesión abierta: el formulario espera.
-  Future<void> start({required bool allowForm}) =>
-      _running ??= _start(allowForm).whenComplete(() => _running = null);
+  /// Las llamadas se encadenan: una con formulario no se pierde detrás de
+  /// otra sin él.
+  Future<void> start({required bool allowForm}) {
+    final previous = _running ?? Future<void>.value();
+    late final Future<void> run;
+    run = previous.then((_) => _start(allowForm)).whenComplete(() {
+      if (identical(_running, run)) _running = null;
+    });
+    return _running = run;
+  }
 
   Future<void> _start(bool allowForm) async {
     if (!ref.read(monetizationConfigProvider).adsEnabled) return;

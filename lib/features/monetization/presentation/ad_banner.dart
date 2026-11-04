@@ -49,6 +49,21 @@ class _LoadedBannerSlotState extends ConsumerState<_LoadedBannerSlot> {
   LoadedBanner? _banner;
   int? _width;
   bool _loading = false;
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    // Sin red al cargar: se reintenta al volver a la app (no hay sondeo).
+    _lifecycle = AppLifecycleListener(
+      onResume: () {
+        final width = _width;
+        if (mounted && _banner == null && width != null) {
+          _load(width, MediaQuery.orientationOf(context));
+        }
+      },
+    );
+  }
 
   @override
   void didChangeDependencies() {
@@ -85,6 +100,7 @@ class _LoadedBannerSlotState extends ConsumerState<_LoadedBannerSlot> {
 
   @override
   void dispose() {
+    _lifecycle.dispose();
     _banner?.dispose();
     _banner = null;
     super.dispose();

@@ -158,6 +158,7 @@ void main() {
     final c = await pump(tester, ads: ads);
     // El formulario se pidió al abrir (sin sesión en curso).
     expect(ads.calls, contains('gatherConsent(form: true)'));
+    expect(ads.calls, isNot(contains('gatherConsent(form: false)')));
     expect(ads.calls, isNot(contains('initialize')));
     expect(find.byKey(banner), findsNothing);
     expect(c.read(analyticsEnabledProvider), isFalse);

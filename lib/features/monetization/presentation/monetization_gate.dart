@@ -12,9 +12,9 @@ import '../application/remove_ads_controller.dart';
 /// arranque en frío):
 ///
 /// 1. Reverifica «Sin anuncios» con Play.
-/// 2. Consentimiento UMP y, solo si lo permite, el SDK de anuncios. El
-///    formulario no aparece con una sesión o un resumen abiertos: espera a
-///    que la persona salga.
+/// 2. Consentimiento UMP y, solo si lo permite, el SDK de anuncios. Nada
+///    de esto ocurre con una sesión o un resumen abiertos (ni antes de
+///    saber si al abrir había una sesión viva): espera a que queden libres.
 /// 3. Al volver a la app, si UMP todavía no respondió (sin red al abrir),
 ///    lo intenta de nuevo.
 ///
@@ -61,13 +61,13 @@ class _MonetizationGateState extends ConsumerState<MonetizationGate> {
     if (!ref.read(adsControllerProvider).consentChecked) _startAds();
   }
 
+  /// UMP y el SDK solo sin sesión ni resumen abiertos (y después de saber
+  /// si al abrir había una sesión viva): si no, espera a que quede libre.
   void _startAds() {
-    final free = ref.read(sessionFreeProvider);
     final ads = ref.read(adsControllerProvider);
-    // Con una sesión abierta se piden solo los datos (sin formulario) y se
-    // vuelve a intentar al quedar libre.
     if (ads.consentChecked && ads.sdkReady) return;
-    unawaited(ref.read(adsControllerProvider.notifier).start(allowForm: free));
+    if (!ref.read(sessionFreeProvider)) return;
+    unawaited(ref.read(adsControllerProvider.notifier).start(allowForm: true));
   }
 
   @override
@@ -75,10 +75,7 @@ class _MonetizationGateState extends ConsumerState<MonetizationGate> {
     // Precarga del intersticial (solo con el experimento activo).
     ref.watch(interstitialControllerProvider);
     ref.listen(sessionFreeProvider, (was, free) {
-      final ads = ref.read(adsControllerProvider);
-      if (free && was == false && !(ads.consentChecked && ads.sdkReady)) {
-        _startAds();
-      }
+      if (free && was == false) _startAds();
     });
     return widget.child;
   }

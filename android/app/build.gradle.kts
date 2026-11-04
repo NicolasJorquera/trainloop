@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -55,7 +57,7 @@ fun admobAppId(): String {
     System.getenv(key)?.takeIf { it.isNotBlank() }?.let { return it }
     val local = rootProject.file("local.properties")
     if (local.exists()) {
-        val props = java.util.Properties()
+        val props = Properties()
         local.inputStream().use { props.load(it) }
         props.getProperty(key)?.takeIf { it.isNotBlank() }?.let { return it }
     }
