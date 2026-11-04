@@ -96,7 +96,7 @@ Future<Map<String, Object?>> buildBackupFixture(int version) async {
       }
     }
     // Como el formato de D8: `ad_state` viajaba en el archivo.
-    final row = BackupFixtures.adStateRow;
+    const row = BackupFixtures.adStateRow;
     (json['tables']! as Map<String, Object?>)['ad_state'] = {
       'columns': row.keys.toList(),
       'rows': [row.values.toList()],

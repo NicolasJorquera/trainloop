@@ -75,9 +75,7 @@ void main() {
       expect(
         records.where((r) => r.type == RecordType.maxWeight),
         everyElement(
-          predicate<PersonalRecord>(
-            (r) => r.weightGrams != null && r.reps != null,
-          ),
+          predicate<PersonalRecord>((r) => r.weightGrams > 0 && r.reps != null),
         ),
       );
 
