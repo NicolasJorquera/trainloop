@@ -1,8 +1,8 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
+import '../../../core/router/visible_path.dart';
 import '../../intervals/application/interval_session_controller.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../domain/ad_guard.dart';
@@ -57,14 +57,6 @@ class AdHolds extends Notifier<Set<AdHold>> {
 final currentPathProvider = NotifierProvider<CurrentPath, String>(
   CurrentPath.new,
 );
-
-/// Ruta de la pantalla de arriba de [list].
-String visiblePath(RouteMatchList list) {
-  if (list.isEmpty) return '';
-  final last = list.last;
-  if (last is ImperativeRouteMatch) return visiblePath(last.matches);
-  return list.uri.path;
-}
 
 class CurrentPath extends Notifier<String> {
   @override

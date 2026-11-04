@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/router/visible_path.dart';
 import '../../../platform/timer_engine_client.dart';
 import '../../history/application/history_providers.dart';
 import '../../monetization/application/ad_guard_provider.dart';
@@ -77,7 +78,9 @@ class _SessionGateState extends ConsumerState<SessionGate> {
         return;
       }
       final active = ref.read(intervalSessionProvider)?.active ?? false;
-      final path = router.routerDelegate.currentConfiguration.uri.path;
+      // Con `push`, `currentConfiguration.uri` queda en la ruta de abajo:
+      // se mira la pantalla visible para no apilar otra S05/S10.
+      final path = visiblePathOf(router);
       // Sin esperar: push termina recién al cerrar S05.
       if (active && path != Routes.timer) {
         unawaited(router.push(Routes.timer));
@@ -148,8 +151,7 @@ class _SessionGateState extends ConsumerState<SessionGate> {
     if (context == null) return;
     final choice = await showStrengthRecoveryDialog(context, offer);
     if (choice == null || !context.mounted) return;
-    final onStrength =
-        router.routerDelegate.currentConfiguration.uri.path == Routes.strength;
+    final onStrength = visiblePathOf(router) == Routes.strength;
     switch (choice) {
       case RecoveryChoice.resume:
         ref.read(recoveredSessionsProvider.notifier).add(offer.sessionId);
@@ -168,7 +170,7 @@ class _SessionGateState extends ConsumerState<SessionGate> {
   }
 
   static bool _onTimer(GoRouter router) =>
-      router.routerDelegate.currentConfiguration.uri.path == Routes.timer;
+      visiblePathOf(router) == Routes.timer;
 
   @override
   Widget build(BuildContext context) {
