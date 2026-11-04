@@ -14,6 +14,7 @@ import '../../../core/widgets/tl_button.dart';
 import '../../history/application/history_providers.dart';
 import '../../intervals/domain/interval_templates.dart';
 import '../../intervals/presentation/interval_widgets.dart';
+import '../../settings/application/settings_controller.dart';
 import '../../settings/domain/app_settings.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../../strength/application/strength_texts.dart';
@@ -55,6 +56,10 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
         ),
+        if (!ref.watch(
+          settingsControllerProvider.select((s) => s.localDataNoticeDismissed),
+        ))
+          const _LocalDataNotice(),
         SectionLabel(l10n.homeWeekOverline),
         _WeekCard(summary: ref.watch(weekSummaryProvider).value),
         if (active != null) ...[
@@ -102,6 +107,80 @@ class HomeScreen extends ConsumerWidget {
         SectionLabel(l10n.homeQuickTemplates),
         const TemplateGrid(IntervalTemplate.quickStart),
       ],
+    );
+  }
+}
+
+/// Aviso de una línea de F-01: los datos viven solo en el teléfono. Tocarlo
+/// abre S17; la X lo cierra para siempre.
+class _LocalDataNotice extends ConsumerWidget {
+  const _LocalDataNotice();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final c = context.colors;
+    final t = context.text;
+    return Padding(
+      padding: const EdgeInsets.only(top: TlSpace.s2),
+      child: Material(
+        key: const Key('home-local-data'),
+        color: c.surface1,
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                key: const Key('home-local-data-open'),
+                onTap: () => context.push(Routes.backup),
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: TlSize.touchMin),
+                  padding: const EdgeInsets.fromLTRB(
+                    TlSpace.s3,
+                    TlSpace.s2,
+                    0,
+                    TlSpace.s2,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Icon(Icons.smartphone, size: 20, color: c.warning),
+                      const SizedBox(width: TlSpace.s2),
+                      Expanded(
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(text: l10n.homeLocalDataNotice),
+                              const TextSpan(text: ' '),
+                              TextSpan(
+                                text: l10n.homeLocalDataAction,
+                                style: TextStyle(
+                                  color: c.accent,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          style: t.bodySm,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            IconButton(
+              key: const Key('home-local-data-dismiss'),
+              tooltip: l10n.homeLocalDataDismiss,
+              icon: Icon(Icons.close, color: c.inkMuted),
+              onPressed: () => ref
+                  .read(settingsControllerProvider.notifier)
+                  .dismissLocalDataNotice(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -157,11 +236,16 @@ class _WeekCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: TlSpace.s2),
+                  // Con letra grande se achica en vez de partir la palabra.
                   Flexible(
-                    child: Text(
-                      l10n.homeSeeProgress,
-                      textAlign: TextAlign.end,
-                      style: t.overline.copyWith(color: c.accent),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        l10n.homeSeeProgress,
+                        textAlign: TextAlign.end,
+                        style: t.overline.copyWith(color: c.accent),
+                      ),
                     ),
                   ),
                 ],

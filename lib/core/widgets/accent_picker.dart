@@ -23,7 +23,8 @@ class AccentPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const columns = 4;
+    // Con letra grande, 2 columnas: el nombre se lee entero (NF-08).
+    final columns = MediaQuery.textScalerOf(context).scale(1) > 1.3 ? 2 : 4;
     final rows = AccentPreset.values.length ~/ columns;
     return Column(
       children: [
@@ -104,8 +105,6 @@ class _Swatch extends StatelessWidget {
               style: context.text.caption.copyWith(
                 color: selected ? c.ink : c.inkMuted,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -128,11 +127,24 @@ class PhasePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.colors.phases;
+    final work = _Chip(Phase.work, p.work, workLabel);
+    final rest = _Chip(Phase.rest, p.rest, restLabel);
+    // Con letra grande, una debajo de la otra (NF-08).
+    if (MediaQuery.textScalerOf(context).scale(1) > 1.3) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          work,
+          const SizedBox(height: TlSpace.s2),
+          rest,
+        ],
+      );
+    }
     return Row(
       children: [
-        Expanded(child: _Chip(Phase.work, p.work, workLabel)),
+        Expanded(child: work),
         const SizedBox(width: TlSpace.s2),
-        Expanded(child: _Chip(Phase.rest, p.rest, restLabel)),
+        Expanded(child: rest),
       ],
     );
   }
@@ -147,8 +159,11 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    height: TlSize.touchMin,
-    padding: const EdgeInsets.symmetric(horizontal: TlSpace.s3),
+    constraints: const BoxConstraints(minHeight: TlSize.touchMin),
+    padding: const EdgeInsets.symmetric(
+      horizontal: TlSpace.s3,
+      vertical: TlSpace.s1,
+    ),
     decoration: BoxDecoration(
       color: color.background,
       borderRadius: BorderRadius.circular(TlRadius.md),
@@ -160,8 +175,6 @@ class _Chip extends StatelessWidget {
         Flexible(
           child: Text(
             label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
             style: context.text.button.copyWith(
               color: color.ink,
               fontStyle: FontStyle.italic,

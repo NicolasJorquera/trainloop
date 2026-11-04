@@ -30,9 +30,20 @@ void main() {
       voice: true,
       vibration: false,
       weeklyGoal: 5,
+      defaultRestSeconds: 120,
+      localDataNoticeDismissed: true,
     );
     await SharedPreferencesSettingsRepository(prefs).save(value);
     expect(SharedPreferencesSettingsRepository(prefs).load(), value);
+    final withBackup = value.copyWith(
+      lastBackup: LastBackup(
+        at: DateTime.utc(2026, 11, 3, 12),
+        sessions: 46,
+        bytes: 182000,
+      ),
+    );
+    await SharedPreferencesSettingsRepository(prefs).save(withBackup);
+    expect(SharedPreferencesSettingsRepository(prefs).load(), withBackup);
   });
 
   test('valores desconocidos vuelven al valor por defecto', () async {
@@ -56,6 +67,10 @@ void main() {
       expect(s.weekStart, WeekStart.monday);
       expect([s.sounds, s.voice, s.vibration], [true, true, true]);
       expect(s.weeklyGoal, 3);
+      // D7: descanso de 90 s, aviso de datos visible y sin respaldos.
+      expect(s.defaultRestSeconds, 90);
+      expect(s.localDataNoticeDismissed, isFalse);
+      expect(s.lastBackup, isNull);
     },
   );
 

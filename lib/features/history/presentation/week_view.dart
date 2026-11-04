@@ -152,7 +152,9 @@ class _DayRow extends ConsumerWidget {
                   : canPlan
                   ? () => showPlanDaySheet(context, ref, day.day.weekday)
                   : null,
-              child: Padding(
+              child: Container(
+                // NF-08: 48 dp de área táctil.
+                constraints: const BoxConstraints(minHeight: TlSize.touchMin),
                 padding: const EdgeInsets.symmetric(
                   horizontal: TlSpace.s3,
                   vertical: TlSpace.s2,

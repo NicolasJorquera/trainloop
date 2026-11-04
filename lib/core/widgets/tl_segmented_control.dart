@@ -88,17 +88,12 @@ class _Segment extends StatelessWidget {
         borderRadius: BorderRadius.circular(TlRadius.sm),
         onTap: onTap,
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 40),
+          // NF-08: 48 dp de área táctil.
+          constraints: const BoxConstraints(minHeight: TlSize.touchMin),
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: TlSpace.s1),
-              child: Text(
-                label,
-                style: style,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: Text(label, style: style, textAlign: TextAlign.center),
             ),
           ),
         ),

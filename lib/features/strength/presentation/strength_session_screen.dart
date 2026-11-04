@@ -319,6 +319,11 @@ class _Header extends StatelessWidget {
         children: [
           IconButton(
             key: const Key('strength-back'),
+            // NF-08: 64 dp durante la sesión.
+            constraints: const BoxConstraints.tightFor(
+              width: TlSize.touchSession,
+              height: TlSize.touchSession,
+            ),
             tooltip: l10n.backTooltip,
             icon: const Icon(Icons.arrow_back),
             onPressed: () =>
@@ -333,8 +338,6 @@ class _Header extends StatelessWidget {
                   child: Text(
                     sessionTitle(l10n, data.title).toUpperCase(),
                     key: const Key('strength-title'),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: t.headline.copyWith(fontSize: 24),
                   ),
                 ),
@@ -372,7 +375,9 @@ class _Header extends StatelessWidget {
                 borderRadius: BorderRadius.circular(TlRadius.md),
                 onTap: onFinish,
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: TlSize.touchMin),
+                  constraints: const BoxConstraints(
+                    minHeight: TlSize.touchSession,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: TlSpace.s4),
                     child: Center(
@@ -421,7 +426,7 @@ class _RestBanner extends ConsumerWidget {
             liveRegion: true,
             child: Container(
               key: const Key('rest-done'),
-              height: 56,
+              constraints: const BoxConstraints(minHeight: 56),
               color: c.successSoft,
               padding: const EdgeInsets.symmetric(horizontal: TlSpace.s4),
               alignment: Alignment.centerLeft,
@@ -654,6 +659,11 @@ class _ExerciseCard extends StatelessWidget {
                 key: Key('exercise-menu-${item.id}'),
                 tooltip: l10n.strengthExerciseActions(name),
                 icon: const Icon(Icons.more_vert),
+                // NF-08: 64 dp durante la sesión.
+                style: IconButton.styleFrom(
+                  minimumSize: const Size.square(TlSize.touchSession),
+                ),
+                iconSize: 28,
                 onSelected: onAction,
                 itemBuilder: (context) => [
                   PopupMenuItem(
@@ -725,7 +735,7 @@ class _ExerciseCard extends StatelessWidget {
                       style: labelStyle,
                     ),
                   ),
-                  const SizedBox(width: 56),
+                  const SizedBox(width: TlSize.touchSession + TlSpace.s1),
                 ],
               ),
             ),
@@ -749,7 +759,7 @@ class _ExerciseCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(TlRadius.md),
               onTap: onAddSet,
               child: SizedBox(
-                height: TlSize.touchMin,
+                height: TlSize.touchSession,
                 child: Center(
                   child: Text(
                     l10n.strengthAddSet,
@@ -865,8 +875,8 @@ class _SetRow extends StatelessWidget {
                 key: Key('set-check-$key'),
                 onTap: onCheck,
                 child: SizedBox(
-                  width: 52,
-                  height: 52,
+                  width: TlSize.touchSession,
+                  height: TlSize.touchSession,
                   child: Icon(
                     Icons.check,
                     size: 28,
@@ -914,7 +924,7 @@ class _Cell extends StatelessWidget {
           onTap: onTap,
           child: SizedBox(
             width: width - 4,
-            height: 48,
+            height: TlSize.touchSession,
             child: Center(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
@@ -943,7 +953,8 @@ class _AddExerciseButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(TlRadius.lg),
         child: Container(
-          height: 56,
+          constraints: const BoxConstraints(minHeight: TlSize.touchSession),
+          padding: const EdgeInsets.all(TlSpace.s2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(TlRadius.lg),
             border: Border.all(color: c.line, width: 2),

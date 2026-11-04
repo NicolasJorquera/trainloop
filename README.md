@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 5, registro de fuerza.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agrega la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. Siguen: historial y estadísticas (D6), y anuncios y consentimiento (D8).
+Estado: **entregable 7, experiencia y accesibilidad.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agrega el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). La app queda completa y **sin anuncios**; siguen anuncios y consentimiento (D8).
 
 ## Cómo correrla
 
@@ -46,12 +46,20 @@ lib/
     home, train, history, progress, settings, exercises (S08/S09), routines (S07),
     intervals (S02–S06, S18: editor, plantillas, temporizador, resumen, recuperación),
     strength (S10, S11, S06 fuerza: sesión, registro de serie, resumen, recuperación)
-  platform/                     puente con el motor nativo del temporizador (canales)
+    backup (S17: respaldo, restauración y CSV), reminders (F-13: recordatorios)
+  platform/                     canales nativos: motor del temporizador, selector de
+                                documentos (SAF) y recordatorios
 android/app/src/main/kotlin/com/trainloop/app/timer/
                                 TimerService, TimerEngine, CuePlayer, SessionNotification,
                                 CheckpointStore, RestTimer (descanso de fuerza) y TimerBridge
                                 (MethodChannel/EventChannel)
-android/app/src/test/           pruebas JVM del motor y del punto de recuperación
+android/app/src/main/kotlin/com/trainloop/app/files/
+                                DocumentsBridge (guardar y abrir archivos con SAF)
+android/app/src/main/kotlin/com/trainloop/app/reminders/
+                                ReminderScheduler, ReminderReceiver, ReminderStore y
+                                ReminderBridge (alarma inexacta de los recordatorios)
+android/app/src/test/           pruebas JVM del motor, del punto de recuperación y del
+                                cálculo del próximo recordatorio
   l10n/                         ARB (fuente) y gen/ (generado por flutter gen-l10n)
 assets/fonts/                   Barlow Condensed e Inter (OFL, empaquetadas: no se descargan)
 docs/design/                    copia del sistema de diseño (system/) y prototipos HTML (screens/)
@@ -59,8 +67,9 @@ docs/modelo-datos.md            modelo de datos del PRD y decisiones de persiste
 drift_schemas/                  esquema de cada versión de la base (JSON, para migraciones)
 tool/                           script del pseudo-locale y timer_adb.sh (pruebas del
                                 temporizador por adb)
-test/                           unitarias (tokens, fases, pseudo, repositorio, DAOs), de widgets
-                                y drift/ (migraciones; generated/ es generado)
+test/                           unitarias (tokens, fases, contraste, pseudo, repositorio, DAOs),
+                                de widgets, a11y/ (200 %, áreas táctiles, etiquetas) y drift/
+                                (migraciones; generated/ es generado)
 ```
 
 Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una rama o ruta en `lib/core/router/app_router.dart`.
@@ -118,11 +127,26 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **S15 Detalle de ejercicio** (`/progress/exercises/:id`): última marca y su 1RM, tendencia simple del 1RM estimado (CustomPaint, rangos 4 sem / 12 sem / 6 m / 1 año / todo), récords e historial.
 - **Pruebas:** cifras calculadas a mano frente a la app, y recálculo al editar y al borrar. Ver `docs/pruebas-historial.md`, que incluye la deuda.
 
+## Experiencia y accesibilidad (D7)
+
+- **Primer uso (F-01, NF-01).** Sin cuenta ni formularios: Inicio trae accesos directos y plantillas. Un aviso de una línea («Tus datos viven solo en este teléfono. Respaldar ›») abre S17; la X lo cierra para siempre (`settings.localDataNoticeDismissed`). Tabata corre con 3 toques en la app más el permiso del sistema (`test/features/home/first_use_test.dart`).
+- **Respaldo (F-14, S17).** `lib/features/backup/`.
+  - Formato: `trainloop-AAAA-MM-DD.json.gz`, JSON versionado (`format`, `formatVersion`, `schemaVersion`, `appVersion`, resumen), con el esquema (CREATE TABLE/INDEX) y todas las tablas. Se eligió JSON en vez de copiar el SQLite porque se valida antes de tocar nada y es abierto.
+  - Restaurar: valida el sobre (solo acepta sentencias CREATE, identificadores simples y versiones no más nuevas), carga el respaldo en una base temporal en memoria **con su esquema original** y deja que las migraciones de Drift la suban a la versión actual; revisa `integrity_check` y `foreign_key_check`; guarda la copia automática `files/backups/antes-de-restaurar.json.gz` y reemplaza todo en una transacción. Si la migración vació la caché de récords, la recalcula. No se restaura con una sesión en curso.
+  - Archivos con el selector del sistema (SAF: `ACTION_CREATE_DOCUMENT` / `ACTION_OPEN_DOCUMENT`, `DocumentsBridge.kt`), sin permisos de almacenamiento.
+  - CSV: `trainloop-sessions-*.csv` y `trainloop-sets-*.csv`, UTF-8 con BOM, CRLF, punto decimal y fechas ISO con el desfase de la sesión. Se guardan uno tras otro (dos diálogos).
+  - `appVersion` (`lib/app/app_info.dart`) debe coincidir con `version` de pubspec (lo revisa una prueba).
+- **Recordatorios (F-13).** Sección RECORDATORIOS de S16: días (en el orden del inicio de semana) y una hora. Se guardan en la tabla `reminder` (viajan en el respaldo) y se copian a `ReminderStore` nativo con los textos traducidos. Nativo, sin paquete: una alarma **inexacta** (`setAndAllowWhileIdle`, sin `SCHEDULE_EXACT_ALARM`) para el próximo día; al sonar se programa la siguiente. `ReminderReceiver` reprograma tras `BOOT_COMPLETED`, `TIME_SET`, `TIMEZONE_CHANGED` y `MY_PACKAGE_REPLACED`, no avisa si las notificaciones están bloqueadas, si ya avisó hoy o si hay una sesión de hoy (lee la base en solo lectura). Activarlo pide el permiso; si se niega queda apagado con un aviso y acceso a Ajustes.
+- **Configuración (F-17, S16).** Además de lo anterior: descanso por defecto (15 s–10 min, para ejercicios nuevos), «Probar sonido» (tono, voz y vibración según Alertas), DATOS Y PRIVACIDAD con el aviso y «Respaldo y exportación» (con la fecha del último).
+- **Accesibilidad (NF-08).** `test/a11y/accessibility_test.dart` monta la app con las fuentes reales en un teléfono de 411 × 914 dp al 100 % y al 200 % y recorre Inicio, Entrenar, S07, Historial, Progreso, S03, S05, S10, S16 y S17: sin desbordes ni textos cortados, 48 dp con etiqueta en todo lo tocable y 64 dp en S05 y S10. `test/core/theme/contrast_test.dart` calcula el contraste WCAG de los pares texto/fondo y gráficos de los dos temas con los 8 acentos. Con letra grande la barra inferior crece y achica la etiqueta en lugar de cortarla.
+- **Sin anuncios.** No hay espacios reservados: D8 los agrega (fuera de pantallas críticas: editores, respaldo, recuperación y configuración).
+- Resultados en emulador y deuda: `docs/pruebas-experiencia.md`.
+
 ## Tema, acento e idioma
 
 - Los colores salen de `docs/design/system/tokens.json` y viven en `TlColors` (un `ThemeExtension`). En los widgets: `context.colors.accent`, `context.text.headline`.
 - Hay 8 acentos (`AccentPreset`). `phasePaletteFor(accent)` aplica la regla de distinción entre fases: Trabajo siempre es el acento; con Amarillo o Naranja, Calentamiento pasa a rosa; con Azul, Vuelta a la calma pasa a violeta; con Lima, Descanso pasa a azul y Vuelta a la calma a violeta.
-- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto, se elige en Configuración → Entrenamiento), inicio de semana (lunes), sonidos (sí), voz (sí), vibración (sí) y objetivo semanal (3 sesiones, entre 1 y 14). Sonidos, voz y vibración se ajustan en Configuración → Alertas; el objetivo semanal aún no tiene pantalla. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
+- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto), inicio de semana (lunes), objetivo semanal (3 sesiones, entre 1 y 14) y descanso por defecto (90 s), en Configuración → Entrenamiento; sonidos, voz y vibración (sí), en Alertas; si se cerró el aviso de datos locales y la fecha del último respaldo. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
 
 ## Localización
 
@@ -189,7 +213,9 @@ En depuración, Configuración muestra al final una sección con los conteos de 
 
 `android:allowBackup` está activo, con reglas para Android 12 o superior (`res/xml/data_extraction_rules.xml`) y para versiones anteriores (`res/xml/backup_rules.xml`). Solo incluyen la base (`files/trainloop.sqlite`) y las preferencias (`shared_prefs/FlutterSharedPreferences.xml`); la caché nunca se respalda. Si cambia el nombre o la ubicación de alguno de esos archivos, hay que actualizar ambos XML.
 
-La copia la hace Android hacia el **Google Drive de la persona** (y a un teléfono nuevo al transferir datos). No pasa por servidores nuestros, pero **debe mencionarse en la política de privacidad** (lo revisa Legal/Administración). Complementa el respaldo manual en archivo de un entregable posterior.
+La copia la hace Android hacia el **Google Drive de la persona** (y a un teléfono nuevo al transferir datos). No pasa por servidores nuestros. Complementa el respaldo manual en archivo de S17 (D7), que la app explica en esa pantalla. La copia nativa de los recordatorios (`trainloop_reminders`) no se respalda: se rehace desde la tabla `reminder` al abrir la app.
+
+**Pendiente para Legal/Administración:** la política de privacidad debe mencionar el respaldo automático de Android en Google Drive y el archivo de respaldo y los CSV que la persona exporta (salen del teléfono solo por decisión suya).
 
 La app no pide el permiso `INTERNET` en release; solo lo declaran los manifiestos de `debug` y `profile`, que Flutter necesita para depurar.
 

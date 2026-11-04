@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trainloop/app/app.dart';
 import 'package:trainloop/core/theme/theme_context.dart';
@@ -10,7 +11,10 @@ import 'package:trainloop/features/intervals/application/interval_providers.dart
 import 'package:trainloop/features/settings/application/settings_controller.dart';
 import 'package:trainloop/features/settings/data/settings_repository.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
+import 'package:trainloop/platform/documents_client.dart';
+import 'package:trainloop/platform/reminder_client.dart';
 
+import 'fake_platform.dart';
 import 'fake_timer_engine.dart';
 import 'test_database.dart';
 
@@ -21,6 +25,9 @@ Future<InMemorySettingsRepository> pumpTrainloop(
   AppSettings settings = const AppSettings(),
   FakeTimerEngine? engine,
   AppDatabase? database,
+  FakeReminderClient? reminders,
+  FakeDocumentsClient? documents,
+  List<Override> overrides = const [],
 }) async {
   final repo = InMemorySettingsRepository(settings);
   final db = database ?? openTestDatabase();
@@ -39,6 +46,13 @@ Future<InMemorySettingsRepository> pumpTrainloop(
         timerEngineClientProvider.overrideWithValue(
           engine ?? FakeTimerEngine(),
         ),
+        reminderClientProvider.overrideWithValue(
+          reminders ?? FakeReminderClient(),
+        ),
+        documentsClientProvider.overrideWithValue(
+          documents ?? FakeDocumentsClient(),
+        ),
+        ...overrides,
       ],
       child: const TrainloopApp(),
     ),

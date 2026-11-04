@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/app_shell.dart';
+import '../../features/backup/presentation/backup_screen.dart';
 import '../../features/exercises/presentation/exercise_form_screen.dart';
 import '../../features/exercises/presentation/exercise_library_screen.dart';
 import '../../features/history/presentation/history_screen.dart';
@@ -78,6 +79,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.settings,
         parentNavigatorKey: rootKey,
         builder: (context, state) => const SettingsScreen(),
+        routes: [
+          GoRoute(
+            path: 'backup',
+            parentNavigatorKey: rootKey,
+            builder: (context, state) => const BackupScreen(),
+          ),
+        ],
       ),
       GoRoute(
         path: Routes.routineNew,

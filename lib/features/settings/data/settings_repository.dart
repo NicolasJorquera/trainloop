@@ -28,6 +28,11 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const keyVoice = 'settings.voice';
   static const keyVibration = 'settings.vibration';
   static const keyWeeklyGoal = 'settings.weeklyGoal';
+  static const keyDefaultRest = 'settings.defaultRestSeconds';
+  static const keyNoticeDismissed = 'settings.localDataNoticeDismissed';
+  static const keyLastBackupAt = 'backup.lastAt';
+  static const keyLastBackupSessions = 'backup.lastSessions';
+  static const keyLastBackupBytes = 'backup.lastBytes';
 
   /// Ajuste interno de la prueba H5 (vista semanal unificada o separada).
   static const keyWeekVariant = 'debug.weekVariant';
@@ -51,7 +56,24 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       AppSettings.maxWeeklyGoal,
     ),
     weekVariant: WeekVariant.fromName(_prefs.getString(keyWeekVariant)),
+    defaultRestSeconds:
+        (_prefs.getInt(keyDefaultRest) ?? AppSettings.defaultRest).clamp(
+          AppSettings.minRest,
+          AppSettings.maxRest,
+        ),
+    localDataNoticeDismissed: _prefs.getBool(keyNoticeDismissed) ?? false,
+    lastBackup: _lastBackup(),
   );
+
+  LastBackup? _lastBackup() {
+    final at = _prefs.getInt(keyLastBackupAt);
+    if (at == null) return null;
+    return LastBackup(
+      at: DateTime.fromMillisecondsSinceEpoch(at, isUtc: true),
+      sessions: _prefs.getInt(keyLastBackupSessions) ?? 0,
+      bytes: _prefs.getInt(keyLastBackupBytes) ?? 0,
+    );
+  }
 
   @override
   Future<void> save(AppSettings settings) async {
@@ -66,6 +88,13 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
       _prefs.setBool(keyVibration, settings.vibration),
       _prefs.setInt(keyWeeklyGoal, settings.weeklyGoal),
       _prefs.setString(keyWeekVariant, settings.weekVariant.name),
+      _prefs.setInt(keyDefaultRest, settings.defaultRestSeconds),
+      _prefs.setBool(keyNoticeDismissed, settings.localDataNoticeDismissed),
+      if (settings.lastBackup case final b?) ...[
+        _prefs.setInt(keyLastBackupAt, b.at.millisecondsSinceEpoch),
+        _prefs.setInt(keyLastBackupSessions, b.sessions),
+        _prefs.setInt(keyLastBackupBytes, b.bytes),
+      ],
     ]);
   }
 }

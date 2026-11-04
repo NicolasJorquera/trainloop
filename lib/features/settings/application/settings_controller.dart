@@ -69,6 +69,23 @@ class SettingsController extends Notifier<AppSettings> {
     ),
   );
 
+  Future<void> setDefaultRest(int seconds) => _update(
+    state.copyWith(
+      defaultRestSeconds: seconds.clamp(
+        AppSettings.minRest,
+        AppSettings.maxRest,
+      ),
+    ),
+  );
+
+  /// Cierra el aviso de datos locales de Inicio (F-01).
+  Future<void> dismissLocalDataNotice() =>
+      _update(state.copyWith(localDataNoticeDismissed: true));
+
+  /// Guarda cuándo se creó el último respaldo (S17).
+  Future<void> recordBackup(LastBackup backup) =>
+      _update(state.copyWith(lastBackup: backup));
+
   /// Variante de la vista semanal (H5); solo desde depuración.
   Future<void> setWeekVariant(WeekVariant variant) =>
       _update(state.copyWith(weekVariant: variant));

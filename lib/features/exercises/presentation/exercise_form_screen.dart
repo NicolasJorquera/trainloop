@@ -45,10 +45,15 @@ class _ExerciseFormScreenState extends ConsumerState<ExerciseFormScreen> {
   void initState() {
     super.initState();
     _name = TextEditingController(text: widget.initialName);
-    final unit = ref.read(settingsControllerProvider).weightUnit;
+    final settings = ref.read(settingsControllerProvider);
+    final unit = settings.weightUnit;
     final id = widget.exerciseId;
     if (id == null) {
-      _draft = ExerciseDraft.initial(widget.initialName, unit);
+      _draft = ExerciseDraft.initial(
+        widget.initialName,
+        unit,
+        restSeconds: settings.defaultRestSeconds,
+      );
     } else {
       ref.read(exerciseRepositoryProvider).findById(id).then((e) {
         if (e == null || !mounted) return;

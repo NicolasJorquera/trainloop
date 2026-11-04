@@ -27,11 +27,17 @@ class ExerciseDraft {
     restSeconds: e.defaultRestSeconds ?? defaultRestSeconds,
   );
 
-  /// Ejercicio nuevo: incremento por defecto de 2,5 kg o 5 lb.
-  factory ExerciseDraft.initial(String name, WeightUnit unit) => ExerciseDraft(
+  /// Ejercicio nuevo: incremento por defecto de 2,5 kg o 5 lb y el
+  /// descanso por defecto de Configuración (S16).
+  factory ExerciseDraft.initial(
+    String name,
+    WeightUnit unit, {
+    int restSeconds = defaultRestSeconds,
+  }) => ExerciseDraft(
     name: name,
     unit: unit,
     increment: unit == WeightUnit.kg ? 2.5 : 5,
+    restSeconds: restSeconds,
   );
 
   static const defaultRestSeconds = 90;

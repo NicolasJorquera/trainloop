@@ -1966,6 +1966,260 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsGoalMore => 'More sessions';
+
+  @override
+  String get backupTitle => 'BACKUP';
+
+  @override
+  String get backupHeadline => 'YOUR DATA LIVES ONLY ON THIS PHONE';
+
+  @override
+  String get backupBody =>
+      'Trainloop has no account or server. Create a backup and keep it wherever you like (Drive, Downloads or send it to yourself) so you never lose your history.';
+
+  @override
+  String get backupNever => 'You haven\'t created a backup yet.';
+
+  @override
+  String backupLast(String date, String sessions, String size) {
+    return 'Last backup: $date · $sessions · $size';
+  }
+
+  @override
+  String backupSessions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sessions',
+      one: '1 session',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupRoutines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count routines',
+      one: '1 routine',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupWorkouts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count interval workouts',
+      one: '1 interval workout',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupSizeKb(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String get backupCreate => 'CREATE BACKUP';
+
+  @override
+  String get backupRestore => 'RESTORE BACKUP';
+
+  @override
+  String get backupCsv => 'EXPORT CSV';
+
+  @override
+  String get backupCsvHelp =>
+      'Two spreadsheet files: sessions and sets. You save one after the other.';
+
+  @override
+  String get backupHowTitle => 'HOW TO SAVE IT TO GOOGLE DRIVE';
+
+  @override
+  String get backupStep1 => 'Tap “Create backup”.';
+
+  @override
+  String get backupStep2 =>
+      'In the Android menu, choose Drive (or another folder) and tap Save.';
+
+  @override
+  String get backupStep3 =>
+      'On the new phone, tap “Restore backup” and pick the file.';
+
+  @override
+  String get backupAutoTitle => 'ANDROID AUTOMATIC BACKUP';
+
+  @override
+  String get backupAutoBody =>
+      'If Google backup is on in your phone, Android also copies Trainloop\'s data and settings to your Google Drive and brings them back when you reinstall with the same account. It doesn\'t go through our servers, but the app doesn\'t control when it runs: a backup file is the safe way to switch phones.';
+
+  @override
+  String get backupWorking => 'Working…';
+
+  @override
+  String backupSaved(String name) {
+    return 'Backup created: $name';
+  }
+
+  @override
+  String get backupCsvSaved => 'CSV exported: sessions and sets';
+
+  @override
+  String get backupRestoreTitle => 'RESTORE THIS BACKUP?';
+
+  @override
+  String backupRestoreSummary(
+    String date,
+    String sessions,
+    String routines,
+    String workouts,
+  ) {
+    return 'Backup from $date: $sessions, $routines, $workouts.';
+  }
+
+  @override
+  String get backupRestoreOlder =>
+      'It comes from an older version of the app: it will be updated while restoring.';
+
+  @override
+  String get backupRestoreWarn =>
+      'It will replace your current data. We will save an automatic copy of what you have now first.';
+
+  @override
+  String get backupRestoreConfirm => 'RESTORE';
+
+  @override
+  String get backupRestored => 'Backup restored';
+
+  @override
+  String get backupErrorInvalid =>
+      'That file isn\'t a Trainloop backup or it\'s damaged. Nothing changed.';
+
+  @override
+  String get backupErrorNewer =>
+      'That backup comes from a newer Trainloop. Update the app and try again.';
+
+  @override
+  String get backupErrorIntegrity =>
+      'The backup has inconsistent data. Nothing changed.';
+
+  @override
+  String get backupErrorActive =>
+      'Finish the current session before restoring.';
+
+  @override
+  String get backupErrorIo => 'The file couldn\'t be read or saved.';
+
+  @override
+  String get settingsDefaultRest => 'Default rest';
+
+  @override
+  String get settingsDefaultRestHelp =>
+      'For new exercises. Built-in exercises keep their own rest.';
+
+  @override
+  String get settingsRestLess => '15 seconds less';
+
+  @override
+  String get settingsRestMore => '15 seconds more';
+
+  @override
+  String get settingsTestSound => 'TEST SOUND';
+
+  @override
+  String get settingsTestSpeech => 'This is how the cues sound';
+
+  @override
+  String get settingsData => 'DATA & PRIVACY';
+
+  @override
+  String get settingsDataWarnTitle => 'Your data lives only on this phone.';
+
+  @override
+  String get settingsDataWarnBody =>
+      'If you uninstall the app or switch phones without a backup, it is lost.';
+
+  @override
+  String get settingsBackupLink => 'Backup & export';
+
+  @override
+  String get settingsBackupNever => 'no backups';
+
+  @override
+  String settingsBackupAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'last: $days days ago',
+      one: 'last: yesterday',
+      zero: 'last: today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get remindersTitle => 'REMINDERS';
+
+  @override
+  String get remindersEnable => 'Remind me to train';
+
+  @override
+  String get remindersHelp =>
+      'One notification on the chosen days, only if you haven\'t trained yet';
+
+  @override
+  String get remindersTime => 'Time';
+
+  @override
+  String remindersNext(String day, String time) {
+    return 'Next: $day at $time';
+  }
+
+  @override
+  String get remindersDenied =>
+      'Without notification permission, reminders can\'t appear.';
+
+  @override
+  String get remindersOpenSettings => 'SETTINGS';
+
+  @override
+  String get reminderNotificationTitle => 'Time to train';
+
+  @override
+  String get reminderNotificationBody => 'Your workout is ready when you are.';
+
+  @override
+  String get reminderChannelName => 'Reminders';
+
+  @override
+  String get homeLocalDataNotice => 'Your data lives only on this phone.';
+
+  @override
+  String get homeLocalDataAction => 'Back up ›';
+
+  @override
+  String get homeLocalDataDismiss => 'Close notice';
+
+  @override
+  String formattedValue(String value) {
+    return '$value';
+  }
+
+  @override
+  String get routineDiscardTitle => 'DISCARD CHANGES?';
+
+  @override
+  String get routineDiscardBody => 'The routine stays as it was.';
+
+  @override
+  String get routineDiscardConfirm => 'DISCARD';
+
+  @override
+  String get routineDiscardKeep => 'Keep editing';
 }
 
 /// The translations for English (`en_XA`).
@@ -3945,4 +4199,263 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get settingsGoalMore => '[Ṁöŕé šéššîöñš ·····]';
+
+  @override
+  String get backupTitle => '[ƁÅÇĶÛÞ ···]';
+
+  @override
+  String get backupHeadline =>
+      '[ÝÖÛŔ ÐÅŢÅ ĻÎṼÉŠ ÖÑĻÝ ÖÑ ŢĤÎŠ ÞĤÖÑÉ ············]';
+
+  @override
+  String get backupBody =>
+      '[Ţŕáîñļööþ ĥáš ñö áççöûñţ öŕ šéŕṽéŕ. Çŕéáţé á ƀáçķûþ áñð ķééþ îţ ŵĥéŕéṽéŕ ýöû ļîķé (Ðŕîṽé, Ðöŵñļöáðš öŕ šéñð îţ ţö ýöûŕšéļƒ) šö ýöû ñéṽéŕ ļöšé ýöûŕ ĥîšţöŕý. ··················································]';
+
+  @override
+  String get backupNever => '[Ýöû ĥáṽéñ\'ţ çŕéáţéð á ƀáçķûþ ýéţ. ···········]';
+
+  @override
+  String backupLast(String date, String sessions, String size) {
+    return '[Ļášţ ƀáçķûþ: $date · $sessions · $size ····]';
+  }
+
+  @override
+  String backupSessions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count šéššîöñš',
+      one: '1 šéššîöñ',
+    );
+    return '[$_temp0 ······]';
+  }
+
+  @override
+  String backupRoutines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ŕöûţîñéš',
+      one: '1 ŕöûţîñé',
+    );
+    return '[$_temp0 ······]';
+  }
+
+  @override
+  String backupWorkouts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count îñţéŕṽáļ ŵöŕķöûţš',
+      one: '1 îñţéŕṽáļ ŵöŕķöûţ',
+    );
+    return '[$_temp0 ·············]';
+  }
+
+  @override
+  String backupSizeKb(String size) {
+    return '[$size ĶƁ ·]';
+  }
+
+  @override
+  String get backupCreate => '[ÇŔÉÅŢÉ ƁÅÇĶÛÞ ·····]';
+
+  @override
+  String get backupRestore => '[ŔÉŠŢÖŔÉ ƁÅÇĶÛÞ ······]';
+
+  @override
+  String get backupCsv => '[ÉẊÞÖŔŢ ÇŠṼ ····]';
+
+  @override
+  String get backupCsvHelp =>
+      '[Ţŵö šþŕéáðšĥééţ ƒîļéš: šéššîöñš áñð šéţš. Ýöû šáṽé öñé áƒţéŕ ţĥé öţĥéŕ. ·······················]';
+
+  @override
+  String get backupHowTitle => '[ĤÖŴ ŢÖ ŠÅṼÉ ÎŢ ŢÖ ĜÖÖĜĻÉ ÐŔÎṼÉ ··········]';
+
+  @override
+  String get backupStep1 => '[Ţáþ “Çŕéáţé ƀáçķûþ”. ······]';
+
+  @override
+  String get backupStep2 =>
+      '[Îñ ţĥé Åñðŕöîð ɱéñû, çĥööšé Ðŕîṽé (öŕ áñöţĥéŕ ƒöļðéŕ) áñð ţáþ Šáṽé. ·····················]';
+
+  @override
+  String get backupStep3 =>
+      '[Öñ ţĥé ñéŵ þĥöñé, ţáþ “Ŕéšţöŕé ƀáçķûþ” áñð þîçķ ţĥé ƒîļé. ··················]';
+
+  @override
+  String get backupAutoTitle => '[ÅÑÐŔÖÎÐ ÅÛŢÖṀÅŢÎÇ ƁÅÇĶÛÞ ·········]';
+
+  @override
+  String get backupAutoBody =>
+      '[Îƒ Ĝööĝļé ƀáçķûþ îš öñ îñ ýöûŕ þĥöñé, Åñðŕöîð áļšö çöþîéš Ţŕáîñļööþ\'š ðáţá áñð šéţţîñĝš ţö ýöûŕ Ĝööĝļé Ðŕîṽé áñð ƀŕîñĝš ţĥéɱ ƀáçķ ŵĥéñ ýöû ŕéîñšţáļļ ŵîţĥ ţĥé šáɱé áççöûñţ. Îţ ðöéšñ\'ţ ĝö ţĥŕöûĝĥ öûŕ šéŕṽéŕš, ƀûţ ţĥé áþþ ðöéšñ\'ţ çöñţŕöļ ŵĥéñ îţ ŕûñš: á ƀáçķûþ ƒîļé îš ţĥé šáƒé ŵáý ţö šŵîţçĥ þĥöñéš. ······························································································]';
+
+  @override
+  String get backupWorking => '[Ŵöŕķîñĝ… ···]';
+
+  @override
+  String backupSaved(String name) {
+    return '[Ɓáçķûþ çŕéáţéð: $name ······]';
+  }
+
+  @override
+  String get backupCsvSaved => '[ÇŠṼ éẋþöŕţéð: šéššîöñš áñð šéţš ···········]';
+
+  @override
+  String get backupRestoreTitle => '[ŔÉŠŢÖŔÉ ŢĤÎŠ ƁÅÇĶÛÞ? ·······]';
+
+  @override
+  String backupRestoreSummary(
+    String date,
+    String sessions,
+    String routines,
+    String workouts,
+  ) {
+    return '[Ɓáçķûþ ƒŕöɱ $date: $sessions, $routines, $workouts. ····]';
+  }
+
+  @override
+  String get backupRestoreOlder =>
+      '[Îţ çöɱéš ƒŕöɱ áñ öļðéŕ ṽéŕšîöñ öƒ ţĥé áþþ: îţ ŵîļļ ƀé ûþðáţéð ŵĥîļé ŕéšţöŕîñĝ. ·························]';
+
+  @override
+  String get backupRestoreWarn =>
+      '[Îţ ŵîļļ ŕéþļáçé ýöûŕ çûŕŕéñţ ðáţá. Ŵé ŵîļļ šáṽé áñ áûţöɱáţîç çöþý öƒ ŵĥáţ ýöû ĥáṽé ñöŵ ƒîŕšţ. ······························]';
+
+  @override
+  String get backupRestoreConfirm => '[ŔÉŠŢÖŔÉ ···]';
+
+  @override
+  String get backupRestored => '[Ɓáçķûþ ŕéšţöŕéð ······]';
+
+  @override
+  String get backupErrorInvalid =>
+      '[Ţĥáţ ƒîļé îšñ\'ţ á Ţŕáîñļööþ ƀáçķûþ öŕ îţ\'š ðáɱáĝéð. Ñöţĥîñĝ çĥáñĝéð. ······················]';
+
+  @override
+  String get backupErrorNewer =>
+      '[Ţĥáţ ƀáçķûþ çöɱéš ƒŕöɱ á ñéŵéŕ Ţŕáîñļööþ. Ûþðáţé ţĥé áþþ áñð ţŕý áĝáîñ. ·······················]';
+
+  @override
+  String get backupErrorIntegrity =>
+      '[Ţĥé ƀáçķûþ ĥáš îñçöñšîšţéñţ ðáţá. Ñöţĥîñĝ çĥáñĝéð. ·················]';
+
+  @override
+  String get backupErrorActive =>
+      '[Ƒîñîšĥ ţĥé çûŕŕéñţ šéššîöñ ƀéƒöŕé ŕéšţöŕîñĝ. ················]';
+
+  @override
+  String get backupErrorIo =>
+      '[Ţĥé ƒîļé çöûļðñ\'ţ ƀé ŕéáð öŕ šáṽéð. ···········]';
+
+  @override
+  String get settingsDefaultRest => '[Ðéƒáûļţ ŕéšţ ·····]';
+
+  @override
+  String get settingsDefaultRestHelp =>
+      '[Ƒöŕ ñéŵ éẋéŕçîšéš. Ɓûîļţ-îñ éẋéŕçîšéš ķééþ ţĥéîŕ öŵñ ŕéšţ. ···················]';
+
+  @override
+  String get settingsRestLess => '[15 šéçöñðš ļéšš ·····]';
+
+  @override
+  String get settingsRestMore => '[15 šéçöñðš ɱöŕé ·····]';
+
+  @override
+  String get settingsTestSound => '[ŢÉŠŢ ŠÖÛÑÐ ····]';
+
+  @override
+  String get settingsTestSpeech => '[Ţĥîš îš ĥöŵ ţĥé çûéš šöûñð ·········]';
+
+  @override
+  String get settingsData => '[ÐÅŢÅ & ÞŔÎṼÅÇÝ ·····]';
+
+  @override
+  String get settingsDataWarnTitle =>
+      '[Ýöûŕ ðáţá ļîṽéš öñļý öñ ţĥîš þĥöñé. ············]';
+
+  @override
+  String get settingsDataWarnBody =>
+      '[Îƒ ýöû ûñîñšţáļļ ţĥé áþþ öŕ šŵîţçĥ þĥöñéš ŵîţĥöûţ á ƀáçķûþ, îţ îš ļöšţ. ·······················]';
+
+  @override
+  String get settingsBackupLink => '[Ɓáçķûþ & éẋþöŕţ ·····]';
+
+  @override
+  String get settingsBackupNever => '[ñö ƀáçķûþš ····]';
+
+  @override
+  String settingsBackupAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'ļášţ: $days ðáýš áĝö',
+      one: 'ļášţ: ýéšţéŕðáý',
+      zero: 'ļášţ: ţöðáý',
+    );
+    return '[$_temp0 ··············]';
+  }
+
+  @override
+  String get remindersTitle => '[ŔÉṀÎÑÐÉŔŠ ····]';
+
+  @override
+  String get remindersEnable => '[Ŕéɱîñð ɱé ţö ţŕáîñ ······]';
+
+  @override
+  String get remindersHelp =>
+      '[Öñé ñöţîƒîçáţîöñ öñ ţĥé çĥöšéñ ðáýš, öñļý îƒ ýöû ĥáṽéñ\'ţ ţŕáîñéð ýéţ ······················]';
+
+  @override
+  String get remindersTime => '[Ţîɱé ··]';
+
+  @override
+  String remindersNext(String day, String time) {
+    return '[Ñéẋţ: $day áţ $time ···]';
+  }
+
+  @override
+  String get remindersDenied =>
+      '[Ŵîţĥöûţ ñöţîƒîçáţîöñ þéŕɱîššîöñ, ŕéɱîñðéŕš çáñ\'ţ áþþéáŕ. ····················]';
+
+  @override
+  String get remindersOpenSettings => '[ŠÉŢŢÎÑĜŠ ····]';
+
+  @override
+  String get reminderNotificationTitle => '[Ţîɱé ţö ţŕáîñ ·····]';
+
+  @override
+  String get reminderNotificationBody =>
+      '[Ýöûŕ ŵöŕķöûţ îš ŕéáðý ŵĥéñ ýöû áŕé. ············]';
+
+  @override
+  String get reminderChannelName => '[Ŕéɱîñðéŕš ····]';
+
+  @override
+  String get homeLocalDataNotice =>
+      '[Ýöûŕ ðáţá ļîṽéš öñļý öñ ţĥîš þĥöñé. ············]';
+
+  @override
+  String get homeLocalDataAction => '[Ɓáçķ ûþ › ···]';
+
+  @override
+  String get homeLocalDataDismiss => '[Çļöšé ñöţîçé ·····]';
+
+  @override
+  String formattedValue(String value) {
+    return '[$value]';
+  }
+
+  @override
+  String get routineDiscardTitle => '[ÐÎŠÇÅŔÐ ÇĤÅÑĜÉŠ? ······]';
+
+  @override
+  String get routineDiscardBody => '[Ţĥé ŕöûţîñé šţáýš áš îţ ŵáš. ·········]';
+
+  @override
+  String get routineDiscardConfirm => '[ÐÎŠÇÅŔÐ ···]';
+
+  @override
+  String get routineDiscardKeep => '[Ķééþ éðîţîñĝ ·····]';
 }

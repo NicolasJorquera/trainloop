@@ -81,12 +81,21 @@ class AppSettings {
     this.vibration = true,
     this.weeklyGoal = defaultWeeklyGoal,
     this.weekVariant = WeekVariant.unified,
+    this.defaultRestSeconds = defaultRest,
+    this.localDataNoticeDismissed = false,
+    this.lastBackup,
   });
 
   /// Sesiones por semana.
   static const defaultWeeklyGoal = 3;
   static const minWeeklyGoal = 1;
   static const maxWeeklyGoal = 14;
+
+  /// Descanso por defecto de los ejercicios nuevos (S16, R-G8), en segundos.
+  static const defaultRest = 90;
+  static const minRest = 15;
+  static const maxRest = 600;
+  static const restStep = 15;
 
   final ThemePreference theme;
   final AccentPreset accent;
@@ -103,6 +112,16 @@ class AppSettings {
   /// Ajuste interno de la prueba H5 (sin pantalla pública).
   final WeekVariant weekVariant;
 
+  /// Descanso por defecto (s) de un ejercicio nuevo y de los que no lo
+  /// definen.
+  final int defaultRestSeconds;
+
+  /// La persona cerró el aviso de datos locales de Inicio (F-01).
+  final bool localDataNoticeDismissed;
+
+  /// Último respaldo creado (S17); `null` si nunca se creó.
+  final LastBackup? lastBackup;
+
   AppSettings copyWith({
     ThemePreference? theme,
     AccentPreset? accent,
@@ -114,6 +133,9 @@ class AppSettings {
     bool? vibration,
     int? weeklyGoal,
     WeekVariant? weekVariant,
+    int? defaultRestSeconds,
+    bool? localDataNoticeDismissed,
+    LastBackup? lastBackup,
   }) => AppSettings(
     theme: theme ?? this.theme,
     accent: accent ?? this.accent,
@@ -125,6 +147,10 @@ class AppSettings {
     vibration: vibration ?? this.vibration,
     weeklyGoal: weeklyGoal ?? this.weeklyGoal,
     weekVariant: weekVariant ?? this.weekVariant,
+    defaultRestSeconds: defaultRestSeconds ?? this.defaultRestSeconds,
+    localDataNoticeDismissed:
+        localDataNoticeDismissed ?? this.localDataNoticeDismissed,
+    lastBackup: lastBackup ?? this.lastBackup,
   );
 
   @override
@@ -139,7 +165,10 @@ class AppSettings {
       other.voice == voice &&
       other.vibration == vibration &&
       other.weeklyGoal == weeklyGoal &&
-      other.weekVariant == weekVariant;
+      other.weekVariant == weekVariant &&
+      other.defaultRestSeconds == defaultRestSeconds &&
+      other.localDataNoticeDismissed == localDataNoticeDismissed &&
+      other.lastBackup == lastBackup;
 
   @override
   int get hashCode => Object.hash(
@@ -153,11 +182,43 @@ class AppSettings {
     vibration,
     weeklyGoal,
     weekVariant,
+    defaultRestSeconds,
+    localDataNoticeDismissed,
+    lastBackup,
   );
 
   @override
   String toString() =>
       'AppSettings($theme, $accent, $language, $weightUnit, $weekStart, '
       'sounds: $sounds, voice: $voice, vibration: $vibration, '
-      'weeklyGoal: $weeklyGoal, weekVariant: ${weekVariant.name})';
+      'weeklyGoal: $weeklyGoal, weekVariant: ${weekVariant.name}, '
+      'rest: $defaultRestSeconds, notice: $localDataNoticeDismissed, '
+      'lastBackup: $lastBackup)';
+}
+
+/// Último respaldo creado: fecha, sesiones que incluía y tamaño.
+@immutable
+class LastBackup {
+  const LastBackup({
+    required this.at,
+    required this.sessions,
+    required this.bytes,
+  });
+
+  final DateTime at;
+  final int sessions;
+  final int bytes;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LastBackup &&
+      other.at == at &&
+      other.sessions == sessions &&
+      other.bytes == bytes;
+
+  @override
+  int get hashCode => Object.hash(at, sessions, bytes);
+
+  @override
+  String toString() => 'LastBackup($at, $sessions, $bytes)';
 }

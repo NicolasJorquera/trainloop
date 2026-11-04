@@ -8,6 +8,8 @@ void main() {
   testWidgets('en depuración, Configuración muestra los conteos de la base y '
       'siembra datos de prueba', (tester) async {
     useTallViewport(tester);
+    // D7 alargó Configuración: la sección de depuración queda al final.
+    tester.view.physicalSize = const Size(420, 5000);
     await pumpTrainloop(tester);
     await tester.tap(find.byKey(const Key('open-settings')));
     await tester.pumpAndSettle();

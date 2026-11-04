@@ -99,6 +99,17 @@ void main() {
     await tester.pumpAndSettle();
     screens['settings'] = unlocalizedTexts(tester);
 
+    // D7: S17 Respaldo.
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('settings-backup')),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('settings-backup')));
+    await tester.pumpAndSettle();
+    screens['backup'] = unlocalizedTexts(tester);
+
     for (final MapEntry(key: screen, value: texts) in screens.entries) {
       expect(texts, isEmpty, reason: 'Textos sin localizar en $screen');
     }
