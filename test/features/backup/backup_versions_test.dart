@@ -74,9 +74,11 @@ void main() {
       expect(records, isNotEmpty);
       expect(
         records.where((r) => r.type == RecordType.maxWeight),
-        everyElement(
-          predicate<PersonalRecord>((r) => r.weightGrams > 0 && r.reps != null),
-        ),
+        everyElement(predicate<PersonalRecord>((r) => r.reps != null)),
+      );
+      expect(
+        records.where((r) => r.type == RecordType.maxReps),
+        everyElement(predicate<PersonalRecord>((r) => r.weightGrams > 0)),
       );
 
       // La compra y el consentimiento del teléfono no se pisan.
