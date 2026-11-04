@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 7, experiencia y accesibilidad.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agrega el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). La app queda completa y **sin anuncios**; siguen anuncios y consentimiento (D8).
+Estado: **entregable 8, monetización y consentimiento.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agregó el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). D8 agrega consentimiento (UMP), banner fuera de la sesión, intersticial experimental apagado, la compra única «Sin anuncios» y analítica sin proveedor. Los IDs reales de AdMob, el producto en Play Console y el proveedor de analítica quedan pendientes de Gestión.
 
 ## Cómo correrla
 
@@ -46,7 +46,9 @@ lib/
     home, train, history, progress, settings, exercises (S08/S09), routines (S07),
     intervals (S02–S06, S18: editor, plantillas, temporizador, resumen, recuperación),
     strength (S10, S11, S06 fuerza: sesión, registro de serie, resumen, recuperación)
-    backup (S17: respaldo, restauración y CSV), reminders (F-13: recordatorios)
+    backup (S17: respaldo, restauración y CSV), reminders (F-13: recordatorios),
+    monetization (F-15: UMP, guard de anuncios, banner, intersticial y compra:
+    lo único que usa la red) y analytics (eventos mínimos, sin proveedor)
   platform/                     canales nativos: motor del temporizador, selector de
                                 documentos (SAF) y recordatorios
 android/app/src/main/kotlin/com/trainloop/app/timer/
@@ -139,8 +141,38 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **Recordatorios (F-13).** Sección RECORDATORIOS de S16: días (en el orden del inicio de semana) y una hora. Se guardan en la tabla `reminder` (viajan en el respaldo) y se copian a `ReminderStore` nativo con los textos traducidos. Nativo, sin paquete: una alarma **inexacta** (`setAndAllowWhileIdle`, sin `SCHEDULE_EXACT_ALARM`) para el próximo día; al sonar se programa la siguiente. `ReminderReceiver` reprograma tras `BOOT_COMPLETED`, `TIME_SET`, `TIMEZONE_CHANGED` y `MY_PACKAGE_REPLACED`, no avisa si las notificaciones están bloqueadas, si ya avisó hoy o si hay una sesión de hoy (lee la base en solo lectura). Activarlo pide el permiso; si se niega queda apagado con un aviso y acceso a Ajustes.
 - **Configuración (F-17, S16).** Además de lo anterior: descanso por defecto (15 s–10 min, para ejercicios nuevos), «Probar sonido» (tono, voz y vibración según Alertas), DATOS Y PRIVACIDAD con el aviso y «Respaldo y exportación» (con la fecha del último).
 - **Accesibilidad (NF-08).** `test/a11y/accessibility_test.dart` monta la app con las fuentes reales en un teléfono de 411 × 914 dp al 100 % y al 200 % y recorre Inicio, Entrenar, S07, Historial, Progreso, S03, S05, S10, S16 y S17: sin desbordes ni textos cortados, 48 dp con etiqueta en todo lo tocable y 64 dp en S05 y S10. `test/core/theme/contrast_test.dart` calcula el contraste WCAG de los pares texto/fondo y gráficos de los dos temas con los 8 acentos. Con letra grande la barra inferior crece y achica la etiqueta en lugar de cortarla.
-- **Sin anuncios.** No hay espacios reservados: D8 los agrega (fuera de pantallas críticas: editores, respaldo, recuperación y configuración).
+- **Sin anuncios.** No había espacios reservados: D8 los agregó (fuera de pantallas críticas: editores, respaldo, recuperación y configuración).
 - Resultados en emulador y deuda: `docs/pruebas-experiencia.md`.
+
+## Anuncios, consentimiento y compra (D8)
+
+Todo lo que habla con internet está en `lib/features/monetization/` (AdMob, UMP y Play Billing); sin red, sin consentimiento o con un error, la app funciona igual y sin huecos. Data safety: `docs/data-safety.md`. Pruebas y deuda: `docs/pruebas-monetizacion.md`.
+
+- **Consentimiento (R-A7).** UMP (incluido en `google_mobile_ads`) se consulta al abrir, después del primer cuadro y solo sin sesión ni resumen abiertos; si hace falta, muestra el formulario. Recién si UMP lo permite se inicia el SDK (clasificación máxima T, R-A8). Sin red al abrir, se reintenta al volver a la app. S16 → DATOS Y PRIVACIDAD → «Preferencias de privacidad» reabre el formulario cuando UMP lo pide.
+- **Guard central (R-A1, R-A11).** `decideAd` (`domain/ad_guard.dart`) con `adGuardInputsProvider`: sesión de intervalos o fuerza abierta, motor corriendo, registro de series, resumen abierto, ruta visible y pasos críticos (`AdHold`: arranque, «Empezar» y recuperación). Todo anuncio pasa por ahí.
+- **Banner.** Adaptativo anclado sobre la barra inferior de Inicio, Entrenar, Historial y Progreso, y al pie de la biblioteca de ejercicios (no al elegir ejercicios). Nunca en S03, editores, S05, S06, S10, S11, S13, S15, Configuración ni respaldo: si el guard dice que no, se desmonta y se descarta. Mide 0 hasta que carga; se oculta con el teclado.
+- **Intersticial (S20, R-A2–R-A5).** Experimento **apagado**. Para la beta: `flutter build apk --dart-define=TL_INTERSTITIAL=on`. Se precarga; solo se ofrece tras «Listo» en una sesión completada de 5 min o más, nunca tras incompletas, descartadas o recuperadas, con los topes de R-A3 (1 cada 3 sesiones, 1 por día, ninguno en las primeras 5 sesiones ni en los primeros 7 días); si no cargó, no se muestra. Para QA, `--dart-define=TL_INTERSTITIAL_CAPS=off` quita los topes.
+- **Compra «Sin anuncios» (F-15c).** Producto no consumible `trainloop_remove_ads` (`removeAdsProductId` en `domain/monetization_config.dart`), **pendiente de crear en Play Console**; el precio (US$3,99 es hipótesis H4) lo muestra Play. Comprar, «Restaurar compra», pendiente y cancelada en S16. Se guarda en `ad_state.ads_removed` y se reverifica con Play al abrir (`restorePurchases`): si Play responde, manda. Sin servidor: riesgo de fraude aceptado (PRD v0.2).
+- **Analítica.** `AnalyticsService` (`lib/features/analytics/`) con `session_start`, `session_complete` (tipo y tramo de duración), `template_used` (solo plantillas incluidas) y `purchase_remove_ads`; nunca datos personales ni del entrenamiento. Interruptor «Estadísticas de uso anónimas» en S16 y consentimiento. **Sin proveedor**: el destino por defecto no envía nada (log en depuración). Para conectar uno, implementar `AnalyticsSink` y sobrescribir `analyticsSinkProvider` en `main` (requiere que Gestión cree el proyecto y la cuenta).
+
+### IDs y flags
+
+Por defecto se usan los IDs de **prueba** oficiales de Google. **Los reales quedan pendientes de Gestión (cuenta de AdMob)** y se cambian sin tocar código:
+
+| Qué | Dónde | Por defecto (prueba) |
+|---|---|---|
+| App ID de AdMob | `-PTL_ADMOB_APP_ID=…`, variable de entorno `TL_ADMOB_APP_ID` o `TL_ADMOB_APP_ID=…` en `android/local.properties` (lo lee `android/app/build.gradle.kts`) | `ca-app-pub-3940256099942544~3347511713` |
+| Banner | `--dart-define=TL_ADMOB_BANNER_ID=…` | `ca-app-pub-3940256099942544/9214589741` |
+| Intersticial | `--dart-define=TL_ADMOB_INTERSTITIAL_ID=…` | `ca-app-pub-3940256099942544/1033173712` |
+| Experimento del intersticial | `--dart-define=TL_INTERSTITIAL=on` | apagado |
+| Topes de R-A3 (solo QA) | `--dart-define=TL_INTERSTITIAL_CAPS=off` | encendidos |
+| Sin anuncios en este build | `--dart-define=TL_ADS=off` | encendidos |
+| Geografía de UMP (pruebas) | `--dart-define=TL_UMP_DEBUG_GEOGRAPHY=eea\|us\|other` y `TL_UMP_TEST_DEVICES=hash,…` | sin forzar |
+| Dispositivos de prueba de AdMob | `--dart-define=TL_AD_TEST_DEVICES=hash,…` | ninguno |
+
+Ejemplo de release: `flutter build appbundle -PTL_ADMOB_APP_ID=ca-app-pub-XXX~YYY --dart-define=TL_ADMOB_BANNER_ID=ca-app-pub-XXX/AAA --dart-define=TL_ADMOB_INTERSTITIAL_ID=ca-app-pub-XXX/BBB`. Nunca publiques con los IDs de prueba ni hagas clic en anuncios reales en desarrollo.
+
+**Pruebas.** `pumpTrainloop` monta un AdMob/UMP falso (`FakeAdsPlatform`, por defecto sin banner) y un Play Billing falso (`FakeInAppPurchase`); `test/features/monetization/` prueba el criterio de D8 (ningún anuncio en sesión), sin red, compra e intersticial.
 
 ## Tema, acento e idioma
 
