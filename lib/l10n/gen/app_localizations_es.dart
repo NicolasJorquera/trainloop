@@ -1970,6 +1970,249 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsGoalMore => 'Más sesiones';
+
+  @override
+  String get backupTitle => 'RESPALDO';
+
+  @override
+  String get backupHeadline => 'TUS DATOS ESTÁN SOLO EN ESTE TELÉFONO';
+
+  @override
+  String get backupBody =>
+      'Trainloop no tiene cuenta ni servidor. Crea un respaldo y guárdalo donde quieras (Drive, Descargas o envíatelo) para no perder tu historial.';
+
+  @override
+  String get backupNever => 'Todavía no creaste un respaldo.';
+
+  @override
+  String backupLast(String date, String sessions, String size) {
+    return 'Último respaldo: $date · $sessions · $size';
+  }
+
+  @override
+  String backupSessions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sesiones',
+      one: '1 sesión',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupRoutines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rutinas',
+      one: '1 rutina',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupWorkouts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entrenamientos de intervalos',
+      one: '1 entrenamiento de intervalos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupSizeKb(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String get backupCreate => 'CREAR RESPALDO';
+
+  @override
+  String get backupRestore => 'RESTAURAR RESPALDO';
+
+  @override
+  String get backupCsv => 'EXPORTAR CSV';
+
+  @override
+  String get backupCsvHelp =>
+      'Dos archivos para hojas de cálculo: sesiones y series. Se guardan uno después del otro.';
+
+  @override
+  String get backupHowTitle => 'CÓMO GUARDARLO EN GOOGLE DRIVE';
+
+  @override
+  String get backupStep1 => 'Toca «Crear respaldo».';
+
+  @override
+  String get backupStep2 =>
+      'En el menú de Android elige Drive (u otra carpeta) y toca Guardar.';
+
+  @override
+  String get backupStep3 =>
+      'En el teléfono nuevo, toca «Restaurar respaldo» y elige el archivo.';
+
+  @override
+  String get backupAutoTitle => 'RESPALDO AUTOMÁTICO DE ANDROID';
+
+  @override
+  String get backupAutoBody =>
+      'Si tienes activada la copia de seguridad de Google en el teléfono, Android también copia los datos y ajustes de Trainloop a tu Google Drive y los recupera al reinstalar con la misma cuenta. No pasa por servidores nuestros, pero la app no controla cuándo ocurre: el archivo de respaldo es la forma segura de cambiar de teléfono.';
+
+  @override
+  String get backupWorking => 'Trabajando…';
+
+  @override
+  String backupSaved(String name) {
+    return 'Respaldo creado: $name';
+  }
+
+  @override
+  String get backupCsvSaved => 'CSV exportado: sesiones y series';
+
+  @override
+  String get backupRestoreTitle => '¿RESTAURAR ESTE RESPALDO?';
+
+  @override
+  String backupRestoreSummary(
+    String date,
+    String sessions,
+    String routines,
+    String workouts,
+  ) {
+    return 'Respaldo del $date: $sessions, $routines, $workouts.';
+  }
+
+  @override
+  String get backupRestoreOlder =>
+      'Es de una versión anterior de la app: se actualizará al restaurar.';
+
+  @override
+  String get backupRestoreWarn =>
+      'Reemplazará tus datos actuales. Antes guardaremos una copia automática de lo que tienes ahora.';
+
+  @override
+  String get backupRestoreConfirm => 'RESTAURAR';
+
+  @override
+  String get backupRestored => 'Respaldo restaurado';
+
+  @override
+  String get backupErrorInvalid =>
+      'Ese archivo no es un respaldo de Trainloop o está dañado. No se cambió nada.';
+
+  @override
+  String get backupErrorNewer =>
+      'Ese respaldo es de una versión más nueva de Trainloop. Actualiza la app y vuelve a intentarlo.';
+
+  @override
+  String get backupErrorIntegrity =>
+      'El respaldo tiene datos inconsistentes. No se cambió nada.';
+
+  @override
+  String get backupErrorActive =>
+      'Termina la sesión en curso antes de restaurar.';
+
+  @override
+  String get backupErrorIo => 'No se pudo leer o guardar el archivo.';
+
+  @override
+  String get settingsDefaultRest => 'Descanso por defecto';
+
+  @override
+  String get settingsDefaultRestHelp =>
+      'Para los ejercicios nuevos. Los de la biblioteca conservan su descanso.';
+
+  @override
+  String get settingsRestLess => '15 segundos menos';
+
+  @override
+  String get settingsRestMore => '15 segundos más';
+
+  @override
+  String get settingsTestSound => 'PROBAR SONIDO';
+
+  @override
+  String get settingsTestSpeech => 'Así suenan los avisos';
+
+  @override
+  String get settingsData => 'DATOS Y PRIVACIDAD';
+
+  @override
+  String get settingsDataWarnTitle => 'Tus datos están solo en este teléfono.';
+
+  @override
+  String get settingsDataWarnBody =>
+      'Si desinstalas la app o cambias de teléfono sin un respaldo, se pierden.';
+
+  @override
+  String get settingsBackupLink => 'Respaldo y exportación';
+
+  @override
+  String get settingsBackupNever => 'sin respaldos';
+
+  @override
+  String settingsBackupAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'último: hace $days días',
+      one: 'último: ayer',
+      zero: 'último: hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get remindersTitle => 'RECORDATORIOS';
+
+  @override
+  String get remindersEnable => 'Recordarme entrenar';
+
+  @override
+  String get remindersHelp =>
+      'Una notificación los días elegidos, solo si aún no entrenaste';
+
+  @override
+  String get remindersTime => 'Hora';
+
+  @override
+  String remindersNext(String day, String time) {
+    return 'Próximo: $day a las $time';
+  }
+
+  @override
+  String get remindersDenied =>
+      'Sin permiso de notificaciones, los recordatorios no pueden aparecer.';
+
+  @override
+  String get remindersOpenSettings => 'AJUSTES';
+
+  @override
+  String get reminderNotificationTitle => 'Hora de entrenar';
+
+  @override
+  String get reminderNotificationBody =>
+      'Tu entrenamiento está listo cuando quieras.';
+
+  @override
+  String get reminderChannelName => 'Recordatorios';
+
+  @override
+  String get homeLocalDataNotice => 'Tus datos viven solo en este teléfono.';
+
+  @override
+  String get homeLocalDataAction => 'Respaldar ›';
+
+  @override
+  String get homeLocalDataDismiss => 'Cerrar aviso';
+
+  @override
+  String formattedValue(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

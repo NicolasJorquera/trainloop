@@ -166,6 +166,15 @@ class FakeTimerEngine implements TimerEngineClient {
 
   @override
   Future<bool> mediaVolumeZero() async => volumeZero;
+
+  @override
+  Future<void> testAlert({
+    required bool sounds,
+    required bool voice,
+    required bool vibration,
+    required String speech,
+    required String localeTag,
+  }) async => calls.add('testAlert');
 }
 
 /// Estado de prueba con valores razonables.

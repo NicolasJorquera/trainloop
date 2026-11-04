@@ -22,6 +22,8 @@ Future<void> _tapAndSettle(WidgetTester tester, Finder finder) async {
 void main() {
   testWidgets('tema, acento e idioma repintan sin reiniciar', (tester) async {
     useTallViewport(tester);
+    // Configuración entera a la vista: el título no sale de pantalla.
+    tester.view.physicalSize = const Size(420, 5000);
     final repo = await pumpTrainloop(tester);
     await _openSettings(tester);
     final settings = find.byType(SettingsScreen);

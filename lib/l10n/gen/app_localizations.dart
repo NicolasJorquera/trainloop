@@ -3276,6 +3276,365 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More sessions'**
   String get settingsGoalMore;
+
+  /// S17 title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'BACKUP'**
+  String get backupTitle;
+
+  /// S17 headline, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR DATA LIVES ONLY ON THIS PHONE'**
+  String get backupHeadline;
+
+  /// S17 explanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainloop has no account or server. Create a backup and keep it wherever you like (Drive, Downloads or send it to yourself) so you never lose your history.'**
+  String get backupBody;
+
+  /// S17, no backup yet.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t created a backup yet.'**
+  String get backupNever;
+
+  /// S17 last backup line.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {date} · {sessions} · {size}'**
+  String backupLast(String date, String sessions, String size);
+
+  /// Session count in a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 session} other{{count} sessions}}'**
+  String backupSessions(int count);
+
+  /// Routine count in a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 routine} other{{count} routines}}'**
+  String backupRoutines(int count);
+
+  /// Interval workout count in a backup.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 interval workout} other{{count} interval workouts}}'**
+  String backupWorkouts(int count);
+
+  /// File size in kilobytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String backupSizeKb(String size);
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'CREATE BACKUP'**
+  String get backupCreate;
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTORE BACKUP'**
+  String get backupRestore;
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'EXPORT CSV'**
+  String get backupCsv;
+
+  /// Help under the CSV button.
+  ///
+  /// In en, this message translates to:
+  /// **'Two spreadsheet files: sessions and sets. You save one after the other.'**
+  String get backupCsvHelp;
+
+  /// Section title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'HOW TO SAVE IT TO GOOGLE DRIVE'**
+  String get backupHowTitle;
+
+  /// Step 1.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap “Create backup”.'**
+  String get backupStep1;
+
+  /// Step 2.
+  ///
+  /// In en, this message translates to:
+  /// **'In the Android menu, choose Drive (or another folder) and tap Save.'**
+  String get backupStep2;
+
+  /// Step 3.
+  ///
+  /// In en, this message translates to:
+  /// **'On the new phone, tap “Restore backup” and pick the file.'**
+  String get backupStep3;
+
+  /// Section title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'ANDROID AUTOMATIC BACKUP'**
+  String get backupAutoTitle;
+
+  /// Explains Android Auto Backup.
+  ///
+  /// In en, this message translates to:
+  /// **'If Google backup is on in your phone, Android also copies Trainloop\'s data and settings to your Google Drive and brings them back when you reinstall with the same account. It doesn\'t go through our servers, but the app doesn\'t control when it runs: a backup file is the safe way to switch phones.'**
+  String get backupAutoBody;
+
+  /// Progress indicator label.
+  ///
+  /// In en, this message translates to:
+  /// **'Working…'**
+  String get backupWorking;
+
+  /// Snackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup created: {name}'**
+  String backupSaved(String name);
+
+  /// Snackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV exported: sessions and sets'**
+  String get backupCsvSaved;
+
+  /// Dialog title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTORE THIS BACKUP?'**
+  String get backupRestoreTitle;
+
+  /// Restore dialog summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup from {date}: {sessions}, {routines}, {workouts}.'**
+  String backupRestoreSummary(
+    String date,
+    String sessions,
+    String routines,
+    String workouts,
+  );
+
+  /// Restore dialog, older schema.
+  ///
+  /// In en, this message translates to:
+  /// **'It comes from an older version of the app: it will be updated while restoring.'**
+  String get backupRestoreOlder;
+
+  /// Restore dialog warning.
+  ///
+  /// In en, this message translates to:
+  /// **'It will replace your current data. We will save an automatic copy of what you have now first.'**
+  String get backupRestoreWarn;
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RESTORE'**
+  String get backupRestoreConfirm;
+
+  /// Snackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup restored'**
+  String get backupRestored;
+
+  /// Restore error.
+  ///
+  /// In en, this message translates to:
+  /// **'That file isn\'t a Trainloop backup or it\'s damaged. Nothing changed.'**
+  String get backupErrorInvalid;
+
+  /// Restore error.
+  ///
+  /// In en, this message translates to:
+  /// **'That backup comes from a newer Trainloop. Update the app and try again.'**
+  String get backupErrorNewer;
+
+  /// Restore error.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup has inconsistent data. Nothing changed.'**
+  String get backupErrorIntegrity;
+
+  /// Restore error.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the current session before restoring.'**
+  String get backupErrorActive;
+
+  /// File error.
+  ///
+  /// In en, this message translates to:
+  /// **'The file couldn\'t be read or saved.'**
+  String get backupErrorIo;
+
+  /// Settings stepper label.
+  ///
+  /// In en, this message translates to:
+  /// **'Default rest'**
+  String get settingsDefaultRest;
+
+  /// Help under default rest.
+  ///
+  /// In en, this message translates to:
+  /// **'For new exercises. Built-in exercises keep their own rest.'**
+  String get settingsDefaultRestHelp;
+
+  /// Stepper tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'15 seconds less'**
+  String get settingsRestLess;
+
+  /// Stepper tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'15 seconds more'**
+  String get settingsRestMore;
+
+  /// Button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TEST SOUND'**
+  String get settingsTestSound;
+
+  /// Spoken when testing the sound.
+  ///
+  /// In en, this message translates to:
+  /// **'This is how the cues sound'**
+  String get settingsTestSpeech;
+
+  /// Settings section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DATA & PRIVACY'**
+  String get settingsData;
+
+  /// Settings data warning, bold part.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data lives only on this phone.'**
+  String get settingsDataWarnTitle;
+
+  /// Settings data warning.
+  ///
+  /// In en, this message translates to:
+  /// **'If you uninstall the app or switch phones without a backup, it is lost.'**
+  String get settingsDataWarnBody;
+
+  /// Settings row that opens S17.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & export'**
+  String get settingsBackupLink;
+
+  /// Settings row meta.
+  ///
+  /// In en, this message translates to:
+  /// **'no backups'**
+  String get settingsBackupNever;
+
+  /// Settings row meta.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{last: today} =1{last: yesterday} other{last: {days} days ago}}'**
+  String settingsBackupAgo(int days);
+
+  /// Settings section, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REMINDERS'**
+  String get remindersTitle;
+
+  /// Switch title.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me to train'**
+  String get remindersEnable;
+
+  /// Switch help.
+  ///
+  /// In en, this message translates to:
+  /// **'One notification on the chosen days, only if you haven\'t trained yet'**
+  String get remindersHelp;
+
+  /// Reminder time row.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get remindersTime;
+
+  /// Next reminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {day} at {time}'**
+  String remindersNext(String day, String time);
+
+  /// Snackbar when permission is denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Without notification permission, reminders can\'t appear.'**
+  String get remindersDenied;
+
+  /// Snackbar action, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SETTINGS'**
+  String get remindersOpenSettings;
+
+  /// Reminder notification title.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to train'**
+  String get reminderNotificationTitle;
+
+  /// Reminder notification text. No guilt.
+  ///
+  /// In en, this message translates to:
+  /// **'Your workout is ready when you are.'**
+  String get reminderNotificationBody;
+
+  /// Android notification channel name.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminderChannelName;
+
+  /// Home one-line notice (F-01).
+  ///
+  /// In en, this message translates to:
+  /// **'Your data lives only on this phone.'**
+  String get homeLocalDataNotice;
+
+  /// Link in the notice.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up ›'**
+  String get homeLocalDataAction;
+
+  /// Tooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Close notice'**
+  String get homeLocalDataDismiss;
+
+  /// A value already formatted for the language (date, time, weekday).
+  ///
+  /// In en, this message translates to:
+  /// **'{value}'**
+  String formattedValue(String value);
 }
 
 class _AppLocalizationsDelegate

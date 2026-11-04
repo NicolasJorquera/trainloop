@@ -390,6 +390,16 @@ abstract interface class TimerEngineClient {
   Future<void> markNotificationPromptShown();
   Future<bool> mediaVolumeZero();
 
+  /// «Probar sonido» de Configuración: tono, voz y vibración como al
+  /// terminar un descanso, según los ajustes de Alertas.
+  Future<void> testAlert({
+    required bool sounds,
+    required bool voice,
+    required bool vibration,
+    required String speech,
+    required String localeTag,
+  });
+
   // ------------------------------------------------- fuerza (D5, F-09)
 
   /// Estados de la sesión de fuerza: uno por cambio del descanso.
@@ -531,6 +541,21 @@ class MethodChannelTimerEngine implements TimerEngineClient {
   @override
   Future<bool> mediaVolumeZero() async =>
       await _methods.invokeMethod<bool>('mediaVolumeZero') ?? false;
+
+  @override
+  Future<void> testAlert({
+    required bool sounds,
+    required bool voice,
+    required bool vibration,
+    required String speech,
+    required String localeTag,
+  }) => _methods.invokeMethod('testAlert', {
+    'locale': localeTag,
+    'sounds': sounds,
+    'voice': voice,
+    'vibration': vibration,
+    'speech': speech,
+  });
 
   @override
   Future<void> startStrength(StrengthProgram program) =>

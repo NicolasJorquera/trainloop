@@ -1967,6 +1967,249 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingsGoalMore => 'Mais sessões';
+
+  @override
+  String get backupTitle => 'BACKUP';
+
+  @override
+  String get backupHeadline => 'SEUS DADOS FICAM SÓ NESTE CELULAR';
+
+  @override
+  String get backupBody =>
+      'O Trainloop não tem conta nem servidor. Crie um backup e guarde onde quiser (Drive, Downloads ou envie para você) para não perder seu histórico.';
+
+  @override
+  String get backupNever => 'Você ainda não criou um backup.';
+
+  @override
+  String backupLast(String date, String sessions, String size) {
+    return 'Último backup: $date · $sessions · $size';
+  }
+
+  @override
+  String backupSessions(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sessões',
+      one: '1 sessão',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupRoutines(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rotinas',
+      one: '1 rotina',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupWorkouts(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count treinos de intervalos',
+      one: '1 treino de intervalos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupSizeKb(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String get backupCreate => 'CRIAR BACKUP';
+
+  @override
+  String get backupRestore => 'RESTAURAR BACKUP';
+
+  @override
+  String get backupCsv => 'EXPORTAR CSV';
+
+  @override
+  String get backupCsvHelp =>
+      'Dois arquivos para planilhas: sessões e séries. Você salva um depois do outro.';
+
+  @override
+  String get backupHowTitle => 'COMO SALVAR NO GOOGLE DRIVE';
+
+  @override
+  String get backupStep1 => 'Toque em “Criar backup”.';
+
+  @override
+  String get backupStep2 =>
+      'No menu do Android escolha o Drive (ou outra pasta) e toque em Salvar.';
+
+  @override
+  String get backupStep3 =>
+      'No celular novo, toque em “Restaurar backup” e escolha o arquivo.';
+
+  @override
+  String get backupAutoTitle => 'BACKUP AUTOMÁTICO DO ANDROID';
+
+  @override
+  String get backupAutoBody =>
+      'Se o backup do Google estiver ativado no celular, o Android também copia os dados e as configurações do Trainloop para o seu Google Drive e os recupera ao reinstalar com a mesma conta. Não passa pelos nossos servidores, mas o app não controla quando acontece: o arquivo de backup é a forma segura de trocar de celular.';
+
+  @override
+  String get backupWorking => 'Processando…';
+
+  @override
+  String backupSaved(String name) {
+    return 'Backup criado: $name';
+  }
+
+  @override
+  String get backupCsvSaved => 'CSV exportado: sessões e séries';
+
+  @override
+  String get backupRestoreTitle => 'RESTAURAR ESTE BACKUP?';
+
+  @override
+  String backupRestoreSummary(
+    String date,
+    String sessions,
+    String routines,
+    String workouts,
+  ) {
+    return 'Backup de $date: $sessions, $routines, $workouts.';
+  }
+
+  @override
+  String get backupRestoreOlder =>
+      'É de uma versão anterior do app: será atualizado ao restaurar.';
+
+  @override
+  String get backupRestoreWarn =>
+      'Ele vai substituir seus dados atuais. Antes salvaremos uma cópia automática do que você tem agora.';
+
+  @override
+  String get backupRestoreConfirm => 'RESTAURAR';
+
+  @override
+  String get backupRestored => 'Backup restaurado';
+
+  @override
+  String get backupErrorInvalid =>
+      'Esse arquivo não é um backup do Trainloop ou está danificado. Nada foi alterado.';
+
+  @override
+  String get backupErrorNewer =>
+      'Esse backup é de uma versão mais nova do Trainloop. Atualize o app e tente de novo.';
+
+  @override
+  String get backupErrorIntegrity =>
+      'O backup tem dados inconsistentes. Nada foi alterado.';
+
+  @override
+  String get backupErrorActive =>
+      'Termine a sessão em andamento antes de restaurar.';
+
+  @override
+  String get backupErrorIo => 'Não foi possível ler ou salvar o arquivo.';
+
+  @override
+  String get settingsDefaultRest => 'Descanso padrão';
+
+  @override
+  String get settingsDefaultRestHelp =>
+      'Para exercícios novos. Os da biblioteca mantêm o próprio descanso.';
+
+  @override
+  String get settingsRestLess => '15 segundos a menos';
+
+  @override
+  String get settingsRestMore => '15 segundos a mais';
+
+  @override
+  String get settingsTestSound => 'TESTAR SOM';
+
+  @override
+  String get settingsTestSpeech => 'Assim soam os avisos';
+
+  @override
+  String get settingsData => 'DADOS E PRIVACIDADE';
+
+  @override
+  String get settingsDataWarnTitle => 'Seus dados ficam só neste celular.';
+
+  @override
+  String get settingsDataWarnBody =>
+      'Se você desinstalar o app ou trocar de celular sem um backup, eles serão perdidos.';
+
+  @override
+  String get settingsBackupLink => 'Backup e exportação';
+
+  @override
+  String get settingsBackupNever => 'sem backups';
+
+  @override
+  String settingsBackupAgo(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'último: há $days dias',
+      one: 'último: ontem',
+      zero: 'último: hoje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get remindersTitle => 'LEMBRETES';
+
+  @override
+  String get remindersEnable => 'Lembrar de treinar';
+
+  @override
+  String get remindersHelp =>
+      'Uma notificação nos dias escolhidos, só se você ainda não treinou';
+
+  @override
+  String get remindersTime => 'Horário';
+
+  @override
+  String remindersNext(String day, String time) {
+    return 'Próximo: $day às $time';
+  }
+
+  @override
+  String get remindersDenied =>
+      'Sem permissão de notificações, os lembretes não podem aparecer.';
+
+  @override
+  String get remindersOpenSettings => 'AJUSTES';
+
+  @override
+  String get reminderNotificationTitle => 'Hora de treinar';
+
+  @override
+  String get reminderNotificationBody =>
+      'Seu treino está pronto quando você quiser.';
+
+  @override
+  String get reminderChannelName => 'Lembretes';
+
+  @override
+  String get homeLocalDataNotice => 'Seus dados ficam só neste celular.';
+
+  @override
+  String get homeLocalDataAction => 'Fazer backup ›';
+
+  @override
+  String get homeLocalDataDismiss => 'Fechar aviso';
+
+  @override
+  String formattedValue(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

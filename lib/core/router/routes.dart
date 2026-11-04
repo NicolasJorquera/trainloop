@@ -7,6 +7,9 @@ abstract final class Routes {
   static const progress = '/progress';
   static const settings = '/settings';
 
+  /// S17 Respaldo y exportación.
+  static const backup = '/settings/backup';
+
   static const routineNew = '/routines/new';
   static String routineEdit(String id) => '/routines/$id';
 

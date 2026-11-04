@@ -136,6 +136,17 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
                 result.success(null)
             }
             "mediaVolumeZero" -> result.success(CuePlayer.mediaVolumeIsZero(activity))
+            "testAlert" -> {
+                val sounds = call.argument<Boolean>("sounds") ?: true
+                val voice = call.argument<Boolean>("voice") ?: true
+                val vibration = call.argument<Boolean>("vibration") ?: true
+                val speech = call.argument<String>("speech")
+                val tag = call.argument<String>("locale") ?: "es-419"
+                CuePlayer.prewarm(activity, tag) {
+                    CuePlayer.restOver(activity, sounds, voice, vibration, speech)
+                }
+                result.success(null)
+            }
             "manufacturer" -> result.success(Build.MANUFACTURER.replaceFirstChar { it.uppercase() })
             else -> result.notImplemented()
         }

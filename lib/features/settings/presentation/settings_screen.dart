@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/l10n/formatters.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/l10n/pseudo_locale.dart';
 import '../../../core/router/routes.dart';
@@ -14,13 +15,19 @@ import '../../../core/widgets/accent_picker.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
+import '../../../core/widgets/tl_button.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
 import '../../../core/widgets/tl_stepper.dart';
+import '../../intervals/application/interval_providers.dart';
+import '../../reminders/presentation/reminder_section.dart';
 import '../application/settings_controller.dart';
 import '../domain/app_settings.dart';
 import 'debug_database_section.dart';
 
-/// S16 Configuración: tema, acento, idioma, unidad de peso (D5) y alertas.
+/// S16 Configuración: tema, acento, idioma, entrenamiento (unidad, inicio
+/// de semana, objetivo y descanso por defecto), recordatorios (F-13),
+/// alertas con «Probar sonido» y datos (aviso y enlace a S17). Pantalla
+/// crítica: sin anuncios.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -122,6 +129,25 @@ class SettingsScreen extends ConsumerWidget {
                 ? () => controller.setWeeklyGoal(settings.weeklyGoal + 1)
                 : null,
           ),
+          TlStepper(
+            key: const Key('settings-rest'),
+            label: l10n.settingsDefaultRest,
+            value: l10n.duration(settings.defaultRestSeconds),
+            decreaseTooltip: l10n.settingsRestLess,
+            increaseTooltip: l10n.settingsRestMore,
+            onDecrease: settings.defaultRestSeconds > AppSettings.minRest
+                ? () => controller.setDefaultRest(
+                    settings.defaultRestSeconds - AppSettings.restStep,
+                  )
+                : null,
+            onIncrease: settings.defaultRestSeconds < AppSettings.maxRest
+                ? () => controller.setDefaultRest(
+                    settings.defaultRestSeconds + AppSettings.restStep,
+                  )
+                : null,
+          ),
+          Text(l10n.settingsDefaultRestHelp, style: help),
+          const ReminderSection(),
           SectionLabel(l10n.settingsAlerts),
           _AlertSwitch(
             key: const Key('alert-voice'),
@@ -144,8 +170,127 @@ class SettingsScreen extends ConsumerWidget {
             value: settings.vibration,
             onChanged: controller.setVibration,
           ),
+          const SizedBox(height: TlSpace.s2),
+          TlButton(
+            key: const Key('settings-test-sound'),
+            label: l10n.settingsTestSound,
+            icon: Icons.volume_up_outlined,
+            variant: TlButtonVariant.secondary,
+            onPressed: () => ref
+                .read(timerEngineClientProvider)
+                .testAlert(
+                  sounds: settings.sounds,
+                  voice: settings.voice,
+                  vibration: settings.vibration,
+                  speech: l10n.settingsTestSpeech,
+                  localeTag: context.locale.toLanguageTag(),
+                ),
+          ),
+          SectionLabel(l10n.settingsData),
+          const _DataNotice(),
+          _LinkRow(
+            key: const Key('settings-backup'),
+            label: l10n.settingsBackupLink,
+            meta: _backupMeta(l10n, settings.lastBackup),
+            onTap: () => context.push(Routes.backup),
+          ),
           if (kDebugMode) const DebugDatabaseSection(),
         ],
+      ),
+    );
+  }
+}
+
+/// «último: hace 12 días» o «sin respaldos».
+String _backupMeta(AppLocalizations l10n, LastBackup? last) {
+  if (last == null) return l10n.settingsBackupNever;
+  final days = DateTime.now().difference(last.at.toLocal()).inDays;
+  return l10n.settingsBackupAgo(days < 0 ? 0 : days);
+}
+
+/// Aviso de S16: los datos están solo en este teléfono.
+class _DataNotice extends StatelessWidget {
+  const _DataNotice();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.text;
+    final l10n = context.l10n;
+    return Container(
+      padding: const EdgeInsets.all(TlSpace.s3),
+      decoration: BoxDecoration(
+        color: c.surface1,
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        border: Border(left: BorderSide(color: c.warning, width: 4)),
+      ),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: l10n.settingsDataWarnTitle,
+              style: t.body.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const TextSpan(text: ' '),
+            TextSpan(text: l10n.settingsDataWarnBody),
+          ],
+        ),
+        style: t.body,
+      ),
+    );
+  }
+}
+
+/// Fila que abre otra pantalla, con un dato a la derecha.
+class _LinkRow extends StatelessWidget {
+  const _LinkRow({
+    required this.label,
+    required this.meta,
+    required this.onTap,
+    super.key,
+  });
+
+  final String label;
+  final String meta;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.text;
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: TlSize.touchMin),
+            padding: const EdgeInsets.symmetric(vertical: TlSpace.s3),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: c.line)),
+            ),
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: TlSpace.s2,
+              children: [
+                Text(label, style: t.body),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        meta,
+                        style: t.bodySm.copyWith(color: c.inkMuted),
+                      ),
+                    ),
+                    Icon(Icons.chevron_right, color: c.inkMuted),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
