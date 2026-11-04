@@ -8,18 +8,21 @@ import 'package:trainloop/core/theme/tokens.dart';
 import 'package:trainloop/data/db/app_database.dart';
 import 'package:trainloop/data/db/database_providers.dart';
 import 'package:trainloop/features/intervals/application/interval_providers.dart';
+import 'package:trainloop/features/monetization/application/ads_controller.dart';
 import 'package:trainloop/features/settings/application/settings_controller.dart';
 import 'package:trainloop/features/settings/data/settings_repository.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 import 'package:trainloop/platform/documents_client.dart';
 import 'package:trainloop/platform/reminder_client.dart';
 
+import 'fake_monetization.dart';
 import 'fake_platform.dart';
 import 'fake_timer_engine.dart';
 import 'test_database.dart';
 
-/// Monta la app completa con preferencias, base en memoria y un motor del
-/// temporizador de prueba ([engine]).
+/// Monta la app completa con preferencias, base en memoria, un motor del
+/// temporizador de prueba ([engine]) y anuncios y compras de prueba ([ads],
+/// [iap]: sin red ni canales nativos; por defecto AdMob no devuelve banner).
 Future<InMemorySettingsRepository> pumpTrainloop(
   WidgetTester tester, {
   AppSettings settings = const AppSettings(),
@@ -27,6 +30,8 @@ Future<InMemorySettingsRepository> pumpTrainloop(
   AppDatabase? database,
   FakeReminderClient? reminders,
   FakeDocumentsClient? documents,
+  FakeAdsPlatform? ads,
+  FakeInAppPurchase? iap,
   List<Override> overrides = const [],
 }) async {
   final repo = InMemorySettingsRepository(settings);
@@ -52,6 +57,8 @@ Future<InMemorySettingsRepository> pumpTrainloop(
         documentsClientProvider.overrideWithValue(
           documents ?? FakeDocumentsClient(),
         ),
+        adsPlatformProvider.overrideWithValue(ads ?? FakeAdsPlatform()),
+        inAppPurchaseProvider.overrideWithValue(iap ?? FakeInAppPurchase()),
         ...overrides,
       ],
       child: const TrainloopApp(),
