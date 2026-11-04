@@ -607,5 +607,10 @@
   "removeAdsCanceled": "Compra cancelada. Nenhuma cobrança foi feita.",
   "removeAdsError": "Não foi possível concluir a compra. Tente de novo.",
   "removeAdsUnavailable": "O Google Play não está disponível agora. Verifique a conexão e tente de novo.",
-  "removeAdsNothing": "Esta conta do Google Play não tem a compra."
+  "removeAdsNothing": "Esta conta do Google Play não tem a compra.",
+  "errorLogTitle": "Registro de erros",
+  "errorLogCount": "{count, plural, =0{sem erros} =1{1 erro} other{{count} erros}}",
+  "errorLogHelp": "Os erros técnicos ficam só neste celular. Exporte o arquivo se quiser nos enviar.",
+  "errorLogEmpty": "Nenhum erro registrado.",
+  "errorLogSaved": "Registro de erros salvo: {name}"
 }

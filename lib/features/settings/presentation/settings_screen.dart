@@ -18,6 +18,7 @@ import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../../core/widgets/tl_segmented_control.dart';
 import '../../../core/widgets/tl_stepper.dart';
+import '../../diagnostics/presentation/error_log_row.dart';
 import '../../intervals/application/interval_providers.dart';
 import '../../monetization/presentation/monetization_settings.dart';
 import '../../reminders/presentation/reminder_section.dart';
@@ -197,6 +198,7 @@ class SettingsScreen extends ConsumerWidget {
             onTap: () => context.push(Routes.backup),
           ),
           const PrivacySettingsRows(),
+          const ErrorLogRow(),
           const SizedBox(height: TlSpace.s4),
           const RemoveAdsCard(),
           if (kDebugMode) const DebugDatabaseSection(),
