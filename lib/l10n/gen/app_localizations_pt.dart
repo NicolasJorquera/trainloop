@@ -2222,6 +2222,65 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get routineDiscardKeep => 'Continuar editando';
+
+  @override
+  String get adBannerLabel => 'Anúncio';
+
+  @override
+  String get settingsAnalytics => 'Estatísticas de uso anônimas';
+
+  @override
+  String get settingsAnalyticsHelp =>
+      'Só quais tipos de sessão começam e terminam. Nunca seus treinos nem dados pessoais.';
+
+  @override
+  String get settingsPrivacyOptions => 'Preferências de privacidade';
+
+  @override
+  String get settingsPrivacyOptionsMeta => 'REVISAR';
+
+  @override
+  String get removeAdsTitle => 'REMOVER ANÚNCIOS · PAGAMENTO ÚNICO';
+
+  @override
+  String get removeAdsBody =>
+      'Um único pagamento, sem assinatura. Todas as funções continuam grátis.';
+
+  @override
+  String removeAdsBuy(String price) {
+    return 'REMOVER ANÚNCIOS · $price';
+  }
+
+  @override
+  String get removeAdsBuyNoPrice => 'REMOVER ANÚNCIOS';
+
+  @override
+  String get removeAdsRestore => 'Restaurar compra';
+
+  @override
+  String get removeAdsOwned => 'Sem anúncios. Obrigado por apoiar o Trainloop!';
+
+  @override
+  String get removeAdsRestored => 'Compra restaurada: sem anúncios.';
+
+  @override
+  String get removeAdsPending =>
+      'Compra pendente: os anúncios somem quando o Google Play confirmar.';
+
+  @override
+  String get removeAdsCanceled =>
+      'Compra cancelada. Nenhuma cobrança foi feita.';
+
+  @override
+  String get removeAdsError =>
+      'Não foi possível concluir a compra. Tente de novo.';
+
+  @override
+  String get removeAdsUnavailable =>
+      'O Google Play não está disponível agora. Verifique a conexão e tente de novo.';
+
+  @override
+  String get removeAdsNothing => 'Esta conta do Google Play não tem a compra.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

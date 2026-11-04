@@ -8,6 +8,8 @@ import '../../../core/router/app_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../platform/timer_engine_client.dart';
 import '../../history/application/history_providers.dart';
+import '../../monetization/application/ad_guard_provider.dart';
+import '../../monetization/application/interstitial_controller.dart';
 import '../../settings/application/settings_controller.dart';
 import '../../strength/application/strength_session_controller.dart';
 import '../../strength/application/strength_texts.dart';
@@ -68,7 +70,10 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       }
       final offer = await controller.syncOnLaunch();
       if (offer != null) {
-        await _offerRecovery(controller, offer);
+        await _holds.during(
+          AdHold.recovery,
+          () => _offerRecovery(controller, offer),
+        );
         return;
       }
       final active = ref.read(intervalSessionProvider)?.active ?? false;
@@ -83,7 +88,10 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       final strength = ref.read(strengthSessionProvider.notifier);
       final strengthOffer = await strength.syncOnLaunch();
       if (strengthOffer != null) {
-        await _offerStrengthRecovery(strength, strengthOffer);
+        await _holds.during(
+          AdHold.recovery,
+          () => _offerStrengthRecovery(strength, strengthOffer),
+        );
         return;
       }
       // Al abrir la app o tocar la notificación se vuelve a S10, salvo que
@@ -95,8 +103,13 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       }
     } finally {
       _busy = false;
+      // Ya se sabe si había una sesión viva: los anuncios pueden seguir
+      // (el guard sigue mirando la sesión, si la hay).
+      if (mounted) _holds.release(AdHold.launch);
     }
   }
+
+  AdHolds get _holds => ref.read(adHoldsProvider.notifier);
 
   Future<void> _offerRecovery(
     IntervalSessionController controller,
@@ -111,6 +124,8 @@ class _SessionGateState extends ConsumerState<SessionGate> {
         // El diálogo se cerró sin elegir: la sesión sigue pendiente.
         return;
       case RecoveryChoice.resume:
+        // R-A5: sin intersticial tras una sesión recuperada.
+        ref.read(recoveredSessionsProvider.notifier).add(offer.sessionId);
         await controller.resumeRecovered(offer);
         if (!_onTimer(router)) unawaited(router.push(Routes.timer));
         return;
@@ -137,6 +152,7 @@ class _SessionGateState extends ConsumerState<SessionGate> {
         router.routerDelegate.currentConfiguration.uri.path == Routes.strength;
     switch (choice) {
       case RecoveryChoice.resume:
+        ref.read(recoveredSessionsProvider.notifier).add(offer.sessionId);
         await controller.resumeRecovered(
           offer,
           StrengthEnv.of(context, ref.read(settingsControllerProvider)),

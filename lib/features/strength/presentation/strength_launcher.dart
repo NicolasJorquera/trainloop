@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
+import '../../analytics/application/analytics_service.dart';
 import '../../intervals/presentation/session_launcher.dart';
+import '../../monetization/application/ad_guard_provider.dart';
 import '../../settings/application/settings_controller.dart';
 import '../application/strength_session_controller.dart';
 import '../application/strength_texts.dart';
@@ -19,12 +21,22 @@ Future<void> startStrengthSession(
   WidgetRef ref,
   StrengthStart how,
 ) async {
-  if (!await checkBeforeSession(context, ref)) return;
-  if (!context.mounted) return;
-  final env = StrengthEnv.of(context, ref.read(settingsControllerProvider));
-  try {
-    await ref.read(strengthSessionProvider.notifier).start(how, env);
-  } on StateError {
+  // R-A1: sin anuncios desde «Empezar» (también durante los avisos previos).
+  final started = await ref.read(adHoldsProvider.notifier).during(
+    AdHold.starting,
+    () async {
+      if (!await checkBeforeSession(context, ref)) return false;
+      if (!context.mounted) return false;
+      final env = StrengthEnv.of(context, ref.read(settingsControllerProvider));
+      try {
+        await ref.read(strengthSessionProvider.notifier).start(how, env);
+        return true;
+      } on StateError {
+        return null;
+      }
+    },
+  );
+  if (started == null) {
     if (!context.mounted) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -36,5 +48,9 @@ Future<void> startStrengthSession(
     }
     return;
   }
+  if (!started) return;
+  ref
+      .read(analyticsServiceProvider)
+      .log(AnalyticsEvent.sessionStarted(SessionKindParam.strength));
   if (context.mounted) await context.push(Routes.strength);
 }

@@ -27,6 +27,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // App ID de AdMob (D8). Por defecto el ID de PRUEBA oficial de Google;
+        // el real se pasa sin tocar código: `-PTL_ADMOB_APP_ID=ca-app-pub-…~…`,
+        // la variable de entorno TL_ADMOB_APP_ID o una línea en
+        // android/local.properties (no se versiona). Ver README, «Anuncios».
+        manifestPlaceholders["admobAppId"] = admobAppId()
     }
 
     buildTypes {
@@ -40,6 +45,21 @@ android {
 
 flutter {
     source = "../.."
+}
+
+/** App ID de AdMob: propiedad de Gradle, entorno, local.properties o el de prueba. */
+fun admobAppId(): String {
+    val testId = "ca-app-pub-3940256099942544~3347511713"
+    val key = "TL_ADMOB_APP_ID"
+    (project.findProperty(key) as String?)?.takeIf { it.isNotBlank() }?.let { return it }
+    System.getenv(key)?.takeIf { it.isNotBlank() }?.let { return it }
+    val local = rootProject.file("local.properties")
+    if (local.exists()) {
+        val props = java.util.Properties()
+        local.inputStream().use { props.load(it) }
+        props.getProperty(key)?.takeIf { it.isNotBlank() }?.let { return it }
+    }
+    return testId
 }
 
 dependencies {

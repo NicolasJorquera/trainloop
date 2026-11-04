@@ -3659,6 +3659,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keep editing'**
   String get routineDiscardKeep;
+
+  /// Screen reader label of the ad banner container.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertisement'**
+  String get adBannerLabel;
+
+  /// Settings switch (S16).
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous usage statistics'**
+  String get settingsAnalytics;
+
+  /// Help under the analytics switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Only which session types start and finish. Never your workouts or personal data.'**
+  String get settingsAnalyticsHelp;
+
+  /// Settings row that reopens the ad consent form (UMP).
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy preferences'**
+  String get settingsPrivacyOptions;
+
+  /// Right side of the privacy row, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REVIEW'**
+  String get settingsPrivacyOptionsMeta;
+
+  /// Settings card title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REMOVE ADS · ONE-TIME'**
+  String get removeAdsTitle;
+
+  /// Settings card body.
+  ///
+  /// In en, this message translates to:
+  /// **'One payment, no subscription. All features stay free.'**
+  String get removeAdsBody;
+
+  /// Buy button with the price from Google Play, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REMOVE ADS · {price}'**
+  String removeAdsBuy(String price);
+
+  /// Buy button when the price is unknown, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REMOVE ADS'**
+  String get removeAdsBuyNoPrice;
+
+  /// Button.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchase'**
+  String get removeAdsRestore;
+
+  /// Shown when the purchase is active.
+  ///
+  /// In en, this message translates to:
+  /// **'Ads removed. Thanks for supporting Trainloop!'**
+  String get removeAdsOwned;
+
+  /// Status after restoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase restored: ads removed.'**
+  String get removeAdsRestored;
+
+  /// Status.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase pending: ads are removed once Google Play confirms it.'**
+  String get removeAdsPending;
+
+  /// Status.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase canceled. You were not charged.'**
+  String get removeAdsCanceled;
+
+  /// Status.
+  ///
+  /// In en, this message translates to:
+  /// **'The purchase couldn\'t be completed. Try again.'**
+  String get removeAdsError;
+
+  /// Status.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play isn\'t available right now. Check your connection and try again.'**
+  String get removeAdsUnavailable;
+
+  /// Status after restoring with nothing found.
+  ///
+  /// In en, this message translates to:
+  /// **'This Google Play account doesn\'t have the purchase.'**
+  String get removeAdsNothing;
 }
 
 class _AppLocalizationsDelegate

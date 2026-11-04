@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +17,7 @@ import '../../../data/db/enums.dart';
 import '../../exercises/domain/exercise_names.dart';
 import '../../history/application/history_texts.dart';
 import '../../history/data/records_repository.dart';
+import '../../monetization/application/interstitial_controller.dart';
 import '../../settings/application/settings_controller.dart';
 import '../application/strength_session_controller.dart';
 import '../application/strength_texts.dart';
@@ -239,7 +242,12 @@ class _StrengthSummaryScreenState extends ConsumerState<StrengthSummaryScreen> {
       perceivedEffort: _effort,
       note: note.isEmpty ? null : note,
     );
-    if (mounted) context.go(Routes.home);
+    if (!mounted) return;
+    // «Listo» (R-A2): primero se sale del resumen; el intersticial (si el
+    // experimento está activo y todo lo permite) aparece ya en Inicio.
+    final ads = ref.read(interstitialControllerProvider.notifier);
+    context.go(Routes.home);
+    unawaited(ads.afterSummaryDone(widget.sessionId));
   }
 
   Future<void> _discard() async {

@@ -2220,6 +2220,65 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get routineDiscardKeep => 'Keep editing';
+
+  @override
+  String get adBannerLabel => 'Advertisement';
+
+  @override
+  String get settingsAnalytics => 'Anonymous usage statistics';
+
+  @override
+  String get settingsAnalyticsHelp =>
+      'Only which session types start and finish. Never your workouts or personal data.';
+
+  @override
+  String get settingsPrivacyOptions => 'Privacy preferences';
+
+  @override
+  String get settingsPrivacyOptionsMeta => 'REVIEW';
+
+  @override
+  String get removeAdsTitle => 'REMOVE ADS · ONE-TIME';
+
+  @override
+  String get removeAdsBody =>
+      'One payment, no subscription. All features stay free.';
+
+  @override
+  String removeAdsBuy(String price) {
+    return 'REMOVE ADS · $price';
+  }
+
+  @override
+  String get removeAdsBuyNoPrice => 'REMOVE ADS';
+
+  @override
+  String get removeAdsRestore => 'Restore purchase';
+
+  @override
+  String get removeAdsOwned => 'Ads removed. Thanks for supporting Trainloop!';
+
+  @override
+  String get removeAdsRestored => 'Purchase restored: ads removed.';
+
+  @override
+  String get removeAdsPending =>
+      'Purchase pending: ads are removed once Google Play confirms it.';
+
+  @override
+  String get removeAdsCanceled => 'Purchase canceled. You were not charged.';
+
+  @override
+  String get removeAdsError =>
+      'The purchase couldn\'t be completed. Try again.';
+
+  @override
+  String get removeAdsUnavailable =>
+      'Google Play isn\'t available right now. Check your connection and try again.';
+
+  @override
+  String get removeAdsNothing =>
+      'This Google Play account doesn\'t have the purchase.';
 }
 
 /// The translations for English (`en_XA`).
@@ -4458,4 +4517,66 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get routineDiscardKeep => '[Ķééþ éðîţîñĝ ·····]';
+
+  @override
+  String get adBannerLabel => '[Åðṽéŕţîšéɱéñţ ······]';
+
+  @override
+  String get settingsAnalytics => '[Åñöñýɱöûš ûšáĝé šţáţîšţîçš ··········]';
+
+  @override
+  String get settingsAnalyticsHelp =>
+      '[Öñļý ŵĥîçĥ šéššîöñ ţýþéš šţáŕţ áñð ƒîñîšĥ. Ñéṽéŕ ýöûŕ ŵöŕķöûţš öŕ þéŕšöñáļ ðáţá. ···························]';
+
+  @override
+  String get settingsPrivacyOptions => '[Þŕîṽáçý þŕéƒéŕéñçéš ········]';
+
+  @override
+  String get settingsPrivacyOptionsMeta => '[ŔÉṼÎÉŴ ···]';
+
+  @override
+  String get removeAdsTitle => '[ŔÉṀÖṼÉ ÅÐŠ · ÖÑÉ-ŢÎṀÉ ·······]';
+
+  @override
+  String get removeAdsBody =>
+      '[Öñé þáýɱéñţ, ñö šûƀšçŕîþţîöñ. Åļļ ƒéáţûŕéš šţáý ƒŕéé. ··················]';
+
+  @override
+  String removeAdsBuy(String price) {
+    return '[ŔÉṀÖṼÉ ÅÐŠ · $price ····]';
+  }
+
+  @override
+  String get removeAdsBuyNoPrice => '[ŔÉṀÖṼÉ ÅÐŠ ····]';
+
+  @override
+  String get removeAdsRestore => '[Ŕéšţöŕé þûŕçĥášé ······]';
+
+  @override
+  String get removeAdsOwned =>
+      '[Åðš ŕéɱöṽéð. Ţĥáñķš ƒöŕ šûþþöŕţîñĝ Ţŕáîñļööþ! ················]';
+
+  @override
+  String get removeAdsRestored =>
+      '[Þûŕçĥášé ŕéšţöŕéð: áðš ŕéɱöṽéð. ···········]';
+
+  @override
+  String get removeAdsPending =>
+      '[Þûŕçĥášé þéñðîñĝ: áðš áŕé ŕéɱöṽéð öñçé Ĝööĝļé Þļáý çöñƒîŕɱš îţ. ·····················]';
+
+  @override
+  String get removeAdsCanceled =>
+      '[Þûŕçĥášé çáñçéļéð. Ýöû ŵéŕé ñöţ çĥáŕĝéð. ··············]';
+
+  @override
+  String get removeAdsError =>
+      '[Ţĥé þûŕçĥášé çöûļðñ\'ţ ƀé çöɱþļéţéð. Ţŕý áĝáîñ. ···············]';
+
+  @override
+  String get removeAdsUnavailable =>
+      '[Ĝööĝļé Þļáý îšñ\'ţ áṽáîļáƀļé ŕîĝĥţ ñöŵ. Çĥéçķ ýöûŕ çöññéçţîöñ áñð ţŕý áĝáîñ. ·························]';
+
+  @override
+  String get removeAdsNothing =>
+      '[Ţĥîš Ĝööĝļé Þļáý áççöûñţ ðöéšñ\'ţ ĥáṽé ţĥé þûŕçĥášé. ·················]';
 }

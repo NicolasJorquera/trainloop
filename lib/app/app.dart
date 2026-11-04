@@ -7,6 +7,7 @@ import '../core/l10n/l10n.dart';
 import '../core/router/app_router.dart';
 import '../core/theme/app_theme.dart';
 import '../features/intervals/presentation/session_gate.dart';
+import '../features/monetization/presentation/monetization_gate.dart';
 import '../features/reminders/presentation/reminder_section.dart';
 import '../features/settings/application/settings_controller.dart';
 
@@ -43,7 +44,9 @@ class TrainloopApp extends ConsumerWidget {
                 statusBarColor: Colors.transparent,
                 systemNavigationBarColor: Colors.transparent,
               ),
-          child: ReminderSync(child: SessionGate(child: child!)),
+          child: ReminderSync(
+            child: SessionGate(child: MonetizationGate(child: child!)),
+          ),
         );
       },
     );

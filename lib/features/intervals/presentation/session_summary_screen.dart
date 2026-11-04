@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +13,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../../data/db/enums.dart';
+import '../../monetization/application/interstitial_controller.dart';
 import '../application/interval_providers.dart';
 import '../data/interval_session_repository.dart';
 
@@ -236,7 +239,12 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
           perceivedEffort: _effort,
           note: note.isEmpty ? null : note,
         );
-    if (mounted) context.go(Routes.home);
+    if (!mounted) return;
+    // «Listo» (R-A2): primero se sale del resumen; el intersticial (si el
+    // experimento está activo y todo lo permite) aparece ya en Inicio.
+    final ads = ref.read(interstitialControllerProvider.notifier);
+    context.go(Routes.home);
+    unawaited(ads.afterSummaryDone(widget.sessionId));
   }
 
   Future<void> _discard() async {
