@@ -6,7 +6,17 @@ import 'package:trainloop/platform/timer_engine_client.dart';
 /// la prueba le indica.
 class FakeTimerEngine implements TimerEngineClient {
   final _states = StreamController<EngineState>.broadcast();
+  final _strength = StreamController<StrengthEngineState>.broadcast();
   final calls = <String>[];
+
+  StrengthProgram? strengthProgram;
+  StrengthEngineState? strengthLive;
+  StrengthPending? strengthPendingState;
+
+  /// Descansos pedidos: (duración en ms, serie siguiente).
+  final rests = <(int, String)>[];
+  String? progress;
+  String? next;
 
   Duration now = Duration.zero;
   TimerProgram? program;
@@ -27,6 +37,62 @@ class FakeTimerEngine implements TimerEngineClient {
 
   @override
   Stream<EngineState> get states => _states.stream;
+
+  /// Publica un estado de fuerza como lo haría el EventChannel.
+  void emitStrength(StrengthEngineState s) {
+    strengthLive = s.state.active ? s : null;
+    _strength.add(s);
+  }
+
+  @override
+  Stream<StrengthEngineState> get strengthStates => _strength.stream;
+
+  @override
+  Future<void> startStrength(StrengthProgram program) async {
+    calls.add('startStrength');
+    strengthProgram = program;
+    strengthLive = StrengthEngineState(sessionId: program.sessionId);
+  }
+
+  @override
+  Future<void> updateStrength({
+    required String progress,
+    required String next,
+  }) async {
+    this.progress = progress;
+    this.next = next;
+  }
+
+  @override
+  Future<void> startRest(int durationMs, {required String next}) async {
+    calls.add('startRest');
+    rests.add((durationMs, next));
+  }
+
+  @override
+  Future<void> adjustRest(int deltaMs) async =>
+      calls.add('adjustRest:$deltaMs');
+
+  @override
+  Future<void> skipRest() async => calls.add('skipRest');
+
+  @override
+  Future<void> stopStrength() async {
+    calls.add('stopStrength');
+    strengthLive = null;
+  }
+
+  @override
+  Future<StrengthEngineState?> strengthCurrent() async => strengthLive;
+
+  @override
+  Future<StrengthPending?> strengthPending() async => strengthPendingState;
+
+  @override
+  Future<void> clearStrength() async {
+    calls.add('clearStrength');
+    strengthPendingState = null;
+  }
 
   @override
   Duration clock() => now;

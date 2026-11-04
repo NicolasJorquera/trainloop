@@ -32,3 +32,4 @@ Otros resultados:
 - T-03 (música) y T-04 (Bluetooth) en teléfono real.
 - Opciones de ajustes del PRD aún sin pantalla: "pausar en llamadas", "solo vibración" con auriculares desconectados, aviso de mitad de intervalo y mantener pantalla encendida (R-I7, R-I9).
 - Voz del emulador: confirmar en teléfonos reales que no hay avisos sin voz.
+- D5 sumó deuda propia: ver `docs/pruebas-fuerza.md`.

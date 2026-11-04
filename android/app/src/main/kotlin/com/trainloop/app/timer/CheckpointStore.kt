@@ -153,6 +153,14 @@ class CheckpointStore(private val file: File) {
         null
     }
 
+    /** El texto del último punto completo, o `null` (otros puntos, como el de fuerza). */
+    @Synchronized
+    fun read(): String? = try {
+        if (file.exists()) file.readText(Charsets.UTF_8) else null
+    } catch (e: Exception) {
+        null
+    }
+
     @Synchronized
     fun clear() {
         file.delete()

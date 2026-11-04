@@ -9,13 +9,16 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/empty_state.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../../data/db/daos/routines_dao.dart';
+import '../../strength/application/strength_session_controller.dart';
+import '../../strength/presentation/strength_launcher.dart';
 import '../application/routine_providers.dart';
 import '../domain/reorder.dart';
 
-enum _RoutineAction { edit, duplicate, archive }
+enum _RoutineAction { edit, duplicate, archive, start }
 
-/// Lista de rutinas de S02: tocar edita, mantener presionado reordena y el
-/// menú duplica o archiva (con "Deshacer").
+/// Lista de rutinas de S02: ▶ empieza la sesión (D5), tocar edita, mantener
+/// presionado reordena y el menú duplica o archiva (con "Deshacer"). Debajo,
+/// ENTRENAMIENTO LIBRE empieza una sesión vacía.
 class RoutineList extends ConsumerStatefulWidget {
   const RoutineList({super.key});
 
@@ -41,6 +44,10 @@ class _RoutineListState extends ConsumerState<RoutineList> {
       onPressed: () => context.push(Routes.exercises),
     );
 
+    final free = _FreeWorkoutButton(
+      onTap: () => startStrengthSession(context, ref, const StartFree()),
+    );
+
     if (routines.isEmpty) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,6 +57,8 @@ class _RoutineListState extends ConsumerState<RoutineList> {
             title: l10n.trainRoutinesEmptyTitle,
             body: l10n.trainRoutinesEmptyBody,
           ),
+          const SizedBox(height: TlSpace.s2),
+          free,
           const SizedBox(height: TlSpace.s2),
           library,
         ],
@@ -77,6 +86,7 @@ class _RoutineListState extends ConsumerState<RoutineList> {
             ),
           ),
         ),
+        free,
         const SizedBox(height: TlSpace.s2),
         Text(
           l10n.trainRoutinesHint,
@@ -104,6 +114,16 @@ class _RoutineListState extends ConsumerState<RoutineList> {
     final messenger = ScaffoldMessenger.of(context);
     final routine = summary.routine;
     switch (action) {
+      case _RoutineAction.start:
+        if (summary.exerciseCount == 0) {
+          // Rutina vacía: no se puede empezar; se invita a agregar ejercicios.
+          messenger
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(l10n.strengthEmptyRoutine)));
+          await context.push(Routes.routineEdit(routine.id));
+          return;
+        }
+        await startStrengthSession(context, ref, StartFromRoutine(routine.id));
       case _RoutineAction.edit:
         await context.push(Routes.routineEdit(routine.id));
       case _RoutineAction.duplicate:
@@ -170,6 +190,11 @@ class _RoutineCard extends StatelessWidget {
                   ],
                 ),
               ),
+              _StartButton(
+                key: Key('routine-start-${summary.routine.id}'),
+                tooltip: l10n.routineStart(name),
+                onTap: () => onAction(_RoutineAction.start),
+              ),
               PopupMenuButton<_RoutineAction>(
                 key: Key('routine-menu-${summary.routine.id}'),
                 tooltip: l10n.routineActions(name),
@@ -191,6 +216,69 @@ class _RoutineCard extends StatelessWidget {
                 ],
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// ▶ de la tarjeta: empieza la rutina (S02 → S10).
+class _StartButton extends StatelessWidget {
+  const _StartButton({required this.tooltip, required this.onTap, super.key});
+
+  final String tooltip;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Semantics(
+      button: true,
+      label: tooltip,
+      excludeSemantics: true,
+      child: Material(
+        color: c.primaryBg,
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(TlRadius.md),
+          onTap: onTap,
+          child: SizedBox(
+            width: 52,
+            height: 52,
+            child: Icon(Icons.play_arrow, color: c.primaryInk, size: 26),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// ENTRENAMIENTO LIBRE: sesión de fuerza vacía.
+class _FreeWorkoutButton extends StatelessWidget {
+  const _FreeWorkoutButton({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    return Semantics(
+      button: true,
+      child: InkWell(
+        key: const Key('free-workout'),
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(TlRadius.lg),
+        child: Container(
+          height: 56,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(TlRadius.lg),
+            border: Border.all(color: c.line, width: 2),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            context.l10n.strengthFreeWorkout,
+            style: context.text.button.copyWith(color: c.accent),
           ),
         ),
       ),

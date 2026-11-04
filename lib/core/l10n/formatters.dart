@@ -20,9 +20,26 @@ extension TlFormatters on AppLocalizations {
   String weight(double value, WeightUnit unit) =>
       weightValue(decimal(value), unitSymbol(unit));
 
-  /// Número con hasta 2 decimales y el separador decimal del idioma.
+  /// Número con hasta 2 decimales y el separador decimal del idioma: coma en
+  /// español y portugués (82,5), punto en inglés (82.5). Sin separador de
+  /// miles, para que se pueda volver a leer al editarlo.
   String decimal(double value) =>
-      NumberFormat('0.##', localeName).format(value);
+      NumberFormat('0.##', numberLocale(localeName)).format(value);
+
+  /// Como [decimal], con separador de miles (volumen: 6.240 kg).
+  String grouped(double value) =>
+      NumberFormat('#,##0.##', numberLocale(localeName)).format(value);
+}
+
+/// Locale de los números. CLDR usa punto decimal en es-419 (como México),
+/// pero la app usa coma en todo el español y en pt-BR (diseño y PRD).
+String numberLocale(String localeName) {
+  final language = localeName.split(RegExp('[_-]')).first;
+  return switch (language) {
+    'es' => 'es',
+    'pt' => 'pt_BR',
+    _ => localeName,
+  };
 }
 
 /// Lee un número escrito con coma o punto decimal. `null` si no es válido.

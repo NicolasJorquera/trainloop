@@ -1069,6 +1069,448 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsVibrationHelp => 'Long on work, double on rest';
+
+  @override
+  String get homeActiveSession => 'SESSION IN PROGRESS';
+
+  @override
+  String get homeActiveStrength => 'Back to your strength session';
+
+  @override
+  String get homeRepeatLast => 'REPEAT LAST';
+
+  @override
+  String homeRepeatMeta(String date) {
+    return 'Strength · $date';
+  }
+
+  @override
+  String routineStart(String name) {
+    return 'Start $name';
+  }
+
+  @override
+  String get settingsTraining => 'TRAINING';
+
+  @override
+  String get settingsUnits => 'Units';
+
+  @override
+  String get settingsUnitsHelp =>
+      'Changes how weights are shown and entered. Logged sets keep their original unit.';
+
+  @override
+  String get cueRestOver => 'Next set';
+
+  @override
+  String get strengthFreeWorkout => 'FREE WORKOUT';
+
+  @override
+  String get strengthFreeTitle => 'Free workout';
+
+  @override
+  String get strengthEmptyRoutine =>
+      'This routine has no exercises. Add some to start it.';
+
+  @override
+  String get strengthEmptyHint =>
+      'Add the exercises you are going to do. Each set is saved as soon as you check it.';
+
+  @override
+  String get strengthInProgress => 'Session in progress';
+
+  @override
+  String get strengthFinish => 'FINISH';
+
+  @override
+  String strengthProgress(int done, int total) {
+    return '$done/$total sets';
+  }
+
+  @override
+  String get strengthRestLabel => '● REST';
+
+  @override
+  String get strengthRestNotification => 'Rest';
+
+  @override
+  String strengthRestRemaining(String time) {
+    return 'Rest, $time left';
+  }
+
+  @override
+  String get strengthRestOver => 'On to the next set!';
+
+  @override
+  String get strengthMinus15 => '−15';
+
+  @override
+  String get strengthPlus15 => '+15';
+
+  @override
+  String get strengthPlus15Short => '+15 s';
+
+  @override
+  String get strengthMinus15Tooltip => 'Subtract 15 seconds';
+
+  @override
+  String get strengthPlus15Tooltip => 'Add 15 seconds';
+
+  @override
+  String get strengthSkipRest => 'SKIP';
+
+  @override
+  String get strengthSkipRestTooltip => 'Skip rest';
+
+  @override
+  String strengthRestFor(String time) {
+    return 'Rest $time';
+  }
+
+  @override
+  String strengthExerciseActions(String name) {
+    return 'Options for $name';
+  }
+
+  @override
+  String get strengthMoveUp => 'Move up';
+
+  @override
+  String get strengthMoveDown => 'Move down';
+
+  @override
+  String get strengthRemoveExercise => 'Remove exercise';
+
+  @override
+  String strengthRemoveExerciseTitle(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get strengthRemoveExerciseBody =>
+      'Its logged sets will be removed from this session. The routine doesn\'t change.';
+
+  @override
+  String get strengthNotesTitle => 'Notes';
+
+  @override
+  String get strengthNotesHint => 'E.g. \"Seat at 4\"';
+
+  @override
+  String get strengthNotesSave => 'SAVE';
+
+  @override
+  String get strengthColSet => 'SET';
+
+  @override
+  String get strengthColPrevious => 'PREVIOUS';
+
+  @override
+  String get strengthColReps => 'REPS';
+
+  @override
+  String get strengthColTime => 'TIME';
+
+  @override
+  String get strengthNoValue => '—';
+
+  @override
+  String strengthPrevious(String weight, int reps) {
+    return '$weight × $reps';
+  }
+
+  @override
+  String strengthWeightTimesReps(String weight, int reps) {
+    return '$weight × $reps';
+  }
+
+  @override
+  String strengthTimesReps(int reps) {
+    return '× $reps';
+  }
+
+  @override
+  String get setTagWarmup => 'W';
+
+  @override
+  String get setTagFailure => 'F';
+
+  @override
+  String get setTagDrop => 'D';
+
+  @override
+  String setTagWithType(int number, String type) {
+    return '$number$type';
+  }
+
+  @override
+  String get strengthAddSet => '+ ADD SET';
+
+  @override
+  String get strengthAddExercise => '+ ADD EXERCISE';
+
+  @override
+  String strengthEditWeight(String set) {
+    return 'Edit weight, $set';
+  }
+
+  @override
+  String strengthEditReps(String set) {
+    return 'Edit reps, $set';
+  }
+
+  @override
+  String strengthCompleteSet(String set) {
+    return 'Complete $set';
+  }
+
+  @override
+  String strengthUncompleteSet(String set) {
+    return 'Uncheck $set';
+  }
+
+  @override
+  String strengthSetHeading(String exercise, int number) {
+    return '$exercise · set $number';
+  }
+
+  @override
+  String strengthSetHeadingWarmup(String exercise) {
+    return '$exercise · warm-up';
+  }
+
+  @override
+  String strengthNextSet(String exercise, int number) {
+    return 'Next: $exercise, set $number';
+  }
+
+  @override
+  String strengthNextWarmup(String exercise) {
+    return 'Next: $exercise, warm-up';
+  }
+
+  @override
+  String strengthLastTime(String values) {
+    return 'Last time: $values';
+  }
+
+  @override
+  String strengthWeightLabel(String unit) {
+    return 'WEIGHT ($unit)';
+  }
+
+  @override
+  String get strengthRepsLabel => 'REPS';
+
+  @override
+  String get strengthTimeLabel => 'TIME';
+
+  @override
+  String get strengthRpeLabel => 'EFFORT (RPE) · OPTIONAL';
+
+  @override
+  String get strengthSetTypeLabel => 'SET TYPE';
+
+  @override
+  String get setTypeWarmup => 'Warm-up';
+
+  @override
+  String get setTypeNormal => 'Normal';
+
+  @override
+  String get setTypeFailure => 'To failure';
+
+  @override
+  String get setTypeDrop => 'Drop set';
+
+  @override
+  String setStepMinus(String value) {
+    return '−$value';
+  }
+
+  @override
+  String setStepPlus(String value) {
+    return '+$value';
+  }
+
+  @override
+  String get setStepMinusOne => '−';
+
+  @override
+  String get setStepPlusOne => '+';
+
+  @override
+  String setStepMinusSeconds(int seconds) {
+    return '−$seconds';
+  }
+
+  @override
+  String setStepPlusSeconds(int seconds) {
+    return '+$seconds';
+  }
+
+  @override
+  String strengthWeightMinus(String weight) {
+    return 'Subtract $weight';
+  }
+
+  @override
+  String strengthWeightPlus(String weight) {
+    return 'Add $weight';
+  }
+
+  @override
+  String get strengthRepsMinus => 'Subtract one rep';
+
+  @override
+  String get strengthRepsPlus => 'Add one rep';
+
+  @override
+  String strengthTimeMinus(int seconds) {
+    return 'Subtract $seconds seconds';
+  }
+
+  @override
+  String strengthTimePlus(int seconds) {
+    return 'Add $seconds seconds';
+  }
+
+  @override
+  String get strengthSaveSet => 'SAVE SET';
+
+  @override
+  String get strengthCloseNoSave => 'Close without saving';
+
+  @override
+  String get strengthRemoveSet => 'Remove set';
+
+  @override
+  String setErrorWeightRange(String max) {
+    return 'Enter a weight between 0 and $max.';
+  }
+
+  @override
+  String setErrorWeightStep(String step) {
+    return 'Weight goes in steps of $step.';
+  }
+
+  @override
+  String setErrorReps(int max) {
+    return 'Reps go from 0 to $max.';
+  }
+
+  @override
+  String get setErrorRpe => 'RPE goes from 6 to 10 in steps of 0.5.';
+
+  @override
+  String get setErrorDuration => 'Enter a time up to 99:59.';
+
+  @override
+  String strengthPendingTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'There are $count unfinished sets',
+      one: 'There is 1 unfinished set',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get strengthPendingBody =>
+      'You can discard them, mark them done with the suggested values, or keep training.';
+
+  @override
+  String get strengthPendingDiscard => 'DISCARD AND FINISH';
+
+  @override
+  String get strengthPendingComplete => 'MARK THEM AS DONE';
+
+  @override
+  String get strengthBackToSession => 'Back to session';
+
+  @override
+  String get strengthNoSetsTitle => 'NO SETS DONE';
+
+  @override
+  String get strengthNoSetsBody =>
+      'A session without completed sets isn\'t saved. Discard it?';
+
+  @override
+  String get strengthRecoveryBody =>
+      'Android closed the app. Every set you checked is saved.';
+
+  @override
+  String get strengthRecoveryResume => 'RESUME';
+
+  @override
+  String strengthSetsDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sets done',
+      one: '1 set done',
+      zero: 'no sets done',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get strengthSavedTitle => 'Session saved';
+
+  @override
+  String get strengthSummaryDuration => 'DURATION';
+
+  @override
+  String get strengthSummaryVolume => 'VOLUME';
+
+  @override
+  String get strengthSummarySets => 'SETS';
+
+  @override
+  String strengthMinutes(int minutes) {
+    return '$minutes MIN';
+  }
+
+  @override
+  String get strengthNewRecord => 'NEW RECORD';
+
+  @override
+  String strengthRecordSet(String exercise, String values) {
+    return '$exercise: $values';
+  }
+
+  @override
+  String strengthRecordWithRm(String exercise, String values, String rm) {
+    return '$exercise: $values · estimated 1RM $rm';
+  }
+
+  @override
+  String strengthUpdateRoutineQuestion(String routine) {
+    return 'The structure changed. Update the \"$routine\" routine?';
+  }
+
+  @override
+  String get strengthUpdateRoutineYes => 'YES, UPDATE';
+
+  @override
+  String get strengthUpdateRoutineNo => 'No';
+
+  @override
+  String strengthRoutineUpdated(String routine) {
+    return '\"$routine\" updated: exercises and number of sets.';
+  }
+
+  @override
+  String get strengthRoutineKept => 'The routine stays as it was.';
+
+  @override
+  String get strengthNoteHint => 'E.g. \"Knee felt better\"';
+
+  @override
+  String decimalText(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for English (`en_XA`).
@@ -2147,4 +2589,447 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   @override
   String get settingsVibrationHelp =>
       '[Ļöñĝ öñ ŵöŕķ, ðöûƀļé öñ ŕéšţ ·········]';
+
+  @override
+  String get homeActiveSession => '[ŠÉŠŠÎÖÑ ÎÑ ÞŔÖĜŔÉŠŠ ·······]';
+
+  @override
+  String get homeActiveStrength => '[Ɓáçķ ţö ýöûŕ šţŕéñĝţĥ šéššîöñ ··········]';
+
+  @override
+  String get homeRepeatLast => '[ŔÉÞÉÅŢ ĻÅŠŢ ····]';
+
+  @override
+  String homeRepeatMeta(String date) {
+    return '[Šţŕéñĝţĥ · $date ····]';
+  }
+
+  @override
+  String routineStart(String name) {
+    return '[Šţáŕţ $name ··]';
+  }
+
+  @override
+  String get settingsTraining => '[ŢŔÅÎÑÎÑĜ ····]';
+
+  @override
+  String get settingsUnits => '[Ûñîţš ··]';
+
+  @override
+  String get settingsUnitsHelp =>
+      '[Çĥáñĝéš ĥöŵ ŵéîĝĥţš áŕé šĥöŵñ áñð éñţéŕéð. Ļöĝĝéð šéţš ķééþ ţĥéîŕ öŕîĝîñáļ ûñîţ. ···························]';
+
+  @override
+  String get cueRestOver => '[Ñéẋţ šéţ ···]';
+
+  @override
+  String get strengthFreeWorkout => '[ƑŔÉÉ ŴÖŔĶÖÛŢ ·····]';
+
+  @override
+  String get strengthFreeTitle => '[Ƒŕéé ŵöŕķöûţ ·····]';
+
+  @override
+  String get strengthEmptyRoutine =>
+      '[Ţĥîš ŕöûţîñé ĥáš ñö éẋéŕçîšéš. Åðð šöɱé ţö šţáŕţ îţ. ·················]';
+
+  @override
+  String get strengthEmptyHint =>
+      '[Åðð ţĥé éẋéŕçîšéš ýöû áŕé ĝöîñĝ ţö ðö. Éáçĥ šéţ îš šáṽéð áš šööñ áš ýöû çĥéçķ îţ. ·························]';
+
+  @override
+  String get strengthInProgress => '[Šéššîöñ îñ þŕöĝŕéšš ·······]';
+
+  @override
+  String get strengthFinish => '[ƑÎÑÎŠĤ ···]';
+
+  @override
+  String strengthProgress(int done, int total) {
+    return '[$done/$total šéţš ··]';
+  }
+
+  @override
+  String get strengthRestLabel => '[● ŔÉŠŢ ··]';
+
+  @override
+  String get strengthRestNotification => '[Ŕéšţ ··]';
+
+  @override
+  String strengthRestRemaining(String time) {
+    return '[Ŕéšţ, $time ļéƒţ ····]';
+  }
+
+  @override
+  String get strengthRestOver => '[Öñ ţö ţĥé ñéẋţ šéţ! ······]';
+
+  @override
+  String get strengthMinus15 => '[−15]';
+
+  @override
+  String get strengthPlus15 => '[+15]';
+
+  @override
+  String get strengthPlus15Short => '[+15 š ·]';
+
+  @override
+  String get strengthMinus15Tooltip => '[Šûƀţŕáçţ 15 šéçöñðš ······]';
+
+  @override
+  String get strengthPlus15Tooltip => '[Åðð 15 šéçöñðš ····]';
+
+  @override
+  String get strengthSkipRest => '[ŠĶÎÞ ··]';
+
+  @override
+  String get strengthSkipRestTooltip => '[Šķîþ ŕéšţ ····]';
+
+  @override
+  String strengthRestFor(String time) {
+    return '[Ŕéšţ $time ··]';
+  }
+
+  @override
+  String strengthExerciseActions(String name) {
+    return '[Öþţîöñš ƒöŕ $name ····]';
+  }
+
+  @override
+  String get strengthMoveUp => '[Ṁöṽé ûþ ···]';
+
+  @override
+  String get strengthMoveDown => '[Ṁöṽé ðöŵñ ····]';
+
+  @override
+  String get strengthRemoveExercise => '[Ŕéɱöṽé éẋéŕçîšé ······]';
+
+  @override
+  String strengthRemoveExerciseTitle(String name) {
+    return '[Ŕéɱöṽé $name? ···]';
+  }
+
+  @override
+  String get strengthRemoveExerciseBody =>
+      '[Îţš ļöĝĝéð šéţš ŵîļļ ƀé ŕéɱöṽéð ƒŕöɱ ţĥîš šéššîöñ. Ţĥé ŕöûţîñé ðöéšñ\'ţ çĥáñĝé. ··························]';
+
+  @override
+  String get strengthNotesTitle => '[Ñöţéš ··]';
+
+  @override
+  String get strengthNotesHint => '[É.ĝ. \"Šéáţ áţ 4\" ····]';
+
+  @override
+  String get strengthNotesSave => '[ŠÅṼÉ ··]';
+
+  @override
+  String get strengthColSet => '[ŠÉŢ ··]';
+
+  @override
+  String get strengthColPrevious => '[ÞŔÉṼÎÖÛŠ ····]';
+
+  @override
+  String get strengthColReps => '[ŔÉÞŠ ··]';
+
+  @override
+  String get strengthColTime => '[ŢÎṀÉ ··]';
+
+  @override
+  String get strengthNoValue => '[—]';
+
+  @override
+  String strengthPrevious(String weight, int reps) {
+    return '[$weight × $reps]';
+  }
+
+  @override
+  String strengthWeightTimesReps(String weight, int reps) {
+    return '[$weight × $reps]';
+  }
+
+  @override
+  String strengthTimesReps(int reps) {
+    return '[× $reps]';
+  }
+
+  @override
+  String get setTagWarmup => '[Ŵ ·]';
+
+  @override
+  String get setTagFailure => '[Ƒ ·]';
+
+  @override
+  String get setTagDrop => '[Ð ·]';
+
+  @override
+  String setTagWithType(int number, String type) {
+    return '[$number$type]';
+  }
+
+  @override
+  String get strengthAddSet => '[+ ÅÐÐ ŠÉŢ ···]';
+
+  @override
+  String get strengthAddExercise => '[+ ÅÐÐ ÉẊÉŔÇÎŠÉ ·····]';
+
+  @override
+  String strengthEditWeight(String set) {
+    return '[Éðîţ ŵéîĝĥţ, $set ····]';
+  }
+
+  @override
+  String strengthEditReps(String set) {
+    return '[Éðîţ ŕéþš, $set ····]';
+  }
+
+  @override
+  String strengthCompleteSet(String set) {
+    return '[Çöɱþļéţé $set ····]';
+  }
+
+  @override
+  String strengthUncompleteSet(String set) {
+    return '[Ûñçĥéçķ $set ···]';
+  }
+
+  @override
+  String strengthSetHeading(String exercise, int number) {
+    return '[$exercise · šéţ $number ··]';
+  }
+
+  @override
+  String strengthSetHeadingWarmup(String exercise) {
+    return '[$exercise · ŵáŕɱ-ûþ ···]';
+  }
+
+  @override
+  String strengthNextSet(String exercise, int number) {
+    return '[Ñéẋţ: $exercise, šéţ $number ···]';
+  }
+
+  @override
+  String strengthNextWarmup(String exercise) {
+    return '[Ñéẋţ: $exercise, ŵáŕɱ-ûþ ····]';
+  }
+
+  @override
+  String strengthLastTime(String values) {
+    return '[Ļášţ ţîɱé: $values ····]';
+  }
+
+  @override
+  String strengthWeightLabel(String unit) {
+    return '[ŴÉÎĜĤŢ ($unit) ···]';
+  }
+
+  @override
+  String get strengthRepsLabel => '[ŔÉÞŠ ··]';
+
+  @override
+  String get strengthTimeLabel => '[ŢÎṀÉ ··]';
+
+  @override
+  String get strengthRpeLabel => '[ÉƑƑÖŔŢ (ŔÞÉ) · ÖÞŢÎÖÑÅĻ ·······]';
+
+  @override
+  String get strengthSetTypeLabel => '[ŠÉŢ ŢÝÞÉ ···]';
+
+  @override
+  String get setTypeWarmup => '[Ŵáŕɱ-ûþ ···]';
+
+  @override
+  String get setTypeNormal => '[Ñöŕɱáļ ···]';
+
+  @override
+  String get setTypeFailure => '[Ţö ƒáîļûŕé ····]';
+
+  @override
+  String get setTypeDrop => '[Ðŕöþ šéţ ···]';
+
+  @override
+  String setStepMinus(String value) {
+    return '[−$value]';
+  }
+
+  @override
+  String setStepPlus(String value) {
+    return '[+$value]';
+  }
+
+  @override
+  String get setStepMinusOne => '[−]';
+
+  @override
+  String get setStepPlusOne => '[+]';
+
+  @override
+  String setStepMinusSeconds(int seconds) {
+    return '[−$seconds]';
+  }
+
+  @override
+  String setStepPlusSeconds(int seconds) {
+    return '[+$seconds]';
+  }
+
+  @override
+  String strengthWeightMinus(String weight) {
+    return '[Šûƀţŕáçţ $weight ····]';
+  }
+
+  @override
+  String strengthWeightPlus(String weight) {
+    return '[Åðð $weight ··]';
+  }
+
+  @override
+  String get strengthRepsMinus => '[Šûƀţŕáçţ öñé ŕéþ ······]';
+
+  @override
+  String get strengthRepsPlus => '[Åðð öñé ŕéþ ····]';
+
+  @override
+  String strengthTimeMinus(int seconds) {
+    return '[Šûƀţŕáçţ $seconds šéçöñðš ······]';
+  }
+
+  @override
+  String strengthTimePlus(int seconds) {
+    return '[Åðð $seconds šéçöñðš ····]';
+  }
+
+  @override
+  String get strengthSaveSet => '[ŠÅṼÉ ŠÉŢ ···]';
+
+  @override
+  String get strengthCloseNoSave => '[Çļöšé ŵîţĥöûţ šáṽîñĝ ········]';
+
+  @override
+  String get strengthRemoveSet => '[Ŕéɱöṽé šéţ ····]';
+
+  @override
+  String setErrorWeightRange(String max) {
+    return '[Éñţéŕ á ŵéîĝĥţ ƀéţŵééñ 0 áñð $max. ·········]';
+  }
+
+  @override
+  String setErrorWeightStep(String step) {
+    return '[Ŵéîĝĥţ ĝöéš îñ šţéþš öƒ $step. ········]';
+  }
+
+  @override
+  String setErrorReps(int max) {
+    return '[Ŕéþš ĝö ƒŕöɱ 0 ţö $max. ·····]';
+  }
+
+  @override
+  String get setErrorRpe =>
+      '[ŔÞÉ ĝöéš ƒŕöɱ 6 ţö 10 îñ šţéþš öƒ 0.5. ·········]';
+
+  @override
+  String get setErrorDuration => '[Éñţéŕ á ţîɱé ûþ ţö 99:59. ······]';
+
+  @override
+  String strengthPendingTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ţĥéŕé áŕé $count ûñƒîñîšĥéð šéţš',
+      one: 'Ţĥéŕé îš 1 ûñƒîñîšĥéð šéţ',
+    );
+    return '[$_temp0 ·················]';
+  }
+
+  @override
+  String get strengthPendingBody =>
+      '[Ýöû çáñ ðîšçáŕð ţĥéɱ, ɱáŕķ ţĥéɱ ðöñé ŵîţĥ ţĥé šûĝĝéšţéð ṽáļûéš, öŕ ķééþ ţŕáîñîñĝ. ··························]';
+
+  @override
+  String get strengthPendingDiscard => '[ÐÎŠÇÅŔÐ ÅÑÐ ƑÎÑÎŠĤ ·······]';
+
+  @override
+  String get strengthPendingComplete => '[ṀÅŔĶ ŢĤÉṀ ÅŠ ÐÖÑÉ ······]';
+
+  @override
+  String get strengthBackToSession => '[Ɓáçķ ţö šéššîöñ ······]';
+
+  @override
+  String get strengthNoSetsTitle => '[ÑÖ ŠÉŢŠ ÐÖÑÉ ····]';
+
+  @override
+  String get strengthNoSetsBody =>
+      '[Å šéššîöñ ŵîţĥöûţ çöɱþļéţéð šéţš îšñ\'ţ šáṽéð. Ðîšçáŕð îţ? ···················]';
+
+  @override
+  String get strengthRecoveryBody =>
+      '[Åñðŕöîð çļöšéð ţĥé áþþ. Éṽéŕý šéţ ýöû çĥéçķéð îš šáṽéð. ··················]';
+
+  @override
+  String get strengthRecoveryResume => '[ŔÉŠÛṀÉ ···]';
+
+  @override
+  String strengthSetsDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count šéţš ðöñé',
+      one: '1 šéţ ðöñé',
+      zero: 'ñö šéţš ðöñé',
+    );
+    return '[$_temp0 ··········]';
+  }
+
+  @override
+  String get strengthSavedTitle => '[Šéššîöñ šáṽéð ·····]';
+
+  @override
+  String get strengthSummaryDuration => '[ÐÛŔÅŢÎÖÑ ····]';
+
+  @override
+  String get strengthSummaryVolume => '[ṼÖĻÛṀÉ ···]';
+
+  @override
+  String get strengthSummarySets => '[ŠÉŢŠ ··]';
+
+  @override
+  String strengthMinutes(int minutes) {
+    return '[$minutes ṀÎÑ ··]';
+  }
+
+  @override
+  String get strengthNewRecord => '[ÑÉŴ ŔÉÇÖŔÐ ····]';
+
+  @override
+  String strengthRecordSet(String exercise, String values) {
+    return '[$exercise: $values]';
+  }
+
+  @override
+  String strengthRecordWithRm(String exercise, String values, String rm) {
+    return '[$exercise: $values · éšţîɱáţéð 1ŔṀ $rm ·····]';
+  }
+
+  @override
+  String strengthUpdateRoutineQuestion(String routine) {
+    return '[Ţĥé šţŕûçţûŕé çĥáñĝéð. Ûþðáţé ţĥé \"$routine\" ŕöûţîñé? ··············]';
+  }
+
+  @override
+  String get strengthUpdateRoutineYes => '[ÝÉŠ, ÛÞÐÅŢÉ ····]';
+
+  @override
+  String get strengthUpdateRoutineNo => '[Ñö ·]';
+
+  @override
+  String strengthRoutineUpdated(String routine) {
+    return '[\"$routine\" ûþðáţéð: éẋéŕçîšéš áñð ñûɱƀéŕ öƒ šéţš. ·············]';
+  }
+
+  @override
+  String get strengthRoutineKept => '[Ţĥé ŕöûţîñé šţáýš áš îţ ŵáš. ·········]';
+
+  @override
+  String get strengthNoteHint => '[É.ĝ. \"Ķñéé ƒéļţ ƀéţţéŕ\" ·······]';
+
+  @override
+  String decimalText(String value) {
+    return '[$value]';
+  }
 }

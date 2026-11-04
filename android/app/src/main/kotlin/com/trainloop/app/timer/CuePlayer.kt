@@ -164,6 +164,34 @@ object CuePlayer {
         if (program.vibration) vibrate(context, longArrayOf(0, 900))
     }
 
+    /** Pitido de los últimos 3 s del descanso de fuerza. */
+    @Synchronized
+    fun countdownBeep(context: Context, sounds: Boolean) {
+        if (!sounds || !audioAllowed(context)) return
+        withFocus(context) { tone()?.startTone(ToneGenerator.TONE_PROP_BEEP, 120) }
+    }
+
+    /**
+     * Fin del descanso (F-09): tono, voz ("a la siguiente serie") y vibración doble, según los
+     * ajustes de Alertas. Suena con la pantalla apagada porque lo dispara el servicio.
+     */
+    @Synchronized
+    fun restOver(context: Context, sounds: Boolean, voice: Boolean, vibration: Boolean, speech: String?) {
+        if (audioAllowed(context) && (sounds || voice)) {
+            withFocus(context) {
+                if (sounds) tone()?.startTone(ToneGenerator.TONE_PROP_ACK, 400)
+                if (voice && ttsReady && speech != null) speak(context, speech, "rest_over")
+                if (!sounds && (!ttsReady || speech == null)) {
+                    tone()?.startTone(ToneGenerator.TONE_PROP_ACK, 400)
+                }
+            }
+        }
+        if (vibration) vibrate(context, restOverPattern)
+    }
+
+    /** Vibración del fin del descanso: dos pulsos largos. */
+    private val restOverPattern = longArrayOf(0, 450, 200, 450)
+
     @Synchronized
     fun stopSpeaking() {
         tts?.stop()

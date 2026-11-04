@@ -208,6 +208,10 @@ class SessionExercises extends Table with Entity {
   TextColumn get exerciseId => text().references(Exercises, #id)();
   IntColumn get sortOrder => integer()();
   TextColumn get notes => text().nullable()();
+
+  /// Descanso de este ejercicio en la sesión (v4): el de la rutina → el de
+  /// la biblioteca → 90 s (R-G8). Se copia al empezar o al agregarlo.
+  IntColumn get restSeconds => integer().nullable()();
 }
 
 /// Serie registrada. [sessionId] y [exerciseId] se repiten (desnormalizados)

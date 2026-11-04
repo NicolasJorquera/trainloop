@@ -19,9 +19,10 @@ import org.json.JSONObject
 import java.io.File
 
 /**
- * Servicio en primer plano (specialUse) que corre la sesión de intervalos (F-04). Flutter solo
- * envía el programa y muestra el estado que este servicio publica; si Android detiene la
- * interfaz o se apaga la pantalla, el entrenamiento sigue.
+ * Servicio en primer plano (specialUse) que corre la sesión de intervalos (F-04) o la sesión de
+ * fuerza con su descanso automático (F-09, D5). Flutter solo envía el programa y muestra el
+ * estado que este servicio publica; si Android detiene la interfaz o se apaga la pantalla, el
+ * entrenamiento sigue. Hay una sola sesión a la vez (R-I13).
  *
  * - Cada cambio de fase se programa en su instante absoluto de SystemClock.elapsedRealtime
  *   (inmune a cambios de hora) a partir de [TimerEngine]; nunca se cuentan ticks.
@@ -31,6 +32,10 @@ import java.io.File
  * - Wake lock parcial solo mientras la sesión corre: se suelta en pausa y al terminar.
  * - Punto de recuperación atómico en cada cambio y cada 5 s (R-I11 pide ≥ 1 cada 10 s).
  * - Sin alarmas exactas: el spike no las necesitó (ver docs/arquitectura.md).
+ * - Fuerza: el servicio sigue en primer plano toda la sesión (la notificación muestra la sesión
+ *   o el descanso). El fin del descanso es un instante absoluto del mismo reloj; el wake lock se
+ *   toma solo mientras corre un descanso. Las series las guarda Flutter en la base; aquí solo se
+ *   guarda el descanso en `strength_checkpoint.json` (atómico) para recalcularlo al reabrir.
  */
 class TimerService : Service() {
 
@@ -43,7 +48,17 @@ class TimerService : Service() {
         const val ACTION_SKIP = "com.trainloop.app.timer.SKIP"
         const val ACTION_PREVIOUS = "com.trainloop.app.timer.PREVIOUS"
         const val ACTION_STOP = "com.trainloop.app.timer.STOP"
+        const val ACTION_STRENGTH_START = "com.trainloop.app.timer.STRENGTH_START"
+        const val ACTION_STRENGTH_UPDATE = "com.trainloop.app.timer.STRENGTH_UPDATE"
+        const val ACTION_STRENGTH_STOP = "com.trainloop.app.timer.STRENGTH_STOP"
+        const val ACTION_REST_START = "com.trainloop.app.timer.REST_START"
+        const val ACTION_REST_ADD = "com.trainloop.app.timer.REST_ADD"
+        const val ACTION_REST_SKIP = "com.trainloop.app.timer.REST_SKIP"
         const val EXTRA_PROGRAM = "program"
+        const val EXTRA_DURATION = "durationMs"
+        const val EXTRA_DELTA = "deltaMs"
+        const val EXTRA_NEXT = "next"
+        const val EXTRA_PROGRESS = "progress"
         const val CHECKPOINT_EVERY_MS = 5_000L
         private const val DEBUG_LOG = "timer_debug.csv"
 
@@ -56,6 +71,11 @@ class TimerService : Service() {
 
         fun store(context: Context) =
             CheckpointStore(File(context.filesDir, CheckpointStore.FILE_NAME))
+
+        fun strengthStore(context: Context) =
+            CheckpointStore(File(context.filesDir, StrengthCheckpoint.FILE_NAME))
+
+        fun restStateName(s: RestState) = s.name.lowercase()
 
         fun stateName(s: SessionState) = s.name.lowercase()
 
@@ -73,6 +93,11 @@ class TimerService : Service() {
     private var engine: TimerEngine? = null
     private var endState: SessionState? = null
     private val ended get() = endState != null
+    private lateinit var strengthCheckpoints: CheckpointStore
+    private var strength: StrengthProgram? = null
+    private val rest = RestTimer()
+    private var restNext = ""
+    private var progress = ""
     private var wakeLock: PowerManager.WakeLock? = null
     private var debugLog: File? = null
 
@@ -82,6 +107,7 @@ class TimerService : Service() {
         thread.start()
         handler = Handler(thread.looper)
         checkpoints = store(this)
+        strengthCheckpoints = strengthStore(this)
         if (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0) {
             debugLog = File(filesDir, DEBUG_LOG).also {
                 if (!it.exists()) {
@@ -96,6 +122,10 @@ class TimerService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
         val program = intent?.getStringExtra(EXTRA_PROGRAM)
+        val duration = intent?.getLongExtra(EXTRA_DURATION, 0L) ?: 0L
+        val delta = intent?.getLongExtra(EXTRA_DELTA, 0L) ?: 0L
+        val next = intent?.getStringExtra(EXTRA_NEXT)
+        val progressText = intent?.getStringExtra(EXTRA_PROGRESS)
         handler.post {
             synchronized(this) {
                 when (action) {
@@ -106,8 +136,16 @@ class TimerService : Service() {
                     ACTION_SKIP -> skip()
                     ACTION_PREVIOUS -> previous()
                     ACTION_STOP -> end(SessionState.STOPPED)
+                    ACTION_STRENGTH_START -> program?.let {
+                        beginStrength(StrengthProgram.fromJson(JSONObject(it)))
+                    }
+                    ACTION_STRENGTH_UPDATE -> updateStrength(progressText, next)
+                    ACTION_REST_START -> startRest(duration, next)
+                    ACTION_REST_ADD -> adjustRest(delta)
+                    ACTION_REST_SKIP -> skipRest()
+                    ACTION_STRENGTH_STOP -> endStrength()
                 }
-                if (engine == null) stopSelf()
+                if (engine == null && strength == null) stopSelf()
             }
         }
         return START_NOT_STICKY
@@ -124,6 +162,11 @@ class TimerService : Service() {
                     main.post { listener?.invoke(m + ("state" to "interrupted")) }
                 }
             }
+            if (strength != null) {
+                saveStrengthCheckpoint()
+                log("interrupted", 0, now(), now())
+                strengthMap("interrupted")?.let { m -> main.post { listener?.invoke(m) } }
+            }
             handler.removeCallbacksAndMessages(null)
             releaseWake()
             instance = null
@@ -137,6 +180,7 @@ class TimerService : Service() {
     private fun now() = SystemClock.elapsedRealtime()
 
     private fun begin(p: TimerProgram) {
+        if (strength != null) return
         handler.removeCallbacksAndMessages(null)
         program = p
         endState = null
@@ -273,6 +317,177 @@ class TimerService : Service() {
         stopSelf()
     }
 
+    // ------------------------------------------------------------- fuerza
+
+    private fun beginStrength(p: StrengthProgram) {
+        if (engine != null && !ended) return
+        handler.removeCallbacksAndMessages(null)
+        strength = p
+        rest.reset()
+        restNext = ""
+        progress = ""
+        CuePlayer.prewarm(this, p.locale)
+        if (!goForegroundStrength()) return
+        log("strength_start", 0, now(), now())
+        strengthChanged()
+    }
+
+    private fun updateStrength(progressText: String?, next: String?) {
+        strength ?: return
+        progressText?.let { progress = it }
+        next?.let { restNext = it }
+        updateStrengthNotification()
+        saveStrengthCheckpoint()
+    }
+
+    private fun startRest(duration: Long, next: String?) {
+        strength ?: return
+        next?.let { restNext = it }
+        val t = now()
+        rest.start(t, duration)
+        if (rest.running) acquireWake() else releaseWake()
+        log("rest_start", 0, t + duration, t)
+        strengthChanged()
+    }
+
+    private fun adjustRest(delta: Long) {
+        strength ?: return
+        if (!rest.adjust(now(), delta)) return
+        log("rest_adjust", 0, rest.endsAt, now())
+        strengthChanged()
+    }
+
+    private fun skipRest() {
+        strength ?: return
+        if (!rest.skip()) return
+        releaseWake()
+        log("rest_skip", 0, now(), now())
+        strengthChanged()
+    }
+
+    private val restEnd = Runnable { synchronized(this) { onRestEnd() } }
+
+    private fun onRestEnd() {
+        val p = strength ?: return
+        if (!rest.running) return
+        val target = rest.endsAt
+        val actual = now()
+        if (!rest.tick(actual)) {
+            // Llegó antes de tiempo: se reprograma con el mismo objetivo absoluto.
+            scheduleRest()
+            return
+        }
+        CuePlayer.restOver(this, p.sounds, p.voice, p.vibration, p.strings["restOverSpeech"])
+        log("rest_end", 0, target, actual)
+        releaseWake()
+        strengthChanged()
+    }
+
+    private val restBeeps = Array(3) { i ->
+        Runnable {
+            synchronized(this) {
+                strength?.let { CuePlayer.countdownBeep(this, it.sounds) }
+                log("rest_beep${i + 1}", 0, 0, now())
+            }
+        }
+    }
+
+    private fun scheduleRest() {
+        handler.removeCallbacks(restEnd)
+        restBeeps.forEach { handler.removeCallbacks(it) }
+        if (!rest.running) return
+        val t = now()
+        val at = rest.endsAt
+        handler.postDelayed(restEnd, (at - t).coerceAtLeast(0))
+        for (s in 1..3) {
+            val d = at - s * 1000L - t
+            if (d > 0) handler.postDelayed(restBeeps[s - 1], d)
+        }
+    }
+
+    private fun strengthChanged() {
+        scheduleRest()
+        updateStrengthNotification()
+        saveStrengthCheckpoint()
+        emitStrength()
+    }
+
+    private fun endStrength() {
+        strength ?: return
+        handler.removeCallbacksAndMessages(null)
+        log("strength_stop", 0, now(), now())
+        emitStrength("stopped")
+        strength = null
+        rest.reset()
+        try {
+            strengthCheckpoints.clear()
+        } catch (ex: Exception) {
+            Log.e(TAG, "strength checkpoint", ex)
+        }
+        releaseWake()
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+    }
+
+    /** Estado de la sesión de fuerza para la interfaz; `null` si no hay. */
+    @Synchronized
+    fun strengthMap(state: String = "running"): Map<String, Any?>? {
+        val p = strength ?: return null
+        return mapOf(
+            "kind" to "strength",
+            "sessionId" to p.sessionId,
+            "state" to state,
+            "rest" to restStateName(rest.state),
+            "restRemainingMs" to rest.remainingMs(now()),
+            "restDurationMs" to rest.durationMs,
+        )
+    }
+
+    private fun emitStrength(state: String = "running") {
+        val map = strengthMap(state) ?: return
+        main.post { listener?.invoke(map) }
+    }
+
+    private fun saveStrengthCheckpoint() {
+        val p = strength ?: return
+        try {
+            strengthCheckpoints.write(
+                StrengthCheckpoint(p.sessionId, rest.state, rest.endsAt, rest.durationMs, restNext,
+                    now(), System.currentTimeMillis()).toJson(),
+            )
+        } catch (ex: Exception) {
+            Log.e(TAG, "strength checkpoint", ex)
+        }
+    }
+
+    private fun goForegroundStrength(): Boolean {
+        val p = strength ?: return false
+        SessionNotification.ensureChannel(this, p.string("channel"))
+        val n = SessionNotification.buildStrength(this, p, rest, now(), restNext, progress)
+        return try {
+            if (Build.VERSION.SDK_INT >= 34) {
+                startForeground(SessionNotification.ID, n, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+            } else {
+                startForeground(SessionNotification.ID, n)
+            }
+            true
+        } catch (ex: Exception) {
+            Log.e(TAG, "startForeground", ex)
+            saveStrengthCheckpoint()
+            strength = null
+            stopSelf()
+            false
+        }
+    }
+
+    private fun updateStrengthNotification() {
+        val p = strength ?: return
+        getSystemService(NotificationManager::class.java).notify(
+            SessionNotification.ID,
+            SessionNotification.buildStrength(this, p, rest, now(), restNext, progress),
+        )
+    }
+
     // ------------------------------------------------------- estado y avisos
 
     private fun currentState(): SessionState =
@@ -374,8 +589,9 @@ class TimerService : Service() {
         val file = debugLog ?: return
         val pm = getSystemService(PowerManager::class.java)
         val late = if (target > 0) actual - target else 0
-        val type = program?.phases?.getOrNull(index)?.type ?: "-"
-        val line = "$event,${program?.sessionId},$index,$type,$target,$actual,$late," +
+        val type = if (strength != null) "rest" else program?.phases?.getOrNull(index)?.type ?: "-"
+        val session = program?.sessionId ?: strength?.sessionId
+        val line = "$event,$session,$index,$type,$target,$actual,$late," +
             "${pm.isInteractive},${pm.isDeviceIdleMode},${System.currentTimeMillis()}"
         Log.i(TAG, line)
         try {

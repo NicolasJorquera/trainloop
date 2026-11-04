@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
@@ -54,6 +55,44 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
             "previous" -> command(TimerService.ACTION_PREVIOUS, result)
             "stop" -> command(TimerService.ACTION_STOP, result)
             "state" -> result.success(TimerService.instance?.stateMap())
+            "strengthStart" -> {
+                @Suppress("UNCHECKED_CAST")
+                val program = StrengthProgram.fromMap(call.arguments as Map<String, Any?>)
+                activity.startForegroundService(
+                    intent(TimerService.ACTION_STRENGTH_START)
+                        .putExtra(TimerService.EXTRA_PROGRAM, program.toJson().toString()),
+                )
+                result.success(null)
+            }
+            "strengthUpdate" -> command(
+                intent(TimerService.ACTION_STRENGTH_UPDATE)
+                    .putExtra(TimerService.EXTRA_PROGRESS, call.argument<String>("progress"))
+                    .putExtra(TimerService.EXTRA_NEXT, call.argument<String>("next")),
+                result,
+            )
+            "restStart" -> command(
+                intent(TimerService.ACTION_REST_START)
+                    .putExtra(TimerService.EXTRA_DURATION,
+                        (call.argument<Number>("durationMs") ?: 0).toLong())
+                    .putExtra(TimerService.EXTRA_NEXT, call.argument<String>("next")),
+                result,
+            )
+            "restAdd" -> command(
+                intent(TimerService.ACTION_REST_ADD)
+                    .putExtra(TimerService.EXTRA_DELTA,
+                        (call.argument<Number>("deltaMs") ?: 0).toLong()),
+                result,
+            )
+            "restSkip" -> command(TimerService.ACTION_REST_SKIP, result)
+            "strengthStop" -> command(TimerService.ACTION_STRENGTH_STOP, result)
+            "strengthState" -> result.success(TimerService.instance?.strengthMap())
+            "strengthPending" -> result.success(strengthPending())
+            "strengthClear" -> {
+                if (TimerService.instance?.strengthMap() == null) {
+                    TimerService.strengthStore(activity).clear()
+                }
+                result.success(null)
+            }
             "pending" -> result.success(pending())
             "restore" -> {
                 if (TimerService.instance == null) {
@@ -114,6 +153,7 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
     override fun onListen(arguments: Any?, events: EventChannel.EventSink) {
         TimerService.listener = { events.success(it) }
         TimerService.instance?.stateMap()?.let { events.success(it) }
+        TimerService.instance?.strengthMap()?.let { events.success(it) }
     }
 
     override fun onCancel(arguments: Any?) {
@@ -146,6 +186,27 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
         )
     }
 
+    /**
+     * Sesión de fuerza guardada sin servicio vivo (Android cerró la app): su descanso, recalculado
+     * con el reloj monotónico, o 0 si venció o el teléfono se reinició.
+     */
+    private fun strengthPending(): Map<String, Any?>? {
+        if (TimerService.instance?.strengthMap() != null) return null
+        val text = TimerService.strengthStore(activity).read() ?: return null
+        val cp = try {
+            StrengthCheckpoint.fromJson(text)
+        } catch (e: Exception) {
+            return null
+        }
+        return mapOf(
+            "sessionId" to cp.sessionId,
+            "restRemainingMs" to cp.remainingRestMs(SystemClock.elapsedRealtime(), System.currentTimeMillis()),
+            "restDurationMs" to cp.restDurationMs,
+            "next" to cp.next,
+            "savedAtWallMs" to cp.savedWallMs,
+        )
+    }
+
     private fun prefs() = activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     private fun notificationsGranted() = Build.VERSION.SDK_INT < 33 ||
@@ -154,8 +215,11 @@ class TimerBridge(private val activity: Activity, messenger: BinaryMessenger) :
 
     private fun intent(action: String) = Intent(activity, TimerService::class.java).setAction(action)
 
-    private fun command(action: String, result: MethodChannel.Result) {
-        if (TimerService.instance != null) activity.startService(intent(action))
+    private fun command(action: String, result: MethodChannel.Result) =
+        command(intent(action), result)
+
+    private fun command(intent: Intent, result: MethodChannel.Result) {
+        if (TimerService.instance != null) activity.startService(intent)
         result.success(null)
     }
 }

@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 4, temporizador de intervalos.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agrega el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. Siguen: registro de fuerza (D5), historial y estadísticas (D6), y anuncios y consentimiento (D8).
+Estado: **entregable 5, registro de fuerza.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agrega la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. Siguen: historial y estadísticas (D6), y anuncios y consentimiento (D8).
 
 ## Cómo correrla
 
@@ -14,7 +14,7 @@ export PUB_HOSTED_URL=https://pub.dev
 
 flutter pub get
 flutter run                  # depuración
-flutter test                 # pruebas
+flutter test --timeout 60s   # pruebas (el límite evita procesos colgados)
 flutter analyze              # lints
 flutter build apk --debug    # APK en build/app/outputs/flutter-apk/
 ```
@@ -42,11 +42,13 @@ lib/
                                 TlSegmentedControl, AccentPicker, PhaseGlyph, EmptyState…
   features/<feature>/           por funcionalidad: domain / data / application / presentation
     home, train, history, progress, settings, exercises (S08/S09), routines (S07),
-    intervals (S02–S06, S18: editor, plantillas, temporizador, resumen, recuperación)
+    intervals (S02–S06, S18: editor, plantillas, temporizador, resumen, recuperación),
+    strength (S10, S11, S06 fuerza: sesión, registro de serie, resumen, recuperación)
   platform/                     puente con el motor nativo del temporizador (canales)
 android/app/src/main/kotlin/com/trainloop/app/timer/
                                 TimerService, TimerEngine, CuePlayer, SessionNotification,
-                                CheckpointStore y TimerBridge (MethodChannel/EventChannel)
+                                CheckpointStore, RestTimer (descanso de fuerza) y TimerBridge
+                                (MethodChannel/EventChannel)
 android/app/src/test/           pruebas JVM del motor y del punto de recuperación
   l10n/                         ARB (fuente) y gen/ (generado por flutter gen-l10n)
 assets/fonts/                   Barlow Condensed e Inter (OFL, empaquetadas: no se descargan)
@@ -67,7 +69,6 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **Siembra.** `seedExerciseCatalog` inserta solo las claves que faltan (índice único en `catalog_key`); corre al abrir la biblioteca. Para ampliar la biblioteca basta con agregar entradas con claves nuevas. Nunca cambies ni reutilices una clave.
 - **Búsqueda y duplicados.** La búsqueda compara el nombre visible sin mayúsculas ni tildes. Al crear un ejercicio propio, `findDuplicateExercise` lo compara con los propios y con los incluidos en los 3 idiomas («plank» choca con «Plancha»): avisa, no deja guardar y ofrece usar el existente.
 - **Rutinas.** El editor maneja series iguales por ejercicio (series, reps o tiempo, peso opcional y descanso); al agregar un ejercicio toma 3 × 10 (o 3 × 0:45 si es por tiempo) y su descanso por defecto. El peso se escribe y se muestra en la unidad de la persona. Guardar reemplaza los ejercicios de la plantilla; las sesiones pasadas no cambian porque guardan su copia en `template_snapshot` (lo prueba `test/features/routines/routine_repository_test.dart`). Archivar es borrado lógico con "Deshacer".
-- Empezar una sesión de fuerza y el entrenamiento libre llegan en D5.
 
 ## Temporizador de intervalos (D4)
 
@@ -81,11 +82,22 @@ Cada entregable nuevo agrega su carpeta en `lib/features/` y, si hace falta, una
 - **Recuperación.** El motor guarda su punto en `files/timer_checkpoint.json` en cada cambio y cada 5 s, con escritura atómica (temporal + fsync + renombrar). Si Android cierra la app, el teléfono se reinicia o el sistema detiene el servicio, al abrir (o al instante, si la app está abierta) se ofrece Reanudar (en pausa), Guardar como incompleta o Descartar, y la sesión pasa por "recuperación pendiente". Nunca se reanuda sola.
 - **Pruebas.** Unitarias del dominio, textos de voz en 3 idiomas, repositorio y transiciones de recuperación; de widgets del editor, S05 con un motor de prueba, mantener para detener y recuperación; JVM del motor y del punto atómico (`cd android && ./gradlew testDebugUnitTest`). Resultados en emulador de T-01 a T-12 y deuda técnica en `docs/pruebas-temporizador.md`.
 
+## Sesión de fuerza (D5)
+
+- **Empezar (R-G1).** ▶ en la tarjeta de la rutina, ENTRENAMIENTO LIBRE debajo de la lista o «REPETIR ÚLTIMO» en Inicio (copia ejercicios y series hechas de la última sesión de fuerza). Una rutina vacía no empieza: invita a agregar ejercicios. Antes pasa por los mismos pasos que los intervalos (`checkBeforeSession`: sesión activa, permiso de notificaciones, batería restringida, volumen en 0).
+- **Copia.** `StrengthSessionRepository.startFromRoutine` crea en una transacción la sesión con `template_snapshot`, un `session_exercise` por ejercicio con su descanso (rutina → biblioteca → 90 s) y las series por hacer (`set_log` sin completar con el objetivo). Editar la rutina después no cambia la sesión ni al revés.
+- **S10.** Cada serie muestra la última marca (la serie con el mismo número del ejercicio en la última sesión del historial) y los valores propuestos en gris: esa marca → el objetivo → vacío (R-G2). ✓ los guarda en 1 toque y arranca el descanso; sin valores abre S11; ✓ otra vez la desmarca. Agregar/quitar series, agregar ejercicios desde la biblioteca, subir/bajar, quitar y notas por ejercicio. TERMINAR resuelve las series pendientes (R-G10) o descarta si no hay ninguna hecha (R-G11).
+- **S11.** Peso con ± del incremento del ejercicio (2,5 kg / 5 lb por defecto) o teclado, reps, RPE 6–10 opcional y tipo de serie (calentamiento, normal, al fallo, drop set). Validaciones de R-G4. Peso en la unidad elegida; se guarda con su unidad original (R-G7). Decimales con coma en es-419 y pt-BR (`numberLocale`).
+- **Descanso (F-09).** Corre en `TimerService` en modo fuerza (sin un temporizador en Dart): `RestTimer` con fin absoluto en `elapsedRealtime`, ±15 s y saltar; wake lock solo durante el descanso; pitidos 3-2-1, tono, voz y vibración al terminar según Configuración → Alertas, también con la pantalla apagada. La notificación muestra el descanso con +15 s y Saltar, «¡A la siguiente serie!» o la sesión con su tiempo y series.
+- **Persistencia y recuperación.** Cada serie se guarda en su propia transacción al marcarla. Si Android cierra la app, al abrir se ofrece retomarla (S18-b: Reanudar, Guardar como incompleta, Descartar); el descanso en curso se recalcula con el reloj monotónico desde `files/strength_checkpoint.json` o se descarta si venció o hubo un reinicio.
+- **Resumen.** Duración, volumen (sin calentamiento), series, récord simple del día (peso máximo o 1RM de Epley frente al historial; la tabla de récords llega en D6), «¿Actualizar la rutina?» si cambió la estructura (R-G12), esfuerzo 1–10 y nota.
+- **Pruebas.** Dominio, repositorio (copia, última marca, serie repetida, cierre forzado con la base en archivo), flujo de S10/S11/resumen/recuperación con un motor falso, pseudo-locale y JVM de `RestTimer`. Resultados en emulador y deuda: `docs/pruebas-fuerza.md`.
+
 ## Tema, acento e idioma
 
 - Los colores salen de `docs/design/system/tokens.json` y viven en `TlColors` (un `ThemeExtension`). En los widgets: `context.colors.accent`, `context.text.headline`.
 - Hay 8 acentos (`AccentPreset`). `phasePaletteFor(accent)` aplica la regla de distinción entre fases: Trabajo siempre es el acento; con Amarillo o Naranja, Calentamiento pasa a rosa; con Azul, Vuelta a la calma pasa a violeta; con Lima, Descanso pasa a azul y Vuelta a la calma a violeta.
-- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto), inicio de semana (lunes), sonidos (sí), voz (sí), vibración (sí) y objetivo semanal (3 sesiones, entre 1 y 14). Sonidos, voz y vibración se ajustan en Configuración → Alertas; el objetivo semanal aún no tiene pantalla. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
+- Las preferencias están en `SettingsController` (Riverpod) y se guardan con `SettingsRepository` sobre shared_preferences (clave-valor, como define la arquitectura; no van en la base). Además de tema, acento e idioma guardan unidad de peso (kg por defecto, se elige en Configuración → Entrenamiento), inicio de semana (lunes), sonidos (sí), voz (sí), vibración (sí) y objetivo semanal (3 sesiones, entre 1 y 14). Sonidos, voz y vibración se ajustan en Configuración → Alertas; el objetivo semanal aún no tiene pantalla. Al cambiar una preferencia, `MaterialApp` se reconstruye con el nuevo tema o locale sin reiniciar y sin perder la navegación (el router no depende de las preferencias).
 
 ## Localización
 
@@ -130,7 +142,7 @@ SQLite con Drift, en `trainloop.sqlite` dentro del directorio de soporte de la a
 
 Acceso: un DAO por agregado (`ExercisesDao`, `RoutinesDao`, `IntervalWorkoutsDao`, `SessionsDao`, `RecordsDao`, `PlanDao`, `AdStateDao`), expuestos por providers de Riverpod en `lib/data/db/database_providers.dart`. `appDatabaseProvider` abre una sola instancia y la cierra al desechar el `ProviderScope`; las pruebas la sobrescriben con una base en memoria.
 
-Versión actual del esquema: **3** (D3 agregó `exercise.catalog_key` con índice único; D4, `interval_block.skip_last_rest`).
+Versión actual del esquema: **4** (D3 agregó `exercise.catalog_key` con índice único; D4, `interval_block.skip_last_rest`; D5, `session_exercise.rest_seconds`).
 
 El código generado (`*.g.dart`, `test/drift/*/generated/`) va en el repositorio. Tras cambiar tablas o DAOs:
 

@@ -192,6 +192,156 @@ class TimerProgram {
   };
 }
 
+/// Estado del descanso de fuerza en el motor nativo.
+enum RestRunState {
+  idle,
+  running,
+
+  /// Terminó (sonó y vibró); dura hasta el próximo descanso.
+  done;
+
+  static RestRunState fromName(Object? name) =>
+      values.firstWhere((s) => s.name == name, orElse: () => RestRunState.idle);
+}
+
+/// Estado de la sesión de fuerza en el servicio (F-09): el descanso y si la
+/// sesión sigue (`running`), terminó (`stopped`) o Android detuvo el
+/// servicio (`interrupted`).
+class StrengthEngineState {
+  const StrengthEngineState({
+    required this.sessionId,
+    this.state = EngineRunState.running,
+    this.rest = RestRunState.idle,
+    this.restRemainingMs = 0,
+    this.restDurationMs = 0,
+    this.receivedAt = Duration.zero,
+  });
+
+  factory StrengthEngineState.fromMap(
+    Map<Object?, Object?> m, {
+    Duration receivedAt = Duration.zero,
+  }) => StrengthEngineState(
+    sessionId: m['sessionId']! as String,
+    state: EngineRunState.fromName(m['state']),
+    rest: RestRunState.fromName(m['rest']),
+    restRemainingMs: (m['restRemainingMs'] as num? ?? 0).toInt(),
+    restDurationMs: (m['restDurationMs'] as num? ?? 0).toInt(),
+    receivedAt: receivedAt,
+  );
+
+  final String sessionId;
+  final EngineRunState state;
+  final RestRunState rest;
+
+  /// Lo que faltaba del descanso al publicarse el estado.
+  final int restRemainingMs;
+
+  /// Duración total del descanso, con los ±15 s.
+  final int restDurationMs;
+
+  /// Instante (reloj de [TimerEngineClient.clock]) en que llegó.
+  final Duration receivedAt;
+
+  bool get resting => rest == RestRunState.running;
+
+  /// Lo que falta del descanso en el instante [now] del mismo reloj.
+  int restRemainingAt(Duration now) => resting
+      ? (restRemainingMs - (now - receivedAt).inMilliseconds).clamp(
+          0,
+          restRemainingMs,
+        )
+      : 0;
+}
+
+/// Sesión de fuerza guardada sin servicio vivo (Android cerró la app): su
+/// descanso recalculado con el reloj monotónico, o 0 si venció.
+class StrengthPending {
+  const StrengthPending({
+    required this.sessionId,
+    this.restRemainingMs = 0,
+    this.next = '',
+    this.savedAt,
+    this.receivedAt = Duration.zero,
+  });
+
+  factory StrengthPending.fromMap(
+    Map<Object?, Object?> m, {
+    Duration receivedAt = Duration.zero,
+  }) {
+    final saved = m['savedAtWallMs'] as num?;
+    return StrengthPending(
+      sessionId: m['sessionId']! as String,
+      restRemainingMs: (m['restRemainingMs'] as num? ?? 0).toInt(),
+      next: m['next'] as String? ?? '',
+      savedAt: saved == null
+          ? null
+          : DateTime.fromMillisecondsSinceEpoch(saved.toInt()),
+      receivedAt: receivedAt,
+    );
+  }
+
+  final String sessionId;
+
+  /// Lo que faltaba del descanso en [receivedAt].
+  final int restRemainingMs;
+  final String next;
+  final DateTime? savedAt;
+
+  /// Instante (reloj de [TimerEngineClient.clock]) en que se consultó.
+  final Duration receivedAt;
+
+  /// Lo que falta del descanso en [now] (el diálogo pudo tardar en
+  /// responderse).
+  int restRemainingAt(Duration now) =>
+      (restRemainingMs - (now - receivedAt).inMilliseconds).clamp(
+        0,
+        restRemainingMs,
+      );
+}
+
+/// Sesión de fuerza que recibe el servicio: avisos, textos ya localizados y
+/// colores (ARGB) del descanso y del acento.
+class StrengthProgram {
+  const StrengthProgram({
+    required this.sessionId,
+    required this.title,
+    required this.locale,
+    required this.sounds,
+    required this.voice,
+    required this.vibration,
+    required this.strings,
+    required this.restColor,
+    required this.color,
+    required this.startedAt,
+  });
+
+  final String sessionId;
+  final String title;
+  final String locale;
+  final bool sounds;
+  final bool voice;
+  final bool vibration;
+
+  /// channel, rest, restOver, restOverSpeech, plus15, skip e inProgress.
+  final Map<String, String> strings;
+  final int restColor;
+  final int color;
+  final DateTime startedAt;
+
+  Map<String, Object?> toMap() => {
+    'sessionId': sessionId,
+    'title': title,
+    'locale': locale,
+    'sounds': sounds,
+    'voice': voice,
+    'vibration': vibration,
+    'strings': strings,
+    'restColor': restColor,
+    'color': color,
+    'startedAtWallMs': startedAt.millisecondsSinceEpoch,
+  };
+}
+
 /// Puente con el motor nativo (android/…/timer/TimerBridge.kt). Las pruebas
 /// usan un doble que implementa esta interfaz.
 abstract interface class TimerEngineClient {
@@ -239,6 +389,36 @@ abstract interface class TimerEngineClient {
   Future<bool> notificationPromptShown();
   Future<void> markNotificationPromptShown();
   Future<bool> mediaVolumeZero();
+
+  // ------------------------------------------------- fuerza (D5, F-09)
+
+  /// Estados de la sesión de fuerza: uno por cambio del descanso.
+  Stream<StrengthEngineState> get strengthStates;
+
+  /// Pone el servicio en primer plano con la sesión de fuerza.
+  Future<void> startStrength(StrengthProgram program);
+
+  /// Texto de la notificación sin descanso ([progress]) y serie siguiente.
+  Future<void> updateStrength({required String progress, required String next});
+
+  /// Empieza un descanso de [durationMs]; [next] es la serie siguiente.
+  Future<void> startRest(int durationMs, {required String next});
+
+  /// Suma o resta tiempo al descanso en curso (±15 s).
+  Future<void> adjustRest(int deltaMs);
+  Future<void> skipRest();
+
+  /// Termina la sesión de fuerza en el servicio y borra su punto.
+  Future<void> stopStrength();
+
+  /// Sesión de fuerza del servicio vivo, o `null`.
+  Future<StrengthEngineState?> strengthCurrent();
+
+  /// Sesión de fuerza guardada sin servicio vivo, o `null`.
+  Future<StrengthPending?> strengthPending();
+
+  /// Borra el punto de fuerza guardado.
+  Future<void> clearStrength();
 }
 
 /// Implementación con canales de plataforma.
@@ -249,21 +429,34 @@ class MethodChannelTimerEngine implements TimerEngineClient {
   static const _events = EventChannel('trainloop/timer/events');
 
   final _stopwatch = Stopwatch()..start();
+  Stream<Map<Object?, Object?>>? _raw;
   Stream<EngineState>? _states;
+  Stream<StrengthEngineState>? _strengthStates;
 
   @override
   Duration clock() => _stopwatch.elapsed;
 
-  @override
-  Stream<EngineState> get states => _states ??= _events
+  /// Un solo EventChannel para ambos tipos de sesión: los estados de fuerza
+  /// llevan `kind: strength`.
+  Stream<Map<Object?, Object?>> get _rawEvents => _raw ??= _events
       .receiveBroadcastStream()
-      .map(
-        (e) => EngineState.fromMap(
-          e as Map<Object?, Object?>,
-          receivedAt: clock(),
-        ),
-      )
+      .map((e) => e as Map<Object?, Object?>)
       .asBroadcastStream();
+
+  static bool _isStrength(Map<Object?, Object?> m) => m['kind'] == 'strength';
+
+  @override
+  Stream<EngineState> get states => _states ??= _rawEvents
+      .where((m) => !_isStrength(m))
+      .map((m) => EngineState.fromMap(m, receivedAt: clock()))
+      .asBroadcastStream();
+
+  @override
+  Stream<StrengthEngineState> get strengthStates =>
+      _strengthStates ??= _rawEvents
+          .where(_isStrength)
+          .map((m) => StrengthEngineState.fromMap(m, receivedAt: clock()))
+          .asBroadcastStream();
 
   @override
   Future<void> start(TimerProgram program) =>
@@ -338,4 +531,52 @@ class MethodChannelTimerEngine implements TimerEngineClient {
   @override
   Future<bool> mediaVolumeZero() async =>
       await _methods.invokeMethod<bool>('mediaVolumeZero') ?? false;
+
+  @override
+  Future<void> startStrength(StrengthProgram program) =>
+      _methods.invokeMethod('strengthStart', program.toMap());
+
+  @override
+  Future<void> updateStrength({
+    required String progress,
+    required String next,
+  }) => _methods.invokeMethod('strengthUpdate', {
+    'progress': progress,
+    'next': next,
+  });
+
+  @override
+  Future<void> startRest(int durationMs, {required String next}) => _methods
+      .invokeMethod('restStart', {'durationMs': durationMs, 'next': next});
+
+  @override
+  Future<void> adjustRest(int deltaMs) =>
+      _methods.invokeMethod('restAdd', {'deltaMs': deltaMs});
+
+  @override
+  Future<void> skipRest() => _methods.invokeMethod('restSkip');
+
+  @override
+  Future<void> stopStrength() => _methods.invokeMethod('strengthStop');
+
+  @override
+  Future<StrengthEngineState?> strengthCurrent() async {
+    final m = await _methods.invokeMethod<Map<Object?, Object?>>(
+      'strengthState',
+    );
+    return m == null
+        ? null
+        : StrengthEngineState.fromMap(m, receivedAt: clock());
+  }
+
+  @override
+  Future<StrengthPending?> strengthPending() async {
+    final m = await _methods.invokeMethod<Map<Object?, Object?>>(
+      'strengthPending',
+    );
+    return m == null ? null : StrengthPending.fromMap(m, receivedAt: clock());
+  }
+
+  @override
+  Future<void> clearStrength() => _methods.invokeMethod('strengthClear');
 }

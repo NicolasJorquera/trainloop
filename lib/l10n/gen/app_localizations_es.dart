@@ -1073,6 +1073,448 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settingsVibrationHelp => 'Larga en trabajo, doble en descanso';
+
+  @override
+  String get homeActiveSession => 'SESIÓN EN CURSO';
+
+  @override
+  String get homeActiveStrength => 'Volver a tu sesión de fuerza';
+
+  @override
+  String get homeRepeatLast => 'REPETIR ÚLTIMO';
+
+  @override
+  String homeRepeatMeta(String date) {
+    return 'Fuerza · $date';
+  }
+
+  @override
+  String routineStart(String name) {
+    return 'Empezar $name';
+  }
+
+  @override
+  String get settingsTraining => 'ENTRENAMIENTO';
+
+  @override
+  String get settingsUnits => 'Unidades';
+
+  @override
+  String get settingsUnitsHelp =>
+      'Cambia cómo se muestran y escriben los pesos. Las series guardadas conservan su unidad original.';
+
+  @override
+  String get cueRestOver => 'A la siguiente serie';
+
+  @override
+  String get strengthFreeWorkout => 'ENTRENAMIENTO LIBRE';
+
+  @override
+  String get strengthFreeTitle => 'Entrenamiento libre';
+
+  @override
+  String get strengthEmptyRoutine =>
+      'Esta rutina no tiene ejercicios. Agrega alguno para empezarla.';
+
+  @override
+  String get strengthEmptyHint =>
+      'Agrega los ejercicios que vas a hacer. Cada serie se guarda apenas la marcas.';
+
+  @override
+  String get strengthInProgress => 'Sesión en curso';
+
+  @override
+  String get strengthFinish => 'TERMINAR';
+
+  @override
+  String strengthProgress(int done, int total) {
+    return '$done/$total series';
+  }
+
+  @override
+  String get strengthRestLabel => '● DESCANSO';
+
+  @override
+  String get strengthRestNotification => 'Descanso';
+
+  @override
+  String strengthRestRemaining(String time) {
+    return 'Descanso, quedan $time';
+  }
+
+  @override
+  String get strengthRestOver => '¡A la siguiente serie!';
+
+  @override
+  String get strengthMinus15 => '−15';
+
+  @override
+  String get strengthPlus15 => '+15';
+
+  @override
+  String get strengthPlus15Short => '+15 s';
+
+  @override
+  String get strengthMinus15Tooltip => 'Restar 15 segundos';
+
+  @override
+  String get strengthPlus15Tooltip => 'Sumar 15 segundos';
+
+  @override
+  String get strengthSkipRest => 'SALTAR';
+
+  @override
+  String get strengthSkipRestTooltip => 'Saltar el descanso';
+
+  @override
+  String strengthRestFor(String time) {
+    return 'Descanso $time';
+  }
+
+  @override
+  String strengthExerciseActions(String name) {
+    return 'Opciones de $name';
+  }
+
+  @override
+  String get strengthMoveUp => 'Subir';
+
+  @override
+  String get strengthMoveDown => 'Bajar';
+
+  @override
+  String get strengthRemoveExercise => 'Quitar ejercicio';
+
+  @override
+  String strengthRemoveExerciseTitle(String name) {
+    return '¿Quitar $name?';
+  }
+
+  @override
+  String get strengthRemoveExerciseBody =>
+      'Sus series hechas se quitarán de esta sesión. La rutina no cambia.';
+
+  @override
+  String get strengthNotesTitle => 'Notas';
+
+  @override
+  String get strengthNotesHint => 'Ej.: «Asiento en 4»';
+
+  @override
+  String get strengthNotesSave => 'GUARDAR';
+
+  @override
+  String get strengthColSet => 'SERIE';
+
+  @override
+  String get strengthColPrevious => 'ANTERIOR';
+
+  @override
+  String get strengthColReps => 'REPS';
+
+  @override
+  String get strengthColTime => 'TIEMPO';
+
+  @override
+  String get strengthNoValue => '—';
+
+  @override
+  String strengthPrevious(String weight, int reps) {
+    return '$weight × $reps';
+  }
+
+  @override
+  String strengthWeightTimesReps(String weight, int reps) {
+    return '$weight × $reps';
+  }
+
+  @override
+  String strengthTimesReps(int reps) {
+    return '× $reps';
+  }
+
+  @override
+  String get setTagWarmup => 'C';
+
+  @override
+  String get setTagFailure => 'F';
+
+  @override
+  String get setTagDrop => 'D';
+
+  @override
+  String setTagWithType(int number, String type) {
+    return '$number$type';
+  }
+
+  @override
+  String get strengthAddSet => '+ AGREGAR SERIE';
+
+  @override
+  String get strengthAddExercise => '+ AGREGAR EJERCICIO';
+
+  @override
+  String strengthEditWeight(String set) {
+    return 'Editar peso, $set';
+  }
+
+  @override
+  String strengthEditReps(String set) {
+    return 'Editar repeticiones, $set';
+  }
+
+  @override
+  String strengthCompleteSet(String set) {
+    return 'Completar $set';
+  }
+
+  @override
+  String strengthUncompleteSet(String set) {
+    return 'Desmarcar $set';
+  }
+
+  @override
+  String strengthSetHeading(String exercise, int number) {
+    return '$exercise · serie $number';
+  }
+
+  @override
+  String strengthSetHeadingWarmup(String exercise) {
+    return '$exercise · calentamiento';
+  }
+
+  @override
+  String strengthNextSet(String exercise, int number) {
+    return 'Siguiente: $exercise, serie $number';
+  }
+
+  @override
+  String strengthNextWarmup(String exercise) {
+    return 'Siguiente: $exercise, calentamiento';
+  }
+
+  @override
+  String strengthLastTime(String values) {
+    return 'La vez anterior: $values';
+  }
+
+  @override
+  String strengthWeightLabel(String unit) {
+    return 'PESO ($unit)';
+  }
+
+  @override
+  String get strengthRepsLabel => 'REPETICIONES';
+
+  @override
+  String get strengthTimeLabel => 'TIEMPO';
+
+  @override
+  String get strengthRpeLabel => 'ESFUERZO (RPE) · OPCIONAL';
+
+  @override
+  String get strengthSetTypeLabel => 'TIPO DE SERIE';
+
+  @override
+  String get setTypeWarmup => 'Calentamiento';
+
+  @override
+  String get setTypeNormal => 'Normal';
+
+  @override
+  String get setTypeFailure => 'Al fallo';
+
+  @override
+  String get setTypeDrop => 'Drop set';
+
+  @override
+  String setStepMinus(String value) {
+    return '−$value';
+  }
+
+  @override
+  String setStepPlus(String value) {
+    return '+$value';
+  }
+
+  @override
+  String get setStepMinusOne => '−';
+
+  @override
+  String get setStepPlusOne => '+';
+
+  @override
+  String setStepMinusSeconds(int seconds) {
+    return '−$seconds';
+  }
+
+  @override
+  String setStepPlusSeconds(int seconds) {
+    return '+$seconds';
+  }
+
+  @override
+  String strengthWeightMinus(String weight) {
+    return 'Restar $weight';
+  }
+
+  @override
+  String strengthWeightPlus(String weight) {
+    return 'Sumar $weight';
+  }
+
+  @override
+  String get strengthRepsMinus => 'Restar una repetición';
+
+  @override
+  String get strengthRepsPlus => 'Sumar una repetición';
+
+  @override
+  String strengthTimeMinus(int seconds) {
+    return 'Restar $seconds segundos';
+  }
+
+  @override
+  String strengthTimePlus(int seconds) {
+    return 'Sumar $seconds segundos';
+  }
+
+  @override
+  String get strengthSaveSet => 'GUARDAR SERIE';
+
+  @override
+  String get strengthCloseNoSave => 'Cerrar sin guardar';
+
+  @override
+  String get strengthRemoveSet => 'Quitar serie';
+
+  @override
+  String setErrorWeightRange(String max) {
+    return 'Ingresa un peso entre 0 y $max.';
+  }
+
+  @override
+  String setErrorWeightStep(String step) {
+    return 'El peso va en pasos de $step.';
+  }
+
+  @override
+  String setErrorReps(int max) {
+    return 'Las repeticiones van de 0 a $max.';
+  }
+
+  @override
+  String get setErrorRpe => 'El RPE va de 6 a 10 en pasos de 0,5.';
+
+  @override
+  String get setErrorDuration => 'Ingresa un tiempo de hasta 99:59.';
+
+  @override
+  String strengthPendingTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hay $count series sin completar',
+      one: 'Hay 1 serie sin completar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get strengthPendingBody =>
+      'Puedes descartarlas, darlas por hechas con los valores sugeridos o seguir entrenando.';
+
+  @override
+  String get strengthPendingDiscard => 'DESCARTARLAS Y TERMINAR';
+
+  @override
+  String get strengthPendingComplete => 'MARCARLAS COMO COMPLETAS';
+
+  @override
+  String get strengthBackToSession => 'Volver a la sesión';
+
+  @override
+  String get strengthNoSetsTitle => 'NINGUNA SERIE HECHA';
+
+  @override
+  String get strengthNoSetsBody =>
+      'Una sesión sin series completadas no se guarda. ¿Descartarla?';
+
+  @override
+  String get strengthRecoveryBody =>
+      'Android cerró la app. Cada serie que marcaste está guardada.';
+
+  @override
+  String get strengthRecoveryResume => 'REANUDAR';
+
+  @override
+  String strengthSetsDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count series hechas',
+      one: '1 serie hecha',
+      zero: 'sin series hechas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get strengthSavedTitle => 'Sesión guardada';
+
+  @override
+  String get strengthSummaryDuration => 'DURACIÓN';
+
+  @override
+  String get strengthSummaryVolume => 'VOLUMEN';
+
+  @override
+  String get strengthSummarySets => 'SERIES';
+
+  @override
+  String strengthMinutes(int minutes) {
+    return '$minutes MIN';
+  }
+
+  @override
+  String get strengthNewRecord => 'RÉCORD NUEVO';
+
+  @override
+  String strengthRecordSet(String exercise, String values) {
+    return '$exercise: $values';
+  }
+
+  @override
+  String strengthRecordWithRm(String exercise, String values, String rm) {
+    return '$exercise: $values · 1RM estimado $rm';
+  }
+
+  @override
+  String strengthUpdateRoutineQuestion(String routine) {
+    return 'La estructura cambió. ¿Actualizar la rutina «$routine»?';
+  }
+
+  @override
+  String get strengthUpdateRoutineYes => 'SÍ, ACTUALIZAR';
+
+  @override
+  String get strengthUpdateRoutineNo => 'No';
+
+  @override
+  String strengthRoutineUpdated(String routine) {
+    return '«$routine» actualizada: ejercicios y número de series.';
+  }
+
+  @override
+  String get strengthRoutineKept => 'La rutina queda como estaba.';
+
+  @override
+  String get strengthNoteHint => 'Ej.: «La rodilla mejor»';
+
+  @override
+  String decimalText(String value) {
+    return '$value';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

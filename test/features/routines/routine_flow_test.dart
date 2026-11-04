@@ -80,7 +80,7 @@ void main() {
     await tester.enterText(find.byKey(const Key('sheet-weight')), '60,5');
     await tester.tap(find.byKey(const Key('sheet-done')));
     await tester.pumpAndSettle();
-    expect(find.text('4 × 10 · 60.5 kg · descanso 2:30'), findsOneWidget);
+    expect(find.text('4 × 10 · 60,5 kg · descanso 2:30'), findsOneWidget);
     await tester.tap(find.byKey(const Key('remove-entry-4')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('routine-save')));

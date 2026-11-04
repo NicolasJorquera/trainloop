@@ -1908,6 +1908,690 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Long on work, double on rest'**
   String get settingsVibrationHelp;
+
+  /// Home card overline for the strength session in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'SESSION IN PROGRESS'**
+  String get homeActiveSession;
+
+  /// Home card that opens the strength session in progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to your strength session'**
+  String get homeActiveStrength;
+
+  /// Home section with the last strength session, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REPEAT LAST'**
+  String get homeRepeatLast;
+
+  /// Subtitle of the repeat-last card: session type and date.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength · {date}'**
+  String homeRepeatMeta(String date);
+
+  /// Accessibility label of the play button of a routine card.
+  ///
+  /// In en, this message translates to:
+  /// **'Start {name}'**
+  String routineStart(String name);
+
+  /// Settings section title, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TRAINING'**
+  String get settingsTraining;
+
+  /// Settings: weight unit.
+  ///
+  /// In en, this message translates to:
+  /// **'Units'**
+  String get settingsUnits;
+
+  /// Help under the weight unit setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes how weights are shown and entered. Logged sets keep their original unit.'**
+  String get settingsUnitsHelp;
+
+  /// Spoken when the rest between sets ends.
+  ///
+  /// In en, this message translates to:
+  /// **'Next set'**
+  String get cueRestOver;
+
+  /// Button that starts an empty strength session, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FREE WORKOUT'**
+  String get strengthFreeWorkout;
+
+  /// Title of a strength session without a routine.
+  ///
+  /// In en, this message translates to:
+  /// **'Free workout'**
+  String get strengthFreeTitle;
+
+  /// Snackbar when trying to start an empty routine.
+  ///
+  /// In en, this message translates to:
+  /// **'This routine has no exercises. Add some to start it.'**
+  String get strengthEmptyRoutine;
+
+  /// Hint in an empty strength session.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the exercises you are going to do. Each set is saved as soon as you check it.'**
+  String get strengthEmptyHint;
+
+  /// Notification text of the strength session without a rest.
+  ///
+  /// In en, this message translates to:
+  /// **'Session in progress'**
+  String get strengthInProgress;
+
+  /// Button that finishes the strength session, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH'**
+  String get strengthFinish;
+
+  /// Sets done out of total in the session header and notification.
+  ///
+  /// In en, this message translates to:
+  /// **'{done}/{total} sets'**
+  String strengthProgress(int done, int total);
+
+  /// Label of the rest bar, uppercase with a dot.
+  ///
+  /// In en, this message translates to:
+  /// **'● REST'**
+  String get strengthRestLabel;
+
+  /// Notification title during the rest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get strengthRestNotification;
+
+  /// Accessibility label of the rest bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest, {time} left'**
+  String strengthRestRemaining(String time);
+
+  /// Shown when the rest ends (screen and notification).
+  ///
+  /// In en, this message translates to:
+  /// **'On to the next set!'**
+  String get strengthRestOver;
+
+  /// Rest button that subtracts 15 seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'−15'**
+  String get strengthMinus15;
+
+  /// Rest button that adds 15 seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'+15'**
+  String get strengthPlus15;
+
+  /// Notification action that adds 15 seconds to the rest.
+  ///
+  /// In en, this message translates to:
+  /// **'+15 s'**
+  String get strengthPlus15Short;
+
+  /// Accessibility label of −15.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract 15 seconds'**
+  String get strengthMinus15Tooltip;
+
+  /// Accessibility label of +15.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 15 seconds'**
+  String get strengthPlus15Tooltip;
+
+  /// Button that skips the rest, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SKIP'**
+  String get strengthSkipRest;
+
+  /// Accessibility label of the skip rest button.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip rest'**
+  String get strengthSkipRestTooltip;
+
+  /// Rest of an exercise in the session, e.g. Rest 2:00.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest {time}'**
+  String strengthRestFor(String time);
+
+  /// Tooltip of the exercise menu in the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Options for {name}'**
+  String strengthExerciseActions(String name);
+
+  /// Exercise menu: move up.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get strengthMoveUp;
+
+  /// Exercise menu: move down.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get strengthMoveDown;
+
+  /// Exercise menu: remove from the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove exercise'**
+  String get strengthRemoveExercise;
+
+  /// Confirm removing an exercise with logged sets.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}?'**
+  String strengthRemoveExerciseTitle(String name);
+
+  /// Body of the remove exercise confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Its logged sets will be removed from this session. The routine doesn\'t change.'**
+  String get strengthRemoveExerciseBody;
+
+  /// Exercise notes in the session (menu and dialog).
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get strengthNotesTitle;
+
+  /// Hint of the exercise notes field.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. \"Seat at 4\"'**
+  String get strengthNotesHint;
+
+  /// Save exercise notes, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE'**
+  String get strengthNotesSave;
+
+  /// Column header: set number.
+  ///
+  /// In en, this message translates to:
+  /// **'SET'**
+  String get strengthColSet;
+
+  /// Column header: values from the last session.
+  ///
+  /// In en, this message translates to:
+  /// **'PREVIOUS'**
+  String get strengthColPrevious;
+
+  /// Column header: reps.
+  ///
+  /// In en, this message translates to:
+  /// **'REPS'**
+  String get strengthColReps;
+
+  /// Column header: duration.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get strengthColTime;
+
+  /// Placeholder when there is no value.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get strengthNoValue;
+
+  /// Last time's values in the PREVIOUS column, e.g. 80 × 8.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} × {reps}'**
+  String strengthPrevious(String weight, int reps);
+
+  /// Weight with unit times reps, e.g. 80 kg × 8.
+  ///
+  /// In en, this message translates to:
+  /// **'{weight} × {reps}'**
+  String strengthWeightTimesReps(String weight, int reps);
+
+  /// Reps only, e.g. × 12.
+  ///
+  /// In en, this message translates to:
+  /// **'× {reps}'**
+  String strengthTimesReps(int reps);
+
+  /// Tag of a warm-up set (one letter).
+  ///
+  /// In en, this message translates to:
+  /// **'W'**
+  String get setTagWarmup;
+
+  /// Letter added to a set to failure.
+  ///
+  /// In en, this message translates to:
+  /// **'F'**
+  String get setTagFailure;
+
+  /// Letter added to a drop set.
+  ///
+  /// In en, this message translates to:
+  /// **'D'**
+  String get setTagDrop;
+
+  /// Set number with its type letter, e.g. 3F.
+  ///
+  /// In en, this message translates to:
+  /// **'{number}{type}'**
+  String setTagWithType(int number, String type);
+
+  /// Button that adds a set to the exercise, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'+ ADD SET'**
+  String get strengthAddSet;
+
+  /// Button that adds exercises to the session, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'+ ADD EXERCISE'**
+  String get strengthAddExercise;
+
+  /// Accessibility label of a weight cell.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit weight, {set}'**
+  String strengthEditWeight(String set);
+
+  /// Accessibility label of a reps cell.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit reps, {set}'**
+  String strengthEditReps(String set);
+
+  /// Accessibility label of the check button.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete {set}'**
+  String strengthCompleteSet(String set);
+
+  /// Accessibility label of the check button of a done set.
+  ///
+  /// In en, this message translates to:
+  /// **'Uncheck {set}'**
+  String strengthUncompleteSet(String set);
+
+  /// Heading of the set editor.
+  ///
+  /// In en, this message translates to:
+  /// **'{exercise} · set {number}'**
+  String strengthSetHeading(String exercise, int number);
+
+  /// Heading of the set editor for a warm-up set.
+  ///
+  /// In en, this message translates to:
+  /// **'{exercise} · warm-up'**
+  String strengthSetHeadingWarmup(String exercise);
+
+  /// Next set during the rest and in the notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {exercise}, set {number}'**
+  String strengthNextSet(String exercise, int number);
+
+  /// Next set when it is a warm-up.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {exercise}, warm-up'**
+  String strengthNextWarmup(String exercise);
+
+  /// Last mark in the set editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time: {values}'**
+  String strengthLastTime(String values);
+
+  /// Weight field label with the unit, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'WEIGHT ({unit})'**
+  String strengthWeightLabel(String unit);
+
+  /// Reps field label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'REPS'**
+  String get strengthRepsLabel;
+
+  /// Duration field label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'TIME'**
+  String get strengthTimeLabel;
+
+  /// RPE chips label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'EFFORT (RPE) · OPTIONAL'**
+  String get strengthRpeLabel;
+
+  /// Set type chips label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SET TYPE'**
+  String get strengthSetTypeLabel;
+
+  /// Set type.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm-up'**
+  String get setTypeWarmup;
+
+  /// Set type.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get setTypeNormal;
+
+  /// Set type.
+  ///
+  /// In en, this message translates to:
+  /// **'To failure'**
+  String get setTypeFailure;
+
+  /// Set type.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop set'**
+  String get setTypeDrop;
+
+  /// Weight minus button, e.g. −2.5.
+  ///
+  /// In en, this message translates to:
+  /// **'−{value}'**
+  String setStepMinus(String value);
+
+  /// Weight plus button, e.g. +2.5.
+  ///
+  /// In en, this message translates to:
+  /// **'+{value}'**
+  String setStepPlus(String value);
+
+  /// Reps minus button.
+  ///
+  /// In en, this message translates to:
+  /// **'−'**
+  String get setStepMinusOne;
+
+  /// Reps plus button.
+  ///
+  /// In en, this message translates to:
+  /// **'+'**
+  String get setStepPlusOne;
+
+  /// Duration minus button, in seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'−{seconds}'**
+  String setStepMinusSeconds(int seconds);
+
+  /// Duration plus button, in seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'+{seconds}'**
+  String setStepPlusSeconds(int seconds);
+
+  /// Accessibility label of the weight minus button.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract {weight}'**
+  String strengthWeightMinus(String weight);
+
+  /// Accessibility label of the weight plus button.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {weight}'**
+  String strengthWeightPlus(String weight);
+
+  /// Accessibility label.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract one rep'**
+  String get strengthRepsMinus;
+
+  /// Accessibility label.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one rep'**
+  String get strengthRepsPlus;
+
+  /// Accessibility label.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtract {seconds} seconds'**
+  String strengthTimeMinus(int seconds);
+
+  /// Accessibility label.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {seconds} seconds'**
+  String strengthTimePlus(int seconds);
+
+  /// Set editor save button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE SET'**
+  String get strengthSaveSet;
+
+  /// Tooltip of the set editor close button.
+  ///
+  /// In en, this message translates to:
+  /// **'Close without saving'**
+  String get strengthCloseNoSave;
+
+  /// Tooltip of the set editor delete button.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove set'**
+  String get strengthRemoveSet;
+
+  /// Weight out of range.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a weight between 0 and {max}.'**
+  String setErrorWeightRange(String max);
+
+  /// Weight not multiple of the step.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight goes in steps of {step}.'**
+  String setErrorWeightStep(String step);
+
+  /// Reps out of range.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps go from 0 to {max}.'**
+  String setErrorReps(int max);
+
+  /// RPE out of range.
+  ///
+  /// In en, this message translates to:
+  /// **'RPE goes from 6 to 10 in steps of 0.5.'**
+  String get setErrorRpe;
+
+  /// Duration out of range.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time up to 99:59.'**
+  String get setErrorDuration;
+
+  /// Finish dialog title when sets are not done.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{There is 1 unfinished set} other{There are {count} unfinished sets}}'**
+  String strengthPendingTitle(int count);
+
+  /// Finish dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'You can discard them, mark them done with the suggested values, or keep training.'**
+  String get strengthPendingBody;
+
+  /// Finish dialog: discard unfinished sets, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD AND FINISH'**
+  String get strengthPendingDiscard;
+
+  /// Finish dialog: mark unfinished sets as done, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'MARK THEM AS DONE'**
+  String get strengthPendingComplete;
+
+  /// Dialog button that returns to the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to session'**
+  String get strengthBackToSession;
+
+  /// Finish dialog title when no set is done, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NO SETS DONE'**
+  String get strengthNoSetsTitle;
+
+  /// Finish dialog body when no set is done.
+  ///
+  /// In en, this message translates to:
+  /// **'A session without completed sets isn\'t saved. Discard it?'**
+  String get strengthNoSetsBody;
+
+  /// Recovery dialog body for a strength session.
+  ///
+  /// In en, this message translates to:
+  /// **'Android closed the app. Every set you checked is saved.'**
+  String get strengthRecoveryBody;
+
+  /// Recovery dialog: resume the strength session, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'RESUME'**
+  String get strengthRecoveryResume;
+
+  /// Sets done in the recovery dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no sets done} =1{1 set done} other{{count} sets done}}'**
+  String strengthSetsDone(int count);
+
+  /// Summary title of a strength session saved as incomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Session saved'**
+  String get strengthSavedTitle;
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'DURATION'**
+  String get strengthSummaryDuration;
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'VOLUME'**
+  String get strengthSummaryVolume;
+
+  /// Summary stat label, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SETS'**
+  String get strengthSummarySets;
+
+  /// Session duration in minutes, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} MIN'**
+  String strengthMinutes(int minutes);
+
+  /// Summary record card overline, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'NEW RECORD'**
+  String get strengthNewRecord;
+
+  /// Record of the day.
+  ///
+  /// In en, this message translates to:
+  /// **'{exercise}: {values}'**
+  String strengthRecordSet(String exercise, String values);
+
+  /// Record of the day with estimated one-rep max.
+  ///
+  /// In en, this message translates to:
+  /// **'{exercise}: {values} · estimated 1RM {rm}'**
+  String strengthRecordWithRm(String exercise, String values, String rm);
+
+  /// Summary question when exercises or sets changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The structure changed. Update the \"{routine}\" routine?'**
+  String strengthUpdateRoutineQuestion(String routine);
+
+  /// Update routine button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'YES, UPDATE'**
+  String get strengthUpdateRoutineYes;
+
+  /// Keep routine button.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get strengthUpdateRoutineNo;
+
+  /// Confirmation after updating the routine.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{routine}\" updated: exercises and number of sets.'**
+  String strengthRoutineUpdated(String routine);
+
+  /// After answering no to updating the routine.
+  ///
+  /// In en, this message translates to:
+  /// **'The routine stays as it was.'**
+  String get strengthRoutineKept;
+
+  /// Summary note hint for strength.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. \"Knee felt better\"'**
+  String get strengthNoteHint;
+
+  /// A number already formatted with the decimal separator of the language, e.g. 82,5.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}'**
+  String decimalText(String value);
 }
 
 class _AppLocalizationsDelegate

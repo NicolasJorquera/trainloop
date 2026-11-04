@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+import '../../../core/l10n/formatters.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme_context.dart';
@@ -10,14 +13,21 @@ import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
 import '../../intervals/domain/interval_templates.dart';
 import '../../intervals/presentation/interval_widgets.dart';
+import '../../strength/application/strength_session_controller.dart';
+import '../../strength/application/strength_texts.dart';
+import '../../strength/data/strength_session_repository.dart';
+import '../../strength/presentation/strength_launcher.dart';
 
-/// S01 Inicio: semana (vacía hasta D6), accesos a Entrenar y plantillas
-/// rápidas. Tabata en 2 toques: la plantilla abre S03 y "Empezar" arranca.
-class HomeScreen extends StatelessWidget {
+/// S01 Inicio: semana (vacía hasta D6), accesos a Entrenar, la sesión de
+/// fuerza en curso, "repetir último" (D5) y plantillas rápidas. Tabata en 2
+/// toques: la plantilla abre S03 y "Empezar" arranca.
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final active = ref.watch(strengthSessionProvider);
+    final last = ref.watch(lastStrengthSessionProvider).value;
     final l10n = context.l10n;
     final c = context.colors;
     final t = context.text;
@@ -63,6 +73,16 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+        if (active != null) ...[
+          const SizedBox(height: TlSpace.s4),
+          _SessionCard(
+            key: const Key('home-active-strength'),
+            overline: l10n.homeActiveSession,
+            title: l10n.homeActiveStrength,
+            highlighted: true,
+            onTap: () => context.push(Routes.strength),
+          ),
+        ],
         const SizedBox(height: TlSpace.s6),
         TlButton(
           key: const Key('home-start-intervals'),
@@ -72,11 +92,29 @@ class HomeScreen extends StatelessWidget {
         ),
         const SizedBox(height: TlSpace.s3),
         TlButton(
+          key: const Key('home-start-strength'),
           label: l10n.homeStartStrength,
           icon: Icons.fitness_center,
           variant: TlButtonVariant.secondary,
-          onPressed: () => context.go(Routes.train),
+          onPressed: () => context.go(Routes.trainRoutines),
         ),
+        if (last != null && active == null) ...[
+          SectionLabel(l10n.homeRepeatLast),
+          _SessionCard(
+            key: const Key('home-repeat-last'),
+            title: sessionTitle(
+              l10n,
+              StrengthSessionRepository.titleOf(last),
+            ).toUpperCase(),
+            subtitle: l10n.homeRepeatMeta(
+              DateFormat.MMMd(
+                context.locale.toLanguageTag(),
+              ).format(last.startedAt.toLocal()),
+            ),
+            onTap: () =>
+                startStrengthSession(context, ref, const StartRepeatLast()),
+          ),
+        ],
         SectionLabel(l10n.homeQuickTemplates),
         const TemplateGrid(IntervalTemplate.quickStart),
       ],
@@ -110,6 +148,72 @@ class _GoalBar extends StatelessWidget {
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+/// Tarjeta con ▶: la sesión en curso o la última para repetir.
+class _SessionCard extends StatelessWidget {
+  const _SessionCard({
+    required this.title,
+    required this.onTap,
+    this.overline,
+    this.subtitle,
+    this.highlighted = false,
+    super.key,
+  });
+
+  final String title;
+  final String? overline;
+  final String? subtitle;
+  final bool highlighted;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final t = context.text;
+    return Material(
+      color: highlighted ? c.accentSoft : c.surface1,
+      borderRadius: BorderRadius.circular(TlRadius.lg),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(TlSpace.s4),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (overline != null)
+                      Text(
+                        overline!,
+                        style: t.overline.copyWith(color: c.accent),
+                      ),
+                    Text(title, style: t.title),
+                    if (subtitle != null)
+                      Text(
+                        subtitle!,
+                        style: t.bodySm.copyWith(color: c.inkMuted),
+                      ),
+                  ],
+                ),
+              ),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: c.primaryBg,
+                  borderRadius: BorderRadius.circular(TlRadius.md),
+                ),
+                child: Icon(Icons.play_arrow, color: c.primaryInk),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

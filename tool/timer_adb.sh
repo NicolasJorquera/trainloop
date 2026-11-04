@@ -1,5 +1,6 @@
 #!/bin/bash
-# Ayudante para probar el temporizador en un emulador o teléfono por adb (D4).
+# Ayudante para probar el temporizador y el descanso de fuerza en un emulador o
+# teléfono por adb (D4, D5).
 # Uso: tool/timer_adb.sh <comando> [args]. Solo builds de depuración: el
 # registro CSV (files/timer_debug.csv) no existe en release.
 ADB=${ADB:-$HOME/Library/Android/sdk/platform-tools/adb}
@@ -39,6 +40,7 @@ case "$1" in
   csv) $ADB shell run-as $PKG cat files/timer_debug.csv ;;
   clearcsv) $ADB shell run-as $PKG rm -f files/timer_debug.csv ;;
   checkpoint) $ADB shell run-as $PKG cat files/timer_checkpoint.json ;;
+  strength) $ADB shell run-as $PKG cat files/strength_checkpoint.json ;;
   pid) $ADB shell pidof $PKG ;;
   kill) $ADB shell run-as $PKG kill -9 "$($ADB shell pidof $PKG)" ;;
   stats) # retraso de los cambios de fase de la última sesión del CSV
@@ -47,5 +49,9 @@ case "$1" in
       $1=="transition"{n++;s+=$7;if($7>m)m=$7;if($7<mi)mi=$7;last=$6;off+=($8=="false");idle+=($9=="true")}
       $1=="finished"{fin=$6}
       END{if(n)printf "transitions=%d avg_late=%.1fms min=%dms max=%dms screen_off=%d idle=%d session_ms=%d\n",n,s/n,mi,m,off,idle,(fin?fin:last)-st}' ;;
-  *) echo "comandos: launch tap wait tabata off on csv clearcsv checkpoint pid kill stats" ;;
+  reststats) # retraso del fin de cada descanso de fuerza (D5)
+    $ADB shell run-as $PKG cat files/timer_debug.csv | awk -F, '
+      $1=="rest_end"{n++;s+=$7;if($7>m)m=$7;off+=($8=="false")}
+      END{if(n)printf "rest_ends=%d avg_late=%.1fms max=%dms screen_off=%d\n",n,s/n,m,off}' ;;
+  *) echo "comandos: launch tap wait tabata off on csv clearcsv checkpoint strength pid kill stats reststats" ;;
 esac

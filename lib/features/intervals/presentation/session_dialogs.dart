@@ -18,7 +18,7 @@ enum BatteryChoice { openSettings, done, later }
 /// continuar (pedir el permiso), `false` = empezar sin él.
 Future<bool> showNotificationRationale(BuildContext context) async {
   final l10n = context.l10n;
-  final result = await _show<bool>(
+  final result = await showTlDialog<bool>(
     context,
     key: const Key('notify-dialog'),
     icon: Icons.notifications_active_outlined,
@@ -58,7 +58,7 @@ Future<RecoveryChoice?> showRecoveryDialog(
   final minutes = saved == null
       ? 0
       : DateTime.now().difference(saved).inMinutes.clamp(0, 999999);
-  return _show<RecoveryChoice>(
+  return showTlDialog<RecoveryChoice>(
     context,
     key: const Key('recovery-dialog'),
     icon: Icons.history,
@@ -108,7 +108,7 @@ Future<BatteryChoice> showBatteryDialog(
   final l10n = context.l10n;
   final t = context.text;
   final steps = [l10n.batteryStep1, l10n.batteryStep2, l10n.batteryStep3];
-  final result = await _show<BatteryChoice>(
+  final result = await showTlDialog<BatteryChoice>(
     context,
     key: const Key('battery-dialog'),
     icon: Icons.battery_alert_outlined,
@@ -157,7 +157,7 @@ Future<BatteryChoice> showBatteryDialog(
 /// R-I13: ya hay una sesión activa. `true` = volver a ella.
 Future<bool> showActiveSessionDialog(BuildContext context) async {
   final l10n = context.l10n;
-  final result = await _show<bool>(
+  final result = await showTlDialog<bool>(
     context,
     key: const Key('active-session-dialog'),
     icon: Icons.timer_outlined,
@@ -181,13 +181,13 @@ Future<bool> showActiveSessionDialog(BuildContext context) async {
 
 /// Diálogo con el estilo de S18: ícono, título en mayúsculas, cuerpo y
 /// botones a lo ancho, apilados.
-Future<T?> _show<T>(
+Future<T?> showTlDialog<T>(
   BuildContext context, {
   required Key key,
   required IconData icon,
   required String title,
   required List<Widget> body,
-  required List<Widget> Function(void Function(T value) pop) actions,
+  required List<Widget> Function(void Function(T? value) pop) actions,
   bool dismissible = true,
 }) => showDialog<T>(
   context: context,

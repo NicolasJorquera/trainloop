@@ -14,6 +14,8 @@ import '../../features/intervals/presentation/timer_screen.dart';
 import '../../features/progress/presentation/progress_screen.dart';
 import '../../features/routines/presentation/routine_editor_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
+import '../../features/strength/presentation/strength_session_screen.dart';
+import '../../features/strength/presentation/strength_summary_screen.dart';
 import '../../features/train/presentation/train_screen.dart';
 import 'routes.dart';
 
@@ -41,8 +43,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.train,
-                pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: TrainScreen()),
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: TrainScreen(
+                    showRoutines:
+                        state.uri.queryParameters['kind'] == 'routines',
+                  ),
+                ),
               ),
             ],
           ),
@@ -119,6 +125,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootKey,
         builder: (context, state) =>
             SessionSummaryScreen(sessionId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: Routes.strength,
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => const StrengthSessionScreen(),
+      ),
+      GoRoute(
+        path: '/strength/:id/summary',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) =>
+            StrengthSummaryScreen(sessionId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: Routes.exercises,

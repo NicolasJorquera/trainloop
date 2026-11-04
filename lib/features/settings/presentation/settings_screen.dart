@@ -9,6 +9,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/accent.dart';
 import '../../../core/theme/theme_context.dart';
 import '../../../core/theme/tokens.dart';
+import '../../../core/units/weight_unit.dart';
 import '../../../core/widgets/accent_picker.dart';
 import '../../../core/widgets/screen_header.dart';
 import '../../../core/widgets/section_label.dart';
@@ -18,7 +19,7 @@ import '../application/settings_controller.dart';
 import '../domain/app_settings.dart';
 import 'debug_database_section.dart';
 
-/// S16 Configuración (mínima en D1): tema, acento e idioma.
+/// S16 Configuración: tema, acento, idioma, unidad de peso (D5) y alertas.
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -78,6 +79,21 @@ class SettingsScreen extends ConsumerWidget {
               ),
           const SizedBox(height: TlSpace.s2),
           Text(l10n.languageHelp, style: help),
+          SectionLabel(l10n.settingsTraining),
+          Text(l10n.settingsUnits, style: t.body),
+          const SizedBox(height: TlSpace.s2),
+          TlSegmentedControl<WeightUnit>(
+            key: const Key('settings-units'),
+            semanticLabel: l10n.settingsUnits,
+            selected: settings.weightUnit,
+            onChanged: controller.setWeightUnit,
+            segments: [
+              TlSegment(WeightUnit.kg, l10n.unitKg.toUpperCase()),
+              TlSegment(WeightUnit.lb, l10n.unitLb.toUpperCase()),
+            ],
+          ),
+          const SizedBox(height: TlSpace.s2),
+          Text(l10n.settingsUnitsHelp, style: help),
           SectionLabel(l10n.settingsAlerts),
           _AlertSwitch(
             key: const Key('alert-voice'),
