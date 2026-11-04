@@ -24,7 +24,13 @@ Future<InMemorySettingsRepository> pumpTrainloop(
 }) async {
   final repo = InMemorySettingsRepository(settings);
   final db = database ?? openTestDatabase();
-  if (database == null) addTearDown(db.close);
+  // Desmontar antes de cerrar la base evita que una prueba fallida deje el
+  // archivo colgado (ver `closeTestDatabase`).
+  addTearDown(
+    database == null
+        ? () => closeTestDatabase(tester, db)
+        : () => tester.pumpWidget(const SizedBox.shrink()),
+  );
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
