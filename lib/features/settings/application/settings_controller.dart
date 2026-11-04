@@ -86,6 +86,9 @@ class SettingsController extends Notifier<AppSettings> {
   Future<void> recordBackup(LastBackup backup) =>
       _update(state.copyWith(lastBackup: backup));
 
+  /// «Estadísticas de uso anónimas» (S16, D8).
+  Future<void> setAnalytics(bool on) => _update(state.copyWith(analytics: on));
+
   /// Variante de la vista semanal (H5); solo desde depuración.
   Future<void> setWeekVariant(WeekVariant variant) =>
       _update(state.copyWith(weekVariant: variant));
