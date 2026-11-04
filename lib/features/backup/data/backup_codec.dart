@@ -101,6 +101,13 @@ abstract final class BackupCodec {
   static bool _internal(String name) =>
       name.startsWith('sqlite_') || name == 'android_metadata';
 
+  /// Tablas propias del teléfono que no viajan en el archivo ni se pisan al
+  /// restaurar. `ad_state` guarda la compra «Sin anuncios» (Play la
+  /// reverifica), el consentimiento de UMP y los topes del intersticial:
+  /// copiarlos a otro teléfono sería incorrecto. Los respaldos viejos
+  /// (D8) la traen: se acepta y se ignora (se conserva la del teléfono).
+  static const localOnlyTables = {'ad_state'};
+
   /// Todas las tablas de [db] con su esquema y versión, como mapa JSON.
   static Future<Map<String, Object?>> export(
     GeneratedDatabase db, {
@@ -124,8 +131,11 @@ abstract final class BackupCodec {
     for (final row in master) {
       final name = row.read<String>('name');
       if (_internal(name)) continue;
+      // El esquema va completo (la base temporal lo necesita para migrar);
+      // las filas de las tablas locales, no.
       schema.add(row.read<String>('sql'));
       if (row.read<String>('type') != 'table') continue;
+      if (localOnlyTables.contains(name)) continue;
       final rows = await db.customSelect('SELECT * FROM "$name"').get();
       final columns = rows.isEmpty
           ? await _columns(db, name)
@@ -329,11 +339,14 @@ abstract final class BackupCodec {
   }
 
   /// Reemplaza todos los datos de [target] por los de [source] (ambas en la
-  /// versión actual) en una sola transacción.
+  /// versión actual) en una sola transacción. Las [localOnlyTables] de
+  /// [target] no se tocan.
   static Future<void> replaceAll(AppDatabase target, AppDatabase source) =>
       target.transaction(() async {
         await target.customStatement('PRAGMA defer_foreign_keys = ON');
-        final tables = target.allTables.toList();
+        final tables = target.allTables
+            .where((t) => !localOnlyTables.contains(t.actualTableName))
+            .toList();
         for (final t in tables.reversed) {
           await target.customStatement('DELETE FROM "${t.actualTableName}"');
         }
