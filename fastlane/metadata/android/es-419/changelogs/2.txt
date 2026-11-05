@@ -1,0 +1,1 @@
+Primera versión: temporizador de intervalos, sesiones de fuerza, progreso y respaldo en archivo.

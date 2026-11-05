@@ -1,0 +1,27 @@
+Trainloop es un cuaderno de entrenamiento para Android que junta dos modos en una sola app: Intervalos y Fuerza. Funciona sin cuenta y sin conexión: tus datos se quedan en tu teléfono.
+
+INTERVALOS
+• Temporizadores listos para usar: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min y AMRAP 12 min.
+• Crea tus propios temporizadores con bloques que se repiten.
+• Sigue contando con la pantalla apagada o con otra app abierta: notificación con la cuenta regresiva, pitidos, voz (si el teléfono tiene una voz instalada para tu idioma) y vibración en cada cambio de fase.
+• Si Android cierra la app en medio de una sesión, al volver te ofrece reanudarla, guardarla como incompleta o descartarla.
+
+FUERZA
+• Rutinas de fuerza con series, repeticiones, peso y descanso.
+• Biblioteca de 105 ejercicios en español, inglés y portugués, más los que crees tú.
+• Cada serie muestra tu última marca. «Igual que antes» repite la última serie en un toque.
+• El descanso arranca solo al marcar la serie y te avisa al terminar.
+• Kilos o libras, RPE opcional y tipos de serie (calentamiento, al fallo, drop set).
+
+PROGRESO
+• Historial de sesiones, semana, calendario y récords personales.
+
+TUS DATOS
+• Sin cuenta ni registro.
+• Respaldo y restauración en un archivo que guardas donde quieras, y exportación a CSV.
+• Recordatorios locales en los días y la hora que elijas.
+
+ANUNCIOS
+Trainloop es gratis con anuncios. Los anuncios nunca aparecen durante una sesión. Puedes quitarlos con una compra única.
+
+Disponible en español, inglés y portugués.
