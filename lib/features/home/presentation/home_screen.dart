@@ -77,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
           key: const Key('home-start-intervals'),
           label: l10n.homeStartIntervals,
           icon: Icons.timer_outlined,
-          onPressed: () => context.go(Routes.train),
+          onPressed: () => context.go(Routes.trainIntervals),
         ),
         const SizedBox(height: TlSpace.s3),
         TlButton(
