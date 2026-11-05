@@ -82,7 +82,7 @@ void main() {
     );
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Rutinas'));
+    await tester.tap(find.text('Fuerza'));
     await frames(tester);
     await tester.tap(find.byKey(const Key('free-workout')));
     await frames(tester, 10);

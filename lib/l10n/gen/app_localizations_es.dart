@@ -61,11 +61,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainIntervals => 'Intervalos';
 
   @override
-  String get trainRoutines => 'Rutinas';
+  String get trainRoutines => 'Fuerza';
 
   @override
-  String get trainIntervalsEmptyTitle =>
-      'Aún no tienes entrenamientos de intervalos';
+  String get trainIntervalsEmptyTitle => 'Aún no tienes temporizadores';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -630,13 +629,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainTemplates => 'PLANTILLAS';
 
   @override
-  String get trainMyIntervals => 'MIS ENTRENAMIENTOS';
+  String get trainMyIntervals => 'MIS TEMPORIZADORES';
 
   @override
   String get trainNewInterval => 'NUEVO';
 
   @override
-  String get intervalNewTooltip => 'Nuevo entrenamiento de intervalos';
+  String get intervalNewTooltip => 'Nuevo temporizador de intervalos';
 
   @override
   String intervalStart(String name) {
@@ -711,10 +710,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get detailCustomize => 'PERSONALIZAR';
 
   @override
-  String get editorNewTitle => 'NUEVO ENTRENAMIENTO';
+  String get editorNewTitle => 'NUEVO TEMPORIZADOR';
 
   @override
-  String get editorEditTitle => 'EDITAR ENTRENAMIENTO';
+  String get editorEditTitle => 'EDITAR TEMPORIZADOR';
 
   @override
   String editorDefaultName(String date) {
@@ -2016,8 +2015,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count entrenamientos de intervalos',
-      one: '1 entrenamiento de intervalos',
+      other: '$count temporizadores',
+      one: '1 temporizador',
     );
     return '$_temp0';
   }

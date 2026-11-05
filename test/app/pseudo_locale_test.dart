@@ -55,7 +55,7 @@ void main() {
     // Segunda vista de Entrenar.
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.textContaining('Ŕöûţîñéš'));
+    await tester.tap(find.textContaining('Šţŕéñĝţĥ'));
     await tester.pumpAndSettle();
     screens['train-routines'] = unlocalizedTexts(tester);
 
@@ -237,7 +237,7 @@ void main() {
     final screens = <String, List<String>>{};
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.textContaining('Ŕöûţîñéš'));
+    await tester.tap(find.textContaining('Šţŕéñĝţĥ'));
     await frames();
     screens['train-routines-start'] = unlocalizedTexts(tester);
     await tester.tap(find.byKey(Key('routine-start-$routineId')));

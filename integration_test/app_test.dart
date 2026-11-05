@@ -148,7 +148,7 @@ Future<String> _seedRoutine(AppDatabase db) async {
 /// Entrenar → Rutinas → ▶ y espera S10. Devuelve el id de la sesión.
 Future<String> _startRoutine(WidgetTester tester, String routineId) async {
   await tapWhenVisible(tester, find.byKey(const Key('nav-train')));
-  await tapWhenVisible(tester, find.text('Rutinas'));
+  await tapWhenVisible(tester, find.text('Fuerza'));
   await tapWhenVisible(tester, find.byKey(Key('routine-start-$routineId')));
   await skipNotificationRationale(tester);
   await waitFor(tester, find.byKey(const Key('strength-title')));

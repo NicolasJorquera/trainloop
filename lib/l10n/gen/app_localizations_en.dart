@@ -61,10 +61,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainIntervals => 'Intervals';
 
   @override
-  String get trainRoutines => 'Routines';
+  String get trainRoutines => 'Strength';
 
   @override
-  String get trainIntervalsEmptyTitle => 'No interval workouts yet';
+  String get trainIntervalsEmptyTitle => 'No timers yet';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -628,13 +628,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainTemplates => 'TEMPLATES';
 
   @override
-  String get trainMyIntervals => 'MY WORKOUTS';
+  String get trainMyIntervals => 'MY TIMERS';
 
   @override
   String get trainNewInterval => 'NEW';
 
   @override
-  String get intervalNewTooltip => 'New interval workout';
+  String get intervalNewTooltip => 'New interval timer';
 
   @override
   String intervalStart(String name) {
@@ -709,10 +709,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get detailCustomize => 'CUSTOMIZE';
 
   @override
-  String get editorNewTitle => 'NEW WORKOUT';
+  String get editorNewTitle => 'NEW TIMER';
 
   @override
-  String get editorEditTitle => 'EDIT WORKOUT';
+  String get editorEditTitle => 'EDIT TIMER';
 
   @override
   String editorDefaultName(String date) {
@@ -2012,8 +2012,8 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count interval workouts',
-      one: '1 interval workout',
+      other: '$count timers',
+      one: '1 timer',
     );
     return '$_temp0';
   }
@@ -2365,10 +2365,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get trainIntervals => '[Îñţéŕṽáļš ····]';
 
   @override
-  String get trainRoutines => '[Ŕöûţîñéš ····]';
+  String get trainRoutines => '[Šţŕéñĝţĥ ····]';
 
   @override
-  String get trainIntervalsEmptyTitle => '[Ñö îñţéŕṽáļ ŵöŕķöûţš ýéţ ·········]';
+  String get trainIntervalsEmptyTitle => '[Ñö ţîɱéŕš ýéţ ·····]';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -2933,13 +2933,13 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get trainTemplates => '[ŢÉṀÞĻÅŢÉŠ ····]';
 
   @override
-  String get trainMyIntervals => '[ṀÝ ŴÖŔĶÖÛŢŠ ····]';
+  String get trainMyIntervals => '[ṀÝ ŢÎṀÉŔŠ ····]';
 
   @override
   String get trainNewInterval => '[ÑÉŴ ··]';
 
   @override
-  String get intervalNewTooltip => '[Ñéŵ îñţéŕṽáļ ŵöŕķöûţ ········]';
+  String get intervalNewTooltip => '[Ñéŵ îñţéŕṽáļ ţîɱéŕ ·······]';
 
   @override
   String intervalStart(String name) {
@@ -3015,10 +3015,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get detailCustomize => '[ÇÛŠŢÖṀÎŽÉ ····]';
 
   @override
-  String get editorNewTitle => '[ÑÉŴ ŴÖŔĶÖÛŢ ····]';
+  String get editorNewTitle => '[ÑÉŴ ŢÎṀÉŔ ····]';
 
   @override
-  String get editorEditTitle => '[ÉÐÎŢ ŴÖŔĶÖÛŢ ·····]';
+  String get editorEditTitle => '[ÉÐÎŢ ŢÎṀÉŔ ····]';
 
   @override
   String editorDefaultName(String date) {
@@ -4332,10 +4332,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count îñţéŕṽáļ ŵöŕķöûţš',
-      one: '1 îñţéŕṽáļ ŵöŕķöûţ',
+      other: '$count ţîɱéŕš',
+      one: '1 ţîɱéŕ',
     );
-    return '[$_temp0 ·············]';
+    return '[$_temp0 ·····]';
   }
 
   @override

@@ -21,7 +21,7 @@ const _chest = [
 Future<void> _openRoutines(WidgetTester tester) async {
   await tester.tap(find.byKey(const Key('nav-train')));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('Rutinas'));
+  await tester.tap(find.text('Fuerza'));
   await tester.pumpAndSettle();
 }
 
@@ -101,7 +101,7 @@ void main() {
     );
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Routines'));
+    await tester.tap(find.text('Strength'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('new-routine')));
     await tester.pumpAndSettle();

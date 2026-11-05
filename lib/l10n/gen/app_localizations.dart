@@ -205,16 +205,16 @@ abstract class AppLocalizations {
   /// **'Intervals'**
   String get trainIntervals;
 
-  /// Segment: strength routines.
+  /// Segment: strength mode (its saved templates are routines).
   ///
   /// In en, this message translates to:
-  /// **'Routines'**
+  /// **'Strength'**
   String get trainRoutines;
 
   /// Empty state title of the intervals section in Train.
   ///
   /// In en, this message translates to:
-  /// **'No interval workouts yet'**
+  /// **'No timers yet'**
   String get trainIntervalsEmptyTitle;
 
   /// Empty state body of the intervals section in Train.
@@ -1180,7 +1180,7 @@ abstract class AppLocalizations {
   /// Train section label with the user interval workouts.
   ///
   /// In en, this message translates to:
-  /// **'MY WORKOUTS'**
+  /// **'MY TIMERS'**
   String get trainMyIntervals;
 
   /// Train header button that creates an interval workout, uppercase.
@@ -1192,7 +1192,7 @@ abstract class AppLocalizations {
   /// Tooltip of the new interval workout button.
   ///
   /// In en, this message translates to:
-  /// **'New interval workout'**
+  /// **'New interval timer'**
   String get intervalNewTooltip;
 
   /// Accessibility label of the play button on a workout card.
@@ -1306,13 +1306,13 @@ abstract class AppLocalizations {
   /// Interval editor title, uppercase.
   ///
   /// In en, this message translates to:
-  /// **'NEW WORKOUT'**
+  /// **'NEW TIMER'**
   String get editorNewTitle;
 
   /// Interval editor title when editing, uppercase.
   ///
   /// In en, this message translates to:
-  /// **'EDIT WORKOUT'**
+  /// **'EDIT TIMER'**
   String get editorEditTitle;
 
   /// Default workout name; date is short (e.g. Nov 3).
@@ -3322,7 +3322,7 @@ abstract class AppLocalizations {
   /// Interval workout count in a backup.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 interval workout} other{{count} interval workouts}}'**
+  /// **'{count, plural, =1{1 timer} other{{count} timers}}'**
   String backupWorkouts(int count);
 
   /// File size in kilobytes.
