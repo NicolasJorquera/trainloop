@@ -2281,6 +2281,33 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get removeAdsNothing => 'Esta conta do Google Play não tem a compra.';
+
+  @override
+  String get errorLogTitle => 'Registro de erros';
+
+  @override
+  String errorLogCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count erros',
+      one: '1 erro',
+      zero: 'sem erros',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get errorLogHelp =>
+      'Os erros técnicos ficam só neste celular. Exporte o arquivo se quiser nos enviar.';
+
+  @override
+  String get errorLogEmpty => 'Nenhum erro registrado.';
+
+  @override
+  String errorLogSaved(String name) {
+    return 'Registro de erros salvo: $name';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

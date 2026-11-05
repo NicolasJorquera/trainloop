@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.trainloop.app.MainActivity
 import com.trainloop.app.R
+import com.trainloop.app.diagnostics.CrashLog
 import java.io.File
 import java.time.LocalDate
 import java.time.ZoneId
@@ -31,6 +32,7 @@ class ReminderReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        CrashLog.install(context)
         if (intent.action == ReminderScheduler.ACTION_FIRE) fire(context)
         // En todos los casos, la próxima.
         ReminderScheduler.schedule(context)

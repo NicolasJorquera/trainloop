@@ -1215,5 +1215,15 @@
   "removeAdsUnavailable": "Google Play isn't available right now. Check your connection and try again.",
   "@removeAdsUnavailable": {"description": "Status."},
   "removeAdsNothing": "This Google Play account doesn't have the purchase.",
-  "@removeAdsNothing": {"description": "Status after restoring with nothing found."}
+  "@removeAdsNothing": {"description": "Status after restoring with nothing found."},
+  "errorLogTitle": "Error log",
+  "@errorLogTitle": {"description": "Settings row (DATA & PRIVACY) that exports the local error log."},
+  "errorLogCount": "{count, plural, =0{no errors} =1{1 error} other{{count} errors}}",
+  "@errorLogCount": {"description": "Settings row meta: errors in the local log.", "placeholders": {"count": {"type": "int"}}},
+  "errorLogHelp": "Technical errors stay only on this phone. Export the file if you want to send it to us.",
+  "@errorLogHelp": {"description": "Help under the error log row."},
+  "errorLogEmpty": "No errors recorded.",
+  "@errorLogEmpty": {"description": "Snackbar when the error log is empty."},
+  "errorLogSaved": "Error log saved: {name}",
+  "@errorLogSaved": {"description": "Snackbar after exporting the error log.", "placeholders": {"name": {"type": "String"}}}
 }

@@ -46,23 +46,45 @@ class _LoadedBannerSlot extends ConsumerStatefulWidget {
 }
 
 class _LoadedBannerSlotState extends ConsumerState<_LoadedBannerSlot> {
+  /// Esperas entre reintentos mientras el banner no carga (sin red o sin
+  /// anuncio que dar). Sin escuchar la conectividad (pediría otro paquete):
+  /// cuando vuelve la red, el banner aparece en el siguiente intento.
+  static const retryDelays = [
+    Duration(seconds: 30),
+    Duration(minutes: 1),
+    Duration(minutes: 2),
+    Duration(minutes: 5),
+  ];
+
   LoadedBanner? _banner;
   int? _width;
   bool _loading = false;
+  Timer? _retry;
+  int _failures = 0;
   late final AppLifecycleListener _lifecycle;
 
   @override
   void initState() {
     super.initState();
-    // Sin red al cargar: se reintenta al volver a la app (no hay sondeo).
+    // Al volver a la app se reintenta en el acto; en segundo plano, no.
     _lifecycle = AppLifecycleListener(
-      onResume: () {
-        final width = _width;
-        if (mounted && _banner == null && width != null) {
-          _load(width, MediaQuery.orientationOf(context));
-        }
-      },
+      onResume: _retryNow,
+      onHide: () => _retry?.cancel(),
     );
+  }
+
+  void _retryNow() {
+    final width = _width;
+    if (mounted && _banner == null && width != null) {
+      _load(width, MediaQuery.orientationOf(context));
+    }
+  }
+
+  void _scheduleRetry() {
+    _retry?.cancel();
+    final delay = retryDelays[_failures.clamp(0, retryDelays.length - 1)];
+    _failures++;
+    _retry = Timer(delay, _retryNow);
   }
 
   @override
@@ -77,6 +99,7 @@ class _LoadedBannerSlotState extends ConsumerState<_LoadedBannerSlot> {
 
   Future<void> _load(int width, Orientation orientation) async {
     if (_loading) return;
+    _retry?.cancel();
     _loading = true;
     LoadedBanner? banner;
     try {
@@ -96,10 +119,16 @@ class _LoadedBannerSlotState extends ConsumerState<_LoadedBannerSlot> {
       _banner?.dispose();
       _banner = banner;
     });
+    if (banner == null) {
+      _scheduleRetry();
+    } else {
+      _failures = 0;
+    }
   }
 
   @override
   void dispose() {
+    _retry?.cancel();
     _lifecycle.dispose();
     _banner?.dispose();
     _banner = null;

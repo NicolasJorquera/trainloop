@@ -3761,6 +3761,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This Google Play account doesn\'t have the purchase.'**
   String get removeAdsNothing;
+
+  /// Settings row (DATA & PRIVACY) that exports the local error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log'**
+  String get errorLogTitle;
+
+  /// Settings row meta: errors in the local log.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no errors} =1{1 error} other{{count} errors}}'**
+  String errorLogCount(int count);
+
+  /// Help under the error log row.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical errors stay only on this phone. Export the file if you want to send it to us.'**
+  String get errorLogHelp;
+
+  /// Snackbar when the error log is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No errors recorded.'**
+  String get errorLogEmpty;
+
+  /// Snackbar after exporting the error log.
+  ///
+  /// In en, this message translates to:
+  /// **'Error log saved: {name}'**
+  String errorLogSaved(String name);
 }
 
 class _AppLocalizationsDelegate

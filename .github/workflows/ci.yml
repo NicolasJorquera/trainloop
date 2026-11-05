@@ -12,7 +12,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       PUB_HOSTED_URL: https://pub.dev
     steps:
@@ -50,7 +50,7 @@ jobs:
           fi
 
       - name: Formato
-        run: dart format --output=none --set-exit-if-changed lib test tool
+        run: dart format --output=none --set-exit-if-changed lib test tool integration_test test_driver
 
       - name: Análisis
         run: flutter analyze
@@ -66,6 +66,43 @@ jobs:
       - name: Pruebas del motor nativo (JVM)
         working-directory: android
         run: ./gradlew testDebugUnitTest
+
+      - name: Guarda de IDs de AdMob
+        # Un release con los IDs de prueba debe fallar (deuda 6 de D8).
+        working-directory: android
+        run: |
+          if ./gradlew -q :app:verifyReleaseAdIds; then
+            echo "La guarda dejó pasar los IDs de prueba." >&2
+            exit 1
+          fi
+          echo "La guarda falla sin IDs reales, como debe."
+
+      - name: Release con R8 (IDs de prueba permitidos)
+        # La CI no tiene los IDs reales ni la llave de subida: compila el
+        # release para probar R8 y la reducción, firmado con la llave de
+        # depuración. Nunca subir este artefacto a Play.
+        env:
+          TL_ALLOW_TEST_ADS: 'true'
+        run: |
+          flutter build apk --release --split-per-abi
+          flutter build appbundle --release
+
+      - name: Tamaño del release (NF-11)
+        run: |
+          {
+            echo "### Tamaño del release (NF-11: < 20 MB de descarga)"
+            echo ""
+            echo "| Archivo | Tamaño | gzip -9 (≈ descarga) |"
+            echo "|---|---:|---:|"
+            for f in build/app/outputs/flutter-apk/app-*-release.apk build/app/outputs/bundle/release/app-release.aab; do
+              size=$(stat -c%s "$f")
+              gz=$(gzip -9 -c "$f" | wc -c)
+              awk -v n="$(basename "$f")" -v s="$size" -v g="$gz" \
+                'BEGIN { printf "| %s | %.1f MB | %.1f MB |\n", n, s / 1000000, g / 1000000 }'
+            done
+            echo ""
+            echo "El tamaño real de descarga lo informa Play Console (por dispositivo)."
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         with:

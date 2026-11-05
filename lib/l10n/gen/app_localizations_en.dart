@@ -2279,6 +2279,33 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get removeAdsNothing =>
       'This Google Play account doesn\'t have the purchase.';
+
+  @override
+  String get errorLogTitle => 'Error log';
+
+  @override
+  String errorLogCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count errors',
+      one: '1 error',
+      zero: 'no errors',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get errorLogHelp =>
+      'Technical errors stay only on this phone. Export the file if you want to send it to us.';
+
+  @override
+  String get errorLogEmpty => 'No errors recorded.';
+
+  @override
+  String errorLogSaved(String name) {
+    return 'Error log saved: $name';
+  }
 }
 
 /// The translations for English (`en_XA`).
@@ -4579,4 +4606,31 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   @override
   String get removeAdsNothing =>
       '[Ţĥîš Ĝööĝļé Þļáý áççöûñţ ðöéšñ\'ţ ĥáṽé ţĥé þûŕçĥášé. ·················]';
+
+  @override
+  String get errorLogTitle => '[Éŕŕöŕ ļöĝ ····]';
+
+  @override
+  String errorLogCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éŕŕöŕš',
+      one: '1 éŕŕöŕ',
+      zero: 'ñö éŕŕöŕš',
+    );
+    return '[$_temp0 ········]';
+  }
+
+  @override
+  String get errorLogHelp =>
+      '[Ţéçĥñîçáļ éŕŕöŕš šţáý öñļý öñ ţĥîš þĥöñé. Éẋþöŕţ ţĥé ƒîļé îƒ ýöû ŵáñţ ţö šéñð îţ ţö ûš. ····························]';
+
+  @override
+  String get errorLogEmpty => '[Ñö éŕŕöŕš ŕéçöŕðéð. ·······]';
+
+  @override
+  String errorLogSaved(String name) {
+    return '[Éŕŕöŕ ļöĝ šáṽéð: $name ······]';
+  }
 }

@@ -15,6 +15,7 @@ import android.os.PowerManager
 import android.os.Process
 import android.os.SystemClock
 import android.util.Log
+import com.trainloop.app.diagnostics.CrashLog
 import org.json.JSONObject
 import java.io.File
 
@@ -103,6 +104,8 @@ class TimerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        // El servicio puede vivir sin la actividad (p. ej. tras cerrar la app).
+        CrashLog.install(this)
         instance = this
         thread.start()
         handler = Handler(thread.looper)

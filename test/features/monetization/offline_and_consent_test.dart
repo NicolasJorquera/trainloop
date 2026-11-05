@@ -137,6 +137,30 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('vuelve la red: el banner se reintenta solo, con esperas '
+      'crecientes', (tester) async {
+    final ads = FakeAdsPlatform(fillBanner: true, failLoad: true);
+    await pump(tester, ads: ads);
+    final first = ads.calls.where((c) => c == 'loadBanner').length;
+    expect(first, greaterThan(0));
+    expect(find.byKey(banner), findsNothing);
+
+    // Sigue sin red: un intento a los 30 s y el siguiente recién al minuto.
+    await tester.pump(const Duration(seconds: 31));
+    await frames(tester);
+    expect(ads.calls.where((c) => c == 'loadBanner').length, first + 1);
+    await tester.pump(const Duration(seconds: 31));
+    await frames(tester);
+    expect(ads.calls.where((c) => c == 'loadBanner').length, first + 1);
+
+    // Vuelve la red: en el próximo intento aparece, sin volver a la app.
+    ads.failLoad = false;
+    await tester.pump(const Duration(seconds: 30));
+    await frames(tester);
+    expect(find.byKey(banner), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('EEE: sin responder el formulario no hay anuncios ni '
       'analítica; «Preferencias de privacidad» lo vuelve a abrir', (
     tester,

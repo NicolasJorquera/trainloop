@@ -2284,6 +2284,33 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get removeAdsNothing =>
       'Esta cuenta de Google Play no tiene la compra.';
+
+  @override
+  String get errorLogTitle => 'Registro de errores';
+
+  @override
+  String errorLogCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count errores',
+      one: '1 error',
+      zero: 'sin errores',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get errorLogHelp =>
+      'Los errores técnicos quedan solo en este teléfono. Exporta el archivo si quieres enviárnoslo.';
+
+  @override
+  String get errorLogEmpty => 'No hay errores registrados.';
+
+  @override
+  String errorLogSaved(String name) {
+    return 'Registro de errores guardado: $name';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).
