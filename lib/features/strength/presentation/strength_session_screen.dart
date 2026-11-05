@@ -327,7 +327,9 @@ class _Header extends StatelessWidget {
               width: TlSize.touchSession,
               height: TlSize.touchSession,
             ),
-            tooltip: l10n.backTooltip,
+            // Atrás minimiza: la sesión sigue y la barra de arriba vuelve a
+            // ella. Terminar es TERMINAR (o la barra).
+            tooltip: l10n.sessionMinimizeTooltip,
             icon: const Icon(Icons.arrow_back),
             onPressed: () =>
                 context.canPop() ? context.pop() : context.go(Routes.home),
