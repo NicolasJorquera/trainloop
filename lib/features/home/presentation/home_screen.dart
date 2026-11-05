@@ -8,10 +8,10 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme_context.dart';
 import '../../../core/theme/tokens.dart';
+import '../../../core/widgets/screen_header.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
-import '../../../core/widgets/trainloop_symbol.dart';
 import '../../history/application/history_providers.dart';
 import '../../intervals/domain/interval_templates.dart';
 import '../../intervals/presentation/interval_widgets.dart';
@@ -35,28 +35,16 @@ class HomeScreen extends ConsumerWidget {
     final active = ref.watch(strengthSessionProvider);
     final last = ref.watch(lastStrengthSessionProvider).value;
     final l10n = context.l10n;
-    final t = context.text;
     return TabPage(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: TlSpace.s3),
-          child: Row(
-            children: [
-              const TrainloopSymbol(),
-              const SizedBox(width: TlSpace.s2),
-              Expanded(
-                child: Semantics(
-                  header: true,
-                  child: Text(l10n.logoWordmark, style: t.logo),
-                ),
-              ),
-              IconButton(
-                key: const Key('open-settings'),
-                tooltip: l10n.settingsTooltip,
-                icon: const Icon(Icons.settings_outlined),
-                onPressed: () => context.push(Routes.settings),
-              ),
-            ],
+        TabHeader(
+          title: l10n.logoWordmark,
+          wordmark: true,
+          trailing: IconButton(
+            key: const Key('open-settings'),
+            tooltip: l10n.settingsTooltip,
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push(Routes.settings),
           ),
         ),
         if (!ref.watch(

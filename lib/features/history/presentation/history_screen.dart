@@ -43,7 +43,7 @@ class HistoryScreen extends ConsumerWidget {
     final entries = ref.watch(historyEntriesProvider).value ?? const [];
     return TabPage(
       children: [
-        ScreenHeader(title: l10n.historyTitle),
+        TabHeader(title: l10n.historyTitle),
         TlSegmentedControl<HistoryTab>(
           key: const Key('history-tabs'),
           semanticLabel: l10n.historyTabsLabel,
