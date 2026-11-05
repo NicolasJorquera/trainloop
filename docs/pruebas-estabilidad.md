@@ -47,7 +47,7 @@ Necesita: un Samsung y un Xiaomi de gama media (y un Pixel si hay), depuración 
 
 | Prueba | Cómo | Tiempo |
 |---|---|---|
-| NF-02 arranque | release instalado; 10 × `adb shell am start -W -S -n com.trainloop.app/.MainActivity`, mediana y p90 | 10 min por teléfono |
+| NF-02 arranque | release instalado; 10 × `adb shell am start -W -S -n com.gonisoma.trainloop/com.trainloop.app.MainActivity`, mediana y p90 | 10 min por teléfono |
 | NF-03 + NF-10 | `tool/noche_telefono.sh` con el build de profile y «Prueba 60 min», sin cargador (adb por wifi) | 70 min, de noche |
 | NF-06 `kill -9` | build de depuración; `tool/timer_adb.sh tabata`, `kill` a los 30 s, reabrir y medir lo perdido | 10 min |
 | T-03 música | Spotify sonando: avisos con atenuación, sin cortar la música | 10 min |
