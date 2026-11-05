@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Pizarra (surface1 del tema oscuro). -->
+    <color name="ic_launcher_background">#191B1E</color>
+</resources>

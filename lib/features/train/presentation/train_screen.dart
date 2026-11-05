@@ -30,7 +30,7 @@ class TrainScreen extends StatelessWidget {
     final intervals = kind == _TrainKind.intervals;
     return TabPage(
       children: [
-        ScreenHeader(
+        TabHeader(
           title: l10n.trainTitle,
           trailing: intervals
               ? _HeaderButton(

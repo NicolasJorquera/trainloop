@@ -62,7 +62,7 @@ class ProgressScreen extends ConsumerWidget {
 
     return TabPage(
       children: [
-        ScreenHeader(title: l10n.progressTitle),
+        TabHeader(title: l10n.progressTitle),
         SectionLabel(l10n.homeWeekOverline),
         if (summary != null) ...[
           Row(
