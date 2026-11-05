@@ -17,9 +17,9 @@ const _changelogLimit = 500;
 int _chars(String text) => text.trim().runes.length;
 
 int _versionCode() {
-  final line = File('pubspec.yaml')
-      .readAsLinesSync()
-      .firstWhere((l) => l.startsWith('version:'));
+  final line = File(
+    'pubspec.yaml',
+  ).readAsLinesSync().firstWhere((l) => l.startsWith('version:'));
   return int.parse(line.split('+').last.trim());
 }
 
