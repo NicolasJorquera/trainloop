@@ -11,6 +11,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/section_label.dart';
 import '../../../core/widgets/tab_page.dart';
 import '../../../core/widgets/tl_button.dart';
+import '../../../core/widgets/trainloop_symbol.dart';
 import '../../history/application/history_providers.dart';
 import '../../intervals/domain/interval_templates.dart';
 import '../../intervals/presentation/interval_widgets.dart';
@@ -41,6 +42,8 @@ class HomeScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(top: TlSpace.s3),
           child: Row(
             children: [
+              const TrainloopSymbol(),
+              const SizedBox(width: TlSpace.s2),
               Expanded(
                 child: Semantics(
                   header: true,
