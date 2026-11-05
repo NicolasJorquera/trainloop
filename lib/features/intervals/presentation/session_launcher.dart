@@ -14,6 +14,7 @@ import '../application/interval_providers.dart';
 import '../application/interval_session_controller.dart';
 import '../domain/interval_templates.dart';
 import '../domain/interval_workout_draft.dart';
+import 'active_session.dart';
 import 'session_dialogs.dart';
 
 /// Empieza [workout] desde S03 o desde una tarjeta (botón ▶):
@@ -71,10 +72,20 @@ Future<bool> checkBeforeSession(BuildContext context, WidgetRef ref) async {
   final intervalActive = ref.read(intervalSessionProvider)?.active ?? false;
   final strengthActive = ref.read(strengthSessionProvider) != null;
   if (intervalActive || strengthActive) {
-    if (await showActiveSessionDialog(context) && context.mounted) {
+    final choice = await showActiveSessionDialog(context);
+    if (choice == null || !context.mounted) return false;
+    if (choice == ActiveSessionChoice.goBack) {
       await context.push(intervalActive ? Routes.timer : Routes.strength);
+      return false;
     }
-    return false;
+    // «Terminar y empezar nueva»: el diálogo ya confirmó.
+    final ended = await endActiveSession(
+      context,
+      ref,
+      confirmed: true,
+      openSummary: false,
+    );
+    if (!ended || !context.mounted) return false;
   }
 
   if (!await engine.notificationsGranted() &&

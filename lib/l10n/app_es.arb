@@ -290,7 +290,7 @@
   "batteryDone": "YA LO HICE",
   "batteryLater": "MÁS TARDE",
   "activeSessionTitle": "Ya tienes una sesión en curso",
-  "activeSessionBody": "Termínala antes de empezar otra.",
+  "activeSessionBody": "Vuelve a ella o termínala para empezar otra.",
   "activeSessionGo": "VOLVER A LA SESIÓN",
   "volumeZero": "El volumen multimedia está en 0: no oirás los avisos.",
   "settingsAlerts": "ALERTAS",
@@ -614,5 +614,15 @@
   "errorLogEmpty": "No hay errores registrados.",
   "errorLogSaved": "Registro de errores guardado: {name}",
   "strengthSameAsBefore": "IGUAL QUE ANTES: {values}",
-  "strengthSameAsBeforeHint": "Registrar otra serie igual que la anterior: {values}"
+  "strengthSameAsBeforeHint": "Registrar otra serie igual que la anterior: {values}",
+  "activeSessionEndAndStart": "TERMINAR Y EMPEZAR NUEVA",
+  "endSessionTitle": "¿TERMINAR LA SESIÓN?",
+  "endSessionBody": "Se guarda lo que llevas hecho.",
+  "endSessionConfirm": "TERMINAR",
+  "sessionBarStrength": "FUERZA · {name}",
+  "sessionBarIntervals": "INTERVALOS · {name}",
+  "sessionBarHint": "Sesión en curso. Toca para volver a ella.",
+  "sessionBarEnd": "Terminar la sesión",
+  "sessionBarPaused": "En pausa",
+  "sessionMinimizeTooltip": "Salir sin terminar (la sesión sigue)"
 }

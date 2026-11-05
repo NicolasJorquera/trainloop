@@ -1042,7 +1042,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activeSessionTitle => 'Ya tienes una sesión en curso';
 
   @override
-  String get activeSessionBody => 'Termínala antes de empezar otra.';
+  String get activeSessionBody =>
+      'Vuelve a ella o termínala para empezar otra.';
 
   @override
   String get activeSessionGo => 'VOLVER A LA SESIÓN';
@@ -2320,6 +2321,40 @@ class AppLocalizationsEs extends AppLocalizations {
   String strengthSameAsBeforeHint(String values) {
     return 'Registrar otra serie igual que la anterior: $values';
   }
+
+  @override
+  String get activeSessionEndAndStart => 'TERMINAR Y EMPEZAR NUEVA';
+
+  @override
+  String get endSessionTitle => '¿TERMINAR LA SESIÓN?';
+
+  @override
+  String get endSessionBody => 'Se guarda lo que llevas hecho.';
+
+  @override
+  String get endSessionConfirm => 'TERMINAR';
+
+  @override
+  String sessionBarStrength(String name) {
+    return 'FUERZA · $name';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return 'INTERVALOS · $name';
+  }
+
+  @override
+  String get sessionBarHint => 'Sesión en curso. Toca para volver a ella.';
+
+  @override
+  String get sessionBarEnd => 'Terminar la sesión';
+
+  @override
+  String get sessionBarPaused => 'En pausa';
+
+  @override
+  String get sessionMinimizeTooltip => 'Salir sin terminar (la sesión sigue)';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

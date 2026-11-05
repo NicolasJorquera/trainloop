@@ -99,4 +99,61 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('atrás minimiza S10: la barra lo muestra, vuelve y termina; '
+      'empezar otra ofrece volver o terminar', (tester) async {
+    useTallViewport(tester);
+    await pumpTrainloop(
+      tester,
+      engine: engine,
+      database: db,
+      settings: const AppSettings(language: AppLanguage.es),
+    );
+    await tester.tap(find.byKey(const Key('nav-train')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Fuerza'));
+    await frames(tester);
+    await tester.tap(find.byKey(const Key('free-workout')));
+    await frames(tester, 10);
+    expect(find.byKey(const Key('active-session-bar')), findsNothing);
+
+    // Atrás sale de S10 y nada la vuelve a apilar al volver a la app.
+    await tester.tap(find.byKey(const Key('strength-back')));
+    await frames(tester);
+    await backToApp(tester);
+    expect(find.byType(StrengthSessionScreen), findsNothing);
+    final bar = find.byKey(const Key('active-session-bar'));
+    expect(bar, findsOneWidget);
+    expect(find.textContaining('FUERZA · ENTRENAMIENTO LIBRE'), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(const Key('active-session-open'))).height,
+      greaterThanOrEqualTo(48),
+    );
+
+    // La barra vuelve a la sesión.
+    await tester.tap(find.byKey(const Key('active-session-open')));
+    await frames(tester);
+    expect(find.byType(StrengthSessionScreen), findsOneWidget);
+    expect(bar, findsNothing);
+    await tester.tap(find.byKey(const Key('strength-back')));
+    await frames(tester);
+
+    // Empezar otra: el diálogo ofrece volver o terminar y empezar nueva.
+    await tester.ensureVisible(find.byKey(const Key('free-workout')));
+    await frames(tester);
+    await tester.tap(find.byKey(const Key('free-workout')));
+    await frames(tester);
+    expect(find.byKey(const Key('active-session-dialog')), findsOneWidget);
+    expect(find.text('VOLVER A LA SESIÓN'), findsOneWidget);
+    expect(find.text('TERMINAR Y EMPEZAR NUEVA'), findsOneWidget);
+    await tester.tap(find.text('Cancelar'));
+    await frames(tester);
+
+    // Terminar desde la barra (sin series: propone descartarla).
+    await tester.tap(find.byKey(const Key('active-session-bar-end')));
+    await frames(tester);
+    await tester.tap(find.byKey(const Key('no-sets-discard')));
+    await frames(tester, 10);
+    expect(bar, findsNothing);
+  });
 }

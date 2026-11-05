@@ -1040,7 +1040,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activeSessionTitle => 'A session is in progress';
 
   @override
-  String get activeSessionBody => 'Finish it before starting another one.';
+  String get activeSessionBody =>
+      'Go back to it, or finish it to start a new one.';
 
   @override
   String get activeSessionGo => 'BACK TO SESSION';
@@ -2316,6 +2317,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String strengthSameAsBeforeHint(String values) {
     return 'Log another set like the last one: $values';
   }
+
+  @override
+  String get activeSessionEndAndStart => 'FINISH AND START NEW';
+
+  @override
+  String get endSessionTitle => 'FINISH THE SESSION?';
+
+  @override
+  String get endSessionBody => 'What you\'ve done so far is saved.';
+
+  @override
+  String get endSessionConfirm => 'FINISH';
+
+  @override
+  String sessionBarStrength(String name) {
+    return 'STRENGTH · $name';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return 'INTERVALS · $name';
+  }
+
+  @override
+  String get sessionBarHint => 'Session in progress. Tap to go back to it.';
+
+  @override
+  String get sessionBarEnd => 'Finish the session';
+
+  @override
+  String get sessionBarPaused => 'Paused';
+
+  @override
+  String get sessionMinimizeTooltip =>
+      'Leave without finishing (the session keeps going)';
 }
 
 /// The translations for English (`en_XA`).
@@ -3363,7 +3399,7 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get activeSessionBody =>
-      '[Ƒîñîšĥ îţ ƀéƒöŕé šţáŕţîñĝ áñöţĥéŕ öñé. ·············]';
+      '[Ĝö ƀáçķ ţö îţ, öŕ ƒîñîšĥ îţ ţö šţáŕţ á ñéŵ öñé. ··············]';
 
   @override
   String get activeSessionGo => '[ƁÅÇĶ ŢÖ ŠÉŠŠÎÖÑ ······]';
@@ -4653,4 +4689,41 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String strengthSameAsBeforeHint(String values) {
     return '[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: $values ···········]';
   }
+
+  @override
+  String get activeSessionEndAndStart => '[ƑÎÑÎŠĤ ÅÑÐ ŠŢÅŔŢ ÑÉŴ ·······]';
+
+  @override
+  String get endSessionTitle => '[ƑÎÑÎŠĤ ŢĤÉ ŠÉŠŠÎÖÑ? ·······]';
+
+  @override
+  String get endSessionBody =>
+      '[Ŵĥáţ ýöû\'ṽé ðöñé šö ƒáŕ îš šáṽéð. ··········]';
+
+  @override
+  String get endSessionConfirm => '[ƑÎÑÎŠĤ ···]';
+
+  @override
+  String sessionBarStrength(String name) {
+    return '[ŠŢŔÉÑĜŢĤ · $name ····]';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return '[ÎÑŢÉŔṼÅĻŠ · $name ····]';
+  }
+
+  @override
+  String get sessionBarHint =>
+      '[Šéššîöñ îñ þŕöĝŕéšš. Ţáþ ţö ĝö ƀáçķ ţö îţ. ·············]';
+
+  @override
+  String get sessionBarEnd => '[Ƒîñîšĥ ţĥé šéššîöñ ·······]';
+
+  @override
+  String get sessionBarPaused => '[Þáûšéð ···]';
+
+  @override
+  String get sessionMinimizeTooltip =>
+      '[Ļéáṽé ŵîţĥöûţ ƒîñîšĥîñĝ (ţĥé šéššîöñ ķééþš ĝöîñĝ) ·················]';
 }

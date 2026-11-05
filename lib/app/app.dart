@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/l10n/l10n.dart';
 import '../core/router/app_router.dart';
 import '../core/theme/app_theme.dart';
+import '../features/intervals/presentation/active_session.dart';
 import '../features/intervals/presentation/session_gate.dart';
 import '../features/monetization/presentation/monetization_gate.dart';
 import '../features/reminders/presentation/reminder_section.dart';
@@ -45,7 +46,9 @@ class TrainloopApp extends ConsumerWidget {
                 systemNavigationBarColor: Colors.transparent,
               ),
           child: ReminderSync(
-            child: SessionGate(child: MonetizationGate(child: child!)),
+            child: SessionGate(
+              child: MonetizationGate(child: ActiveSessionFrame(child: child!)),
+            ),
           ),
         );
       },

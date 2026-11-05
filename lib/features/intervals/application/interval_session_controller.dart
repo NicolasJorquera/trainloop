@@ -122,6 +122,19 @@ class IntervalSessionController extends Notifier<ActiveSession?> {
   Future<void> previous() => _engine.previous();
   Future<void> stop() => _engine.stop();
 
+  /// Detiene la sesión y espera a que quede guardada (para empezar otra
+  /// enseguida). Si el servicio no responde a tiempo, sigue igual.
+  Future<void> stopAndWait({
+    Duration limit = const Duration(seconds: 5),
+  }) async {
+    final done = _savedSignal = Completer<void>();
+    await _engine.stop();
+    await done.future.timeout(limit, onTimeout: () {});
+    _savedSignal = null;
+  }
+
+  Completer<void>? _savedSignal;
+
   /// Al abrir la app o volver a ella: se engancha a una sesión viva, guarda
   /// una terminada sin interfaz o devuelve la que hay que ofrecer recuperar.
   Future<RecoveryOffer?> syncOnLaunch() async {
@@ -286,5 +299,7 @@ class IntervalSessionController extends Notifier<ActiveSession?> {
       engine: s,
       saved: true,
     );
+    _savedSignal?.complete();
+    _savedSignal = null;
   }
 }

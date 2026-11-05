@@ -290,7 +290,7 @@
   "batteryDone": "[Î ÐÎÐ ÎŢ ···]",
   "batteryLater": "[ĻÅŢÉŔ ··]",
   "activeSessionTitle": "[Å šéššîöñ îš îñ þŕöĝŕéšš ········]",
-  "activeSessionBody": "[Ƒîñîšĥ îţ ƀéƒöŕé šţáŕţîñĝ áñöţĥéŕ öñé. ·············]",
+  "activeSessionBody": "[Ĝö ƀáçķ ţö îţ, öŕ ƒîñîšĥ îţ ţö šţáŕţ á ñéŵ öñé. ··············]",
   "activeSessionGo": "[ƁÅÇĶ ŢÖ ŠÉŠŠÎÖÑ ······]",
   "volumeZero": "[Ṁéðîá ṽöļûɱé îš áţ 0: ýöû ŵöñ’ţ ĥéáŕ ţĥé áļéŕţš. ··············]",
   "settingsAlerts": "[ÅĻÉŔŢŠ ···]",
@@ -614,5 +614,15 @@
   "errorLogEmpty": "[Ñö éŕŕöŕš ŕéçöŕðéð. ·······]",
   "errorLogSaved": "[Éŕŕöŕ ļöĝ šáṽéð: {name} ······]",
   "strengthSameAsBefore": "[ŠÅṀÉ ÅŠ ƁÉƑÖŔÉ: {values} ·····]",
-  "strengthSameAsBeforeHint": "[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: {values} ···········]"
+  "strengthSameAsBeforeHint": "[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: {values} ···········]",
+  "activeSessionEndAndStart": "[ƑÎÑÎŠĤ ÅÑÐ ŠŢÅŔŢ ÑÉŴ ·······]",
+  "endSessionTitle": "[ƑÎÑÎŠĤ ŢĤÉ ŠÉŠŠÎÖÑ? ·······]",
+  "endSessionBody": "[Ŵĥáţ ýöû'ṽé ðöñé šö ƒáŕ îš šáṽéð. ··········]",
+  "endSessionConfirm": "[ƑÎÑÎŠĤ ···]",
+  "sessionBarStrength": "[ŠŢŔÉÑĜŢĤ · {name} ····]",
+  "sessionBarIntervals": "[ÎÑŢÉŔṼÅĻŠ · {name} ····]",
+  "sessionBarHint": "[Šéššîöñ îñ þŕöĝŕéšš. Ţáþ ţö ĝö ƀáçķ ţö îţ. ·············]",
+  "sessionBarEnd": "[Ƒîñîšĥ ţĥé šéššîöñ ·······]",
+  "sessionBarPaused": "[Þáûšéð ···]",
+  "sessionMinimizeTooltip": "[Ļéáṽé ŵîţĥöûţ ƒîñîšĥîñĝ (ţĥé šéššîöñ ķééþš ĝöîñĝ) ·················]"
 }

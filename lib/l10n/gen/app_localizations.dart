@@ -1852,7 +1852,7 @@ abstract class AppLocalizations {
   /// Dialog body.
   ///
   /// In en, this message translates to:
-  /// **'Finish it before starting another one.'**
+  /// **'Go back to it, or finish it to start a new one.'**
   String get activeSessionBody;
 
   /// Dialog button, uppercase.
@@ -3803,6 +3803,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log another set like the last one: {values}'**
   String strengthSameAsBeforeHint(String values);
+
+  /// Dialog button: finish the current session and start the new one, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH AND START NEW'**
+  String get activeSessionEndAndStart;
+
+  /// Confirmation to finish the session in progress from outside it.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH THE SESSION?'**
+  String get endSessionTitle;
+
+  /// Body of the finish-session confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'What you\'ve done so far is saved.'**
+  String get endSessionBody;
+
+  /// Confirm button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH'**
+  String get endSessionConfirm;
+
+  /// Active session bar title. name: routine or free workout.
+  ///
+  /// In en, this message translates to:
+  /// **'STRENGTH · {name}'**
+  String sessionBarStrength(String name);
+
+  /// Active session bar title. name: timer name.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERVALS · {name}'**
+  String sessionBarIntervals(String name);
+
+  /// TalkBack hint of the active session bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Session in progress. Tap to go back to it.'**
+  String get sessionBarHint;
+
+  /// Tooltip of the finish button in the active session bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the session'**
+  String get sessionBarEnd;
+
+  /// Active session bar: the timer is paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get sessionBarPaused;
+
+  /// S10 back button: leaves the screen, the session stays active.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without finishing (the session keeps going)'**
+  String get sessionMinimizeTooltip;
 }
 
 class _AppLocalizationsDelegate

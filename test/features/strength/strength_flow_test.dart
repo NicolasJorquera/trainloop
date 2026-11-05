@@ -8,8 +8,8 @@ import 'package:trainloop/features/routines/data/routine_repository.dart';
 import 'package:trainloop/features/routines/domain/routine_draft.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 import 'package:trainloop/features/strength/data/strength_session_repository.dart';
-import 'package:trainloop/features/strength/domain/strength_session.dart';
 import 'package:trainloop/features/strength/domain/strength_rules.dart';
+import 'package:trainloop/features/strength/domain/strength_session.dart';
 import 'package:trainloop/platform/timer_engine_client.dart';
 
 import '../../helpers/fake_timer_engine.dart';
