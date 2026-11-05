@@ -1225,5 +1225,9 @@
   "errorLogEmpty": "No errors recorded.",
   "@errorLogEmpty": {"description": "Snackbar when the error log is empty."},
   "errorLogSaved": "Error log saved: {name}",
-  "@errorLogSaved": {"description": "Snackbar after exporting the error log.", "placeholders": {"name": {"type": "String"}}}
+  "@errorLogSaved": {"description": "Snackbar after exporting the error log.", "placeholders": {"name": {"type": "String"}}},
+  "strengthSameAsBefore": "SAME AS BEFORE: {values}",
+  "@strengthSameAsBefore": {"description": "S10 button that logs another set with the last working set values, uppercase. values: «10 kg × 8».", "placeholders": {"values": {"type": "String"}}},
+  "strengthSameAsBeforeHint": "Log another set like the last one: {values}",
+  "@strengthSameAsBeforeHint": {"description": "TalkBack label of the same-as-before button.", "placeholders": {"values": {"type": "String"}}}
 }

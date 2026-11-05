@@ -271,6 +271,10 @@ class StrengthSessionRepository {
               ..where((t) => t.sessionExerciseId.equals(sessionExerciseId))
               ..orderBy([(t) => OrderingTerm.asc(t.sortOrder)]))
             .get();
+    // Se copia la última serie efectiva: nunca el calentamiento si la hay.
+    final copy =
+        sets.where((s) => s.setType != SetType.warmup).lastOrNull ??
+        sets.lastOrNull;
     final last = sets.lastOrNull;
     return _dao.addPlannedSet(
       SetLogsCompanion.insert(
@@ -279,14 +283,14 @@ class StrengthSessionRepository {
         exerciseId: entry.exerciseId,
         sortOrder: (last?.sortOrder ?? -1) + 1,
         setType: Value(
-          last == null || last.setType == SetType.warmup
+          copy == null || copy.setType == SetType.warmup
               ? SetType.normal
-              : last.setType,
+              : copy.setType,
         ),
-        weightValue: Value(last?.weightValue),
-        weightUnit: Value(last?.weightUnit),
-        reps: Value(last?.reps),
-        durationSeconds: Value(last?.durationSeconds),
+        weightValue: Value(copy?.weightValue),
+        weightUnit: Value(copy?.weightUnit),
+        reps: Value(copy?.reps),
+        durationSeconds: Value(copy?.durationSeconds),
       ),
     );
   });

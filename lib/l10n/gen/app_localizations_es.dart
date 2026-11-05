@@ -2310,6 +2310,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Registro de errores guardado: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'IGUAL QUE ANTES: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Registrar otra serie igual que la anterior: $values';
+  }
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

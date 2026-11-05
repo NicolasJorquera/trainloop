@@ -2308,6 +2308,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Registro de erros salvo: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'IGUAL À ANTERIOR: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Registrar outra série igual à anterior: $values';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

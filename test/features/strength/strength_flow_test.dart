@@ -9,6 +9,7 @@ import 'package:trainloop/features/routines/domain/routine_draft.dart';
 import 'package:trainloop/features/settings/domain/app_settings.dart';
 import 'package:trainloop/features/strength/data/strength_session_repository.dart';
 import 'package:trainloop/features/strength/domain/strength_session.dart';
+import 'package:trainloop/features/strength/domain/strength_rules.dart';
 import 'package:trainloop/platform/timer_engine_client.dart';
 
 import '../../helpers/fake_timer_engine.dart';
@@ -153,6 +154,60 @@ void main() {
     data = await load(tester, id);
     expect(data.completedSets, 0);
     expect(engine.rests.length, 1);
+  });
+
+  testWidgets('«Igual que antes» repite la última serie efectiva en 1 toque', (
+    tester,
+  ) async {
+    await pump(tester);
+    final id = await startFromTrain(tester);
+    var data = await load(tester, id);
+    final e = data.exercises.single;
+    // Sin series hechas no hay nada que repetir.
+    expect(find.byKey(Key('repeat-set-${e.id}')), findsNothing);
+
+    // Una serie efectiva con 62,5 × 6 y un calentamiento después.
+    // Se escribe fuera de runAsync (la base vive en la zona del test) y
+    // se deja avanzar con frames().
+    final writes = repo
+        .completeSet(
+          e.sets[0].id,
+          const SetValues(weight: 62.5, unit: WeightUnit.kg, reps: 6),
+        )
+        .then(
+          (_) => repo.completeSet(
+            e.sets[1].id,
+            const SetValues(
+              type: SetType.warmup,
+              weight: 20,
+              unit: WeightUnit.kg,
+              reps: 10,
+            ),
+          ),
+        );
+    await frames(tester, 10);
+    await writes;
+    final button = find.byKey(Key('repeat-set-${e.id}'));
+    expect(button, findsOneWidget);
+    expect(find.text('IGUAL QUE ANTES: 62,5 kg × 6'), findsOneWidget);
+    expect(tester.getSize(button).height, greaterThanOrEqualTo(48));
+
+    // Llena la serie 3 y, sin pendientes, agrega otra.
+    for (var i = 0; i < 2; i++) {
+      await tester.ensureVisible(button);
+      await tester.tap(button);
+      await frames(tester, 10);
+    }
+    data = await load(tester, id);
+    final sets = data.exercises.single.sets;
+    expect(sets.length, 4);
+    for (final s in [sets[2], sets[3]]) {
+      expect(s.completed, isTrue);
+      expect(s.log.weightValue, 62.5);
+      expect(s.log.reps, 6);
+      expect(s.type, SetType.normal);
+    }
+    expect(engine.rests.length, 2);
   });
 
   testWidgets('S11 edita peso (con coma), reps, RPE y tipo; terminar con '

@@ -2306,6 +2306,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Error log saved: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'SAME AS BEFORE: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Log another set like the last one: $values';
+  }
 }
 
 /// The translations for English (`en_XA`).
@@ -4632,5 +4642,15 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   @override
   String errorLogSaved(String name) {
     return '[Éŕŕöŕ ļöĝ šáṽéð: $name ······]';
+  }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return '[ŠÅṀÉ ÅŠ ƁÉƑÖŔÉ: $values ·····]';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return '[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: $values ···········]';
   }
 }

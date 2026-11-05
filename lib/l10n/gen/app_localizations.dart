@@ -3791,6 +3791,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error log saved: {name}'**
   String errorLogSaved(String name);
+
+  /// S10 button that logs another set with the last working set values, uppercase. values: «10 kg × 8».
+  ///
+  /// In en, this message translates to:
+  /// **'SAME AS BEFORE: {values}'**
+  String strengthSameAsBefore(String values);
+
+  /// TalkBack label of the same-as-before button.
+  ///
+  /// In en, this message translates to:
+  /// **'Log another set like the last one: {values}'**
+  String strengthSameAsBeforeHint(String values);
 }
 
 class _AppLocalizationsDelegate

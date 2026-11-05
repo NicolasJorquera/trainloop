@@ -612,5 +612,7 @@
   "errorLogCount": "[{count, plural, =0{ñö éŕŕöŕš} =1{1 éŕŕöŕ} other{{count} éŕŕöŕš}} ········]",
   "errorLogHelp": "[Ţéçĥñîçáļ éŕŕöŕš šţáý öñļý öñ ţĥîš þĥöñé. Éẋþöŕţ ţĥé ƒîļé îƒ ýöû ŵáñţ ţö šéñð îţ ţö ûš. ····························]",
   "errorLogEmpty": "[Ñö éŕŕöŕš ŕéçöŕðéð. ·······]",
-  "errorLogSaved": "[Éŕŕöŕ ļöĝ šáṽéð: {name} ······]"
+  "errorLogSaved": "[Éŕŕöŕ ļöĝ šáṽéð: {name} ······]",
+  "strengthSameAsBefore": "[ŠÅṀÉ ÅŠ ƁÉƑÖŔÉ: {values} ·····]",
+  "strengthSameAsBeforeHint": "[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: {values} ···········]"
 }

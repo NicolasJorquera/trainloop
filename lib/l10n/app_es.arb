@@ -612,5 +612,7 @@
   "errorLogCount": "{count, plural, =0{sin errores} =1{1 error} other{{count} errores}}",
   "errorLogHelp": "Los errores técnicos quedan solo en este teléfono. Exporta el archivo si quieres enviárnoslo.",
   "errorLogEmpty": "No hay errores registrados.",
-  "errorLogSaved": "Registro de errores guardado: {name}"
+  "errorLogSaved": "Registro de errores guardado: {name}",
+  "strengthSameAsBefore": "IGUAL QUE ANTES: {values}",
+  "strengthSameAsBeforeHint": "Registrar otra serie igual que la anterior: {values}"
 }
