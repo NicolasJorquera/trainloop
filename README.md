@@ -2,7 +2,7 @@
 
 Cuaderno de entrenamiento para Android: temporizador de intervalos y registro de fuerza, sin cuenta y offline. Flutter (Android primero), Riverpod, go_router y localización ARB/ICU.
 
-Estado: **entregable 9, pruebas y estabilidad.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agregó el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). D8 agrega consentimiento (UMP), banner fuera de la sesión, intersticial experimental apagado, la compra única «Sin anuncios» y analítica sin proveedor. Los IDs reales de AdMob, el producto en Play Console y el proveedor de analítica quedan pendientes de Gestión. D9 agrega el build de release con R8, la guarda de IDs de AdMob, el registro local de errores, recorridos de `integration_test` y las mediciones en emulador (`docs/pruebas-estabilidad.md`).
+Estado: **entregable 10, publicación.** D1 dejó el sistema de diseño (Pizarra de hierro), las 4 pestañas con estados vacíos, la pantalla de Configuración (tema, acento e idioma) y CI. D2 agregó la base SQLite con Drift (14 tablas, DAOs, migraciones con pruebas), las preferencias y el respaldo automático de Android. D3 agregó la biblioteca de ejercicios (105 incluidos y propios, con búsqueda y filtros) y las rutinas de fuerza. D4 agregó el temporizador de intervalos: editor, plantillas, motor nativo en un servicio en primer plano, avisos, notificación, recuperación y resumen. D5 agregó la sesión de fuerza con descanso automático en el mismo servicio, el resumen y la unidad kg/lb. D6 agregó historial, semana, calendario, récords y progreso. D7 agregó el aviso de datos locales, respaldo y restauración en archivo con CSV, recordatorios locales, la configuración completa y accesibilidad (NF-08). D8 agrega consentimiento (UMP), banner fuera de la sesión, intersticial experimental apagado, la compra única «Sin anuncios» y analítica sin proveedor. Los IDs reales de AdMob, el producto en Play Console y el proveedor de analítica quedan pendientes de Gestión. D9 agrega el build de release con R8, la guarda de IDs de AdMob, el registro local de errores, recorridos de `integration_test` y las mediciones en emulador (`docs/pruebas-estabilidad.md`). D10 deja lista la publicación en Play (`docs/play/`).
 
 ## Cómo correrla
 
@@ -230,6 +230,16 @@ flutter drive --profile --no-dds --driver=test_driver/perf_driver.dart \
 - **Firebase Test Lab:** `TL_FIREBASE_PROJECT=<proyecto> tool/test_lab.sh` compila la app y la prueba instrumentada (`android/app/src/androidTest/`) y lanza la matriz; `TL_DRY_RUN=1` solo compila y muestra el comando.
 - **Teléfono real, de noche:** `tool/noche_telefono.sh` mide el desfase en 60 min y la batería por hora (NF-03, NF-10).
 - **Respaldos entre versiones:** `test/features/backup/backup_versions_test.dart` restaura `test/fixtures/backups/trainloop-schema-v{3,4,5}.json.gz`. No se regeneran salvo a propósito: `TL_WRITE_BACKUP_FIXTURES=1 flutter test test/features/backup/backup_versions_test.dart`.
+
+## Publicación en Google Play (D10)
+
+Todo lo necesario para cargar la app está en `docs/play/`. Faltan las cuentas, la llave y los IDs reales, que son de Gestión.
+
+- `release.md`: versión, llave de subida, IDs de AdMob, AAB, Play App Signing, producto `trainloop_remove_ads` y pistas interna → cerrada (≥ 12 testers × 14 días) → producción.
+- `checklist-gate6.md`: estado de cada ítem del Gate 6 y deuda abierta.
+- Ficha en `fastlane/metadata/android/{es-419,en-US,pt-BR}/` (textos, novedades y capturas). Los límites de caracteres los valida `test/tool/play_metadata_test.dart`.
+- `feature-graphic.png` (1024 × 500, fuente SVG) e `icon-512.png`.
+- `declaracion-fgs.md` (servicio `specialUse`, texto y guion del video), `politica-privacidad.md` y `privacy/index.html` (BORRADOR para Legal) y `cuestionarios.md` (IARC, público, anuncios, acceso y salud).
 
 ## Tema, acento e idioma
 
