@@ -61,10 +61,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get trainIntervals => 'Intervalos';
 
   @override
-  String get trainRoutines => 'Rotinas';
+  String get trainRoutines => 'Força';
 
   @override
-  String get trainIntervalsEmptyTitle => 'Ainda não há treinos intervalados';
+  String get trainIntervalsEmptyTitle => 'Ainda não há timers';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -628,13 +628,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get trainTemplates => 'MODELOS';
 
   @override
-  String get trainMyIntervals => 'MEUS TREINOS';
+  String get trainMyIntervals => 'MEUS TIMERS';
 
   @override
   String get trainNewInterval => 'NOVO';
 
   @override
-  String get intervalNewTooltip => 'Novo treino intervalado';
+  String get intervalNewTooltip => 'Novo timer de intervalos';
 
   @override
   String intervalStart(String name) {
@@ -709,10 +709,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get detailCustomize => 'PERSONALIZAR';
 
   @override
-  String get editorNewTitle => 'NOVO TREINO';
+  String get editorNewTitle => 'NOVO TIMER';
 
   @override
-  String get editorEditTitle => 'EDITAR TREINO';
+  String get editorEditTitle => 'EDITAR TIMER';
 
   @override
   String editorDefaultName(String date) {
@@ -1041,7 +1041,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get activeSessionTitle => 'Já há uma sessão em andamento';
 
   @override
-  String get activeSessionBody => 'Termine-a antes de começar outra.';
+  String get activeSessionBody =>
+      'Volte a ela ou termine-a para começar outra.';
 
   @override
   String get activeSessionGo => 'VOLTAR À SESSÃO';
@@ -2013,8 +2014,8 @@ class AppLocalizationsPt extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count treinos de intervalos',
-      one: '1 treino de intervalos',
+      other: '$count timers',
+      one: '1 timer',
     );
     return '$_temp0';
   }
@@ -2308,6 +2309,50 @@ class AppLocalizationsPt extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Registro de erros salvo: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'IGUAL À ANTERIOR: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Registrar outra série igual à anterior: $values';
+  }
+
+  @override
+  String get activeSessionEndAndStart => 'TERMINAR E COMEÇAR NOVA';
+
+  @override
+  String get endSessionTitle => 'TERMINAR A SESSÃO?';
+
+  @override
+  String get endSessionBody => 'O que você já fez fica salvo.';
+
+  @override
+  String get endSessionConfirm => 'TERMINAR';
+
+  @override
+  String sessionBarStrength(String name) {
+    return 'FORÇA · $name';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return 'INTERVALOS · $name';
+  }
+
+  @override
+  String get sessionBarHint => 'Sessão em andamento. Toque para voltar a ela.';
+
+  @override
+  String get sessionBarEnd => 'Terminar a sessão';
+
+  @override
+  String get sessionBarPaused => 'Em pausa';
+
+  @override
+  String get sessionMinimizeTooltip => 'Sair sem terminar (a sessão continua)';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).

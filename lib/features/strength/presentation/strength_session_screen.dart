@@ -101,6 +101,9 @@ class _StrengthSessionScreenState extends ConsumerState<StrengthSessionScreen> {
                         onAddSet: () => ref
                             .read(strengthSessionRepositoryProvider)
                             .addSet(e.id),
+                        onRepeat: () => ref
+                            .read(strengthSessionProvider.notifier)
+                            .repeatLastSet(data, e, _env),
                         onAction: (a) => _exerciseAction(data, i, e, a),
                       ),
                     ),
@@ -324,7 +327,9 @@ class _Header extends StatelessWidget {
               width: TlSize.touchSession,
               height: TlSize.touchSession,
             ),
-            tooltip: l10n.backTooltip,
+            // Atrás minimiza: la sesión sigue y la barra de arriba vuelve a
+            // ella. Terminar es TERMINAR (o la barra).
+            tooltip: l10n.sessionMinimizeTooltip,
             icon: const Icon(Icons.arrow_back),
             onPressed: () =>
                 context.canPop() ? context.pop() : context.go(Routes.home),
@@ -600,6 +605,7 @@ class _ExerciseCard extends StatelessWidget {
     required this.onSet,
     required this.onCheck,
     required this.onAddSet,
+    required this.onRepeat,
     required this.onAction,
     super.key,
   });
@@ -611,6 +617,7 @@ class _ExerciseCard extends StatelessWidget {
   final ValueChanged<SessionSet> onSet;
   final ValueChanged<SessionSet> onCheck;
   final VoidCallback onAddSet;
+  final VoidCallback onRepeat;
   final ValueChanged<_ExerciseAction> onAction;
 
   @override
@@ -751,6 +758,16 @@ class _ExerciseCard extends StatelessWidget {
               onCheck: () => onCheck(s),
             ),
           const SizedBox(height: TlSpace.s1),
+          if (item.repeatSource case final source?)
+            if (setValuesText(l10n, type, source.stored, unit)
+                case final values?) ...[
+              _RepeatSetButton(
+                key: Key('repeat-set-${item.id}'),
+                values: values,
+                onTap: onRepeat,
+              ),
+              const SizedBox(height: TlSpace.s1),
+            ],
           Material(
             color: c.surface2,
             borderRadius: BorderRadius.circular(TlRadius.md),
@@ -770,6 +787,61 @@ class _ExerciseCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// «Igual que antes: 10 kg × 8»: otra serie como la última efectiva, en un
+/// toque (R-G3).
+class _RepeatSetButton extends StatelessWidget {
+  const _RepeatSetButton({
+    required this.values,
+    required this.onTap,
+    super.key,
+  });
+
+  final String values;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final c = context.colors;
+    return Semantics(
+      button: true,
+      label: l10n.strengthSameAsBeforeHint(values),
+      excludeSemantics: true,
+      child: Material(
+        color: c.accent.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(TlRadius.md),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(TlRadius.md),
+          onTap: onTap,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: TlSize.touchSession),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: TlSpace.s3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.replay, color: c.accent),
+                  const SizedBox(width: TlSpace.s2),
+                  Flexible(
+                    child: Text(
+                      l10n.strengthSameAsBefore(values),
+                      textAlign: TextAlign.center,
+                      style: context.text.button.copyWith(
+                        color: c.accent,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

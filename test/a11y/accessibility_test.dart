@@ -167,7 +167,7 @@ void main() {
         if (scale == 1) await expectTapTargets(tester);
       }
       await go(tester, 'nav-train');
-      await tester.tap(find.text('Rutinas'));
+      await tester.tap(find.text('Fuerza'));
       await settle(tester);
       await scrollThrough(tester);
       // S07 editor de rutina (J3).
@@ -228,7 +228,7 @@ void main() {
       final handle = tester.ensureSemantics();
       await pump(tester, textScale: scale);
       await go(tester, 'nav-train');
-      await tester.tap(find.text('Rutinas'));
+      await tester.tap(find.text('Fuerza'));
       await settle(tester);
       final routine = await tester.runAsync(
         () => db.select(db.strengthRoutines).getSingle(),

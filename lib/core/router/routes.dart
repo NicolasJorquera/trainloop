@@ -45,6 +45,9 @@ abstract final class Routes {
   /// Detalle de un ejercicio en Progreso (S15).
   static String exerciseProgress(String id) => '/progress/exercises/$id';
 
-  /// Entrenar con la vista de rutinas.
+  /// Entrenar con la vista de fuerza (rutinas).
   static const trainRoutines = '/train?kind=routines';
+
+  /// Entrenar con la vista de intervalos (temporizadores).
+  static const trainIntervals = '/train?kind=intervals';
 }

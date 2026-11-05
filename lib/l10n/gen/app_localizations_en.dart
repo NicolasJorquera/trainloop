@@ -61,10 +61,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainIntervals => 'Intervals';
 
   @override
-  String get trainRoutines => 'Routines';
+  String get trainRoutines => 'Strength';
 
   @override
-  String get trainIntervalsEmptyTitle => 'No interval workouts yet';
+  String get trainIntervalsEmptyTitle => 'No timers yet';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -628,13 +628,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get trainTemplates => 'TEMPLATES';
 
   @override
-  String get trainMyIntervals => 'MY WORKOUTS';
+  String get trainMyIntervals => 'MY TIMERS';
 
   @override
   String get trainNewInterval => 'NEW';
 
   @override
-  String get intervalNewTooltip => 'New interval workout';
+  String get intervalNewTooltip => 'New interval timer';
 
   @override
   String intervalStart(String name) {
@@ -709,10 +709,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get detailCustomize => 'CUSTOMIZE';
 
   @override
-  String get editorNewTitle => 'NEW WORKOUT';
+  String get editorNewTitle => 'NEW TIMER';
 
   @override
-  String get editorEditTitle => 'EDIT WORKOUT';
+  String get editorEditTitle => 'EDIT TIMER';
 
   @override
   String editorDefaultName(String date) {
@@ -1040,7 +1040,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activeSessionTitle => 'A session is in progress';
 
   @override
-  String get activeSessionBody => 'Finish it before starting another one.';
+  String get activeSessionBody =>
+      'Go back to it, or finish it to start a new one.';
 
   @override
   String get activeSessionGo => 'BACK TO SESSION';
@@ -2012,8 +2013,8 @@ class AppLocalizationsEn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count interval workouts',
-      one: '1 interval workout',
+      other: '$count timers',
+      one: '1 timer',
     );
     return '$_temp0';
   }
@@ -2306,6 +2307,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Error log saved: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'SAME AS BEFORE: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Log another set like the last one: $values';
+  }
+
+  @override
+  String get activeSessionEndAndStart => 'FINISH AND START NEW';
+
+  @override
+  String get endSessionTitle => 'FINISH THE SESSION?';
+
+  @override
+  String get endSessionBody => 'What you\'ve done so far is saved.';
+
+  @override
+  String get endSessionConfirm => 'FINISH';
+
+  @override
+  String sessionBarStrength(String name) {
+    return 'STRENGTH · $name';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return 'INTERVALS · $name';
+  }
+
+  @override
+  String get sessionBarHint => 'Session in progress. Tap to go back to it.';
+
+  @override
+  String get sessionBarEnd => 'Finish the session';
+
+  @override
+  String get sessionBarPaused => 'Paused';
+
+  @override
+  String get sessionMinimizeTooltip =>
+      'Leave without finishing (the session keeps going)';
 }
 
 /// The translations for English (`en_XA`).
@@ -2365,10 +2411,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get trainIntervals => '[Îñţéŕṽáļš ····]';
 
   @override
-  String get trainRoutines => '[Ŕöûţîñéš ····]';
+  String get trainRoutines => '[Šţŕéñĝţĥ ····]';
 
   @override
-  String get trainIntervalsEmptyTitle => '[Ñö îñţéŕṽáļ ŵöŕķöûţš ýéţ ·········]';
+  String get trainIntervalsEmptyTitle => '[Ñö ţîɱéŕš ýéţ ·····]';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -2933,13 +2979,13 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get trainTemplates => '[ŢÉṀÞĻÅŢÉŠ ····]';
 
   @override
-  String get trainMyIntervals => '[ṀÝ ŴÖŔĶÖÛŢŠ ····]';
+  String get trainMyIntervals => '[ṀÝ ŢÎṀÉŔŠ ····]';
 
   @override
   String get trainNewInterval => '[ÑÉŴ ··]';
 
   @override
-  String get intervalNewTooltip => '[Ñéŵ îñţéŕṽáļ ŵöŕķöûţ ········]';
+  String get intervalNewTooltip => '[Ñéŵ îñţéŕṽáļ ţîɱéŕ ·······]';
 
   @override
   String intervalStart(String name) {
@@ -3015,10 +3061,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String get detailCustomize => '[ÇÛŠŢÖṀÎŽÉ ····]';
 
   @override
-  String get editorNewTitle => '[ÑÉŴ ŴÖŔĶÖÛŢ ····]';
+  String get editorNewTitle => '[ÑÉŴ ŢÎṀÉŔ ····]';
 
   @override
-  String get editorEditTitle => '[ÉÐÎŢ ŴÖŔĶÖÛŢ ·····]';
+  String get editorEditTitle => '[ÉÐÎŢ ŢÎṀÉŔ ····]';
 
   @override
   String editorDefaultName(String date) {
@@ -3353,7 +3399,7 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
 
   @override
   String get activeSessionBody =>
-      '[Ƒîñîšĥ îţ ƀéƒöŕé šţáŕţîñĝ áñöţĥéŕ öñé. ·············]';
+      '[Ĝö ƀáçķ ţö îţ, öŕ ƒîñîšĥ îţ ţö šţáŕţ á ñéŵ öñé. ··············]';
 
   @override
   String get activeSessionGo => '[ƁÅÇĶ ŢÖ ŠÉŠŠÎÖÑ ······]';
@@ -4332,10 +4378,10 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count îñţéŕṽáļ ŵöŕķöûţš',
-      one: '1 îñţéŕṽáļ ŵöŕķöûţ',
+      other: '$count ţîɱéŕš',
+      one: '1 ţîɱéŕ',
     );
-    return '[$_temp0 ·············]';
+    return '[$_temp0 ·····]';
   }
 
   @override
@@ -4633,4 +4679,51 @@ class AppLocalizationsEnXa extends AppLocalizationsEn {
   String errorLogSaved(String name) {
     return '[Éŕŕöŕ ļöĝ šáṽéð: $name ······]';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return '[ŠÅṀÉ ÅŠ ƁÉƑÖŔÉ: $values ·····]';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return '[Ļöĝ áñöţĥéŕ šéţ ļîķé ţĥé ļášţ öñé: $values ···········]';
+  }
+
+  @override
+  String get activeSessionEndAndStart => '[ƑÎÑÎŠĤ ÅÑÐ ŠŢÅŔŢ ÑÉŴ ·······]';
+
+  @override
+  String get endSessionTitle => '[ƑÎÑÎŠĤ ŢĤÉ ŠÉŠŠÎÖÑ? ·······]';
+
+  @override
+  String get endSessionBody =>
+      '[Ŵĥáţ ýöû\'ṽé ðöñé šö ƒáŕ îš šáṽéð. ··········]';
+
+  @override
+  String get endSessionConfirm => '[ƑÎÑÎŠĤ ···]';
+
+  @override
+  String sessionBarStrength(String name) {
+    return '[ŠŢŔÉÑĜŢĤ · $name ····]';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return '[ÎÑŢÉŔṼÅĻŠ · $name ····]';
+  }
+
+  @override
+  String get sessionBarHint =>
+      '[Šéššîöñ îñ þŕöĝŕéšš. Ţáþ ţö ĝö ƀáçķ ţö îţ. ·············]';
+
+  @override
+  String get sessionBarEnd => '[Ƒîñîšĥ ţĥé šéššîöñ ·······]';
+
+  @override
+  String get sessionBarPaused => '[Þáûšéð ···]';
+
+  @override
+  String get sessionMinimizeTooltip =>
+      '[Ļéáṽé ŵîţĥöûţ ƒîñîšĥîñĝ (ţĥé šéššîöñ ķééþš ĝöîñĝ) ·················]';
 }

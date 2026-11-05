@@ -155,9 +155,12 @@ Future<BatteryChoice> showBatteryDialog(
 }
 
 /// R-I13: ya hay una sesión activa. `true` = volver a ella.
-Future<bool> showActiveSessionDialog(BuildContext context) async {
+/// Qué hacer con la sesión en curso al intentar empezar otra (R-I13).
+enum ActiveSessionChoice { goBack, endAndStart }
+
+Future<ActiveSessionChoice?> showActiveSessionDialog(BuildContext context) {
   final l10n = context.l10n;
-  final result = await showTlDialog<bool>(
+  return showTlDialog<ActiveSessionChoice>(
     context,
     key: const Key('active-session-dialog'),
     icon: Icons.timer_outlined,
@@ -167,6 +170,36 @@ Future<bool> showActiveSessionDialog(BuildContext context) async {
       TlButton(
         key: const Key('active-session-go'),
         label: l10n.activeSessionGo,
+        onPressed: () => pop(ActiveSessionChoice.goBack),
+      ),
+      TlButton(
+        key: const Key('active-session-end'),
+        label: l10n.activeSessionEndAndStart,
+        variant: TlButtonVariant.secondary,
+        onPressed: () => pop(ActiveSessionChoice.endAndStart),
+      ),
+      TlButton(
+        label: l10n.dialogCancel,
+        variant: TlButtonVariant.text,
+        onPressed: () => pop(null),
+      ),
+    ],
+  );
+}
+
+/// Confirma terminar la sesión en curso desde fuera de ella.
+Future<bool> showEndSessionDialog(BuildContext context) async {
+  final l10n = context.l10n;
+  final result = await showTlDialog<bool>(
+    context,
+    key: const Key('end-session-dialog'),
+    icon: Icons.stop_circle_outlined,
+    title: l10n.endSessionTitle,
+    body: [Text(l10n.endSessionBody)],
+    actions: (pop) => [
+      TlButton(
+        key: const Key('end-session-confirm'),
+        label: l10n.endSessionConfirm,
         onPressed: () => pop(true),
       ),
       TlButton(

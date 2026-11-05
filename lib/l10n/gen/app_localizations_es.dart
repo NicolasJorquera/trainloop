@@ -61,11 +61,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainIntervals => 'Intervalos';
 
   @override
-  String get trainRoutines => 'Rutinas';
+  String get trainRoutines => 'Fuerza';
 
   @override
-  String get trainIntervalsEmptyTitle =>
-      'Aún no tienes entrenamientos de intervalos';
+  String get trainIntervalsEmptyTitle => 'Aún no tienes temporizadores';
 
   @override
   String get trainIntervalsEmptyBody =>
@@ -630,13 +629,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainTemplates => 'PLANTILLAS';
 
   @override
-  String get trainMyIntervals => 'MIS ENTRENAMIENTOS';
+  String get trainMyIntervals => 'MIS TEMPORIZADORES';
 
   @override
   String get trainNewInterval => 'NUEVO';
 
   @override
-  String get intervalNewTooltip => 'Nuevo entrenamiento de intervalos';
+  String get intervalNewTooltip => 'Nuevo temporizador de intervalos';
 
   @override
   String intervalStart(String name) {
@@ -711,10 +710,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get detailCustomize => 'PERSONALIZAR';
 
   @override
-  String get editorNewTitle => 'NUEVO ENTRENAMIENTO';
+  String get editorNewTitle => 'NUEVO TEMPORIZADOR';
 
   @override
-  String get editorEditTitle => 'EDITAR ENTRENAMIENTO';
+  String get editorEditTitle => 'EDITAR TEMPORIZADOR';
 
   @override
   String editorDefaultName(String date) {
@@ -1043,7 +1042,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activeSessionTitle => 'Ya tienes una sesión en curso';
 
   @override
-  String get activeSessionBody => 'Termínala antes de empezar otra.';
+  String get activeSessionBody =>
+      'Vuelve a ella o termínala para empezar otra.';
 
   @override
   String get activeSessionGo => 'VOLVER A LA SESIÓN';
@@ -2016,8 +2016,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count entrenamientos de intervalos',
-      one: '1 entrenamiento de intervalos',
+      other: '$count temporizadores',
+      one: '1 temporizador',
     );
     return '$_temp0';
   }
@@ -2311,6 +2311,50 @@ class AppLocalizationsEs extends AppLocalizations {
   String errorLogSaved(String name) {
     return 'Registro de errores guardado: $name';
   }
+
+  @override
+  String strengthSameAsBefore(String values) {
+    return 'IGUAL QUE ANTES: $values';
+  }
+
+  @override
+  String strengthSameAsBeforeHint(String values) {
+    return 'Registrar otra serie igual que la anterior: $values';
+  }
+
+  @override
+  String get activeSessionEndAndStart => 'TERMINAR Y EMPEZAR NUEVA';
+
+  @override
+  String get endSessionTitle => '¿TERMINAR LA SESIÓN?';
+
+  @override
+  String get endSessionBody => 'Se guarda lo que llevas hecho.';
+
+  @override
+  String get endSessionConfirm => 'TERMINAR';
+
+  @override
+  String sessionBarStrength(String name) {
+    return 'FUERZA · $name';
+  }
+
+  @override
+  String sessionBarIntervals(String name) {
+    return 'INTERVALOS · $name';
+  }
+
+  @override
+  String get sessionBarHint => 'Sesión en curso. Toca para volver a ella.';
+
+  @override
+  String get sessionBarEnd => 'Terminar la sesión';
+
+  @override
+  String get sessionBarPaused => 'En pausa';
+
+  @override
+  String get sessionMinimizeTooltip => 'Salir sin terminar (la sesión sigue)';
 }
 
 /// The translations for Spanish Castilian, as used in Latin America and the Caribbean (`es_419`).

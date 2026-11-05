@@ -58,6 +58,19 @@ class SessionExerciseItem {
   );
 
   int get completedCount => sets.where((s) => s.completed).length;
+
+  /// Fuente de «Igual que antes»: la última serie efectiva hecha; el
+  /// calentamiento solo si todavía no hay ninguna efectiva.
+  SessionSet? get repeatSource {
+    final done = sets.where((s) => s.completed);
+    return done.where((s) => s.type != SetType.warmup).lastOrNull ??
+        done.lastOrNull;
+  }
+
+  /// Serie que llena «Igual que antes»: la primera efectiva sin hacer
+  /// (`null` si hay que agregar una).
+  SessionSet? get repeatTarget =>
+      sets.where((s) => !s.completed && s.type != SetType.warmup).firstOrNull;
 }
 
 /// Sesión de fuerza completa para S10 y el resumen.

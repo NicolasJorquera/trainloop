@@ -11,7 +11,7 @@ import '../../helpers/pump_app.dart';
 Future<void> openLibrary(WidgetTester tester) async {
   await tester.tap(find.byKey(const Key('nav-train')));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('Rutinas'));
+  await tester.tap(find.text('Fuerza'));
   await tester.pumpAndSettle();
   await tester.tap(find.byKey(const Key('open-library')));
   await tester.pumpAndSettle();

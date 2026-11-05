@@ -182,7 +182,7 @@ void main() {
     final c = await pump(tester);
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Rutinas'));
+    await tester.tap(find.text('Fuerza'));
     await frames(tester);
     // Entrenar tiene banner.
     expectBannerOnHome(c);

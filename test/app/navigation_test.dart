@@ -33,7 +33,7 @@ void main() {
     await pumpTrainloop(tester);
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Routines'));
+    await tester.tap(find.text('Strength'));
     await tester.pumpAndSettle();
     expect(find.text('Your strength routines'), findsOneWidget);
 
@@ -42,6 +42,36 @@ void main() {
     await tester.tap(find.byKey(const Key('nav-train')));
     await tester.pumpAndSettle();
     expect(find.text('Your strength routines'), findsOneWidget);
+  });
+
+  testWidgets('cada botón de Inicio abre su vista de Entrenar', (tester) async {
+    // Regresión: tras abrir FUERZA, INTERVALOS mostraba las rutinas (la
+    // pestaña conservaba la vista anterior).
+    await pumpTrainloop(tester);
+    for (var i = 0; i < 2; i++) {
+      await tester.tap(find.byKey(const Key('home-start-strength')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('new-routine')), findsOneWidget);
+      expect(find.byKey(const Key('new-interval')), findsNothing);
+
+      await tester.tap(find.byKey(const Key('nav-home')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('home-start-intervals')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('new-interval')), findsOneWidget);
+      expect(find.byKey(const Key('new-routine')), findsNothing);
+
+      // Elegir fuerza a mano tampoco se arrastra al botón INTERVALOS.
+      await tester.tap(find.text('Strength'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('nav-home')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('home-start-intervals')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('new-interval')), findsOneWidget);
+      await tester.tap(find.byKey(const Key('nav-home')));
+      await tester.pumpAndSettle();
+    }
   });
 
   testWidgets('Inicio lleva a Entrenar y abre Configuración', (tester) async {

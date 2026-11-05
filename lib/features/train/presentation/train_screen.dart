@@ -15,31 +15,19 @@ enum _TrainKind { intervals, routines }
 
 /// S02 Entrenar: entrenamientos de intervalos y plantillas (D4) y rutinas
 /// de fuerza (D3) con EMPEZAR y entrenamiento libre (D5).
-class TrainScreen extends StatefulWidget {
+class TrainScreen extends StatelessWidget {
   const TrainScreen({this.showRoutines = false, super.key});
 
-  /// Abre la vista de rutinas (botón FUERZA de Inicio).
+  /// Vista de fuerza (rutinas) en vez de intervalos. Sale de la URL
+  /// (`?kind=`): así cada botón de Inicio abre siempre su vista, aunque la
+  /// pestaña conserve su estado.
   final bool showRoutines;
-
-  @override
-  State<TrainScreen> createState() => _TrainScreenState();
-}
-
-class _TrainScreenState extends State<TrainScreen> {
-  late _TrainKind _kind = widget.showRoutines
-      ? _TrainKind.routines
-      : _TrainKind.intervals;
-
-  @override
-  void didUpdateWidget(TrainScreen old) {
-    super.didUpdateWidget(old);
-    if (widget.showRoutines && !old.showRoutines) _kind = _TrainKind.routines;
-  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final intervals = _kind == _TrainKind.intervals;
+    final kind = showRoutines ? _TrainKind.routines : _TrainKind.intervals;
+    final intervals = kind == _TrainKind.intervals;
     return TabPage(
       children: [
         ScreenHeader(
@@ -61,8 +49,10 @@ class _TrainScreenState extends State<TrainScreen> {
         const SizedBox(height: TlSpace.s2),
         TlSegmentedControl<_TrainKind>(
           semanticLabel: l10n.trainKindLabel,
-          selected: _kind,
-          onChanged: (k) => setState(() => _kind = k),
+          selected: kind,
+          onChanged: (k) => context.go(
+            k == _TrainKind.routines ? Routes.trainRoutines : Routes.train,
+          ),
           segments: [
             TlSegment(_TrainKind.intervals, l10n.trainIntervals),
             TlSegment(_TrainKind.routines, l10n.trainRoutines),

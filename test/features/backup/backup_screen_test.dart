@@ -94,7 +94,7 @@ void main() {
     await settleDb(tester);
     expect(find.byKey(const Key('restore-dialog')), findsOneWidget);
     expect(
-      find.textContaining('1 sesión, 1 rutina, 1 entrenamiento de intervalos'),
+      find.textContaining('1 sesión, 1 rutina, 1 temporizador'),
       findsOneWidget,
     );
     await tester.tap(find.byKey(const Key('restore-confirm')));

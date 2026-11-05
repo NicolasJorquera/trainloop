@@ -174,13 +174,37 @@ class StrengthSessionController extends Notifier<ActiveStrength?> {
       await _repo.updateSet(set.id, values);
       return;
     }
-    await _repo.completeSet(set.id, values);
+    await _completeAndRest(data, exercise, set.id, values, env);
+  }
+
+  /// «Igual que antes» (1 toque): registra otra serie con los valores de
+  /// [SessionExerciseItem.repeatSource] en la primera serie efectiva sin
+  /// hacer, o en una nueva si no queda ninguna.
+  Future<void> repeatLastSet(
+    StrengthSessionData data,
+    SessionExerciseItem exercise,
+    StrengthEnv env,
+  ) async {
+    final source = exercise.repeatSource;
+    if (source == null) return;
+    final id = exercise.repeatTarget?.id ?? await _repo.addSet(exercise.id);
+    await _completeAndRest(data, exercise, id, source.stored, env);
+  }
+
+  Future<void> _completeAndRest(
+    StrengthSessionData data,
+    SessionExerciseItem exercise,
+    String setId,
+    SetValues values,
+    StrengthEnv env,
+  ) async {
+    await _repo.completeSet(setId, values);
     final next = nextSetText(
       env.l10n,
       data,
       env.unit,
       env.locale,
-      afterSetId: set.id,
+      afterSetId: setId,
     );
     final seconds = exercise.restSeconds;
     if (seconds > 0) {

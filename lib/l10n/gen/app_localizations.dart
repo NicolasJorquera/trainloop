@@ -205,16 +205,16 @@ abstract class AppLocalizations {
   /// **'Intervals'**
   String get trainIntervals;
 
-  /// Segment: strength routines.
+  /// Segment: strength mode (its saved templates are routines).
   ///
   /// In en, this message translates to:
-  /// **'Routines'**
+  /// **'Strength'**
   String get trainRoutines;
 
   /// Empty state title of the intervals section in Train.
   ///
   /// In en, this message translates to:
-  /// **'No interval workouts yet'**
+  /// **'No timers yet'**
   String get trainIntervalsEmptyTitle;
 
   /// Empty state body of the intervals section in Train.
@@ -1180,7 +1180,7 @@ abstract class AppLocalizations {
   /// Train section label with the user interval workouts.
   ///
   /// In en, this message translates to:
-  /// **'MY WORKOUTS'**
+  /// **'MY TIMERS'**
   String get trainMyIntervals;
 
   /// Train header button that creates an interval workout, uppercase.
@@ -1192,7 +1192,7 @@ abstract class AppLocalizations {
   /// Tooltip of the new interval workout button.
   ///
   /// In en, this message translates to:
-  /// **'New interval workout'**
+  /// **'New interval timer'**
   String get intervalNewTooltip;
 
   /// Accessibility label of the play button on a workout card.
@@ -1306,13 +1306,13 @@ abstract class AppLocalizations {
   /// Interval editor title, uppercase.
   ///
   /// In en, this message translates to:
-  /// **'NEW WORKOUT'**
+  /// **'NEW TIMER'**
   String get editorNewTitle;
 
   /// Interval editor title when editing, uppercase.
   ///
   /// In en, this message translates to:
-  /// **'EDIT WORKOUT'**
+  /// **'EDIT TIMER'**
   String get editorEditTitle;
 
   /// Default workout name; date is short (e.g. Nov 3).
@@ -1852,7 +1852,7 @@ abstract class AppLocalizations {
   /// Dialog body.
   ///
   /// In en, this message translates to:
-  /// **'Finish it before starting another one.'**
+  /// **'Go back to it, or finish it to start a new one.'**
   String get activeSessionBody;
 
   /// Dialog button, uppercase.
@@ -3322,7 +3322,7 @@ abstract class AppLocalizations {
   /// Interval workout count in a backup.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{1 interval workout} other{{count} interval workouts}}'**
+  /// **'{count, plural, =1{1 timer} other{{count} timers}}'**
   String backupWorkouts(int count);
 
   /// File size in kilobytes.
@@ -3791,6 +3791,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error log saved: {name}'**
   String errorLogSaved(String name);
+
+  /// S10 button that logs another set with the last working set values, uppercase. values: «10 kg × 8».
+  ///
+  /// In en, this message translates to:
+  /// **'SAME AS BEFORE: {values}'**
+  String strengthSameAsBefore(String values);
+
+  /// TalkBack label of the same-as-before button.
+  ///
+  /// In en, this message translates to:
+  /// **'Log another set like the last one: {values}'**
+  String strengthSameAsBeforeHint(String values);
+
+  /// Dialog button: finish the current session and start the new one, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH AND START NEW'**
+  String get activeSessionEndAndStart;
+
+  /// Confirmation to finish the session in progress from outside it.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH THE SESSION?'**
+  String get endSessionTitle;
+
+  /// Body of the finish-session confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'What you\'ve done so far is saved.'**
+  String get endSessionBody;
+
+  /// Confirm button, uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'FINISH'**
+  String get endSessionConfirm;
+
+  /// Active session bar title. name: routine or free workout.
+  ///
+  /// In en, this message translates to:
+  /// **'STRENGTH · {name}'**
+  String sessionBarStrength(String name);
+
+  /// Active session bar title. name: timer name.
+  ///
+  /// In en, this message translates to:
+  /// **'INTERVALS · {name}'**
+  String sessionBarIntervals(String name);
+
+  /// TalkBack hint of the active session bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Session in progress. Tap to go back to it.'**
+  String get sessionBarHint;
+
+  /// Tooltip of the finish button in the active session bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish the session'**
+  String get sessionBarEnd;
+
+  /// Active session bar: the timer is paused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get sessionBarPaused;
+
+  /// S10 back button: leaves the screen, the session stays active.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without finishing (the session keeps going)'**
+  String get sessionMinimizeTooltip;
 }
 
 class _AppLocalizationsDelegate

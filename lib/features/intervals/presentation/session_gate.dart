@@ -43,7 +43,7 @@ class _SessionGateState extends ConsumerState<SessionGate> {
   void initState() {
     super.initState();
     _lifecycle = AppLifecycleListener(onResume: _sync);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _sync());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _sync(opening: true));
   }
 
   @override
@@ -52,7 +52,13 @@ class _SessionGateState extends ConsumerState<SessionGate> {
     super.dispose();
   }
 
-  Future<void> _sync() async {
+  /// [opening]: la app recién se abre (o Android recreó la interfaz). Solo
+  /// entonces se salta a la sesión viva; al volver a la app se respeta la
+  /// pantalla en que estaba la persona (atrás minimiza la sesión y la barra
+  /// «sesión en curso» la trae de vuelta). Antes, cualquier vuelta a la app
+  /// —p. ej. tras el aviso de fin de descanso— apilaba S10 otra vez y atrás
+  /// «rebotaba hacia adelante».
+  Future<void> _sync({bool opening = false}) async {
     if (_busy || !mounted) return;
     _busy = true;
     try {
@@ -82,7 +88,7 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       // se mira la pantalla visible para no apilar otra S05/S10.
       final path = visiblePathOf(router);
       // Sin esperar: push termina recién al cerrar S05.
-      if (active && path != Routes.timer) {
+      if (active && opening && path != Routes.timer) {
         unawaited(router.push(Routes.timer));
         return;
       }
@@ -99,7 +105,8 @@ class _SessionGateState extends ConsumerState<SessionGate> {
       }
       // Al abrir la app o tocar la notificación se vuelve a S10, salvo que
       // la persona esté eligiendo ejercicios para la sesión.
-      if (ref.read(strengthSessionProvider) != null &&
+      if (opening &&
+          ref.read(strengthSessionProvider) != null &&
           path != Routes.strength &&
           !path.startsWith(Routes.exercises)) {
         unawaited(router.push(Routes.strength));
