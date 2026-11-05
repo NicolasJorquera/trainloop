@@ -1,7 +1,7 @@
 Trainloop is an Android training log that brings two modes together in one app: Intervals and Strength. It works without an account and without a connection: your data stays on your phone.
 
 INTERVALS
-• Ready-to-use timers: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min and AMRAP 12 min.
+• Ready-to-use timers: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min, AMRAP 12 min and walk/run.
 • Build your own timers with repeatable blocks.
 • Keeps counting with the screen off or another app open: countdown notification, beeps, voice (if your phone has a voice installed for your language) and vibration at every phase change.
 • If Android closes the app mid-session, you can resume it, save it as incomplete or discard it when you come back.

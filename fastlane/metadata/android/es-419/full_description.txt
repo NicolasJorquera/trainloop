@@ -1,7 +1,7 @@
 Trainloop es un cuaderno de entrenamiento para Android que junta dos modos en una sola app: Intervalos y Fuerza. Funciona sin cuenta y sin conexión: tus datos se quedan en tu teléfono.
 
 INTERVALOS
-• Temporizadores listos para usar: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min y AMRAP 12 min.
+• Temporizadores listos para usar: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min, AMRAP 12 min y caminar/correr.
 • Crea tus propios temporizadores con bloques que se repiten.
 • Sigue contando con la pantalla apagada o con otra app abierta: notificación con la cuenta regresiva, pitidos, voz (si el teléfono tiene una voz instalada para tu idioma) y vibración en cada cambio de fase.
 • Si Android cierra la app en medio de una sesión, al volver te ofrece reanudarla, guardarla como incompleta o descartarla.
