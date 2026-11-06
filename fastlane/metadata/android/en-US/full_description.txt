@@ -1,0 +1,27 @@
+Trainloop is an Android training log that brings two modes together in one app: Intervals and Strength. It works without an account and without a connection: your data stays on your phone.
+
+INTERVALS
+• Ready-to-use timers: Tabata 20/10, HIIT 40/20, HIIT 30/30, EMOM 10 min, AMRAP 12 min and walk/run.
+• Build your own timers with repeatable blocks.
+• Keeps counting with the screen off or another app open: countdown notification, beeps, voice (if your phone has a voice installed for your language) and vibration at every phase change.
+• If Android closes the app mid-session, you can resume it, save it as incomplete or discard it when you come back.
+
+STRENGTH
+• Strength routines with sets, reps, weight and rest.
+• Library of 105 exercises in English, Spanish and Portuguese, plus your own.
+• Every set shows your last result. "Same as before" repeats your last set in one tap.
+• Rest starts automatically when you check off a set and alerts you when it ends.
+• Kilograms or pounds, optional RPE and set types (warm-up, to failure, drop set).
+
+PROGRESS
+• Session history, week view, calendar and personal records.
+
+YOUR DATA
+• No account, no sign-up.
+• Backup and restore to a file you keep wherever you want, plus CSV export.
+• Local reminders on the days and time you choose.
+
+ADS
+Trainloop is free with ads. Ads never appear during a session. You can remove them with a one-time purchase.
+
+Available in English, Spanish and Portuguese.

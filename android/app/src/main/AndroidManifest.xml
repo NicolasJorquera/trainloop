@@ -45,7 +45,7 @@
             android:foregroundServiceType="specialUse">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Interval workout timer that must keep counting and play audio/vibration cues for each phase while the screen is off." />
+                android:value="Workout timer started by the user: interval phases and strength rest periods keep counting and play audio/vibration cues while the screen is off." />
         </service>
         <!-- Recordatorios locales (F-13): alarma inexacta propia y avisos del sistema que obligan
              a reprogramarla. Los avisos del sistema son protegidos: solo los envía Android. -->

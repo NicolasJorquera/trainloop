@@ -46,7 +46,7 @@ tool/timer_adb.sh on
 sleep 3
 
 $ADB shell dumpsys battery | grep -E "level" | tee "$OUT/bateria-fin.txt"
-$ADB shell dumpsys batterystats com.trainloop.app > "$OUT/batterystats.txt"
+$ADB shell dumpsys batterystats com.gonisoma.trainloop > "$OUT/batterystats.txt"
 $ADB shell dumpsys alarm > "$OUT/alarm.txt"
 tool/timer_adb.sh csv > "$OUT/timer_debug.csv"
 tool/timer_adb.sh stats | tee "$OUT/desfase.txt"

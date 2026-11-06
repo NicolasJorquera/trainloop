@@ -59,7 +59,7 @@ Revisado con `aapt dump permissions build/app/outputs/flutter-apk/app-debug.apk`
 | `com.android.vending.BILLING` | `in_app_purchase` | Compra «Sin anuncios» |
 | `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE`, `POST_NOTIFICATIONS`, `WAKE_LOCK`, `VIBRATE` | App (D4/D5) | Temporizador en primer plano y avisos |
 | `RECEIVE_BOOT_COMPLETED` | App (D7) | Reprogramar recordatorios |
-| `com.trainloop.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | Interno (receptores dinámicos) |
+| `com.gonisoma.trainloop.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` | AndroidX | Interno (receptores dinámicos) |
 
 Meta-dato `com.google.android.gms.ads.APPLICATION_ID`: hoy el ID de **prueba** de Google (`ca-app-pub-3940256099942544~3347511713`). Cambiarlo antes de publicar (README, «Anuncios»).
 

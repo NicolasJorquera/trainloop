@@ -1,0 +1,1 @@
+Timer de intervalos e registro de força. Sem conta e sem internet.

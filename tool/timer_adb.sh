@@ -5,7 +5,7 @@
 # registro CSV (files/timer_debug.csv) no existe en release.
 ADB=${ADB:-$HOME/Library/Android/sdk/platform-tools/adb}
 export ANDROID_SERIAL=${ANDROID_SERIAL:-emulator-5560}
-PKG=com.trainloop.app
+PKG=com.gonisoma.trainloop
 
 tap_text() { # toca el primer nodo cuyo texto o content-desc contiene $1
   $ADB shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
@@ -26,11 +26,11 @@ wait_text() { # espera (hasta 60 s) a que aparezca un nodo con el texto $1
 }
 
 case "$1" in
-  launch) $ADB shell am start -n $PKG/.MainActivity >/dev/null ;;
+  launch) $ADB shell am start -n $PKG/com.trainloop.app.MainActivity >/dev/null ;;
   tap) tap_text "$2" ;;
   wait) wait_text "$2" ;;
   tabata) # desde cualquier pantalla: Inicio → Tabata → EMPEZAR (2 toques)
-    $ADB shell am start -n $PKG/.MainActivity >/dev/null 2>&1
+    $ADB shell am start -n $PKG/com.trainloop.app.MainActivity >/dev/null 2>&1
     sleep 3
     $ADB shell uiautomator dump /sdcard/ui.xml >/dev/null 2>&1
     $ADB shell cat /sdcard/ui.xml | grep -q 'content-desc="LISTO"' && tap_text LISTO && sleep 3
