@@ -49,7 +49,8 @@ Estados: **listo** · **pendiente Gestión** · **pendiente Legal** · **pendien
 | IDs reales de AdMob (app, banner, intersticial) | pendiente Gestión | `docs/play/release.md` §3 |
 | AAB firmado con IDs reales | pendiente Gestión | `docs/play/release.md` §4 |
 | Play App Signing | pendiente Play | `docs/play/release.md` §5 |
-| Producto `trainloop_remove_ads` y precio | pendiente Gestión | `docs/play/release.md` §6 |
+| Producto `trainloop_remove_ads` y precio | listo (16 nov 2026, US$3,99) | `docs/play/release.md` §6 |
+| Publicación automática (`play-store.yml`) | falta configurar secretos y variables | `docs/play/release.md` §8 |
 | Decisión del intersticial en la beta (`TL_INTERSTITIAL`) | pendiente Gestión | README, «Anuncios» |
 | Proveedor de errores y analítica (o lanzar sin él) | pendiente Gestión | `docs/pruebas-estabilidad.md` §6 |
 

@@ -67,6 +67,8 @@ Verificación de D10 (5 nov 2026), sin IDs reales: ver «Estado» al final.
 
 ## 6. Producto «Sin anuncios» [Gestión]
 
+> **Hecho el 16 nov 2026.** `trainloop_remove_ads` está activo en Play Console: opción de compra `buy` (compatible con versiones anteriores de Billing), US$3,99 convertido por Play en 174 países (CLP 4.000, MXN 85, BRL 22,99), textos en en-US, es-419 y pt-BR. Antes hubo que vincular el perfil de pagos como cuenta de comerciante. Falta la compra de prueba con testers de licencia (§7.1).
+
 Hace falta haber subido al menos un AAB con el permiso `BILLING` a cualquier pista.
 
 1. Monetizar → Productos → **Productos integrados en la app** → Crear producto.
@@ -147,6 +149,36 @@ Inicio de los 14 días: fecha en que el tester número 12 aceptó. Fin: inicio +
 1. Pedir el acceso a producción (Panel → «Solicitar acceso a producción»).
 2. Promover el AAB de la beta a producción con lanzamiento escalonado del 20 %. Vigilar Android vitals: ≥ 99,5 % de sesiones sin fallos (NF-04).
 3. Si en 3–7 días no aparecen problemas, subir al 100 %.
+
+## 8. Publicación automática (GitHub Actions)
+
+`.github/workflows/play-store.yml` compila, firma y sube el AAB con la cuenta de servicio. Es el mismo patrón que TakeSync y Flixer.
+
+| Disparador | Pista | Estado |
+|---|---|---|
+| Merge a `main` | interna | completada |
+| Tag `v*` (p. ej. `v1.0.1`) | producción | escalonada al 20 %; se sube al 100 % en Play Console (§7.3) |
+| A mano (Actions → «Publicar en Play» → Run workflow) | la que se elija | la que se elija |
+
+- **versionName** sale de `pubspec.yaml`. Un tag tiene que coincidir con él: para publicar la 1.0.1, primero se cambia `version:` en `pubspec.yaml` y después se crea el tag `v1.0.1`.
+- **versionCode** es el número de ejecución más `VERSION_CODE_OFFSET` (100 por defecto), así que siempre crece y queda por encima del 2 subido a mano. El `+N` de `pubspec.yaml` solo elige las novedades: `fastlane/metadata/android/<locale>/changelogs/<N>.txt`.
+- **Antes de subir:** corren las pruebas. `verifyReleaseAdIds` falla si falta un ID real de AdMob, y el workflow se niega a subir un AAB firmado con la llave de depuración.
+- Guarda el AAB y `mapping.txt` como artefacto de la ejecución por 30 días.
+
+### Configuración (una vez) [Gestión]
+
+GitHub → Settings → Environments → `play-store`:
+
+| Tipo | Nombre | Valor |
+|---|---|---|
+| Secret | `ANDROID_KEYSTORE_BASE64` | `base64 -i <llave de subida>.jks` |
+| Secret | `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` | los de `android/key.properties` |
+| Secret | `PLAY_SERVICE_ACCOUNT_JSON` | la llave JSON de la cuenta de servicio que ya usan Flixer y TakeSync |
+| Variable | `TL_ADMOB_APP_ID`, `TL_ADMOB_BANNER_ID`, `TL_ADMOB_INTERSTITIAL_ID` | los IDs reales de AdMob (no son secretos: van dentro del APK) |
+| Variable (opcional) | `TL_INTERSTITIAL` | `on` para activar el intersticial; por defecto `off` |
+| Variable (opcional) | `VERSION_CODE_OFFSET` | solo si alguna vez se sube a mano un código mayor |
+
+En Play Console → Usuarios y permisos, la cuenta de servicio necesita acceso a Trainloop con «Publicar en pistas de prueba» y «Publicar en producción».
 
 ## Recursos de la ficha
 
