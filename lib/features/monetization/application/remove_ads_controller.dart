@@ -98,6 +98,11 @@ class RemoveAdsController extends Notifier<RemoveAdsState> {
   List<PurchaseDetails>? _restoreBatch;
   ProductDetails? _product;
 
+  /// Hay una hoja de compra abierta. En Android, cancelar, un error o «ya la
+  /// tienes» llegan sin `productID` (el plugin no sabe de qué producto eran):
+  /// mientras esto sea `true`, esas respuestas son de «Sin anuncios».
+  bool _buying = false;
+
   InAppPurchase get _iap => ref.read(inAppPurchaseProvider);
 
   @override
@@ -144,10 +149,19 @@ class RemoveAdsController extends Notifier<RemoveAdsState> {
         return;
       }
       state = state.copyWith(price: () => product.price);
+      _buying = true;
       final launched = await _iap.buyNonConsumable(
         purchaseParam: PurchaseParam(productDetails: product),
       );
-      if (!launched) _setFlow(PurchaseFlow.error);
+      if (!launched) {
+        // Android no abre la hoja si la cuenta ya la tiene (devuelve `false`,
+        // no lanza): se pregunta a Play antes de mostrar un error.
+        _buying = false;
+        await _restore(userInitiated: true);
+        if (state.flow == PurchaseFlow.nothingToRestore) {
+          _setFlow(PurchaseFlow.error);
+        }
+      }
     } catch (e) {
       // La cuenta ya la tenía (p. ej. otra instalación): se restaura.
       if (_isAlreadyOwned(e)) {
@@ -200,13 +214,14 @@ class RemoveAdsController extends Notifier<RemoveAdsState> {
 
   Future<void> _onPurchases(List<PurchaseDetails> purchases) async {
     for (final p in purchases) {
-      if (!_isRemoveAds(p)) continue;
+      if (!_isRemoveAds(p) && !(_buying && p.productID.isEmpty)) continue;
       final batch = _restoreBatch;
       if (batch != null && p.status == PurchaseStatus.restored) {
         batch.add(p);
         if (!_isPending(p)) await _complete(p);
         continue;
       }
+      _buying = false;
       switch (p.status) {
         case PurchaseStatus.pending:
           _setFlow(PurchaseFlow.pending);

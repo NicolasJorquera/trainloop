@@ -1,0 +1,1 @@
+Ahora puedes quitar los anuncios con un solo pago, sin suscripción. Corregimos la compra: cancelarla ya no deja el botón bloqueado y, si ya la tenías, se restaura sola.

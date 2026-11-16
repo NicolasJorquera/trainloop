@@ -1,0 +1,1 @@
+You can now remove ads with a single payment, no subscription. Purchase fixes: canceling no longer leaves the button stuck, and if you already own it, it is restored automatically.

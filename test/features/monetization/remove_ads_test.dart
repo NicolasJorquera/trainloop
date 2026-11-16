@@ -199,6 +199,51 @@ void main() {
     expect(state(c2).flow, PurchaseFlow.unavailable);
   });
 
+  test('Android: cancelar o fallar (sin productID) no deja la tarjeta '
+      'ocupada', () async {
+    final c = await install();
+    for (final (result, flow) in [
+      (FakeBuyResult.canceled, PurchaseFlow.canceled),
+      (FakeBuyResult.error, PurchaseFlow.error),
+    ]) {
+      play.buyResult = result;
+      await ctrl(c).buy();
+      await pumpEventQueue();
+      expect(state(c).flow, flow, reason: '$result');
+      expect(state(c).owned, isFalse);
+    }
+    // Y se puede volver a intentar.
+    play.buyResult = FakeBuyResult.purchased;
+    await ctrl(c).buy();
+    await pumpEventQueue();
+    expect(state(c).owned, isTrue);
+  });
+
+  test('Android: «ya la tienes» restaura, venga como respuesta de la hoja '
+      'o como hoja que no se abre', () async {
+    for (final result in [
+      FakeBuyResult.alreadyOwnedSheet,
+      FakeBuyResult.notLaunched,
+    ]) {
+      play.owned = true; // Comprada en otro teléfono.
+      play.buyResult = result;
+      final c = await install();
+      await ctrl(c).buy();
+      await pumpEventQueue();
+      expect(state(c).owned, isTrue, reason: '$result');
+      expect(state(c).flow, PurchaseFlow.restored, reason: '$result');
+    }
+  });
+
+  test('la hoja no se abre y la cuenta no la tiene: error', () async {
+    play.buyResult = FakeBuyResult.notLaunched;
+    final c = await install();
+    await ctrl(c).buy();
+    await pumpEventQueue();
+    expect(state(c).flow, PurchaseFlow.error);
+    expect(state(c).owned, isFalse);
+  });
+
   testWidgets('S16: comprar oculta el banner de Inicio', (tester) async {
     final ads = FakeAdsPlatform(fillBanner: true);
     await pumpTrainloop(

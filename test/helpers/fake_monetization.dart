@@ -133,7 +133,17 @@ class _FakeInterstitial implements LoadedInterstitial {
 }
 
 /// Qué responde Play al comprar.
-enum FakeBuyResult { purchased, pending, canceled, error }
+/// [canceled], [error] y [alreadyOwnedSheet] llegan como en Android: sin
+/// `productID`. [notLaunched] es la hoja que no se abre (`buyNonConsumable`
+/// devuelve `false`), lo que Android hace si la cuenta ya tiene el producto.
+enum FakeBuyResult {
+  purchased,
+  pending,
+  canceled,
+  error,
+  alreadyOwnedSheet,
+  notLaunched,
+}
 
 /// Google Play Billing de prueba. [owned] es lo que la cuenta tiene en Play
 /// (sobrevive a una «instalación nueva»: otra base y otro controlador).
@@ -192,6 +202,7 @@ class FakeInAppPurchase implements InAppPurchase {
   @override
   Future<bool> buyNonConsumable({required PurchaseParam purchaseParam}) async {
     calls.add('buyNonConsumable');
+    if (buyResult == FakeBuyResult.notLaunched) return false;
     scheduleMicrotask(() {
       switch (buyResult) {
         case FakeBuyResult.purchased:
@@ -201,9 +212,22 @@ class FakeInAppPurchase implements InAppPurchase {
           pendingInStore = true;
           _emit(PurchaseStatus.pending, complete: false);
         case FakeBuyResult.canceled:
-          _emit(PurchaseStatus.canceled, complete: false);
+          _emit(PurchaseStatus.canceled, complete: false, productID: '');
         case FakeBuyResult.error:
-          _emit(PurchaseStatus.error, complete: false);
+          _emit(PurchaseStatus.error, complete: false, productID: '');
+        case FakeBuyResult.alreadyOwnedSheet:
+          _emit(
+            PurchaseStatus.error,
+            complete: false,
+            productID: '',
+            error: IAPError(
+              source: 'google_play',
+              code: 'purchase_error',
+              message: 'BillingResponse.itemAlreadyOwned',
+            ),
+          );
+        case FakeBuyResult.notLaunched:
+          break;
       }
     });
     return true;
@@ -216,19 +240,26 @@ class FakeInAppPurchase implements InAppPurchase {
     _emit(PurchaseStatus.purchased);
   }
 
-  void _emit(PurchaseStatus status, {bool complete = true}) {
+  void _emit(
+    PurchaseStatus status, {
+    bool complete = true,
+    String productID = removeAdsProductId,
+    IAPError? error,
+  }) {
     _updates.add([
       PurchaseDetails(
-        purchaseID: 'GPA.1',
-        productID: removeAdsProductId,
-        verificationData: PurchaseVerificationData(
-          localVerificationData: '',
-          serverVerificationData: '',
-          source: 'google_play',
-        ),
-        transactionDate: '0',
-        status: status,
-      )..pendingCompletePurchase = complete,
+          purchaseID: productID.isEmpty ? '' : 'GPA.1',
+          productID: productID,
+          verificationData: PurchaseVerificationData(
+            localVerificationData: '',
+            serverVerificationData: '',
+            source: 'google_play',
+          ),
+          transactionDate: '0',
+          status: status,
+        )
+        ..pendingCompletePurchase = complete
+        ..error = error,
     ]);
   }
 
