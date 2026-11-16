@@ -235,7 +235,7 @@ flutter drive --profile --no-dds --driver=test_driver/perf_driver.dart \
 
 Todo lo necesario para cargar la app está en `docs/play/`. Faltan las cuentas, la llave y los IDs reales, que son de Gestión.
 
-- `release.md`: versión, llave de subida, IDs de AdMob, AAB, Play App Signing, producto `trainloop_remove_ads` y pistas interna → cerrada (≥ 12 testers × 14 días) → producción.
+- `release.md`: versión, llave de subida, IDs de AdMob, AAB, Play App Signing, producto `trainloop_remove_ads` y pistas interna → cerrada (≥ 12 testers × 14 días) → producción. §8: publicación automática con GitHub Actions (merge a `main` → pista interna; tag `v*` → producción al 20 %).
 - `checklist-gate6.md`: estado de cada ítem del Gate 6 y deuda abierta.
 - Ficha en `fastlane/metadata/android/{es-419,en-US,pt-BR}/` (textos, novedades y capturas). Los límites de caracteres los valida `test/tool/play_metadata_test.dart`.
 - `feature-graphic.png` (1024 × 500, fuente SVG) e `icon-512.png`.
